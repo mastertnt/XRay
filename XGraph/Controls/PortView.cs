@@ -1,11 +1,29 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using XGraph.ViewModels;
 
 namespace XGraph.Controls
 {
+    /// <summary>
+    /// Class representing a port.
+    /// </summary>
     public class PortView : ContentControl
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes the <see cref="PortContainer"/> class.
+        /// </summary>
+        static PortView()
+        {
+            PortView.DefaultStyleKeyProperty.OverrideMetadata(typeof(PortView), new FrameworkPropertyMetadata(typeof(PortView)));
+        }
+
+        #endregion // Constructors.
+
+        #region Methods
+
         /// <summary>
         /// Method called when the control content changed.
         /// </summary>
@@ -25,5 +43,7 @@ namespace XGraph.Controls
                 this.ContentTemplate = lNewContent.DataTemplate;
             }
         }
+
+        #endregion // Methods.
     }
 }

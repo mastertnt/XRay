@@ -35,6 +35,18 @@ namespace XGraph.Controls
 
         #endregion // Dependencies.
 
+        #region Constructors
+
+        /// <summary>
+        /// Initializes the <see cref="NodeView"/> class.
+        /// </summary>
+        static NodeView()
+        {
+            NodeView.DefaultStyleKeyProperty.OverrideMetadata(typeof(NodeView), new FrameworkPropertyMetadata(typeof(NodeView)));
+        }
+
+        #endregion // Constructors.
+
         #region Methods
 
         /// <summary>

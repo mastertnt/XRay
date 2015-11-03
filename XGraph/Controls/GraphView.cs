@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace XGraph.Controls
 {
@@ -7,6 +8,20 @@ namespace XGraph.Controls
     /// </summary>
     public class GraphView : ListBox
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes the <see cref="GraphView"/> class.
+        /// </summary>
+        static GraphView()
+        {
+            GraphView.DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphView), new FrameworkPropertyMetadata(typeof(GraphView)));
+        }
+
+        #endregion // Constructors.
+
+        #region Methods
+
         /// <summary>
         /// Creates or identifies the element used to display a specified item.
         /// </summary>
@@ -17,5 +32,7 @@ namespace XGraph.Controls
         {
             return new NodeView();
         }
+
+        #endregion // Methods.
     }
 }
