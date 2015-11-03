@@ -15,6 +15,7 @@ namespace XGraphTestApp
         /// <param name="pType">Type of the port.</param>
         public TypeNodeViewModel(Type pType)
         {
+            this.DisplayString = pType.Name;
             foreach (PropertyInfo lPropertyInfo in pType.GetProperties())
             {
                 PortViewModel lPort = null;

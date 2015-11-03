@@ -35,7 +35,6 @@ namespace XGraphTest
             int i = 0;
             foreach (NodeViewModel lNode in lGraph.Nodes)
             {
-                lNode.DisplayString = "Pouet";
                 lNode.X = 50 * i;
                 lNode.Y = 100 * i;
                 i++;
