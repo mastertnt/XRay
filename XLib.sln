@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XGraph", "XGraph\XGraph.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XGraphTestApp", "XGraphAppTest\XGraphTestApp.csproj", "{FE1A4D3D-1D1E-4A3B-8480-1BD9AB0BC6D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSerialization", "XSerialization\XSerialization.csproj", "{B03F0119-4564-4787-BE7C-9E6F4368C13C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSystem", "XSystem\XSystem.csproj", "{70AB21AF-5CF4-4751-8D1F-C55B55B33EC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{FE1A4D3D-1D1E-4A3B-8480-1BD9AB0BC6D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE1A4D3D-1D1E-4A3B-8480-1BD9AB0BC6D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE1A4D3D-1D1E-4A3B-8480-1BD9AB0BC6D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B03F0119-4564-4787-BE7C-9E6F4368C13C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B03F0119-4564-4787-BE7C-9E6F4368C13C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B03F0119-4564-4787-BE7C-9E6F4368C13C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B03F0119-4564-4787-BE7C-9E6F4368C13C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70AB21AF-5CF4-4751-8D1F-C55B55B33EC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70AB21AF-5CF4-4751-8D1F-C55B55B33EC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70AB21AF-5CF4-4751-8D1F-C55B55B33EC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70AB21AF-5CF4-4751-8D1F-C55B55B33EC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

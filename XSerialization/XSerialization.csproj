@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B03F0119-4564-4787-BE7C-9E6F4368C13C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XSerialization</RootNamespace>
+    <AssemblyName>XSerialization</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AVersionElementSerializationContract.cs" />
+    <Compile Include="AttributeSerializationContract.cs" />
+    <Compile Include="APropertyInfoSerializationContract.cs" />
+    <Compile Include="Attributes\ForceContractXSerializationAttribute.cs" />
+    <Compile Include="Attributes\HideContractAttribute.cs" />
+    <Compile Include="Attributes\WriteOnlyXSerializationAttribute.cs" />
+    <Compile Include="Attributes\ForceWriteXSerializationAttribute.cs" />
+    <Compile Include="AElementSerializationContract.cs" />
+    <Compile Include="ATypeSerializationContract.cs" />
+    <Compile Include="AVersionTypeSerializationContract.cs" />
+    <Compile Include="Bases\DateTimeSerializationContract.cs" />
+    <Compile Include="Bases\KeyValuePairSerializationContract.cs" />
+    <Compile Include="Bases\NullableSerializationContract.cs" />
+    <Compile Include="Bases\TimeSpanSerializationContract.cs" />
+    <Compile Include="Bases\TupleSerializationContract.cs" />
+    <Compile Include="Collections\ListSerializationContract.cs" />
+    <Compile Include="Collections\DictionarySerializationContract.cs" />
+    <Compile Include="Defaults\DefaultSkipPropertyInfoSerializationContract.cs" />
+    <Compile Include="ExternalResolvers\DefaultExternalReferenceResolver.cs" />
+    <Compile Include="Defaults\DefaultEnumSerializationContract.cs" />
+    <Compile Include="Defaults\DefaultPropertyInfoSerializationContract.cs" />
+    <Compile Include="Attributes\SkipXSerializationAttribute.cs" />
+    <Compile Include="IElementXSerializationContract.cs" />
+    <Compile Include="IXExternalReferenceResolver.cs" />
+    <Compile Include="IXSerializationAttribute.cs" />
+    <Compile Include="Decorators\SerializationContractDecorator.cs" />
+    <Compile Include="IXVersionable.cs" />
+    <Compile Include="ObjectRefEqualityComparer.cs" />
+    <Compile Include="Template\DefaultXTemplateSerializationContract.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Template\IXTemplate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Template\XTemplate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Values\ExternalReferenceSerializationContract.cs" />
+    <Compile Include="Values\NoWriteSerializationContract.cs" />
+    <Compile Include="Values\NullValueSerializationContract.cs" />
+    <Compile Include="TypeExtensions.cs" />
+    <Compile Include="Values\InternalReferenceSerializationContract.cs" />
+    <Compile Include="Defaults\DefaultReadOnlyPropertyInfoSerializationContract.cs" />
+    <Compile Include="XElementExtensions.cs" />
+    <Compile Include="XConstants.cs" />
+    <Compile Include="IAttributeXSerializationContract.cs" />
+    <Compile Include="IXSerializationContract.cs" />
+    <Compile Include="Defaults\DefaultObjectSerializationContract.cs" />
+    <Compile Include="Primitives\BooleanSerializationContract.cs" />
+    <Compile Include="Primitives\ByteSerializationContract.cs" />
+    <Compile Include="Primitives\CharSerializationContract.cs" />
+    <Compile Include="Primitives\DecimalSerializationContract.cs" />
+    <Compile Include="Primitives\DoubleSerializationContract.cs" />
+    <Compile Include="Primitives\SByteSerializationContract.cs" />
+    <Compile Include="Primitives\SingleSerializationContract.cs" />
+    <Compile Include="Primitives\Int32SerializationContract.cs" />
+    <Compile Include="Primitives\Int64SerializationContract.cs" />
+    <Compile Include="Primitives\PrimitiveTypeSerializationContract.cs" />
+    <Compile Include="Primitives\Int16SerializationContract.cs" />
+    <Compile Include="Primitives\UInt32SerializationContract.cs" />
+    <Compile Include="Primitives\UInt64SerializationContract.cs" />
+    <Compile Include="Primitives\UShortSerializationContract.cs" />
+    <Compile Include="SerializationContractManager.cs" />
+    <Compile Include="Bases\StringSerializationContract.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SupportPriority.cs" />
+    <Compile Include="IPropertyInfoXSerializationContract.cs" />
+    <Compile Include="ITypeXSerializationContract.cs" />
+    <Compile Include="IXSerializationContext.cs" />
+    <Compile Include="IXTypedSerializationContract.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XSerializationAttribute.cs" />
+    <Compile Include="XSerializationError.cs" />
+    <Compile Include="XSerializer.cs" />
+    <Compile Include="XTypeMapperSerializer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XSystem\XSystem.csproj">
+      <Project>{6f2e0723-1caf-4e7a-b18e-02a257372766}</Project>
+      <Name>XSystem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

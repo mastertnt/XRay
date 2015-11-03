@@ -47,3 +47,7 @@ Temporary Items
 /XGraphAppTest/bin
 /*.suo
 /XLib.sln.GhostDoc.xml
+/XSerialization/obj
+/XSystem/obj
+/XSerialization/bin
+/XSystem/bin
