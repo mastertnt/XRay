@@ -1,0 +1,50 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:XGraph.Controls">
+
+    <Style TargetType="{x:Type controls:GraphView}" BasedOn="{StaticResource {x:Type ListBox}}">
+        <Setter Property ="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Canvas x:Name="DrawingArea" IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="NodeViewTemplate" TargetType="{x:Type controls:NodeView}">
+        <StackPanel Background="{TemplateBinding Background}">
+            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" />
+            <controls:PortContainer x:Name="PART_PortContainer" />
+        </StackPanel>
+    </ControlTemplate>
+    
+    <Style TargetType="{x:Type controls:NodeView}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+        <Setter Property="Background" Value="Red" />
+        <Setter Property="Canvas.Left" Value="{Binding PosX, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Canvas.Top" Value="{Binding PosY, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="Template" Value="{StaticResource NodeViewTemplate}" />
+    </Style>
+
+    <Style TargetType="{x:Type controls:PortContainer}">
+        <Setter Property ="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel IsItemsHost="True" Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="PortViewTemplate" TargetType="{x:Type controls:PortView}">
+        <StackPanel Margin="2" Orientation="Horizontal" Background="RoyalBlue">
+            <Rectangle Height="25" Width="25" Fill="Green"></Rectangle>
+            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" />
+        </StackPanel>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type controls:PortView}">
+        <Setter Property="Template" Value="{StaticResource PortViewTemplate}" />
+    </Style>
+
+</ResourceDictionary>
