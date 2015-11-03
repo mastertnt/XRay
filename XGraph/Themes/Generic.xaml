@@ -26,7 +26,7 @@
         <Setter Property="Template" Value="{StaticResource NodeViewTemplate}" />
     </Style>
 
-    <Style TargetType="{x:Type controls:PortContainer}">
+    <Style TargetType="{x:Type controls:PortContainer}" BasedOn="{StaticResource {x:Type ItemsControl}}">
         <Setter Property ="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
