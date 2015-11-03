@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using XGraph.ViewModels;
+using XGraphTestApp;
 
 namespace XGraphTest
 {
@@ -23,7 +24,23 @@ namespace XGraphTest
         public MainWindow()
         {
             InitializeComponent();
-            this.GraphNode.DataContext = this.CreateGraph(5);
+            this.GraphNode.DataContext = this.CreateTypeGraph();
+        }
+
+        public GraphViewModel CreateTypeGraph()
+        {
+            GraphViewModel lGraph = new GraphViewModel();
+            NodeViewModel lNode0 = new TypeNodeViewModel(typeof(SampleClass));
+            lGraph.Nodes.Add(lNode0);
+            int i = 0;
+            foreach (NodeViewModel lNode in lGraph.Nodes)
+            {
+                lNode.X = 50 * i;
+                lNode.Y = 100 * i;
+                i++;
+            }
+            
+            return lGraph;
         }
 
         /// <summary>
@@ -31,7 +48,7 @@ namespace XGraphTest
         /// </summary>
         /// <param name="pNodeCount">The node count.</param>
         /// <returns>The graph view model.</returns>
-        public GraphViewModel CreateGraph(int pNodeCount)
+        public GraphViewModel CreateRandomGraph(int pNodeCount)
         {
             GraphViewModel lGraph = new GraphViewModel();
             Random lRandom = new Random();
