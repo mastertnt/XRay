@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
 using XGraph.ViewModels;
 
 namespace XGraph.Controls
@@ -32,6 +34,7 @@ namespace XGraph.Controls
         /// The position y property
         /// </summary>
         public static readonly DependencyProperty PosYProperty = DependencyProperty.Register("PosY", typeof(double), typeof(NodeView), new FrameworkPropertyMetadata(0.0));
+        
 
         #endregion // Dependencies.
 
@@ -46,6 +49,7 @@ namespace XGraph.Controls
         }
 
         #endregion // Constructors.
+
 
         #region Methods
 

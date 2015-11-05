@@ -4,6 +4,11 @@
         xmlns:controls="clr-namespace:XGraph.Controls;assembly=XGraph"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="{x:Type controls:NodeView}" BasedOn="{StaticResource {x:Type controls:NodeView}}">
+                <Setter Property="Background" Value="Purple" />
+            </Style>
+        </Grid.Resources>
         <controls:GraphView x:Name="GraphNode" ItemsSource="{Binding Nodes}"/>
     </Grid>
 </Window>

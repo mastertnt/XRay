@@ -18,23 +18,19 @@ namespace XGraphTestApp
             this.DisplayString = pType.Name;
             foreach (PropertyInfo lPropertyInfo in pType.GetProperties())
             {
-                PortViewModel lPort = null;
+                if (lPropertyInfo.CanWrite)
+                {
+                    PortViewModel lPort = null;
+                    lPort = new PortViewModel {Direction = PortDirection.Input, DisplayString = lPropertyInfo.Name, PortType = "Property"};
+                    this.Ports.Add(lPort);
+                }
                 
-                if (lPropertyInfo.CanRead && lPropertyInfo.CanWrite)
+                if (lPropertyInfo.CanRead)
                 {
-                    lPort = new PortViewModel {Direction = PortDirection.Both};
+                    PortViewModel lPort = null;
+                    lPort = new PortViewModel { Direction = PortDirection.Output, DisplayString = lPropertyInfo.Name, PortType = "Property" };
+                    this.Ports.Add(lPort);
                 }
-                else if (lPropertyInfo.CanRead)
-                {
-                    lPort = new PortViewModel {Direction = PortDirection.Output};
-                }
-                else
-                {
-                    lPort = new PortViewModel {Direction = PortDirection.Input, DisplayString = lPropertyInfo.Name};
-                }
-                lPort.DisplayString = lPropertyInfo.Name;
-                lPort.PortType = "Property";
-                this.Ports.Add(lPort);
             }
 
             foreach (EventInfo lEventInfo in pType.GetEvents())

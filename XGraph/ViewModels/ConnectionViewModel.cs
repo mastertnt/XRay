@@ -1,5 +1,8 @@
-﻿namespace XGraph.ViewModels
+﻿using PropertyChanged;
+
+namespace XGraph.ViewModels
 {
+    [ImplementPropertyChanged]
     public class ConnectionViewModel
     {
         /// <summary>
