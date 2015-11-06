@@ -30,15 +30,16 @@ namespace XGraph.Controls
 
         #region Dependencies
 
-        // Defining depenency properties so that they can be binding to the view model properties.
+        /// <summary>
+        /// Identifies the XPos dependency property.
+        /// </summary>
         public static readonly DependencyProperty PosXProperty = DependencyProperty.Register("PosX", typeof(double), typeof(NodeView), new FrameworkPropertyMetadata(0.0));
 
         /// <summary>
-        /// The position y property
+        /// Identifies the YPos dependency property.
         /// </summary>
         public static readonly DependencyProperty PosYProperty = DependencyProperty.Register("PosY", typeof(double), typeof(NodeView), new FrameworkPropertyMetadata(0.0));
         
-
         #endregion // Dependencies.
 
         #region Constructors
@@ -52,7 +53,6 @@ namespace XGraph.Controls
         }
 
         #endregion // Constructors.
-
 
         #region Methods
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -17,7 +18,15 @@ namespace XGraph.Controls
         #region Constructors
 
         /// <summary>
-        /// Default constructor.
+        /// Initializes the <see cref="MoveThumb"/> class.
+        /// </summary>
+        static MoveThumb()
+        {
+            MoveThumb.DefaultStyleKeyProperty.OverrideMetadata(typeof(MoveThumb), new FrameworkPropertyMetadata(typeof(MoveThumb)));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MoveThumb"/> class.
         /// </summary>
         public MoveThumb()
         {

@@ -3,11 +3,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <DataTemplate x:Key="NodeViewDataTemplate">
-        <Label Content="{Binding DisplayString}" />
+        <TextBlock Text="{Binding DisplayString}" Margin="6" HorizontalAlignment="Right" FontSize="14"/>
     </DataTemplate>
 
     <DataTemplate x:Key="PortViewDataTemplate">
-        <Label Content="{Binding DisplayString}" />
+        <TextBlock Text="{Binding DisplayString}" />
     </DataTemplate>
 
 </ResourceDictionary>
