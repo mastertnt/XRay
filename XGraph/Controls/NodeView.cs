@@ -6,6 +6,9 @@ using XGraph.ViewModels;
 
 namespace XGraph.Controls
 {
+    /// <summary>
+    /// Class defining a node in the graph view.
+    /// </summary>
     [TemplatePart(Name = PART_PORT_CONTAINER, Type = typeof(PortContainer))]
     public class NodeView : ListBoxItem
     {
