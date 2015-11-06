@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
+using PropertyChanged;
 
 namespace XGraph.ViewModels
 {
@@ -11,6 +13,7 @@ namespace XGraph.ViewModels
     ///     - Connections between ports.
     /// </summary>
     /// <!-- NBY -->
+    [ImplementPropertyChanged]
     public class NodeViewModel
     {
         /// <summary>
@@ -29,7 +32,8 @@ namespace XGraph.ViewModels
         /// </value>
         public double X
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -40,7 +44,8 @@ namespace XGraph.ViewModels
         /// </value>
         public double Y
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -51,7 +56,8 @@ namespace XGraph.ViewModels
         /// </value>
         public virtual bool IsSelected
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -62,7 +68,8 @@ namespace XGraph.ViewModels
         /// </value>
         public virtual bool IsActive
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -71,10 +78,7 @@ namespace XGraph.ViewModels
         /// <value>
         /// The ports.
         /// </value>
-        public ObservableCollection<PortViewModel> Ports
-        {
-            get; set;
-        }
+        public ObservableCollection<PortViewModel> Ports { get; set; }
 
         /// <summary>
         /// Gets or sets the connections.
@@ -82,11 +86,7 @@ namespace XGraph.ViewModels
         /// <value>
         /// The connections.
         /// </value>
-        public ObservableCollection<ConnectionViewModel> Connections
-        {
-            get;
-            set;
-        }
+        public ObservableCollection<ConnectionViewModel> Connections { get; set; }
 
         /// <summary>
         /// Gets or sets the display string.
@@ -94,10 +94,7 @@ namespace XGraph.ViewModels
         /// <value>
         /// The display string.
         /// </value>
-        public virtual string DisplayString
-        {
-            get; set;
-        }
+        public virtual string DisplayString { get; set; }
 
         /// <summary>
         /// Gets the data template.

@@ -1,10 +1,12 @@
 ﻿using System.Collections.ObjectModel;
+using PropertyChanged;
 
 namespace XGraph.ViewModels
 {
     /// <summary>
     /// This class represents a view model of the graph.
     /// </summary>
+    [ImplementPropertyChanged]
     public class GraphViewModel
     {
         /// <summary>

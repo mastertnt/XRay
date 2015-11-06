@@ -1,12 +1,15 @@
 ﻿using System.Windows;
+using PropertyChanged;
 
 namespace XGraph.ViewModels
 {
+    /// <summary>
+    /// This enumeration give the type of the direction.
+    /// </summary>
     public enum PortDirection
     {
         Input,
         Output,
-        Both,
     }
 
     /// <summary>
@@ -14,6 +17,7 @@ namespace XGraph.ViewModels
     /// A port can be connected to another port.
     /// </summary>
     /// <!-- NBY -->
+    [ImplementPropertyChanged]
     public class PortViewModel
     {
         /// <summary>

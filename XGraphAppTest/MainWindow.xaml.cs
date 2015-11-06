@@ -27,11 +27,19 @@ namespace XGraphTest
             this.GraphNode.DataContext = this.CreateTypeGraph();
         }
 
+        /// <summary>
+        /// Creates the type graph.
+        /// </summary>
+        /// <returns></returns>
         public GraphViewModel CreateTypeGraph()
         {
             GraphViewModel lGraph = new GraphViewModel();
             NodeViewModel lNode0 = new TypeNodeViewModel(typeof(SampleClass));
             lGraph.Nodes.Add(lNode0);
+
+            NodeViewModel lNode1 = new TypeNodeViewModel(typeof(SampleClass1));
+            lGraph.Nodes.Add(lNode1);
+
             int i = 0;
             foreach (NodeViewModel lNode in lGraph.Nodes)
             {

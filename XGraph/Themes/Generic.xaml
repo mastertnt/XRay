@@ -13,14 +13,32 @@
     </Style>
 
     <ControlTemplate x:Key="NodeViewTemplate" TargetType="{x:Type controls:NodeView}">
-        <StackPanel Background="{TemplateBinding Background}">
-            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" />
-            <controls:PortContainer x:Name="PART_PortContainer" />
-        </StackPanel>
+        <Grid Background="{TemplateBinding Background}">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ContentPresenter Grid.Column="0" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                <controls:MoveThumb Grid.Column="1" x:Name="PART_Movethumb" Background="Transparent" Cursor="SizeAll"/>
+            </Grid>
+            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" />
+        </Grid>
     </ControlTemplate>
-    
+
     <Style TargetType="{x:Type controls:NodeView}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-        <Setter Property="Background" Value="Red" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="Purple" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="False">
+                <Setter Property="Background" Value="Red" />
+            </Trigger>
+        </Style.Triggers>
         <Setter Property="Canvas.Left" Value="{Binding PosX, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Canvas.Top" Value="{Binding PosY, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Template" Value="{StaticResource NodeViewTemplate}" />
