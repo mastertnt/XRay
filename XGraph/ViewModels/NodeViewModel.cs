@@ -94,7 +94,23 @@ namespace XGraph.ViewModels
         /// <value>
         /// The display string.
         /// </value>
-        public virtual string DisplayString { get; set; }
+        public virtual string DisplayString 
+        { 
+            get; 
+            set; 
+        }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>
+        /// The description string.
+        /// </value>
+        public virtual string Description
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets the data template.

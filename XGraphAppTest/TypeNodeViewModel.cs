@@ -16,6 +16,7 @@ namespace XGraphTestApp
         public TypeNodeViewModel(Type pType)
         {
             this.DisplayString = pType.Name;
+            this.Description = "A class sample node.";
             foreach (PropertyInfo lPropertyInfo in pType.GetProperties())
             {
                 if (lPropertyInfo.CanWrite)

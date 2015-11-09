@@ -5,13 +5,18 @@
 
     <SolidColorBrush x:Key="GraphView_Background_Brush" Color="#FF464646" />
     <SolidColorBrush x:Key="NodeView_Background_Brush" Color="#FF006599" />
-    <SolidColorBrush x:Key="NodeView_Foreground_Brush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="NodeView_Foreground_Brush" Color="#CBCBCBFF" />
     <SolidColorBrush x:Key="Icon_Foreground_Brush" Color="#2EFFFFFF" />
 
     <sys:Double x:Key="NodeView_Bevel_Size">22</sys:Double>
 
+    <FontFamily x:Key="Default_FontFamily">/XGraph;Component/resources/#Segoe UI Light</FontFamily>
+    
 
     <Style TargetType="{x:Type controls:GraphView}" BasedOn="{StaticResource {x:Type ListBox}}">
+        <Setter Property="FontFamily" Value="{StaticResource Default_FontFamily}" />
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property ="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -29,7 +34,7 @@
                 <RowDefinition Height="22" />
             </Grid.RowDefinitions>
             <controls:NodeViewShape x:Name="INNER_BackgroundShape" Fill="{TemplateBinding Background}" BevelLenght="{StaticResource NodeView_Bevel_Size}" Grid.RowSpan="3" />
-            <Grid>
+            <Grid Margin="0,0,0,3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -37,7 +42,7 @@
                 <controls:MoveThumb Grid.Column="0" x:Name="INNER_Movethumb" VerticalAlignment="Top" />
                 <ContentPresenter Grid.Column="1" ContentTemplate="{TemplateBinding ContentTemplate}" />
             </Grid>
-            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" />
+            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" Margin="5" />
         </Grid>
     </ControlTemplate>
 

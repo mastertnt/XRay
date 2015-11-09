@@ -3,7 +3,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <DataTemplate x:Key="NodeViewDataTemplate">
-        <TextBlock Text="{Binding DisplayString}" Margin="6" HorizontalAlignment="Right" FontSize="14"/>
+        <StackPanel>
+            <TextBlock Text="{Binding DisplayString}" Margin="0,0,6,0" HorizontalAlignment="Right" FontSize="20" />
+            <TextBlock Text="{Binding Description}" Margin="0,0,6,0" HorizontalAlignment="Right" FontSize="12" />
+        </StackPanel>
     </DataTemplate>
 
     <DataTemplate x:Key="PortViewDataTemplate">

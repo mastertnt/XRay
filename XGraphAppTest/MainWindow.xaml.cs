@@ -43,7 +43,7 @@ namespace XGraphTest
             int i = 0;
             foreach (NodeViewModel lNode in lGraph.Nodes)
             {
-                lNode.X = 50 * i;
+                lNode.X = 300 * i;
                 lNode.Y = 100 * i;
                 i++;
             }
