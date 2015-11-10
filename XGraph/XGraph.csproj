@@ -108,6 +108,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\SegoeUILight.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />

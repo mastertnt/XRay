@@ -6,7 +6,7 @@
 
     <SolidColorBrush x:Key="GraphView_Background_Brush" Color="#FF464646" />
     <SolidColorBrush x:Key="NodeView_Background_Brush" Color="#FF006599" />
-    <SolidColorBrush x:Key="NodeView_Foreground_Brush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="NodeView_Foreground_Brush" Color="#CBCBCBFF" />
     <SolidColorBrush x:Key="Icon_Foreground_Brush" Color="#2EFFFFFF" />
 
     <sys:Double x:Key="NodeView_Bevel_Size">22</sys:Double>
@@ -14,7 +14,12 @@
     <converters:InputPortToVisibilityConverter x:Key="InputPortToVisibilityConverter" />
     <converters:OutputPortToVisibilityConverter x:Key="OutputPortToVisibilityConverter" />
     
+    <FontFamily x:Key="Default_FontFamily">/XGraph;Component/resources/#Segoe UI Light</FontFamily>
+    
     <Style TargetType="{x:Type controls:GraphView}" BasedOn="{StaticResource {x:Type ListBox}}">
+        <Setter Property="FontFamily" Value="{StaticResource Default_FontFamily}" />
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property ="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -32,7 +37,7 @@
                 <RowDefinition Height="22" />
             </Grid.RowDefinitions>
             <controls:NodeViewShape x:Name="INNER_BackgroundShape" Fill="{TemplateBinding Background}" BevelLenght="{StaticResource NodeView_Bevel_Size}" Grid.RowSpan="3" />
-            <Grid>
+            <Grid Margin="0,0,0,3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -40,7 +45,7 @@
                 <controls:MoveThumb Grid.Column="0" x:Name="INNER_Movethumb" VerticalAlignment="Top" />
                 <ContentPresenter Grid.Column="1" ContentTemplate="{TemplateBinding ContentTemplate}" />
             </Grid>
-            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" />
+            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" Margin="5" />
         </Grid>
     </ControlTemplate>
 
@@ -82,24 +87,45 @@
     </Style>
 
     <ControlTemplate x:Key="MoveThumbTemplate" TargetType="{x:Type controls:MoveThumb}">
-        <Canvas>
-            <controls:MoveThumbShape x:Name="INNER_BackgroundShape" Fill="Transparent" BevelLenght="{StaticResource NodeView_Bevel_Size}" />
-            <Rectangle Canvas.Left="0" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="0" Canvas.Top="4" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="0" Canvas.Top="8" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="0" Canvas.Top="12" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="0" Canvas.Top="16" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="4" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="4" Canvas.Top="4" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="4" Canvas.Top="8" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="4" Canvas.Top="12" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="8" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="8" Canvas.Top="4" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="8" Canvas.Top="8" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="12" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="12" Canvas.Top="4" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Canvas.Left="16" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
-        </Canvas>
+        <Grid x:Name="INNER_RootLayout">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="0:0:0.3" To="MouseOver"/>
+                        <VisualTransition From="MouseOver" GeneratedDuration="0:0:0.3"/>
+                    </VisualStateGroup.Transitions>
+                    <VisualState Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="INNER_MainCanvas" Storyboard.TargetProperty="(UIElement.Opacity)" To="1" />
+                        </Storyboard>   
+                    </VisualState>
+                    <VisualState x:Name="MouseLeave">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="INNER_MainCanvas" Storyboard.TargetProperty="(UIElement.Opacity)" To="0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Canvas x:Name="INNER_MainCanvas" Opacity="0">
+                <controls:MoveThumbShape x:Name="INNER_BackgroundShape" Fill="Transparent" BevelLenght="{StaticResource NodeView_Bevel_Size}" />
+                <Rectangle Canvas.Left="0" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="0" Canvas.Top="4" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="0" Canvas.Top="8" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="0" Canvas.Top="12" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="0" Canvas.Top="16" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="4" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="4" Canvas.Top="4" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="4" Canvas.Top="8" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="4" Canvas.Top="12" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="8" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="8" Canvas.Top="4" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="8" Canvas.Top="8" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="12" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="12" Canvas.Top="4" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+                <Rectangle Canvas.Left="16" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
+            </Canvas>
+        </Grid>
     </ControlTemplate>
 
     <Style TargetType="{x:Type controls:MoveThumb}">
