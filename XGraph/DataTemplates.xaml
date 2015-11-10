@@ -1,13 +1,16 @@
 ﻿<ResourceDictionary x:Class="XGraph.DataTemplates"
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:XGraph.Controls">
 
     <DataTemplate x:Key="NodeViewDataTemplate">
         <TextBlock Text="{Binding DisplayString}" Margin="6" HorizontalAlignment="Right" FontSize="14"/>
     </DataTemplate>
 
     <DataTemplate x:Key="PortViewDataTemplate">
-        <TextBlock Text="{Binding DisplayString}" />
+        <StackPanel>
+            <TextBlock Text="{Binding DisplayString}" />
+        </StackPanel>
     </DataTemplate>
 
 </ResourceDictionary>

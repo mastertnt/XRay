@@ -17,7 +17,7 @@ namespace XGraph.Controls
         /// </summary>
         static PortView()
         {
-            PortView.DefaultStyleKeyProperty.OverrideMetadata(typeof(PortView), new FrameworkPropertyMetadata(typeof(PortView)));
+            FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(PortView), new FrameworkPropertyMetadata(typeof(PortView)));
         }
 
         #endregion // Constructors.

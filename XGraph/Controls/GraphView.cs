@@ -15,7 +15,7 @@ namespace XGraph.Controls
         /// </summary>
         static GraphView()
         {
-            GraphView.DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphView), new FrameworkPropertyMetadata(typeof(GraphView)));
+            FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphView), new FrameworkPropertyMetadata(typeof(GraphView)));
         }
 
         #endregion // Constructors.

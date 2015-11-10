@@ -49,7 +49,7 @@ namespace XGraph.Controls
         /// </summary>
         static NodeView()
         {
-            NodeView.DefaultStyleKeyProperty.OverrideMetadata(typeof(NodeView), new FrameworkPropertyMetadata(typeof(NodeView)));
+            FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(NodeView), new FrameworkPropertyMetadata(typeof(NodeView)));
         }
 
         #endregion // Constructors.
@@ -113,7 +113,7 @@ namespace XGraph.Controls
             Binding lNodesBinding = new Binding("Ports");
             lNodesBinding.Source = this.Content;
             lNodesBinding.Mode = BindingMode.OneWay;
-            this.mInnerPortContainer.SetBinding(PortContainer.ItemsSourceProperty, lNodesBinding);
+            this.mInnerPortContainer.SetBinding(ItemsControl.ItemsSourceProperty, lNodesBinding);
         }
 
         #endregion // Methods.
@@ -134,7 +134,7 @@ namespace XGraph.Controls
                 this.SetValue(PosXProperty, value);
             }
         }
-
+   
         /// <summary>
         /// Gets or sets X pos.
         /// </summary>

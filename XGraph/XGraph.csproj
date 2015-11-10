@@ -61,11 +61,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="Controls\Connector.cs" />
     <Compile Include="Controls\MoveThumb.cs" />
     <Compile Include="Controls\MoveThumbShape.cs" />
     <Compile Include="Controls\NodeViewShape.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\DebugConverter.cs" />
+    <Compile Include="Converters\OutputPortToVisibilityConverter.cs" />
+    <Compile Include="Converters\InputPortToVisibilityConverter.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="DataTemplates.cs" />
     <Compile Include="Controls\GraphView.cs" />

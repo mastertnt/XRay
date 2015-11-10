@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:controls="clr-namespace:XGraph.Controls">
+                    xmlns:controls="clr-namespace:XGraph.Controls"
+                    xmlns:converters="clr-namespace:XGraph.Converters">
 
     <SolidColorBrush x:Key="GraphView_Background_Brush" Color="#FF464646" />
     <SolidColorBrush x:Key="NodeView_Background_Brush" Color="#FF006599" />
@@ -10,7 +11,9 @@
 
     <sys:Double x:Key="NodeView_Bevel_Size">22</sys:Double>
 
-
+    <converters:InputPortToVisibilityConverter x:Key="InputPortToVisibilityConverter" />
+    <converters:OutputPortToVisibilityConverter x:Key="OutputPortToVisibilityConverter" />
+    
     <Style TargetType="{x:Type controls:GraphView}" BasedOn="{StaticResource {x:Type ListBox}}">
         <Setter Property ="ItemsPanel">
             <Setter.Value>
@@ -68,8 +71,9 @@
 
     <ControlTemplate x:Key="PortViewTemplate" TargetType="{x:Type controls:PortView}">
         <StackPanel Margin="2" Orientation="Horizontal" Background="RoyalBlue">
-            <Rectangle Height="22" Width="22" Fill="Green"></Rectangle>
+            <controls:Connector x:Name="Input" Visibility="{Binding Direction, Converter={StaticResource InputPortToVisibilityConverter}}"></controls:Connector>
             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" />
+            <controls:Connector x:Name="Output" Visibility="{Binding Direction, Converter={StaticResource OutputPortToVisibilityConverter}}"></controls:Connector>
         </StackPanel>
     </ControlTemplate>
 
@@ -97,7 +101,7 @@
             <Rectangle Canvas.Left="16" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
         </Canvas>
     </ControlTemplate>
-    
+
     <Style TargetType="{x:Type controls:MoveThumb}">
         <Setter Property="Height" Value="{StaticResource NodeView_Bevel_Size}" />
         <Setter Property="Width" Value="{StaticResource NodeView_Bevel_Size}" />
@@ -106,5 +110,15 @@
         <Setter Property="Foreground" Value="{StaticResource Icon_Foreground_Brush}" />
         <Setter Property="Template" Value="{StaticResource MoveThumbTemplate}" />
     </Style>
+
+    <!-- Connector -->
+    <ControlTemplate x:Key="ConnectorTemplate" TargetType="{x:Type controls:Connector}">
+        <Rectangle Width="12"></Rectangle>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type controls:Connector}">
+        <Setter Property="Template" Value="{StaticResource ConnectorTemplate}" />
+    </Style>
+
 
 </ResourceDictionary>

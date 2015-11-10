@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -18,6 +15,7 @@ namespace XGraph.Controls
         /// <summary>
         /// Identifies the BevelLenght dependency property.
         /// </summary>
+// ReSharper disable once InconsistentNaming
         public static readonly DependencyProperty BevelLenghtProperty = DependencyProperty.Register("BevelLenght", typeof(double), typeof(MoveThumbShape), new FrameworkPropertyMetadata(0.0));
 
         #endregion // Dependencies.
@@ -53,13 +51,10 @@ namespace XGraph.Controls
                 
 
                 // Building the path.
-                List<PathSegment> lPath = new List<PathSegment>(3);
-                lPath.Add(new LineSegment(lP1, true));
-                lPath.Add(new LineSegment(lP2, true));
-                lPath.Add(new LineSegment(lP3, true));
+                List<PathSegment> lPath = new List<PathSegment>(3) {new LineSegment(lP1, true), new LineSegment(lP2, true), new LineSegment(lP3, true)};
 
                 // Building the figure using the path.
-                PathFigure[] lFigures = new PathFigure[] { new PathFigure(lP1, lPath, true) };
+                PathFigure[] lFigures = { new PathFigure(lP1, lPath, true) };
 
                 // Building the final geometry.
                 return new PathGeometry(lFigures, FillRule.EvenOdd, null);
