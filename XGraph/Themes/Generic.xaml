@@ -139,12 +139,10 @@
 
     <!-- Connector -->
     <ControlTemplate x:Key="ConnectorTemplate" TargetType="{x:Type controls:Connector}">
-        <Rectangle Width="12"></Rectangle>
+        <Rectangle Width="12" Fill="Red"></Rectangle>
     </ControlTemplate>
 
     <Style TargetType="{x:Type controls:Connector}">
         <Setter Property="Template" Value="{StaticResource ConnectorTemplate}" />
     </Style>
-
-
 </ResourceDictionary>
