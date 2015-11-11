@@ -35,7 +35,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="22" />
+                <RowDefinition Height="{markup:GridLength {StaticResource NodeView_Bevel_Size}}" />
             </Grid.RowDefinitions>
             <controls:NodeViewShape x:Name="INNER_BackgroundShape" Fill="{TemplateBinding Background}" BevelLenght="{StaticResource NodeView_Bevel_Size}" Grid.RowSpan="3" />
             <Grid Margin="0,0,0,3">
