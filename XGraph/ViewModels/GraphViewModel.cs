@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using PropertyChanged;
 
 namespace XGraph.ViewModels
@@ -15,6 +17,22 @@ namespace XGraph.ViewModels
         public GraphViewModel()
         {
             this.Nodes =  new ObservableCollection<NodeViewModel>();
+            this.Connections = new ObservableCollection<ConnectionViewModel>();
+        }
+
+        public IEnumerable<IGraphItem> Items
+        {
+            get
+            {
+                foreach (var lNode in this.Nodes)
+                {
+                    yield return lNode;
+                }
+                foreach (var lConnection in this.Connections)
+                {
+                    yield return lConnection;
+                }
+            }
         }
 
         /// <summary>
@@ -24,6 +42,17 @@ namespace XGraph.ViewModels
         /// The nodes.
         /// </value>
         public ObservableCollection<NodeViewModel> Nodes
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Gets or sets the connections.
+        /// </summary>
+        /// <value>
+        /// The connections.
+        /// </value>
+        public ObservableCollection<ConnectionViewModel> Connections
         {
             get; set;
         }

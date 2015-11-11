@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using XGraph.Extensions;
+using XGraph.ViewModels;
 
 namespace XGraph.Controls
 {
@@ -93,9 +96,6 @@ namespace XGraph.Controls
                     this.CaptureMouse();
                 }
 
-                // Check if another connector is hit.
-                this.HitTesting(pEventArgs.GetPosition(this));
-
                 // Create a path according to the source and the end.
                 this.UpdatePathGeometry(pEventArgs.GetPosition(this));
 
@@ -122,6 +122,29 @@ namespace XGraph.Controls
             {
                 this.ReleaseMouseCapture();
             }
+
+            Canvas lParentCanvas = this.AdornedElement as Canvas;
+            if (lParentCanvas != null)
+            {
+                Connector lTargetConnector = lParentCanvas.HitControl<Connector>(pEventArgs.GetPosition(this));
+                if (lTargetConnector != null)
+                {
+                    GraphViewModel lGraphViewModel = lParentCanvas.DataContext as GraphViewModel;
+                    if (lGraphViewModel != null)
+                    {
+                        PortViewModel lTargetViewModel = lTargetConnector.DataContext as PortViewModel;
+                        PortViewModel lSourceViewModel = this.mSourceConnector.DataContext as PortViewModel; ;
+                        if (lTargetViewModel != null && lTargetViewModel.CanBeConnectedTo(lSourceViewModel))
+                        {
+                            ConnectionViewModel lConnectionViewModel = new ConnectionViewModel();
+                            lConnectionViewModel.Input = lSourceViewModel;
+                            lConnectionViewModel.Output = lTargetViewModel;
+                            lGraphViewModel.Connections.Add(lConnectionViewModel);
+                        }
+                    }
+                }
+            }
+            
 
             // Remove the adorner.
             AdornerLayer lLayer = AdornerLayer.GetAdornerLayer(this.AdornedElement);
@@ -152,44 +175,7 @@ namespace XGraph.Controls
             this.mDrawingGeometry.Figures.Add(lFigure);
         }
 
-        /// <summary>
-        /// This method checks if another connector is available for connection.
-        /// </summary>
-        /// <param name="pSourcePoint">The source point.</param>
-        private void HitTesting(Point pSourcePoint)
-        {
-            //this.HitConnector = null;
-            //DependencyObject lHitObject = this.mParentCanvas.InputHitTest(pSourcePoint) as DependencyObject;
-            //while 
-            //    (lHitObject != null && lHitObject.GetType() != typeof(DesignerCanvas))
-            //{
-            //    if
-            //        (lHitObject is Connector)
-            //    {
-            //        Connector lHitConnector = lHitObject as Connector;
-            //        if
-            //            (   (lHitConnector != null)
-            //            &&  (lHitConnector.IsInput != this.mSourceConnector.IsInput)
-            //            )
-            //        {
-            //            if
-            //                (   (lHitConnector.IsInput == true)
-            //                &&  (lHitConnector.Connections.Count == 0)
-            //                )
-            //            {
-            //                this.HitConnector = lHitObject as Connector;
-            //            }
-            //            else
-            //            {
-            //                Console.WriteLine("Already connected...");
-            //            }
-            //        }
-            //    }
-
-            //    lHitObject = VisualTreeHelper.GetParent(lHitObject);
-            //}
-        }
-
         #endregion // Methods.
     }
 }
+

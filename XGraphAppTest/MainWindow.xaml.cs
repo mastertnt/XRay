@@ -47,6 +47,11 @@ namespace XGraphTest
                 lNode.Y = 100 * i;
                 i++;
             }
+
+            ConnectionViewModel lConnectionViewModel = new ConnectionViewModel();
+            lConnectionViewModel.Input = lGraph.Nodes[0].Ports.FirstOrDefault(pPort => pPort.Direction == PortDirection.Output);
+            lConnectionViewModel.Input = lGraph.Nodes[1].Ports.FirstOrDefault(pPort => pPort.Direction == PortDirection.Input);
+            lGraph.Connections.Add(lConnectionViewModel);
             
             return lGraph;
         }

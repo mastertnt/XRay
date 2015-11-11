@@ -18,7 +18,7 @@ namespace XGraph.ViewModels
     /// </summary>
     /// <!-- NBY -->
     [ImplementPropertyChanged]
-    public class PortViewModel
+    public class PortViewModel 
     {
         /// <summary>
         /// Gets or sets the type of the port.
@@ -85,7 +85,7 @@ namespace XGraph.ViewModels
         /// <returns></returns>
         public bool CanBeConnectedTo(PortViewModel pPortViewModel)
         {
-            return false;
+            return true;
         }
 
         /// <summary>

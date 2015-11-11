@@ -14,7 +14,7 @@ namespace XGraph.ViewModels
     /// </summary>
     /// <!-- NBY -->
     [ImplementPropertyChanged]
-    public class NodeViewModel
+    public class NodeViewModel : IGraphItem
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeViewModel"/> class.
@@ -79,14 +79,6 @@ namespace XGraph.ViewModels
         /// The ports.
         /// </value>
         public ObservableCollection<PortViewModel> Ports { get; set; }
-
-        /// <summary>
-        /// Gets or sets the connections.
-        /// </summary>
-        /// <value>
-        /// The connections.
-        /// </value>
-        public ObservableCollection<ConnectionViewModel> Connections { get; set; }
 
         /// <summary>
         /// Gets or sets the display string.

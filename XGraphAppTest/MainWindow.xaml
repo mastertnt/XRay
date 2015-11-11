@@ -9,6 +9,6 @@
                 <Setter Property="Background" Value="Purple" />
             </Style>
         </Grid.Resources>
-        <controls:GraphView x:Name="GraphNode" ItemsSource="{Binding Nodes}"/>
+        <controls:GraphView x:Name="GraphNode" ItemsSource="{Binding Items}"/>
     </Grid>
 </Window>
