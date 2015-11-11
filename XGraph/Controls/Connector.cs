@@ -1,7 +1,11 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using PropertyChanged;
+using XGraph.Extensions;
 
 namespace XGraph.Controls
 {
@@ -10,6 +14,7 @@ namespace XGraph.Controls
     /// A connector is used to anchor a connection.
     /// </summary>
     /// <!-- NBY -->
+    [ImplementPropertyChanged]
     public class Connector : ContentControl
     {
         #region Fields
@@ -17,9 +22,22 @@ namespace XGraph.Controls
         /// <summary>
         /// This field stores the drag start point, relative to the DesignerCanvas 
         /// </summary>
-        private Point? mDragStartPoint = null;
+        private Point? mDragStartPoint;
 
         #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the position.
+        /// </summary>
+        public Point Position 
+        { 
+            get;
+            set;
+        }
+
+        #endregion // Properties
 
         #region Constructors
 
@@ -32,72 +50,66 @@ namespace XGraph.Controls
             FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof (Connector), new FrameworkPropertyMetadata(typeof (Connector)));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Connector"/> class.
+        /// </summary>
+        public Connector()
+        {
+            this.LayoutUpdated += this.OnLayoutUpdated;
+        }
+
         #endregion // Constructors.
 
         #region Methods
 
         /// <summary>
-        /// Method called when the control template is applied.
-        /// </summary>
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-          
-        }
-
-        /// <summary>
-        /// Invoked when an unhandled <see cref="E:System.Windows.Input.Mouse.MouseDown" /> attached event reaches an element in its route that is derived from this class. Implement this method to add class handling for this event.
-        /// </summary>
-        /// <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs" /> that contains the event data. This event data reports details about the mouse button that was pressed and the handled state.</param>
-        protected override void OnMouseDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseDown(e);
-        }
-
-        /// <summary>
         /// This method is called each time the mouse is moved over the constrol.
         /// </summary>
         /// <param name="pEventArgs">The event arguments.</param>
-        protected override void OnMouseMove(MouseEventArgs pEventArgs)
+        protected override void OnMouseDown(MouseButtonEventArgs pEventArgs)
         {
             base.OnMouseMove(pEventArgs);
             this.Cursor = Cursors.Cross;
 
-            //DesignerCanvas lParentCanvas = GetDesignerCanvas(this);
-            //if
-            //    (this.mDragStartPoint.HasValue == false)
-            //{
-            //    if
-            //        (lParentCanvas != null)
-            //    {
-            //        // position relative to DesignerCanvas
-            //        this.mDragStartPoint = new Point?(pEventArgs.GetPosition(lParentCanvas));
-            //        pEventArgs.Handled = true;
-            //    }
-            //}
+            Canvas lParentCanvas = this.FindVisualParent<Canvas>();
+            if (this.mDragStartPoint.HasValue == false)
+            {
+                if (lParentCanvas != null)
+                {
+                    // position relative to DesignerCanvas
+                    this.mDragStartPoint = pEventArgs.GetPosition(lParentCanvas);
+                    pEventArgs.Handled = true;
+                }
+            }
 
-            //if
-            //    (this.mDragStartPoint.HasValue)
-            //{
-            //    // create connection adorner 
-            //    if
-            //        (lParentCanvas != null)
-            //    {
-            //        AdornerLayer lLayer = AdornerLayer.GetAdornerLayer(lParentCanvas);
-            //        if
-            //            (lLayer != null)
-            //        {
-            //            ConnectingLine lConnectingLine = new ConnectingLine(lParentCanvas, this);
-            //            if
-            //                (lConnectingLine != null)
-            //            {
-            //                lLayer.Add(lConnectingLine);
-            //                pEventArgs.Handled = true;
-            //            }
-            //        }
-            //    }
-            //}
+            if (this.mDragStartPoint.HasValue)
+            {
+                // create connection adorner 
+                if (lParentCanvas != null)
+                {
+                    AdornerLayer lLayer = AdornerLayer.GetAdornerLayer(lParentCanvas);
+                    if (lLayer != null)
+                    {
+                        ConnectingLine lConnectingLine = new ConnectingLine(lParentCanvas, this);
+                        lLayer.Add(lConnectingLine);
+                        pEventArgs.Handled = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// This method is called when the layout changes.
+        /// </summary>
+        /// <param name="pEventArgs">The event arguments.</param>
+        private void OnLayoutUpdated(object sender, EventArgs pEventArgs)
+        {
+            Canvas lParentCanvas = this.FindVisualParent<Canvas>();
+            if (lParentCanvas != null)
+            {
+                //get centre position of this Connector relative to the DesignerCanvas
+                this.Position = this.TransformToAncestor(lParentCanvas).Transform(new Point(this.ActualWidth / 2, this.ActualHeight / 2));
+            }
         }
 
         #endregion // Methods.

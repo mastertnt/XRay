@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="Controls\ConnectingLine.cs" />
     <Compile Include="Controls\Connector.cs" />
     <Compile Include="Controls\MoveThumb.cs" />
     <Compile Include="Controls\MoveThumbShape.cs" />
@@ -70,6 +71,8 @@
     <Compile Include="Converters\DebugConverter.cs" />
     <Compile Include="Converters\OutputPortToVisibilityConverter.cs" />
     <Compile Include="Converters\InputPortToVisibilityConverter.cs" />
+    <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="PointExtensions.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="DataTemplates.cs" />
     <Compile Include="Controls\GraphView.cs" />
