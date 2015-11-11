@@ -109,7 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\NodeView.cs" />
-    <Compile Include="ViewModels\IGraphItemViewModel.cs" />
+    <Compile Include="ViewModels\IGraphItemViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModels\NodeViewModel.cs" />
     <Compile Include="Controls\PortContainer.cs" />
     <Compile Include="Controls\PortView.cs" />
