@@ -7,7 +7,10 @@ using System.Windows.Media;
 
 namespace XGraph.Extensions
 {
-    static class DependencyObjectExtensions
+    /// <summary>
+    /// Class extanding the <see cref="DependencyObject"/> class.
+    /// </summary>
+    public static class DependencyObjectExtensions
     {
         /// <summary>
         /// Finds a parent of a given item on the visual tree.

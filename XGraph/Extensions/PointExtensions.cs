@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-namespace XGraph
+
+namespace XGraph.Extensions
 {
-    static class PointExtensions
+    /// <summary>
+    /// Class extending the <see cref="Point"/> class.
+    /// </summary>
+    public static class PointExtensions
     {
         /// <summary>
         /// Computes the shortest path from start to end.
