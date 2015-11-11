@@ -3,7 +3,7 @@
 namespace XGraph.ViewModels
 {
     [ImplementPropertyChanged]
-    public class ConnectionViewModel
+    public class ConnectionViewModel : IGraphItem
     {
         /// <summary>
         /// Gets or sets a value indicating whether this instance is selected.

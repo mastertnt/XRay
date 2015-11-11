@@ -8,15 +8,18 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/XGraph;Component/resources/Fonts.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
+
     <SolidColorBrush x:Key="GraphView_Background_Brush" Color="#FF464646" />
     <SolidColorBrush x:Key="NodeView_Background_Brush" Color="#FF006599" />
     <SolidColorBrush x:Key="NodeView_Foreground_Brush" Color="#CBCBCBFF" />
     <SolidColorBrush x:Key="Icon_Foreground_Brush" Color="#2EFFFFFF" />
 
     <sys:Double x:Key="NodeView_Bevel_Size">22</sys:Double>
-    
 
+    <converters:InputPortToVisibilityConverter x:Key="InputPortToVisibilityConverter" />
+    <converters:OutputPortToVisibilityConverter x:Key="OutputPortToVisibilityConverter" />
+    
+    
     <Style TargetType="{x:Type controls:GraphView}" BasedOn="{StaticResource {x:Type ListBox}}">
         <Setter Property="FontFamily" Value="{StaticResource Segoe_UI_Light_FontFamily}" />
         <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
@@ -77,8 +80,9 @@
 
     <ControlTemplate x:Key="PortViewTemplate" TargetType="{x:Type controls:PortView}">
         <StackPanel Margin="2" Orientation="Horizontal" Background="RoyalBlue">
-            <Rectangle Height="22" Width="22" Fill="Green"></Rectangle>
+            <controls:Connector x:Name="Input" Visibility="{Binding Direction, Converter={StaticResource InputPortToVisibilityConverter}}"></controls:Connector>
             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" />
+            <controls:Connector x:Name="Output" Visibility="{Binding Direction, Converter={StaticResource OutputPortToVisibilityConverter}}"></controls:Connector>
         </StackPanel>
     </ControlTemplate>
 
@@ -137,4 +141,12 @@
         <Setter Property="Template" Value="{StaticResource MoveThumbTemplate}" />
     </Style>
 
+    <!-- Connector -->
+    <ControlTemplate x:Key="ConnectorTemplate" TargetType="{x:Type controls:Connector}">
+        <Rectangle Width="12" Fill="Red"></Rectangle>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type controls:Connector}">
+        <Setter Property="Template" Value="{StaticResource ConnectorTemplate}" />
+    </Style>
 </ResourceDictionary>

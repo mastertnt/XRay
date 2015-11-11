@@ -61,6 +61,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="Controls\ConnectingLine.cs" />
+    <Compile Include="Controls\Connection.cs" />
+    <Compile Include="Controls\Connector.cs" />
     <Compile Include="Controls\MoveThumb.cs" />
     <Compile Include="Controls\MoveThumbShape.cs" />
     <Compile Include="Controls\NodeViewShape.cs">
@@ -69,6 +72,12 @@
     <Compile Include="Extensions\Markup\GridLengthExtension.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\DebugConverter.cs" />
+    <Compile Include="Converters\OutputPortToVisibilityConverter.cs" />
+    <Compile Include="Converters\InputPortToVisibilityConverter.cs" />
+    <Compile Include="Extensions\CanvasExtensions.cs" />
+    <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="PointExtensions.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="DataTemplates.cs" />
     <Compile Include="Controls\GraphView.cs" />
@@ -84,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\NodeView.cs" />
+    <Compile Include="ViewModels\IGraphItem.cs" />
     <Compile Include="ViewModels\NodeViewModel.cs" />
     <Compile Include="Controls\PortContainer.cs" />
     <Compile Include="Controls\PortView.cs" />

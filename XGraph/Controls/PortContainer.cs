@@ -15,7 +15,7 @@ namespace XGraph.Controls
         /// </summary>
         static PortContainer()
         {
-            PortContainer.DefaultStyleKeyProperty.OverrideMetadata(typeof(PortContainer), new FrameworkPropertyMetadata(typeof(PortContainer)));
+            FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(PortContainer), new FrameworkPropertyMetadata(typeof(PortContainer)));
         }
 
         #endregion // Constructors.
