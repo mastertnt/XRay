@@ -8,7 +8,16 @@
             <Style TargetType="{x:Type controls:NodeView}" BasedOn="{StaticResource {x:Type controls:NodeView}}">
                 <Setter Property="Background" Value="Purple" />
             </Style>
+            <CollectionViewSource x:Key="NodesBridge" Source="{Binding Path=Nodes}" />
+            <CollectionViewSource x:Key="NodesBridge" Source="{Binding Path=Connections}" />
         </Grid.Resources>
-        <controls:GraphView x:Name="GraphNode" ItemsSource="{Binding Items}"/>
+        <controls:GraphView x:Name="GraphNode">
+            <controls:GraphView.ItemsSource>
+                <CompositeCollection>
+                    <CollectionContainer Collection="{Binding Nodes}"/>
+                    <CollectionContainer Collection="{Binding Connections}"/>
+                </CompositeCollection>
+            </controls:GraphView.ItemsSource>
+        </controls:GraphView>
     </Grid>
 </Window>

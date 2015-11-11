@@ -19,20 +19,5 @@ namespace XGraph.Controls
         }
 
         #endregion // Constructors.
-
-        #region Methods
-
-        /// <summary>
-        /// Creates or identifies the element used to display a specified item.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.Windows.Controls.ListBoxItem" />.
-        /// </returns>
-        protected override System.Windows.DependencyObject GetContainerForItemOverride()
-        {
-            return new NodeView();
-        }
-
-        #endregion // Methods.
     }
 }

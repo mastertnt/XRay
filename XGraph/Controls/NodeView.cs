@@ -52,6 +52,11 @@ namespace XGraph.Controls
             FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(NodeView), new FrameworkPropertyMetadata(typeof(NodeView)));
         }
 
+        public NodeView()
+        {
+            
+        }
+
         #endregion // Constructors.
 
         #region Methods
