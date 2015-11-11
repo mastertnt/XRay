@@ -70,6 +70,10 @@
     <Compile Include="DataTemplates.cs" />
     <Compile Include="Controls\GraphView.cs" />
     <Compile Include="ViewModels\GraphViewModel.cs" />
+    <Page Include="Resources\Fonts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
