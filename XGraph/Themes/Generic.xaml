@@ -54,12 +54,12 @@
         <Setter Property="Template" Value="{StaticResource NodeViewTemplate}" />
     </Style>
 
-    <Style TargetType="{x:Type controls:GraphItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+    <!--<Style TargetType="{x:Type controls:GraphItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
         <Setter Property="Canvas.Left" Value="{Binding PosX, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Canvas.Top" Value="{Binding PosY, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="Foreground" Value="{StaticResource NodeView_Foreground_Brush}" />
         <Setter Property="ContentTemplateSelector" Value="{StaticResource GraphDataTemplateSelector}"/>
-    </Style>
+    </Style>-->
 
     <Style TargetType="{x:Type controls:PortContainer}" BasedOn="{StaticResource {x:Type ItemsControl}}">
         <Setter Property ="ItemsPanel">

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using PropertyChanged;
+using XGraph.Controls;
 
 namespace XGraph.ViewModels
 {
@@ -11,6 +12,8 @@ namespace XGraph.ViewModels
     [ImplementPropertyChanged]
     public class GraphViewModel
     {
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GraphViewModel"/> class.
         /// </summary>
@@ -20,7 +23,14 @@ namespace XGraph.ViewModels
             this.Connections = new ObservableCollection<ConnectionViewModel>();
         }
 
-        public IEnumerable<IGraphItem> Items
+        #endregion // Constructors.
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the items to display into the graph.
+        /// </summary>
+        public IEnumerable<IGraphItemViewModel> Items
         {
             get
             {
@@ -43,7 +53,8 @@ namespace XGraph.ViewModels
         /// </value>
         public ObservableCollection<NodeViewModel> Nodes
         {
-            get; set;
+            get; 
+            set;
         }
 
         /// <summary>
@@ -54,7 +65,10 @@ namespace XGraph.ViewModels
         /// </value>
         public ObservableCollection<ConnectionViewModel> Connections
         {
-            get; set;
+            get; 
+            set;
         }
+
+        #endregion // Properties.
     }
 }

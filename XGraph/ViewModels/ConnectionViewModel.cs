@@ -1,10 +1,13 @@
 ﻿using PropertyChanged;
+using System.Windows;
 
 namespace XGraph.ViewModels
 {
     [ImplementPropertyChanged]
-    public class ConnectionViewModel : IGraphItem
+    public class ConnectionViewModel : IGraphItemViewModel
     {
+        #region Properties
+
         /// <summary>
         /// Gets or sets a value indicating whether this instance is selected.
         /// </summary>
@@ -37,7 +40,8 @@ namespace XGraph.ViewModels
         /// </value>
         public PortViewModel Input
         {
-            get; set;
+            get; 
+            set;
         }
 
         /// <summary>
@@ -48,7 +52,22 @@ namespace XGraph.ViewModels
         /// </value>
         public PortViewModel Output
         {
-            get; set;
+            get; 
+            set;
         }
+
+        /// <summary>
+        /// Gets the style to apply to the container.
+        /// </summary>
+        public virtual Style ContainerStyle
+        {
+            get
+            {
+                DataTemplates lTemplates = new DataTemplates();
+                return lTemplates["ConnectionDefaultStyleKey"] as Style;
+            }
+        }
+
+        #endregion // Properties.
     }
 }

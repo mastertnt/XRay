@@ -14,8 +14,10 @@ namespace XGraph.ViewModels
     /// </summary>
     /// <!-- NBY -->
     [ImplementPropertyChanged]
-    public class NodeViewModel : IGraphItem
+    public class NodeViewModel : IGraphItemViewModel
     {
+        #region Cnstructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeViewModel"/> class.
         /// </summary>
@@ -23,6 +25,10 @@ namespace XGraph.ViewModels
         {
             this.Ports = new ObservableCollection<PortViewModel>();
         }
+
+        #endregion // Constructors.
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets the x.
@@ -78,7 +84,11 @@ namespace XGraph.ViewModels
         /// <value>
         /// The ports.
         /// </value>
-        public ObservableCollection<PortViewModel> Ports { get; set; }
+        public ObservableCollection<PortViewModel> Ports 
+        { 
+            get; 
+            set; 
+        }
 
         /// <summary>
         /// Gets or sets the display string.
@@ -114,9 +124,23 @@ namespace XGraph.ViewModels
         {
             get
             {
-                DataTemplates lTempaltes = new DataTemplates();
-                return lTempaltes["NodeViewDataTemplate"] as DataTemplate;
+                DataTemplates lTemplates = new DataTemplates();
+                return lTemplates["NodeViewDataTemplate"] as DataTemplate;
             }
         }
+
+        /// <summary>
+        /// Gets the style to apply to the container.
+        /// </summary>
+        public virtual Style ContainerStyle
+        {
+            get
+            {
+                DataTemplates lTemplates = new DataTemplates();
+                return lTemplates["NodeViewDefaultStyleKey"] as Style;
+            }
+        }
+
+        #endregion // Properties.
     }
 }
