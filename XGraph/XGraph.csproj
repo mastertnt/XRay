@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="Controls\GraphItem.cs" />
     <Compile Include="Controls\ConnectingLine.cs" />
     <Compile Include="Controls\Connection.cs" />
     <Compile Include="Controls\Connector.cs" />
@@ -78,6 +79,9 @@
     <Compile Include="Extensions\CanvasExtensions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
+    <Compile Include="Templates\GraphDataTemplateSelector.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="DataTemplates.cs" />
     <Compile Include="Controls\GraphView.cs" />

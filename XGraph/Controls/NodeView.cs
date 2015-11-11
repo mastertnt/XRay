@@ -2,8 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
 using XGraph.ViewModels;
 
 namespace XGraph.Controls
@@ -12,7 +10,7 @@ namespace XGraph.Controls
     /// Class defining a node in the graph view.
     /// </summary>
     [TemplatePart(Name = PART_PORT_CONTAINER, Type = typeof(PortContainer))]
-    public class NodeView : ListBoxItem
+    public class NodeView : ContentControl
     {
         #region Fields
 
@@ -28,20 +26,6 @@ namespace XGraph.Controls
 
         #endregion // Fields.
 
-        #region Dependencies
-
-        /// <summary>
-        /// Identifies the XPos dependency property.
-        /// </summary>
-        public static readonly DependencyProperty PosXProperty = DependencyProperty.Register("PosX", typeof(double), typeof(NodeView), new FrameworkPropertyMetadata(0.0));
-
-        /// <summary>
-        /// Identifies the YPos dependency property.
-        /// </summary>
-        public static readonly DependencyProperty PosYProperty = DependencyProperty.Register("PosY", typeof(double), typeof(NodeView), new FrameworkPropertyMetadata(0.0));
-        
-        #endregion // Dependencies.
-
         #region Constructors
 
         /// <summary>
@@ -52,6 +36,9 @@ namespace XGraph.Controls
             FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(NodeView), new FrameworkPropertyMetadata(typeof(NodeView)));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NodeView"/> class.
+        /// </summary>
         public NodeView()
         {
             
@@ -72,31 +59,31 @@ namespace XGraph.Controls
 
             BindingOperations.ClearAllBindings(this);
 
-            // The content is the view model.
-            NodeViewModel lNewContent = pNewContent as NodeViewModel;
-            if (lNewContent != null)
-            {
-                // Stting the content data template.
-                this.ContentTemplate = lNewContent.DataTemplate;
+            //// The content is the view model.
+            //NodeViewModel lNewContent = pNewContent as NodeViewModel;
+            //if (lNewContent != null)
+            //{
+            //    // Stting the content data template.
+            //    this.ContentTemplate = lNewContent.DataTemplate;
 
-                // Binding the X position.
-                Binding lXBinding = new Binding("X");
-                lXBinding.Source = lNewContent;
-                lXBinding.Mode = BindingMode.TwoWay;
-                this.SetBinding(NodeView.PosXProperty, lXBinding);
+            //    // Binding the X position.
+            //    Binding lXBinding = new Binding("X");
+            //    lXBinding.Source = lNewContent;
+            //    lXBinding.Mode = BindingMode.TwoWay;
+            //    this.SetBinding(NodeView.PosXProperty, lXBinding);
 
-                // Binding the Y position.
-                Binding lYBinding = new Binding("Y");
-                lYBinding.Source = lNewContent;
-                lYBinding.Mode = BindingMode.TwoWay;
-                this.SetBinding(NodeView.PosYProperty, lYBinding);
+            //    // Binding the Y position.
+            //    Binding lYBinding = new Binding("Y");
+            //    lYBinding.Source = lNewContent;
+            //    lYBinding.Mode = BindingMode.TwoWay;
+            //    this.SetBinding(NodeView.PosYProperty, lYBinding);
 
-                // Binding the IsSelected property.
-                Binding lIsSelectedBinding = new Binding("IsSelected");
-                lIsSelectedBinding.Source = lNewContent;
-                lIsSelectedBinding.Mode = BindingMode.TwoWay;
-                this.SetBinding(NodeView.IsSelectedProperty, lIsSelectedBinding);
-            }
+            //    //// Binding the IsSelected property.
+            //    //Binding lIsSelectedBinding = new Binding("IsSelected");
+            //    //lIsSelectedBinding.Source = lNewContent;
+            //    //lIsSelectedBinding.Mode = BindingMode.TwoWay;
+            //    //this.SetBinding(NodeView.IsSelectedProperty, lIsSelectedBinding);
+            //}
         }
 
         /// <summary>
@@ -122,39 +109,5 @@ namespace XGraph.Controls
         }
 
         #endregion // Methods.
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets X pos.
-        /// </summary>
-        public double PosX
-        {
-            get
-            {
-                return (double)this.GetValue(PosXProperty);
-            }
-            set
-            {
-                this.SetValue(PosXProperty, value);
-            }
-        }
-   
-        /// <summary>
-        /// Gets or sets X pos.
-        /// </summary>
-        public double PosY
-        {
-            get
-            {
-                return (double)this.GetValue(PosYProperty);
-            }
-            set
-            {
-                this.SetValue(PosYProperty, value);
-            }
-        }
-
-        #endregion // Properties.
     }
 }

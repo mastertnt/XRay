@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:XGraph.Controls;assembly=XGraph"
+        xmlns:templates="clr-namespace:XGraph.Templates;assembly=XGraph"
         Title="MainWindow" Height="500" Width="600">
     <Grid>
         <Grid.Resources>
@@ -9,15 +10,15 @@
                 <Setter Property="Background" Value="Purple" />
             </Style>
             <CollectionViewSource x:Key="NodesBridge" Source="{Binding Path=Nodes}" />
-            <CollectionViewSource x:Key="NodesBridge" Source="{Binding Path=Connections}" />
+            <CollectionViewSource x:Key="ConnectionsBridge" Source="{Binding Path=Connections}" />
         </Grid.Resources>
-        <controls:GraphView x:Name="GraphNode">
-            <controls:GraphView.ItemsSource>
+        <controls:GraphView x:Name="GraphNode" ItemsSource="{Binding Items}">
+            <!--<controls:GraphView.ItemsSource>
                 <CompositeCollection>
-                    <CollectionContainer Collection="{Binding Nodes}"/>
-                    <CollectionContainer Collection="{Binding Connections}"/>
+                    <CollectionContainer Collection="{Binding Source={StaticResource NodesBridge}}" />
+                    <CollectionContainer Collection="{Binding Source={StaticResource ConnectionsBridge}}" />
                 </CompositeCollection>
-            </controls:GraphView.ItemsSource>
+            </controls:GraphView.ItemsSource>-->
         </controls:GraphView>
     </Grid>
 </Window>

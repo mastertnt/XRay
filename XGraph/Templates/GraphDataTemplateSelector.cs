@@ -1,27 +1,35 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using XGraph.ViewModels;
 
 namespace XGraph.Templates
 {   
     public class GraphDataTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate DefaultnDataTemplate { get; set; }
-        public DataTemplate BooleanDataTemplate { get; set; }
-        public DataTemplate EnumDataTemplate { get; set; }
+        private readonly DataTemplates mDataTemplates;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GraphDataTemplateSelector"/> class.
+        /// </summary>
+        public GraphDataTemplateSelector()
+        {
+            this.mDataTemplates = new DataTemplates();
+        }
+
+        /// <summary>
+        /// Selects the template.
+        /// </summary>
+        /// <param name="pItem">The item.</param>
+        /// <param name="pContainer">The container.</param>
+        /// <returns></returns>
         public override DataTemplate SelectTemplate(object pItem, DependencyObject pContainer)
         {
-            DependencyPropertyInfo dpi = item as DependencyPropertyInfo;
-            if (dpi.PropertyType == typeof(bool))
+            if (pItem is ConnectionViewModel)
             {
-                return BooleanDataTemplate;
-            }
-            if (dpi.PropertyType.IsEnum)
-            {
-                return EnumDataTemplate;
+                return this.mDataTemplates["ConnectionDataTemplate"] as DataTemplate;
             }
 
-            return DefaultnDataTemplate;
+            return this.mDataTemplates["NodeViewTemplate2"] as DataTemplate;
         }
     }
 }

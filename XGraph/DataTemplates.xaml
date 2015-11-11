@@ -10,6 +10,16 @@
         </StackPanel>
     </DataTemplate>
 
+    <DataTemplate x:Key="NodeViewTemplate2">
+        <controls:NodeView>
+        </controls:NodeView>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ConnectionDataTemplate">
+        <controls:Connection>
+        </controls:Connection>
+    </DataTemplate>
+
     <DataTemplate x:Key="PortViewDataTemplate">
         <StackPanel>
             <TextBlock Text="{Binding DisplayString}" />
