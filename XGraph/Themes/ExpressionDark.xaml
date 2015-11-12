@@ -103,9 +103,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <controls:Connector x:Name="INNER_Input" Visibility="{Binding Direction, Converter={StaticResource InputPortToVisibilityConverter}}" Grid.Column="0" />
+            <controls:Connector x:Name="INNER_Input" Visibility="{TemplateBinding Direction, Converter={StaticResource InputPortToVisibilityConverter}}" Grid.Column="0" />
             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" />
-            <controls:Connector x:Name="INNER_Output" Visibility="{Binding Direction, Converter={StaticResource OutputPortToVisibilityConverter}}" Grid.Column="2" />
+            <controls:Connector x:Name="INNER_Output" Visibility="{TemplateBinding Direction, Converter={StaticResource OutputPortToVisibilityConverter}}" Grid.Column="2" />
         </Grid>
     </ControlTemplate>
 

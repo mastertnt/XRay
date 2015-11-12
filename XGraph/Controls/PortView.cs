@@ -10,6 +10,15 @@ namespace XGraph.Controls
     /// </summary>
     public class PortView : ContentControl
     {
+        #region Dependencies
+
+        /// <summary>
+        /// Identifies the Direction dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DirectionProperty = DependencyProperty.Register("Direction", typeof(PortDirection), typeof(PortView), new FrameworkPropertyMetadata(PortDirection.Output));
+
+        #endregion // Dependencies.
+
         #region Constructors
 
         /// <summary>
@@ -21,6 +30,25 @@ namespace XGraph.Controls
         }
 
         #endregion // Constructors.
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets direction.
+        /// </summary>
+        public PortDirection Direction
+        {
+            get
+            {
+                return (PortDirection)this.GetValue(DirectionProperty);
+            }
+            set
+            {
+                this.SetValue(DirectionProperty, value);
+            }
+        }
+
+        #endregion // Properties.
 
         #region Methods
 
@@ -41,6 +69,10 @@ namespace XGraph.Controls
             {
                 // Stting the content data template.
                 this.ContentTemplate = lNewContent.DataTemplate;
+
+                // Binding the direction.
+                Binding lDirectionBinding = new Binding("Direction") { Source = lNewContent, Mode = BindingMode.TwoWay };
+                this.SetBinding(PortView.DirectionProperty, lDirectionBinding);
             }
         }
 
