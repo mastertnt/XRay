@@ -24,7 +24,7 @@ namespace XGraphTest
         public MainWindow()
         {
             InitializeComponent();
-            this.GraphNode.DataContext = this.CreateTypeGraph();
+            this.GraphView.DataContext = this.CreateTypeGraph();
         }
 
         /// <summary>

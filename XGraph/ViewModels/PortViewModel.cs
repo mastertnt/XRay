@@ -28,7 +28,8 @@ namespace XGraph.ViewModels
         /// </value>
         public string PortType
         {
-            get; set;
+            get; 
+            set;
         }
 
         /// <summary>
@@ -39,7 +40,8 @@ namespace XGraph.ViewModels
         /// </value>
         public PortDirection Direction
         {
-            get; set;
+            get; 
+            set;
         }
 
         /// <summary>
@@ -98,8 +100,8 @@ namespace XGraph.ViewModels
         {
             get
             {
-                DataTemplates lTemplates = new DataTemplates();
-                return lTemplates["PortViewDataTemplate"] as DataTemplate;
+                Themes.ExpressionDark lTheme = new Themes.ExpressionDark();
+                return lTheme["PortViewDefaultDataTemplate"] as DataTemplate;
             }
         }
     }

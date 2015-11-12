@@ -57,10 +57,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DataTemplates.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Compile Include="Controls\GraphItem.cs" />
     <Compile Include="Controls\ConnectingLine.cs" />
     <Compile Include="Controls\Connection.cs" />
@@ -79,13 +75,14 @@
     <Compile Include="Extensions\CanvasExtensions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
-    <Compile Include="Templates\GraphDataTemplateSelector.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Themes\ExpressionDark.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
-    <Compile Include="DataTemplates.cs" />
     <Compile Include="Controls\GraphView.cs" />
     <Compile Include="ViewModels\GraphViewModel.cs" />
+    <Page Include="Resources\All.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Brushes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -99,6 +96,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Fonts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ExpressionDark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
