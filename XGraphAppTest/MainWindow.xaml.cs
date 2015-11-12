@@ -35,10 +35,10 @@ namespace XGraphTest
         {
             GraphViewModel lGraph = new GraphViewModel();
             NodeViewModel lNode0 = new TypeNodeViewModel(typeof(SampleClass));
-            lGraph.Nodes.Add(lNode0);
+            lGraph.AddNode(lNode0);
 
             NodeViewModel lNode1 = new TypeNodeViewModel(typeof(SampleClass1));
-            lGraph.Nodes.Add(lNode1);
+            lGraph.AddNode(lNode1);
 
             int i = 0;
             foreach (NodeViewModel lNode in lGraph.Nodes)
@@ -49,9 +49,9 @@ namespace XGraphTest
             }
 
             ConnectionViewModel lConnectionViewModel = new ConnectionViewModel();
-            lConnectionViewModel.Input = lGraph.Nodes[0].Ports.FirstOrDefault(pPort => pPort.Direction == PortDirection.Output);
-            lConnectionViewModel.Input = lGraph.Nodes[1].Ports.FirstOrDefault(pPort => pPort.Direction == PortDirection.Input);
-            lGraph.Connections.Add(lConnectionViewModel);
+            lConnectionViewModel.Input = lGraph.Nodes.ElementAt(0).Ports.FirstOrDefault(pPort => pPort.Direction == PortDirection.Output);
+            lConnectionViewModel.Input = lGraph.Nodes.ElementAt(1).Ports.FirstOrDefault(pPort => pPort.Direction == PortDirection.Input);
+            lGraph.AddConnection(lConnectionViewModel);
             
             return lGraph;
         }
@@ -71,7 +71,7 @@ namespace XGraphTest
                 NodeViewModel lNode = this.CreateNode(string.Format("{0}", i), string.Format("NODE_{0}", i), lRandom.Next(1, 5), lRandom.Next(1, 3));
                 lNode.X = 50 * i;
                 lNode.Y = 100 * i;
-                lGraph.Nodes.Add(lNode);
+                lGraph.AddNode(lNode);
             }
 
             return lGraph;

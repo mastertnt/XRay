@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using PropertyChanged;
 using XGraph.Controls;
+using System.ComponentModel;
 
 namespace XGraph.ViewModels
 {
@@ -10,8 +11,27 @@ namespace XGraph.ViewModels
     /// This class represents a view model of the graph.
     /// </summary>
     [ImplementPropertyChanged]
-    public class GraphViewModel
+    public class GraphViewModel : INotifyPropertyChanged
     {
+        #region Fields
+
+        /// <summary>
+        /// Stores all the graph items.
+        /// </summary>
+        private ObservableCollection<IGraphItemViewModel> mGraphItems;
+
+        /// <summary>
+        /// Stores the nodes collection.
+        /// </summary>
+        private ObservableCollection<NodeViewModel> mNodes;
+
+        /// <summary>
+        /// Stores the connection collection.
+        /// </summary>
+        private ObservableCollection<ConnectionViewModel> mConnections;
+
+        #endregion // Fields.
+
         #region Constructors
 
         /// <summary>
@@ -19,11 +39,21 @@ namespace XGraph.ViewModels
         /// </summary>
         public GraphViewModel()
         {
-            this.Nodes =  new ObservableCollection<NodeViewModel>();
-            this.Connections = new ObservableCollection<ConnectionViewModel>();
+            this.mGraphItems = new ObservableCollection<IGraphItemViewModel>();
+            this.mNodes = new ObservableCollection<NodeViewModel>();
+            this.mConnections = new ObservableCollection<ConnectionViewModel>();
         }
 
         #endregion // Constructors.
+
+        #region Events
+
+        /// <summary>
+        /// Event raised when a property is modified.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion // Events.
 
         #region Properties
 
@@ -34,14 +64,7 @@ namespace XGraph.ViewModels
         {
             get
             {
-                foreach (var lNode in this.Nodes)
-                {
-                    yield return lNode;
-                }
-                foreach (var lConnection in this.Connections)
-                {
-                    yield return lConnection;
-                }
+                return this.mGraphItems;
             }
         }
 
@@ -51,10 +74,12 @@ namespace XGraph.ViewModels
         /// <value>
         /// The nodes.
         /// </value>
-        public ObservableCollection<NodeViewModel> Nodes
+        public IEnumerable<NodeViewModel> Nodes
         {
-            get; 
-            set;
+            get
+            {
+                return this.mNodes;
+            }
         }
 
         /// <summary>
@@ -63,12 +88,50 @@ namespace XGraph.ViewModels
         /// <value>
         /// The connections.
         /// </value>
-        public ObservableCollection<ConnectionViewModel> Connections
+        public IEnumerable<ConnectionViewModel> Connections
         {
-            get; 
-            set;
+            get
+            {
+                return this.mConnections;
+            }
         }
 
         #endregion // Properties.
+
+        #region Methods
+
+        /// <summary>
+        /// Adds a node to the view model.
+        /// </summary>
+        /// <param name="pConnection">The connection to add.</param>
+        public void AddConnection(ConnectionViewModel pConnection)
+        {
+            this.mConnections.Add(pConnection);
+            this.mGraphItems.Add(pConnection);
+        }
+
+        /// <summary>
+        /// Adds a connection to view model.
+        /// </summary>
+        /// <param name="pNode">The node to add.</param>
+        public void AddNode(NodeViewModel pNode)
+        {
+            this.mNodes.Add(pNode);
+            this.mGraphItems.Add(pNode);
+        }
+
+        /// <summary>
+        /// Notifies a property has been modified.
+        /// </summary>
+        /// <param name="pPropertyName">The property name.</param>
+        protected void NotifyPropertyChanged(string pPropertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(pPropertyName));
+            }
+        }
+
+        #endregion // Methods.
     }
 }

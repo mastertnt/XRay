@@ -124,8 +124,7 @@ namespace XGraph.ViewModels
         {
             get
             {
-                Themes.ExpressionDark lTheme = new Themes.ExpressionDark();
-                return lTheme["NodeViewDefaultDataTemplate"] as DataTemplate;
+                return Themes.ExpressionDark.Instance["NodeViewDefaultDataTemplate"] as DataTemplate;
             }
         }
 
@@ -136,8 +135,7 @@ namespace XGraph.ViewModels
         {
             get
             {
-                Themes.ExpressionDark lTheme = new Themes.ExpressionDark();
-                return lTheme["GraphItemNodeViewDefaultStyleKey"] as Style;
+                return Themes.ExpressionDark.Instance["GraphItemNodeViewDefaultStyleKey"] as Style;
             }
         }
 

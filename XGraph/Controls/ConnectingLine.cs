@@ -139,13 +139,12 @@ namespace XGraph.Controls
                             ConnectionViewModel lConnectionViewModel = new ConnectionViewModel();
                             lConnectionViewModel.Input = lSourceViewModel;
                             lConnectionViewModel.Output = lTargetViewModel;
-                            lGraphViewModel.Connections.Add(lConnectionViewModel);
+                            lGraphViewModel.AddConnection(lConnectionViewModel);
                         }
                     }
                 }
             }
             
-
             // Remove the adorner.
             AdornerLayer lLayer = AdornerLayer.GetAdornerLayer(this.AdornedElement);
             if (lLayer != null)

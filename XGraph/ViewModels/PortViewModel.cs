@@ -100,8 +100,7 @@ namespace XGraph.ViewModels
         {
             get
             {
-                Themes.ExpressionDark lTheme = new Themes.ExpressionDark();
-                return lTheme["PortViewDefaultDataTemplate"] as DataTemplate;
+                return Themes.ExpressionDark.Instance["PortViewDefaultDataTemplate"] as DataTemplate;
             }
         }
     }

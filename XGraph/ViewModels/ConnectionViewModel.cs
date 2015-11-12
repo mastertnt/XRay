@@ -63,8 +63,7 @@ namespace XGraph.ViewModels
         {
             get
             {
-                Themes.ExpressionDark lTheme = new Themes.ExpressionDark();
-                return lTheme["GraphItemConnectionDefaultStyleKey"] as Style;
+                return Themes.ExpressionDark.Instance["GraphItemConnectionDefaultStyleKey"] as Style;
             }
         }
 

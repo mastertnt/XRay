@@ -87,7 +87,10 @@ namespace XGraph.Controls
             NodeViewModel lNewContent = pNewContent as NodeViewModel;
             if (lNewContent != null)
             {
-                // Stting the content data template.
+                // Setting the style.
+                this.Style = lNewContent.ContainerStyle;
+
+                // Setting the content data template.
                 this.ContentTemplate = lNewContent.DataTemplate;
 
                 // Binding the X position.

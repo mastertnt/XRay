@@ -34,18 +34,6 @@ namespace XGraph.Controls
             return new GraphItem();
         }
 
-        protected override void PrepareContainerForItemOverride(DependencyObject pElement, object pItem)
-        {
-            base.PrepareContainerForItemOverride(pElement, pItem);
-
-            IGraphItemViewModel lItemViewModel = pItem as IGraphItemViewModel;
-            GraphItem lContainer = pElement as GraphItem;
-            if (lItemViewModel != null && lContainer != null)
-            {
-                lContainer.Style = lItemViewModel.ContainerStyle;
-            }
-        }
-
         #endregion // Methods
     }
 }
