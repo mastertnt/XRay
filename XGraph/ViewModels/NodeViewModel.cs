@@ -16,7 +16,7 @@ namespace XGraph.ViewModels
     [ImplementPropertyChanged]
     public class NodeViewModel : IGraphItemViewModel
     {
-        #region Cnstructors
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NodeViewModel"/> class.

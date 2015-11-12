@@ -15,12 +15,12 @@ namespace XGraph.Controls
         /// <summary>
         /// Identifies the XPos dependency property.
         /// </summary>
-        public static readonly DependencyProperty PosXProperty = DependencyProperty.Register("PosX", typeof(double), typeof(NodeView), new FrameworkPropertyMetadata(0.0));
+        public static readonly DependencyProperty PosXProperty = DependencyProperty.Register("PosX", typeof(double), typeof(GraphItem), new FrameworkPropertyMetadata(0.0));
 
         /// <summary>
         /// Identifies the YPos dependency property.
         /// </summary>
-        public static readonly DependencyProperty PosYProperty = DependencyProperty.Register("PosY", typeof(double), typeof(NodeView), new FrameworkPropertyMetadata(0.0));
+        public static readonly DependencyProperty PosYProperty = DependencyProperty.Register("PosY", typeof(double), typeof(GraphItem), new FrameworkPropertyMetadata(0.0));
 
         #endregion // Dependencies.
 
