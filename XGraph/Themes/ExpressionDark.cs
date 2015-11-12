@@ -1,11 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace XGraph.Themes
 {
     /// <summary>
     /// Class defining the default theme.
     /// </summary>
-    public partial class ExpressionDark : ResourceDictionary
+    public class ExpressionDark : ResourceDictionary
     {
         #region Constructors
 
@@ -14,7 +15,8 @@ namespace XGraph.Themes
         /// </summary>
         public ExpressionDark()
         {
-            this.InitializeComponent();
+            // Loading the xaml part by Uri because the partial class method throw an error due to the Generic.xaml loading process.
+            this.Source = new System.Uri(@"/XGraph;component/Themes/ExpressionDark.xaml", UriKind.Relative);
         }
 
         #endregion // Constructors.
