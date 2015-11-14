@@ -9,6 +9,9 @@ using XGraph.ViewModels;
 
 namespace XGraph.Converters
 {
+    /// <summary>
+    /// Converts the input port direction to a visibility. 
+    /// </summary>
     public class InputPortToVisibilityConverter : IValueConverter
     {
         /// <summary>

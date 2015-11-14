@@ -69,6 +69,7 @@
     <Compile Include="Controls\PortContainerPanel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\PortDirectionToHorizontalAlignmentConverter.cs" />
     <Compile Include="Extensions\Markup\GridLengthExtension.cs">
       <SubType>Code</SubType>
     </Compile>

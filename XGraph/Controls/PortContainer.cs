@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace XGraph.Controls
 {
@@ -31,6 +32,23 @@ namespace XGraph.Controls
         protected override System.Windows.DependencyObject GetContainerForItemOverride()
         {
             return new PortView();
+        }
+
+        /// <summary>
+        /// Prespares the container for the given item.
+        /// </summary>
+        /// <param name="pElement">The item container.</param>
+        /// <param name="pItem">The contained item.</param>
+        protected override void PrepareContainerForItemOverride(DependencyObject pElement, object pItem)
+        {
+            base.PrepareContainerForItemOverride(pElement, pItem);
+
+            PortView lContainer = pElement as PortView;
+            if (lContainer != null)
+            {
+                // Binding the background.
+                lContainer.Background = this.Background;
+            }
         }
 
         #endregion // Methods.

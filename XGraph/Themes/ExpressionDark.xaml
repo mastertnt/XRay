@@ -65,7 +65,7 @@
                 <controls:MoveThumb Grid.Column="0" x:Name="INNER_Movethumb" VerticalAlignment="Top" />
                 <ContentPresenter Grid.Column="1" ContentTemplate="{TemplateBinding ContentTemplate}" />
             </Grid>
-            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" Margin="5" />
+            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" Margin="5" Background="{TemplateBinding Background}" />
         </Grid>
     </ControlTemplate>
 
@@ -97,26 +97,39 @@
 
     <!-- PortView template. -->
     <ControlTemplate x:Key="PortViewTemplate" TargetType="{x:Type controls:PortView}">
-        <Grid Margin="2" Background="RoyalBlue">
+        <Grid Margin="2" Background="{TemplateBinding Background}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <controls:Connector x:Name="INNER_Input" Visibility="{TemplateBinding Direction, Converter={StaticResource InputPortToVisibilityConverter}}" Grid.Column="0" />
-            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" />
-            <controls:Connector x:Name="INNER_Output" Visibility="{TemplateBinding Direction, Converter={StaticResource OutputPortToVisibilityConverter}}" Grid.Column="2" />
+            <Border x:Name="INNER_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Grid.ColumnSpan="3" />
+            <controls:Connector x:Name="INNER_Input" Visibility="{TemplateBinding Direction, Converter={StaticResource InputPortToVisibilityConverter}}" Background="{TemplateBinding Background}" Grid.Column="0" />
+            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" HorizontalAlignment="{TemplateBinding Direction, Converter={StaticResource PortDirectionToHorizontalAlignmentConverter}}" Grid.Column="1" />
+            <controls:Connector x:Name="INNER_Output" Visibility="{TemplateBinding Direction, Converter={StaticResource OutputPortToVisibilityConverter}}" Background="{TemplateBinding Background}" Grid.Column="2" />
         </Grid>
     </ControlTemplate>
 
     <!-- PortView style. -->
     <Style TargetType="{x:Type controls:PortView}">
+        <Setter Property="Height" Value="{StaticResource PortView_Default_Height}" />
         <Setter Property="Template" Value="{StaticResource PortViewTemplate}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Icon_Foreground_Brush}" />
+        <Setter Property="BorderThickness" Value="1" />
     </Style>
 
-    <!-- PortView default data template for its content. -->
-    <DataTemplate x:Key="PortViewDefaultDataTemplate">
-        <StackPanel>
+    <!-- Input PortView default data template for its content. -->
+    <DataTemplate x:Key="InputPortViewDefaultDataTemplate">
+        <StackPanel Orientation="Horizontal" Margin="2,0">
+            <TextBlock Text="{Binding DisplayString}" />
+            <Rectangle Fill="Blue" Width="16" Height="16" />
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Output PortView default data template for its content. -->
+    <DataTemplate x:Key="OutputPortViewDefaultDataTemplate">
+        <StackPanel Orientation="Horizontal" Margin="2,0">
+            <Rectangle Fill="Blue" Width="16" Height="16" />
             <TextBlock Text="{Binding DisplayString}" />
         </StackPanel>
     </DataTemplate>
@@ -144,7 +157,7 @@
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
             <Canvas x:Name="INNER_MainCanvas" Opacity="0">
-                <controls:MoveThumbShape x:Name="INNER_BackgroundShape" Fill="{TemplateBinding Background}" BevelLenght="{StaticResource NodeView_Bevel_Size}" />
+                <controls:MoveThumbShape x:Name="INNER_BackgroundShape" Fill="{TemplateBinding Background}" BevelLenght="{TemplateBinding Height}" />
                 <Rectangle Canvas.Left="0" Canvas.Top="0" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
                 <Rectangle Canvas.Left="0" Canvas.Top="4" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
                 <Rectangle Canvas.Left="0" Canvas.Top="8" Width="2" Height="2" Fill="{TemplateBinding Foreground}" StrokeThickness="1" SnapsToDevicePixels="True"/>
@@ -176,7 +189,7 @@
 
     <!-- Connector template. -->
     <ControlTemplate x:Key="ConnectorTemplate" TargetType="{x:Type controls:Connector}">
-        <Rectangle Width="12" Fill="Red"></Rectangle>
+        <Border Width="12" Height="12" BorderBrush="Red" BorderThickness="1" Background="{TemplateBinding Background}" Margin="2" />
     </ControlTemplate>
 
     <!-- Connector style. -->

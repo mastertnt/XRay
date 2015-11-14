@@ -3,5 +3,6 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <sys:Double x:Key="NodeView_Bevel_Size">22</sys:Double>
+    <sys:Double x:Key="PortView_Default_Height">30</sys:Double>
     
 </ResourceDictionary>

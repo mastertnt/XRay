@@ -5,9 +5,9 @@
         Title="MainWindow" Height="500" Width="600">
     <Grid>
         <Grid.Resources>
-            <Style TargetType="{x:Type controls:NodeView}" BasedOn="{StaticResource {x:Type controls:NodeView}}">
+            <!--<Style TargetType="{x:Type controls:NodeView}" BasedOn="{StaticResource {x:Type controls:NodeView}}">
                 <Setter Property="Background" Value="Purple" />
-            </Style>
+            </Style>-->
             <CollectionViewSource x:Key="NodesBridge" Source="{Binding Path=Nodes}" />
             <CollectionViewSource x:Key="ConnectionsBridge" Source="{Binding Path=Connections}" />
         </Grid.Resources>

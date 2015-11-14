@@ -100,7 +100,14 @@ namespace XGraph.ViewModels
         {
             get
             {
-                return Themes.ExpressionDark.Instance["PortViewDefaultDataTemplate"] as DataTemplate;
+                if (this.Direction == PortDirection.Input)
+                {
+                    return Themes.ExpressionDark.Instance["InputPortViewDefaultDataTemplate"] as DataTemplate;
+                }
+                else
+                {
+                    return Themes.ExpressionDark.Instance["OutputPortViewDefaultDataTemplate"] as DataTemplate;
+                }
             }
         }
     }

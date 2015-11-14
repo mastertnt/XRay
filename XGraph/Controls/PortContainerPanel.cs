@@ -73,13 +73,16 @@ namespace XGraph.Controls
                     if (lPort.Direction == PortDirection.Input)
                     {
                         // Input ports are in the first column.
-                        lPort.Arrange(new Rect(0.0, lInputPortsCount * lPort.DesiredSize.Height, pFinalSize.Width / 2.0, lPort.DesiredSize.Height));
+                        double lWidth = Math.Round(pFinalSize.Width / 2.0);
+                        lPort.Arrange(new Rect(0.0, lInputPortsCount * lPort.DesiredSize.Height, lWidth, lPort.DesiredSize.Height));
                         lInputPortsCount++;
                     }
                     else
                     {
                         // Output ports are in the second column.
-                        lPort.Arrange(new Rect(pFinalSize.Width / 2.0, lOutputPortsCount * lPort.DesiredSize.Height, pFinalSize.Width / 2.0, lPort.DesiredSize.Height));
+                        double lX = Math.Round(pFinalSize.Width / 2.0);
+                        double lWidth = Math.Round(pFinalSize.Width / 2.0);
+                        lPort.Arrange(new Rect(lX, lOutputPortsCount * lPort.DesiredSize.Height, lWidth, lPort.DesiredSize.Height));
                         lOutputPortsCount++;
                     }
                 }

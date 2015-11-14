@@ -10,9 +10,9 @@ using XGraph.ViewModels;
 namespace XGraph.Converters
 {
     /// <summary>
-    /// Converts the output port direction to a visibility. 
+    /// Converts a port direction to aan horizontal alignment.
     /// </summary>
-    public class OutputPortToVisibilityConverter : IValueConverter
+    public class PortDirectionToHorizontalAlignmentConverter : IValueConverter
     {
         /// <summary>
         /// Convert from B to A.
@@ -36,8 +36,8 @@ namespace XGraph.Converters
         /// <returns>The value converted.</returns>
         public Object Convert(object pValue, Type pTargetType, object pExtraParameter, CultureInfo pCulture)
         {
-            PortDirection lDirection = (PortDirection) pValue;
-            return lDirection == PortDirection.Output ? Visibility.Visible : Visibility.Collapsed;
+            PortDirection lDirection = (PortDirection)pValue;
+            return lDirection == PortDirection.Output ? HorizontalAlignment.Left : HorizontalAlignment.Right;
         }
     }
 }
