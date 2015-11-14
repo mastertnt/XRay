@@ -2,8 +2,22 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <SolidColorBrush x:Key="GraphView_Background_Brush" Color="#FF464646" />
+    
     <SolidColorBrush x:Key="NodeView_Background_Brush" Color="#FF006599" />
     <SolidColorBrush x:Key="NodeView_Foreground_Brush" Color="#CBCBCBFF" />
-    <SolidColorBrush x:Key="Icon_Foreground_Brush" Color="#2EFFFFFF" />
     
+    <SolidColorBrush x:Key="Icon_Foreground_Brush" Color="#2EFFFFFF" />
+
+    <!--<VisualBrush x:Key="PortView_Border_Brush">
+        <VisualBrush.Visual>
+            <Rectangle StrokeDashArray="4 3"
+                      Stroke="{StaticResource Icon_Foreground_Brush}" 
+                      StrokeThickness="1"
+                      RadiusX="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.TopRight}"
+                      RadiusY="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.BottomLeft}"
+                      Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                      Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"/>
+        </VisualBrush.Visual>
+    </VisualBrush>-->
+
 </ResourceDictionary>

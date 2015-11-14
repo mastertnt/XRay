@@ -103,7 +103,21 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Border x:Name="INNER_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Grid.ColumnSpan="3" />
+            <Border x:Name="INNER_Border" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Grid.ColumnSpan="3" >
+                <Border.BorderBrush>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Rectangle  StrokeDashArray="4 3"
+                                        Stroke="{TemplateBinding BorderBrush}" 
+                                        StrokeThickness="1"
+                                        RadiusX="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.TopRight}"
+                                        RadiusY="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.BottomLeft}"
+                                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                                        Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Border.BorderBrush>
+            </Border>
             <controls:Connector x:Name="INNER_Input" Visibility="{TemplateBinding Direction, Converter={StaticResource InputPortToVisibilityConverter}}" Background="{TemplateBinding Background}" Grid.Column="0" />
             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" HorizontalAlignment="{TemplateBinding Direction, Converter={StaticResource PortDirectionToHorizontalAlignmentConverter}}" Grid.Column="1" />
             <controls:Connector x:Name="INNER_Output" Visibility="{TemplateBinding Direction, Converter={StaticResource OutputPortToVisibilityConverter}}" Background="{TemplateBinding Background}" Grid.Column="2" />
