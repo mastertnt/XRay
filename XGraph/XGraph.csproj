@@ -66,6 +66,9 @@
     <Compile Include="Controls\NodeViewShape.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\PortContainerPanel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extensions\Markup\GridLengthExtension.cs">
       <SubType>Code</SubType>
     </Compile>
