@@ -7,6 +7,7 @@
         <ResourceDictionary Source="/XGraph;Component/Resources/Constants.xaml" />
         <ResourceDictionary Source="/XGraph;Component/Resources/Brushes.xaml" />
         <ResourceDictionary Source="/XGraph;Component/Resources/Fonts.xaml" />
+        <ResourceDictionary Source="/XGraph;Component/Resources/Icons.xaml" />
         <ResourceDictionary Source="/XGraph;Component/Resources/Converters.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

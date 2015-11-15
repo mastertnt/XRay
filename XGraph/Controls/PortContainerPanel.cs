@@ -65,6 +65,12 @@ namespace XGraph.Controls
             int lInputPortsCount = 0;
             int lOutputPortsCount = 0;
 
+            // Both ports column can have columns of different sizes depending on the data template.
+            double lInputPortsWidth = this.Children.Cast<PortView>().Where(lPort => lPort.Direction == PortDirection.Input).Max(lPort => lPort.DesiredSize.Width);
+            lInputPortsWidth = Math.Round(lInputPortsWidth);
+            double lOutputPortsWidth = this.Children.Cast<PortView>().Where(lPort => lPort.Direction == PortDirection.Output).Max(lPort => lPort.DesiredSize.Width);
+            lOutputPortsWidth = Math.Round(lOutputPortsWidth);
+
             for (int i = 0, count = this.Children.Count; i < count; ++i)
             {
                 PortView lPort = this.Children[i] as PortView;
@@ -73,16 +79,13 @@ namespace XGraph.Controls
                     if (lPort.Direction == PortDirection.Input)
                     {
                         // Input ports are in the first column.
-                        double lWidth = Math.Round(pFinalSize.Width / 2.0);
-                        lPort.Arrange(new Rect(0.0, lInputPortsCount * lPort.DesiredSize.Height, lWidth, lPort.DesiredSize.Height));
+                        lPort.Arrange(new Rect(0.0, lInputPortsCount * lPort.DesiredSize.Height, lInputPortsWidth, lPort.DesiredSize.Height));
                         lInputPortsCount++;
                     }
                     else
                     {
                         // Output ports are in the second column.
-                        double lX = Math.Round(pFinalSize.Width / 2.0);
-                        double lWidth = Math.Round(pFinalSize.Width / 2.0);
-                        lPort.Arrange(new Rect(lX, lOutputPortsCount * lPort.DesiredSize.Height, lWidth, lPort.DesiredSize.Height));
+                        lPort.Arrange(new Rect(lInputPortsWidth, lOutputPortsCount * lPort.DesiredSize.Height, lOutputPortsWidth, lPort.DesiredSize.Height));
                         lOutputPortsCount++;
                     }
                 }

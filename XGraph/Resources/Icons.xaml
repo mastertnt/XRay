@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:imaging="clr-namespace:System.Windows.Media.Imaging;assembly=PresentationCore">
+
+    <imaging:BitmapImage x:Key="InputPort_Icon" UriSource="/XGraph;Component/Resources/Icons/InputPortIcon.png" />
+    <imaging:BitmapImage x:Key="OutputPort_Icon" UriSource="/XGraph;Component/Resources/Icons/OutputPortIcon.png" />
+    
+</ResourceDictionary>

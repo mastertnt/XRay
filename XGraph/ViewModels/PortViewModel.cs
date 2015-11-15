@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using PropertyChanged;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace XGraph.ViewModels
 {
@@ -18,8 +20,10 @@ namespace XGraph.ViewModels
     /// </summary>
     /// <!-- NBY -->
     [ImplementPropertyChanged]
-    public class PortViewModel 
+    public class PortViewModel
     {
+        #region Properties
+
         /// <summary>
         /// Gets or sets the type of the port.
         /// </summary>
@@ -81,13 +85,28 @@ namespace XGraph.ViewModels
         }
 
         /// <summary>
-        /// Determines whether this instance [can be connected to] the specified p port view model.
+        /// Gets or sets the icon.
         /// </summary>
-        /// <param name="pPortViewModel">The p port view model.</param>
-        /// <returns></returns>
-        public bool CanBeConnectedTo(PortViewModel pPortViewModel)
+        /// <value>
+        /// The icon.
+        /// </value>
+        public virtual ImageSource Icon
         {
-            return true;
+            get
+            {
+                if (this.Direction == PortDirection.Input)
+                {
+                    return Themes.ExpressionDark.Instance["InputPort_Icon"] as BitmapImage;
+                }
+                else
+                {
+                    return Themes.ExpressionDark.Instance["OutputPort_Icon"] as BitmapImage;
+                }
+            }
+            set
+            {
+                // Nothing to do.
+            }
         }
 
         /// <summary>
@@ -110,5 +129,21 @@ namespace XGraph.ViewModels
                 }
             }
         }
+
+        #endregion // Properties.
+
+        #region Methods
+
+        /// <summary>
+        /// Determines whether this instance [can be connected to] the specified p port view model.
+        /// </summary>
+        /// <param name="pPortViewModel">The p port view model.</param>
+        /// <returns></returns>
+        public bool CanBeConnectedTo(PortViewModel pPortViewModel)
+        {
+            return true;
+        }
+
+        #endregion // Methods.
     }
 }

@@ -65,7 +65,7 @@
                 <controls:MoveThumb Grid.Column="0" x:Name="INNER_Movethumb" VerticalAlignment="Top" />
                 <ContentPresenter Grid.Column="1" ContentTemplate="{TemplateBinding ContentTemplate}" />
             </Grid>
-            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" Margin="5" Background="{TemplateBinding Background}" />
+            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" Margin="0,5" Background="{TemplateBinding Background}" />
         </Grid>
     </ControlTemplate>
 
@@ -103,21 +103,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Border x:Name="INNER_Border" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Grid.ColumnSpan="3" >
-                <Border.BorderBrush>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <Rectangle  StrokeDashArray="4 3"
-                                        Stroke="{TemplateBinding BorderBrush}" 
-                                        StrokeThickness="1"
-                                        RadiusX="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.TopRight}"
-                                        RadiusY="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.BottomLeft}"
-                                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
-                                        Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"/>
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </Border.BorderBrush>
-            </Border>
+            <Rectangle x:Name="INNER_Border" StrokeDashArray="4 3" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Grid.ColumnSpan="3" />
             <controls:Connector x:Name="INNER_Input" Visibility="{TemplateBinding Direction, Converter={StaticResource InputPortToVisibilityConverter}}" Background="{TemplateBinding Background}" Grid.Column="0" />
             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" HorizontalAlignment="{TemplateBinding Direction, Converter={StaticResource PortDirectionToHorizontalAlignmentConverter}}" Grid.Column="1" />
             <controls:Connector x:Name="INNER_Output" Visibility="{TemplateBinding Direction, Converter={StaticResource OutputPortToVisibilityConverter}}" Background="{TemplateBinding Background}" Grid.Column="2" />
@@ -135,15 +121,15 @@
     <!-- Input PortView default data template for its content. -->
     <DataTemplate x:Key="InputPortViewDefaultDataTemplate">
         <StackPanel Orientation="Horizontal" Margin="2,0">
-            <TextBlock Text="{Binding DisplayString}" />
-            <Rectangle Fill="Blue" Width="16" Height="16" />
+            <TextBlock Text="{Binding DisplayString}" VerticalAlignment="Center"/>
+            <Image Source="{Binding Icon}" Width="16" Height="16" Margin="3,0" />
         </StackPanel>
     </DataTemplate>
 
     <!-- Output PortView default data template for its content. -->
     <DataTemplate x:Key="OutputPortViewDefaultDataTemplate">
         <StackPanel Orientation="Horizontal" Margin="2,0">
-            <Rectangle Fill="Blue" Width="16" Height="16" />
+            <Image Source="{Binding Icon}" Width="16" Height="16" Margin="3,0" />
             <TextBlock Text="{Binding DisplayString}" />
         </StackPanel>
     </DataTemplate>
