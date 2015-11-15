@@ -7,11 +7,11 @@ namespace XGraphTestApp
 {
     class SampleClass1
     {
-        public int OutputPortAsInt { get; private set; }
+        public int OutputPortAsInt { get { return 0; } }
 
         public int BiPortAsInt { get; set; }
 
-        public int InputPortAsInt { private get; set; }
+        public int InputPortAsInt { set { } }
 
         public event Action<int> TimeChanged;
     }
