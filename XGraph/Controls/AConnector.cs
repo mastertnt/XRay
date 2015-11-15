@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using PropertyChanged;
 using XGraph.Extensions;
+using XGraph.ViewModels;
 
 namespace XGraph.Controls
 {
@@ -15,7 +16,7 @@ namespace XGraph.Controls
     /// </summary>
     /// <!-- NBY -->
     [ImplementPropertyChanged]
-    public class Connector : ContentControl
+    public abstract class AConnector : Control
     {
         #region Fields
 
@@ -24,7 +25,7 @@ namespace XGraph.Controls
         /// </summary>
         private Point? mDragStartPoint;
 
-        #endregion
+        #endregion // Fields.
 
         #region Properties
 
@@ -42,18 +43,9 @@ namespace XGraph.Controls
         #region Constructors
 
         /// <summary>
-        /// Static constructor.
+        /// Initializes a new instance of the <see cref="AConnector"/> class.
         /// </summary>
-        static Connector()
-        {
-            // set the key to reference the style for this control
-            FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof (Connector), new FrameworkPropertyMetadata(typeof (Connector)));
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Connector"/> class.
-        /// </summary>
-        public Connector()
+        protected AConnector()
         {
             this.LayoutUpdated += this.OnLayoutUpdated;
         }

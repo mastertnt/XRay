@@ -21,7 +21,7 @@ namespace XGraph.Controls
         /// <summary>
         /// This field stores the source connector of the adorner.
         /// </summary>
-        private Connector mSourceConnector = null;
+        private AConnector mSourceConnector = null;
 
         /// <summary>
         /// This field stores the pen of the adorner.
@@ -40,7 +40,7 @@ namespace XGraph.Controls
         /// <summary>
         /// Gets or sets the hit connector.
         /// </summary>
-        private Connector HitConnector
+        private AConnector HitConnector
         {
             get;
             set;
@@ -55,7 +55,7 @@ namespace XGraph.Controls
         /// </summary>
         /// <param name="pElement">The parent element.</param>
         /// <param name="pSourceConnector">The source connector.</param>
-        public ConnectingLine(UIElement pElement, Connector pSourceConnector)
+        public ConnectingLine(UIElement pElement, AConnector pSourceConnector)
             : base(pElement)
         {
             this.mSourceConnector = pSourceConnector;
@@ -126,14 +126,14 @@ namespace XGraph.Controls
             Canvas lParentCanvas = this.AdornedElement as Canvas;
             if (lParentCanvas != null)
             {
-                Connector lTargetConnector = lParentCanvas.HitControl<Connector>(pEventArgs.GetPosition(this));
+                AConnector lTargetConnector = lParentCanvas.HitControl<AConnector>(pEventArgs.GetPosition(this));
                 if (lTargetConnector != null)
                 {
                     GraphViewModel lGraphViewModel = lParentCanvas.DataContext as GraphViewModel;
                     if (lGraphViewModel != null)
                     {
                         PortViewModel lTargetViewModel = lTargetConnector.DataContext as PortViewModel;
-                        PortViewModel lSourceViewModel = this.mSourceConnector.DataContext as PortViewModel; ;
+                        PortViewModel lSourceViewModel = this.mSourceConnector.DataContext as PortViewModel;
                         if (lTargetViewModel != null && lTargetViewModel.CanBeConnectedTo(lSourceViewModel))
                         {
                             ConnectionViewModel lConnectionViewModel = new ConnectionViewModel();

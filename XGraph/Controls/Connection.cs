@@ -22,12 +22,12 @@ namespace XGraph.Controls
         /// <summary>
         /// This field stores the input connector.
         /// </summary>
-        private Connector mInput = null;
+        private AConnector mInput = null;
 
         /// <summary>
         /// This field stores the output connector.
         /// </summary>
-        private Connector mOutput = null;
+        private AConnector mOutput = null;
 
         /// <summary>
         /// This field stores the geometry to draw.

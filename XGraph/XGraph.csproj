@@ -60,12 +60,14 @@
     <Compile Include="Controls\GraphItem.cs" />
     <Compile Include="Controls\ConnectingLine.cs" />
     <Compile Include="Controls\Connection.cs" />
-    <Compile Include="Controls\Connector.cs" />
+    <Compile Include="Controls\AConnector.cs" />
+    <Compile Include="Controls\InputConnector.cs" />
     <Compile Include="Controls\MoveThumb.cs" />
     <Compile Include="Controls\MoveThumbShape.cs" />
     <Compile Include="Controls\NodeViewShape.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\OutputConnector.cs" />
     <Compile Include="Controls\PortContainerPanel.cs">
       <SubType>Code</SubType>
     </Compile>

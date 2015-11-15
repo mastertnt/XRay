@@ -8,4 +8,6 @@
     
     <SolidColorBrush x:Key="Icon_Foreground_Brush" Color="#2EFFFFFF" />
 
+    <SolidColorBrush x:Key="Connector_Foreground_Brush" Color="#FF9D9D9D" />
+
 </ResourceDictionary>
