@@ -57,6 +57,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ConnectorsAdorner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\ConnectorsPresenter.cs" />
     <Compile Include="Controls\GraphItem.cs" />
     <Compile Include="Controls\ConnectingLine.cs" />
     <Compile Include="Controls\Connection.cs" />

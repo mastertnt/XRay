@@ -56,7 +56,7 @@ namespace XGraph.Controls
         }
 
         /// <summary>
-        /// Arranges the tiles by taking in account the computed size of the panel viewport.
+        /// Arranges the port views by taking in account the computed size of the panel viewport.
         /// </summary>
         /// <param name="pFinalSize">The available size.</param>
         /// <returns>The size used (here equals to the available size).</returns>

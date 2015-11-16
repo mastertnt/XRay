@@ -61,9 +61,8 @@ namespace XGraph.Controls
         protected override void OnMouseDown(MouseButtonEventArgs pEventArgs)
         {
             base.OnMouseMove(pEventArgs);
-            this.Cursor = Cursors.Cross;
 
-            Canvas lParentCanvas = this.FindVisualParent<Canvas>();
+            Canvas lParentCanvas = this.FindParentCanvas();
             if (this.mDragStartPoint.HasValue == false)
             {
                 if (lParentCanvas != null)
@@ -96,12 +95,31 @@ namespace XGraph.Controls
         /// <param name="pEventArgs">The event arguments.</param>
         private void OnLayoutUpdated(object sender, EventArgs pEventArgs)
         {
-            Canvas lParentCanvas = this.FindVisualParent<Canvas>();
+            Canvas lParentCanvas = this.FindParentCanvas();
             if (lParentCanvas != null)
             {
                 //get centre position of this Connector relative to the DesignerCanvas
-                this.Position = this.TransformToAncestor(lParentCanvas).Transform(new Point(this.ActualWidth / 2, this.ActualHeight / 2));
+                this.Position = this.TransformToVisual(lParentCanvas).Transform(new Point(this.ActualWidth / 2, this.ActualHeight / 2));
             }
+        }
+
+        /// <summary>
+        /// Returns the parent canvas.
+        /// </summary>
+        /// <returns>The connector parent canvas.</returns>
+        private Canvas FindParentCanvas()
+        {
+            Canvas lParentCanvas = this.FindVisualParent<Canvas>();
+            if (lParentCanvas == null)
+            {
+                ConnectorsAdorner lAdornerParent = this.FindVisualParent<ConnectorsAdorner>();
+                if (lAdornerParent != null)
+                {
+                    return lAdornerParent.AdornedPortView.FindVisualParent<Canvas>();
+                }
+            }
+
+            return lParentCanvas;
         }
 
         #endregion // Methods.

@@ -7,6 +7,7 @@
         <Grid.Resources>
             <!--<Style TargetType="{x:Type controls:NodeView}" BasedOn="{StaticResource {x:Type controls:NodeView}}">
                 <Setter Property="Background" Value="Purple" />
+                <Setter Property="Foreground" Value="Yellow" />
             </Style>-->
             <CollectionViewSource x:Key="NodesBridge" Source="{Binding Path=Nodes}" />
             <CollectionViewSource x:Key="ConnectionsBridge" Source="{Binding Path=Connections}" />

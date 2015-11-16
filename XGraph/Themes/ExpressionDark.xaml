@@ -65,7 +65,7 @@
                 <controls:MoveThumb Grid.Column="0" x:Name="INNER_Movethumb" VerticalAlignment="Top" />
                 <ContentPresenter Grid.Column="1" ContentTemplate="{TemplateBinding ContentTemplate}" />
             </Grid>
-            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" Margin="0,5" Background="{TemplateBinding Background}" />
+            <controls:PortContainer Grid.Row="1" x:Name="PART_PortContainer" Background="{TemplateBinding Background}" />
         </Grid>
     </ControlTemplate>
 
@@ -86,6 +86,7 @@
     
     <!-- PortContainer style. -->
     <Style TargetType="{x:Type controls:PortContainer}" BasedOn="{StaticResource {x:Type ItemsControl}}">
+        <Setter Property ="Margin" Value="5" />
         <Setter Property ="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -97,16 +98,10 @@
 
     <!-- PortView template. -->
     <ControlTemplate x:Key="PortViewTemplate" TargetType="{x:Type controls:PortView}">
-        <Grid Margin="2" Background="{TemplateBinding Background}" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+        <Grid Margin="2" Background="{TemplateBinding Background}">
             <Rectangle x:Name="INNER_Border" StrokeDashArray="4 3" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Grid.ColumnSpan="3" />
-            <controls:InputConnector x:Name="INNER_Input" Visibility="{TemplateBinding Direction, Converter={StaticResource InputPortToVisibilityConverter}}" Background="{TemplateBinding Background}" Grid.Column="0" />
-            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" HorizontalAlignment="{TemplateBinding Direction, Converter={StaticResource PortDirectionToHorizontalAlignmentConverter}}" Grid.Column="1" />
-            <controls:OutputConnector x:Name="INNER_Output" Visibility="{TemplateBinding Direction, Converter={StaticResource OutputPortToVisibilityConverter}}" Background="{TemplateBinding Background}" Grid.Column="2" />
+            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" HorizontalAlignment="{TemplateBinding Direction, Converter={StaticResource PortDirectionToHorizontalAlignmentConverter}}" Grid.Column="1" Margin="5,0" />
+            <controls:ConnectorsPresenter DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}" />
         </Grid>
     </ControlTemplate>
 
@@ -120,16 +115,16 @@
 
     <!-- Input PortView default data template for its content. -->
     <DataTemplate x:Key="InputPortViewDefaultDataTemplate">
-        <StackPanel Orientation="Horizontal" Margin="2,0">
+        <StackPanel Orientation="Horizontal" >
             <TextBlock Text="{Binding DisplayString}" VerticalAlignment="Center"/>
-            <Image Source="{Binding Icon}" Width="16" Height="16" Margin="3,0" />
+            <Image Source="{Binding Icon}" Width="16" Height="16" Margin="3,0,0,0" />
         </StackPanel>
     </DataTemplate>
 
     <!-- Output PortView default data template for its content. -->
     <DataTemplate x:Key="OutputPortViewDefaultDataTemplate">
-        <StackPanel Orientation="Horizontal" Margin="2,0">
-            <Image Source="{Binding Icon}" Width="16" Height="16" Margin="3,0" />
+        <StackPanel Orientation="Horizontal" >
+            <Image Source="{Binding Icon}" Width="16" Height="16" Margin="0,0,3,0" />
             <TextBlock Text="{Binding DisplayString}" />
         </StackPanel>
     </DataTemplate>
@@ -177,10 +172,16 @@
         <Setter Property="Template" Value="{StaticResource MoveThumbTemplate}" />
     </Style>
 
+    <!-- Connector base style. -->
+    <Style x:Key="ConnectorBaseStyle" TargetType="{x:Type controls:AConnector}">
+        <Setter Property="Foreground" Value="{StaticResource Connector_Foreground_Brush}" />
+        <Setter Property="Cursor" Value="Cross" />
+    </Style>
+    
     <!-- InputConnector template. -->
     <ControlTemplate x:Key="InputConnectorTemplate" TargetType="{x:Type controls:InputConnector}">
         <Grid>
-            <Ellipse Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="Red" StrokeThickness="1" SnapsToDevicePixels="True"/>
+            <Ellipse Width="20" Height="20" Fill="{TemplateBinding Background}" SnapsToDevicePixels="True"/>
             <Path x:Name="INNER_ConnectorIcon" Fill="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                 <Path.Data>
                     <PathGeometry Figures="m 8 0.002163 c 4.41829 0 8 3.5817 8 8.0000002 0 4.4182998 -3.58171 7.9999998 -8 7.9999998 -4.41828 0 -8 -3.5817 -8 -7.9999998 l 0 -0.075 C 0.0393 3.536963 3.60964 0.002163 8 0.002163 z m 0 1.6 c -3.51229 0 -6.36859 2.8128 -6.4 6.3250002 l 0 0.075 c 0 3.5345998 2.86538 6.3999998 6.4 6.3999998 3.15482 0 5.77302 -2.2962 6.3 -5.2999998 l -3 0 0 0.4 c 0 1.3295998 -1.0704 2.3999998 -2.4 2.3999998 l -2.9 0 0 -8 2.9 0 c 1.3296 0 2.4 1.0704 2.4 2.4000002 l 0 0.4 2.975 0 C 13.67823 3.785763 11.0928 1.602163 8 1.602163 z" FillRule="NonZero"/>
@@ -190,15 +191,14 @@
     </ControlTemplate>
 
     <!-- InputConnector style. -->
-    <Style TargetType="{x:Type controls:InputConnector}">
+    <Style TargetType="{x:Type controls:InputConnector}" BasedOn="{StaticResource ConnectorBaseStyle}">
         <Setter Property="Template" Value="{StaticResource InputConnectorTemplate}" />
-        <Setter Property="Foreground" Value="{StaticResource Connector_Foreground_Brush}" />
     </Style>
 
     <!-- OutputConnector template. -->
     <ControlTemplate x:Key="OutputConnectorTemplate" TargetType="{x:Type controls:OutputConnector}">
         <Grid>
-            <Ellipse Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="Red" StrokeThickness="1" SnapsToDevicePixels="True"/>
+            <Ellipse Width="20" Height="20" Fill="{TemplateBinding Background}" SnapsToDevicePixels="True"/>
             <Path x:Name="INNER_ConnectorIcon" Fill="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                 <Path.Data>
                     <PathGeometry Figures="m 8 0.00218 c -4.41828 0 -8 3.58172 -8 8 0 4.41828 3.58172 8 8 8 4.41828 0 8 -3.58172 8 -8 l 0 -0.07496 c -0.03928 -4.390192 -3.609632 -7.925 -8 -7.925 z m 0 1.6 c 3.512288 0 6.368592 2.812848 6.4 6.325 l 0 0.07496 c 0 3.534624 -2.865376 6.4 -6.4 6.4 -3.534624 0 -6.4 -2.865376 -6.4 -6.4 0 -3.534624 2.865376 -6.4 6.4 -6.4 z m -0.9 2.3 c -1.3296 0 -2.4 1.0704 -2.4 2.4 l 0 0.700008 -3.75 0 c -0.31024 0 -0.575 0.199768 -0.575 0.824992 l 0 0.15 c 0 0.625224 0.26476 1.025008 0.575 1.025008 l 3.75 0 0 0.499992 c 0 1.3296 1.0704 2.4 2.4 2.4 l 1.9 0 0 -1.899992 2.35 0 c 0.31024 0 0.55 -0.0568 0.55 -0.500008 0 -0.4432 -0.24376 -0.450336 -0.55 -0.499992 l -2.35 0 0 -2 2.35 0 c 0.31024 0 0.55 -0.0568 0.55 -0.5 0 -0.4432 -0.250504 -0.419056 -0.55 -0.5 l -2.35 0 0 -2.100008 z" FillRule="NonZero"/>
@@ -208,9 +208,8 @@
     </ControlTemplate>
 
     <!-- OutputConnector style. -->
-    <Style TargetType="{x:Type controls:OutputConnector}">
+    <Style TargetType="{x:Type controls:OutputConnector}" BasedOn="{StaticResource ConnectorBaseStyle}">
         <Setter Property="Template" Value="{StaticResource OutputConnectorTemplate}" />
-        <Setter Property="Foreground" Value="{StaticResource Connector_Foreground_Brush}" />
     </Style>
 
 </ResourceDictionary>
