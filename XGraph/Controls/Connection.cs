@@ -7,6 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using PropertyChanged;
+using XGraph.ViewModels;
 
 namespace XGraph.Controls
 {
@@ -15,7 +16,7 @@ namespace XGraph.Controls
     /// </summary>
     /// <!-- Nicolas Baudrey -->
     [ImplementPropertyChanged]
-    public class Connection : Control
+    public class Connection : ContentControl
     {
         #region Fields
 
@@ -151,6 +152,23 @@ namespace XGraph.Controls
         #endregion // Constructors.
 
         #region Methods
+
+        /// <summary>
+        /// Method called when the control content changed.
+        /// </summary>
+        /// <param name="pOldContent">The previous content.</param>
+        /// <param name="pNewContent">The new content.</param>
+        protected override void OnContentChanged(object pOldContent, object pNewContent)
+        {
+            base.OnContentChanged(pOldContent, pNewContent);
+
+            // The content is the view model.
+            ConnectionViewModel lNewContent = pNewContent as ConnectionViewModel;
+            if (lNewContent != null)
+            {
+                // Lets do the job!
+            }
+        }
 
         /// <summary>
         /// This method updates the final geometry for the path.

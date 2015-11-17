@@ -49,7 +49,7 @@ namespace XGraphTest
             }
 
             ConnectionViewModel lConnectionViewModel = new ConnectionViewModel();
-            lConnectionViewModel.Input = lGraph.Nodes.ElementAt(0).Ports.FirstOrDefault(pPort => pPort.Direction == PortDirection.Output);
+            lConnectionViewModel.Output = lGraph.Nodes.ElementAt(0).Ports.FirstOrDefault(pPort => pPort.Direction == PortDirection.Output);
             lConnectionViewModel.Input = lGraph.Nodes.ElementAt(1).Ports.FirstOrDefault(pPort => pPort.Direction == PortDirection.Input);
             lGraph.AddConnection(lConnectionViewModel);
             

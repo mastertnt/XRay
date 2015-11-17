@@ -40,7 +40,7 @@
 
     <!-- GraphItem template when it represents a connection. -->
     <ControlTemplate x:Key="GraphItemConnectionTemplate" TargetType="{x:Type controls:GraphItem}">
-        <controls:Connection />
+        <controls:Connection Content="{TemplateBinding Content}" />
     </ControlTemplate>
 
     <!-- GraphItem style when it represents a connection. -->
@@ -212,4 +212,8 @@
         <Setter Property="Template" Value="{StaticResource OutputConnectorTemplate}" />
     </Style>
 
+    <!-- Connection style. -->
+    <Style TargetType="{x:Type controls:Connection}" BasedOn="{StaticResource {x:Type ContentControl}}">
+    </Style>
+    
 </ResourceDictionary>

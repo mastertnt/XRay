@@ -84,14 +84,11 @@ namespace XGraph.Controls
             BindingOperations.ClearAllBindings(this);
 
             // The content is the view model.
-            NodeViewModel lNewContent = pNewContent as NodeViewModel;
+            IGraphItemViewModel lNewContent = pNewContent as IGraphItemViewModel;
             if (lNewContent != null)
             {
                 // Setting the style.
                 this.Style = lNewContent.ContainerStyle;
-
-                // Setting the content data template.
-                this.ContentTemplate = lNewContent.DataTemplate;
 
                 // Binding the X position.
                 Binding lXBinding = new Binding("X") {Source = lNewContent, Mode = BindingMode.TwoWay};
