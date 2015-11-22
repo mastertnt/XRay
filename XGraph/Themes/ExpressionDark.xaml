@@ -16,7 +16,7 @@
         <Setter Property ="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <Canvas x:Name="INNER_DrawingArea" IsItemsHost="True" Background="{StaticResource GraphView_Background_Brush}"/>
+                    <controls:AdornerLayeredCanvas x:Name="INNER_DrawingArea" IsItemsHost="True" Background="{StaticResource GraphView_Background_Brush}"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -101,7 +101,7 @@
         <Grid Margin="2" Background="{TemplateBinding Background}">
             <Rectangle x:Name="INNER_Border" StrokeDashArray="4 3" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Grid.ColumnSpan="3" />
             <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" HorizontalAlignment="{TemplateBinding Direction, Converter={StaticResource PortDirectionToHorizontalAlignmentConverter}}" Grid.Column="1" Margin="5,0" />
-            <controls:ConnectorsPresenter DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}" />
+            <controls:ConnectorsPresenter x:Name="PART_ConnectorPresenter" DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="{TemplateBinding Background}" />
         </Grid>
     </ControlTemplate>
 
@@ -173,16 +173,15 @@
     </Style>
 
     <!-- Connector base style. -->
-    <Style x:Key="ConnectorBaseStyle" TargetType="{x:Type controls:AConnector}">
+    <Style x:Key="ConnectorBaseStyle" TargetType="{x:Type controls:AConnector}" >
         <Setter Property="Foreground" Value="{StaticResource Connector_Foreground_Brush}" />
-        <Setter Property="Cursor" Value="Cross" />
     </Style>
     
     <!-- InputConnector template. -->
     <ControlTemplate x:Key="InputConnectorTemplate" TargetType="{x:Type controls:InputConnector}">
-        <Grid>
+        <Grid >
             <Ellipse Width="20" Height="20" Fill="{TemplateBinding Background}" SnapsToDevicePixels="True"/>
-            <Path x:Name="INNER_ConnectorIcon" Fill="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True">
+            <Path x:Name="INNER_ConnectorIcon" Fill="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" SnapsToDevicePixels="True" >
                 <Path.Data>
                     <PathGeometry Figures="m 8 0.002163 c 4.41829 0 8 3.5817 8 8.0000002 0 4.4182998 -3.58171 7.9999998 -8 7.9999998 -4.41828 0 -8 -3.5817 -8 -7.9999998 l 0 -0.075 C 0.0393 3.536963 3.60964 0.002163 8 0.002163 z m 0 1.6 c -3.51229 0 -6.36859 2.8128 -6.4 6.3250002 l 0 0.075 c 0 3.5345998 2.86538 6.3999998 6.4 6.3999998 3.15482 0 5.77302 -2.2962 6.3 -5.2999998 l -3 0 0 0.4 c 0 1.3295998 -1.0704 2.3999998 -2.4 2.3999998 l -2.9 0 0 -8 2.9 0 c 1.3296 0 2.4 1.0704 2.4 2.4000002 l 0 0.4 2.975 0 C 13.67823 3.785763 11.0928 1.602163 8 1.602163 z" FillRule="NonZero"/>
                 </Path.Data>
@@ -210,6 +209,7 @@
     <!-- OutputConnector style. -->
     <Style TargetType="{x:Type controls:OutputConnector}" BasedOn="{StaticResource ConnectorBaseStyle}">
         <Setter Property="Template" Value="{StaticResource OutputConnectorTemplate}" />
+        <Setter Property="Cursor" Value="Cross" />
     </Style>
 
     <!-- Connection style. -->

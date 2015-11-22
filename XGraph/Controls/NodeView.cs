@@ -63,7 +63,7 @@ namespace XGraph.Controls
             NodeViewModel lNewContent = pNewContent as NodeViewModel;
             if (lNewContent != null)
             {
-                // Stting the content data template.
+                // Setting the content data template.
                 this.ContentTemplate = lNewContent.DataTemplate;
             }
         }
@@ -75,7 +75,7 @@ namespace XGraph.Controls
         {
             base.OnApplyTemplate();
 
-            // Getting the part of the control.
+            // Getting the parts of the control.
             this.mInnerPortContainer = this.GetTemplateChild(PART_PORT_CONTAINER) as PortContainer;
 
             if (this.mInnerPortContainer == null)

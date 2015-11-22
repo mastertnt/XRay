@@ -8,6 +8,7 @@ namespace XGraph.Controls
     /// <summary>
     /// Class defining the shape of the move thumb.
     /// </summary>
+    /// <!-- Damien Porte -->
     public class MoveThumbShape : Shape
     {
         #region Dependencies
@@ -15,7 +16,6 @@ namespace XGraph.Controls
         /// <summary>
         /// Identifies the BevelLenght dependency property.
         /// </summary>
-// ReSharper disable once InconsistentNaming
         public static readonly DependencyProperty BevelLenghtProperty = DependencyProperty.Register("BevelLenght", typeof(double), typeof(MoveThumbShape), new FrameworkPropertyMetadata(0.0));
 
         #endregion // Dependencies.

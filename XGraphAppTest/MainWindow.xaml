@@ -4,21 +4,6 @@
         xmlns:controls="clr-namespace:XGraph.Controls;assembly=XGraph"
         Title="MainWindow" Height="500" Width="600">
     <Grid>
-        <Grid.Resources>
-            <!--<Style TargetType="{x:Type controls:NodeView}" BasedOn="{StaticResource {x:Type controls:NodeView}}">
-                <Setter Property="Background" Value="Purple" />
-                <Setter Property="Foreground" Value="Yellow" />
-            </Style>-->
-            <CollectionViewSource x:Key="NodesBridge" Source="{Binding Path=Nodes}" />
-            <CollectionViewSource x:Key="ConnectionsBridge" Source="{Binding Path=Connections}" />
-        </Grid.Resources>
-        <controls:GraphView x:Name="GraphView" ItemsSource="{Binding Items}">
-            <!--<controls:GraphView.ItemsSource>
-                <CompositeCollection>
-                    <CollectionContainer Collection="{Binding Source={StaticResource NodesBridge}}" />
-                    <CollectionContainer Collection="{Binding Source={StaticResource ConnectionsBridge}}" />
-                </CompositeCollection>
-            </controls:GraphView.ItemsSource>-->
-        </controls:GraphView>
+        <controls:GraphView x:Name="GraphView" ItemsSource="{Binding Items}" />
     </Grid>
 </Window>

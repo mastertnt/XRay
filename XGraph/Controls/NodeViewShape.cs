@@ -8,6 +8,7 @@ namespace XGraph.Controls
     /// <summary>
     /// Class defining the main part shape of the node view.
     /// </summary>
+    /// <!-- Damien Porte -->
     public class NodeViewShape : Shape
     {
         #region Dependencies
@@ -15,7 +16,6 @@ namespace XGraph.Controls
         /// <summary>
         /// Identifies the BevelLenght dependency property.
         /// </summary>
-// ReSharper disable once InconsistentNaming
         public static readonly DependencyProperty BevelLenghtProperty = DependencyProperty.Register("BevelLenght", typeof(double), typeof(NodeViewShape), new FrameworkPropertyMetadata(0.0));
 
         #endregion // Dependencies.

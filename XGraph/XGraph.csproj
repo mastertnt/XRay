@@ -57,6 +57,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AdornerLayeredCanvas.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controls\ConnectorsAdorner.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -82,7 +85,6 @@
     <Compile Include="Converters\DebugConverter.cs" />
     <Compile Include="Converters\OutputPortToVisibilityConverter.cs" />
     <Compile Include="Converters\InputPortToVisibilityConverter.cs" />
-    <Compile Include="Extensions\CanvasExtensions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Themes\ExpressionDark.cs" />

@@ -38,8 +38,8 @@ namespace XGraph.Controls
         {
             // Creating the connectors contained in the adorner.
             this.mVisualChildren = new VisualCollection(this);
-            this.mVisualChildren.Add(new InputConnector());
-            this.mVisualChildren.Add(new OutputConnector());
+            this.mVisualChildren.Add(new InputConnector(pAdornedElement));
+            this.mVisualChildren.Add(new OutputConnector(pAdornedElement));
 
             // Ensuring the measure is well computed.
             this.AdornedPortView.SizeChanged += new SizeChangedEventHandler(this.OnPortViewSizeChanged);

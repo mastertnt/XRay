@@ -14,19 +14,10 @@ namespace XGraph.Controls
     /// This class represents a connector.
     /// A connector is used to anchor a connection.
     /// </summary>
-    /// <!-- NBY -->
+    /// <!-- Nicolas Baudrey -->
     [ImplementPropertyChanged]
-    public abstract class AConnector : Control
+    public abstract class AConnector : UserControl
     {
-        #region Fields
-
-        /// <summary>
-        /// This field stores the drag start point, relative to the DesignerCanvas 
-        /// </summary>
-        private Point? mDragStartPoint;
-
-        #endregion // Fields.
-
         #region Properties
 
         /// <summary>
@@ -38,6 +29,15 @@ namespace XGraph.Controls
             set;
         }
 
+        /// <summary>
+        /// Gets the connector parent port.
+        /// </summary>
+        public PortView ParentPort
+        {
+            get;
+            private set;
+        }
+
         #endregion // Properties
 
         #region Constructors
@@ -45,8 +45,10 @@ namespace XGraph.Controls
         /// <summary>
         /// Initializes a new instance of the <see cref="AConnector"/> class.
         /// </summary>
-        protected AConnector()
+        /// <param name="pParentPort">The connector parent port.</param>
+        protected AConnector(PortView pParentPort)
         {
+            this.ParentPort = pParentPort;
             this.LayoutUpdated += this.OnLayoutUpdated;
         }
 
@@ -55,71 +57,17 @@ namespace XGraph.Controls
         #region Methods
 
         /// <summary>
-        /// This method is called each time the mouse is moved over the constrol.
-        /// </summary>
-        /// <param name="pEventArgs">The event arguments.</param>
-        protected override void OnMouseDown(MouseButtonEventArgs pEventArgs)
-        {
-            base.OnMouseMove(pEventArgs);
-
-            Canvas lParentCanvas = this.FindParentCanvas();
-            if (this.mDragStartPoint.HasValue == false)
-            {
-                if (lParentCanvas != null)
-                {
-                    // position relative to DesignerCanvas
-                    this.mDragStartPoint = pEventArgs.GetPosition(lParentCanvas);
-                    pEventArgs.Handled = true;
-                }
-            }
-
-            if (this.mDragStartPoint.HasValue)
-            {
-                // create connection adorner 
-                if (lParentCanvas != null)
-                {
-                    AdornerLayer lLayer = AdornerLayer.GetAdornerLayer(lParentCanvas);
-                    if (lLayer != null)
-                    {
-                        ConnectingLine lConnectingLine = new ConnectingLine(lParentCanvas, this);
-                        lLayer.Add(lConnectingLine);
-                        pEventArgs.Handled = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// This method is called when the layout changes.
         /// </summary>
         /// <param name="pEventArgs">The event arguments.</param>
         private void OnLayoutUpdated(object sender, EventArgs pEventArgs)
         {
-            Canvas lParentCanvas = this.FindParentCanvas();
+            AdornerLayeredCanvas lParentCanvas = this.FindVisualParent<AdornerLayeredCanvas>();
             if (lParentCanvas != null)
             {
-                //get centre position of this Connector relative to the DesignerCanvas
+                // Get centre position of this Connector relative to the DesignerCanvas.
                 this.Position = this.TransformToVisual(lParentCanvas).Transform(new Point(this.ActualWidth / 2, this.ActualHeight / 2));
             }
-        }
-
-        /// <summary>
-        /// Returns the parent canvas.
-        /// </summary>
-        /// <returns>The connector parent canvas.</returns>
-        private Canvas FindParentCanvas()
-        {
-            Canvas lParentCanvas = this.FindVisualParent<Canvas>();
-            if (lParentCanvas == null)
-            {
-                ConnectorsAdorner lAdornerParent = this.FindVisualParent<ConnectorsAdorner>();
-                if (lAdornerParent != null)
-                {
-                    return lAdornerParent.AdornedPortView.FindVisualParent<Canvas>();
-                }
-            }
-
-            return lParentCanvas;
         }
 
         #endregion // Methods.

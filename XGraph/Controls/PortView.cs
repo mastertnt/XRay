@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using XGraph.ViewModels;
@@ -8,6 +9,7 @@ namespace XGraph.Controls
     /// <summary>
     /// Class representing a port.
     /// </summary>
+    [TemplatePart(Name = PART_CONNECTORS_PRESENTER, Type = typeof(ConnectorsPresenter))]
     public class PortView : ContentControl
     {
         #region Dependencies
@@ -18,6 +20,20 @@ namespace XGraph.Controls
         public static readonly DependencyProperty DirectionProperty = DependencyProperty.Register("Direction", typeof(PortDirection), typeof(PortView), new FrameworkPropertyMetadata(PortDirection.Output));
 
         #endregion // Dependencies.
+
+        #region Fields
+
+        /// <summary>
+        /// Name of the parts that have to be in the control template.
+        /// </summary>
+        private const string PART_CONNECTORS_PRESENTER = "PART_ConnectorPresenter";
+
+        /// <summary>
+        /// Stores the connectors presenter.
+        /// </summary>
+        private ConnectorsPresenter mConnectorsPresenter;
+
+        #endregion // Fields.
 
         #region Constructors
 
@@ -48,10 +64,28 @@ namespace XGraph.Controls
             }
         }
 
+        /// <summary>
+        /// Gets the port connector.
+        /// </summary>
+        public AConnector Connector
+        {
+            get
+            {
+                if (this.Direction == PortDirection.Input)
+                {
+                    return this.mConnectorsPresenter.Adorner.InputConnector;
+                }
+                else
+                {
+                    return this.mConnectorsPresenter.Adorner.OutputConnector;
+                }
+            }
+        }
+
         #endregion // Properties.
 
         #region Methods
-
+        
         /// <summary>
         /// Method called when the control content changed.
         /// </summary>
@@ -76,6 +110,22 @@ namespace XGraph.Controls
             }
         }
 
+        /// <summary>
+        /// Method called when the control template is applied.
+        /// </summary>
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            // Getting the parts of the control.
+            this.mConnectorsPresenter = this.GetTemplateChild(PART_CONNECTORS_PRESENTER) as ConnectorsPresenter;
+
+            if (this.mConnectorsPresenter == null)
+            {
+                throw new Exception("PortView control template not correctly defined.");
+            }
+        }
+        
         #endregion // Methods.
     }
 }

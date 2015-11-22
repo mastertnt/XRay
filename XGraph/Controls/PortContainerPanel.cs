@@ -12,6 +12,7 @@ namespace XGraph.Controls
     /// Panel used to organize the <see cref="PortView"/> elements in the <see cref="PortContainer"/> in two columns.
     /// </summary>
     /// <remarks>Left column containns the input ports, right column contains the output ports.</remarks>
+    /// <!-- Damien Porte -->
     public class PortContainerPanel : Panel
     {
         #region Methods

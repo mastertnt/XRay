@@ -21,7 +21,7 @@ namespace XGraph.Controls
         /// <summary>
         /// This field stores the source connector of the adorner.
         /// </summary>
-        private AConnector mSourceConnector = null;
+        private OutputConnector mSourceConnector = null;
 
         /// <summary>
         /// This field stores the pen of the adorner.
@@ -35,19 +35,6 @@ namespace XGraph.Controls
 
         #endregion // Fields.
 
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the hit connector.
-        /// </summary>
-        private AConnector HitConnector
-        {
-            get;
-            set;
-        }
-
-        #endregion // Properties.
-
         #region Constructors
 
         /// <summary>
@@ -55,7 +42,7 @@ namespace XGraph.Controls
         /// </summary>
         /// <param name="pElement">The parent element.</param>
         /// <param name="pSourceConnector">The source connector.</param>
-        public ConnectingLine(UIElement pElement, AConnector pSourceConnector)
+        public ConnectingLine(UIElement pElement, OutputConnector pSourceConnector)
             : base(pElement)
         {
             this.mSourceConnector = pSourceConnector;
@@ -88,10 +75,9 @@ namespace XGraph.Controls
         /// <param name="pEventArgs">The event arguments</param>
         protected override void OnMouseMove(MouseEventArgs pEventArgs)
         {
-            if
-                (pEventArgs.LeftButton == MouseButtonState.Pressed)
+            if (pEventArgs.LeftButton == MouseButtonState.Pressed)
             {
-                if (!this.IsMouseCaptured)
+                if (this.IsMouseCaptured == false)
                 {
                     this.CaptureMouse();
                 }
@@ -123,17 +109,28 @@ namespace XGraph.Controls
                 this.ReleaseMouseCapture();
             }
 
-            Canvas lParentCanvas = this.AdornedElement as Canvas;
+            // Getting the position.
+            Point lHitPoint = pEventArgs.GetPosition(this);
+
+            AdornerLayeredCanvas lParentCanvas = this.AdornedElement as AdornerLayeredCanvas;
             if (lParentCanvas != null)
             {
-                AConnector lTargetConnector = lParentCanvas.HitControl<AConnector>(pEventArgs.GetPosition(this));
+                // Remove the adorner.
+                AdornerLayer lLayer = lParentCanvas.AdornerLayer;
+                if (lLayer != null)
+                {
+                    lLayer.Remove(this);
+                }
+
+                // Hitting the target connector.
+                InputConnector lTargetConnector = lParentCanvas.HitControl<InputConnector>(lHitPoint);
                 if (lTargetConnector != null)
                 {
                     GraphViewModel lGraphViewModel = lParentCanvas.DataContext as GraphViewModel;
                     if (lGraphViewModel != null)
                     {
-                        PortViewModel lTargetViewModel = lTargetConnector.DataContext as PortViewModel;
-                        PortViewModel lSourceViewModel = this.mSourceConnector.DataContext as PortViewModel;
+                        PortViewModel lTargetViewModel = lTargetConnector.ParentPort.Content as PortViewModel;
+                        PortViewModel lSourceViewModel = this.mSourceConnector.ParentPort.Content as PortViewModel;
                         if (lTargetViewModel != null && lTargetViewModel.CanBeConnectedTo(lSourceViewModel))
                         {
                             ConnectionViewModel lConnectionViewModel = new ConnectionViewModel();
@@ -143,13 +140,6 @@ namespace XGraph.Controls
                         }
                     }
                 }
-            }
-            
-            // Remove the adorner.
-            AdornerLayer lLayer = AdornerLayer.GetAdornerLayer(this.AdornedElement);
-            if (lLayer != null)
-            {
-                lLayer.Remove(this);
             }
         }
         

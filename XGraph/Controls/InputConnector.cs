@@ -25,7 +25,9 @@ namespace XGraph.Controls
         /// <summary>
         /// Initializes a new instance of the <see cref="InputConnector"/> class.
         /// </summary>
-        public InputConnector()
+        /// <param name="pParentPort">The connector parent port.</param>
+        public InputConnector(PortView pParentPort)
+            : base(pParentPort)
         {
         }
 
