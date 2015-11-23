@@ -212,8 +212,13 @@
         <Setter Property="Cursor" Value="Cross" />
     </Style>
 
+    <!-- Connection template. -->
+    <ControlTemplate x:Key="ConnectionTemplate" TargetType="{x:Type controls:Connection}">
+    </ControlTemplate>
+    
     <!-- Connection style. -->
     <Style TargetType="{x:Type controls:Connection}" BasedOn="{StaticResource {x:Type ContentControl}}">
+        <Setter Property="Template" Value="{StaticResource ConnectionTemplate}" />
     </Style>
     
 </ResourceDictionary>
