@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using PropertyChanged;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -20,7 +21,7 @@ namespace XGraph.ViewModels
     /// </summary>
     /// <!-- NBY -->
     [ImplementPropertyChanged]
-    public class PortViewModel
+    public class PortViewModel : INotifyPropertyChanged
     {
         #region Properties
 
@@ -142,6 +143,15 @@ namespace XGraph.ViewModels
         }
 
         #endregion // Properties.
+
+        #region Events
+
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion // Events.
 
         #region Methods
 
