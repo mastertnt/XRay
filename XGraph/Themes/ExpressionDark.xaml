@@ -146,12 +146,12 @@
                     </VisualState>
                     <VisualState x:Name="MouseLeave">
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="INNER_MainCanvas" Storyboard.TargetProperty="(UIElement.Opacity)" To="0" />
+                            <DoubleAnimation Storyboard.TargetName="INNER_MainCanvas" Storyboard.TargetProperty="(UIElement.Opacity)" To="0.5" />
                         </Storyboard>
                     </VisualState>
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <Canvas x:Name="INNER_MainCanvas" Opacity="0">
+            <Canvas x:Name="INNER_MainCanvas" Opacity="0.5">
                 <controls:MoveThumbShape x:Name="INNER_BackgroundShape" Fill="{TemplateBinding Background}" BevelLenght="{TemplateBinding Height}" />
                 <Path x:Name="INNER_MoveThumbIcon" Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True">
                     <Path.Data>
