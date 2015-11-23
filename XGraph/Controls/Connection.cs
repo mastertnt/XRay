@@ -123,7 +123,7 @@ namespace XGraph.Controls
                 this.mDrawingGeometry.Figures.Clear();
                 PathFigure lFigure = new PathFigure {StartPoint = lViewModel.Output.Position};
                 lPoints.RemoveAt(0);
-                lFigure.Segments.Add(new PolyLineSegment(lPoints, true));
+                lFigure.Segments.Add(new BezierSegment(lPoints[0], lPoints[1], lPoints[2], true));
                 this.mDrawingGeometry.Figures.Add(lFigure);
             }
         }

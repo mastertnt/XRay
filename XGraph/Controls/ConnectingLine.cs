@@ -46,7 +46,7 @@ namespace XGraph.Controls
             : base(pElement)
         {
             this.mSourceConnector = pSourceConnector;
-            this.mPen = new Pen(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4A7EBB")), 1) {LineJoin = PenLineJoin.Round};
+            this.mPen = new Pen(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF0000")), 1) {LineJoin = PenLineJoin.Round};
             this.Cursor = Cursors.Cross;
         }
 
@@ -159,7 +159,7 @@ namespace XGraph.Controls
             this.mDrawingGeometry.Figures.Clear();
             PathFigure lFigure = new PathFigure {StartPoint = this.mSourceConnector.Position};
             lPoints.RemoveAt(0);
-            lFigure.Segments.Add(new PolyLineSegment(lPoints, true));
+            lFigure.Segments.Add(new BezierSegment(lPoints[0], lPoints[1], lPoints[2], true));
             this.mDrawingGeometry.Figures.Add(lFigure);
         }
 
