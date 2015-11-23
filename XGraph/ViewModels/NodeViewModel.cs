@@ -14,7 +14,7 @@ namespace XGraph.ViewModels
     /// </summary>
     /// <!-- NBY -->
     [ImplementPropertyChanged]
-    public class NodeViewModel : IGraphItemViewModel
+    public class NodeViewModel : IGraphItemViewModel, IPositionable
     {
         #region Constructors
 
@@ -33,9 +33,6 @@ namespace XGraph.ViewModels
         /// <summary>
         /// Gets or sets the x.
         /// </summary>
-        /// <value>
-        /// The x.
-        /// </value>
         public double X
         {
             get;
@@ -45,9 +42,6 @@ namespace XGraph.ViewModels
         /// <summary>
         /// Gets or sets the y position of the node.
         /// </summary>
-        /// <value>
-        /// The y.
-        /// </value>
         public double Y
         {
             get;
@@ -57,9 +51,6 @@ namespace XGraph.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether this instance is selected.
         /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is selected; otherwise, <c>false</c>.
-        /// </value>
         public virtual bool IsSelected
         {
             get;
@@ -69,9 +60,6 @@ namespace XGraph.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether this instance is active.
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is active; otherwise, <c>false</c>.
-        /// </value>
         public virtual bool IsActive
         {
             get;
@@ -81,9 +69,6 @@ namespace XGraph.ViewModels
         /// <summary>
         /// Gets or sets the ports.
         /// </summary>
-        /// <value>
-        /// The ports.
-        /// </value>
         public ObservableCollection<PortViewModel> Ports 
         { 
             get; 
@@ -93,9 +78,6 @@ namespace XGraph.ViewModels
         /// <summary>
         /// Gets or sets the display string.
         /// </summary>
-        /// <value>
-        /// The display string.
-        /// </value>
         public virtual string DisplayString 
         { 
             get; 
@@ -105,9 +87,6 @@ namespace XGraph.ViewModels
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
-        /// <value>
-        /// The description string.
-        /// </value>
         public virtual string Description
         {
             get;
@@ -117,9 +96,6 @@ namespace XGraph.ViewModels
         /// <summary>
         /// Gets the data template.
         /// </summary>
-        /// <value>
-        /// The data template.
-        /// </value>
         public DataTemplate DataTemplate
         {
             get

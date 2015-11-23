@@ -3,6 +3,9 @@ using System.Windows;
 
 namespace XGraph.ViewModels
 {
+    /// <summary>
+    /// Class defining the connection view model.
+    /// </summary>
     [ImplementPropertyChanged]
     public class ConnectionViewModel : IGraphItemViewModel
     {

@@ -90,17 +90,20 @@ namespace XGraph.Controls
                 // Setting the style.
                 this.Style = lNewContent.ContainerStyle;
 
-                // Binding the X position.
-                Binding lXBinding = new Binding("X") {Source = lNewContent, Mode = BindingMode.TwoWay};
-                this.SetBinding(GraphItem.PosXProperty, lXBinding);
-
-                // Binding the Y position.
-                Binding lYBinding = new Binding("Y") {Source = lNewContent, Mode = BindingMode.TwoWay};
-                this.SetBinding(GraphItem.PosYProperty, lYBinding);
-
                 // Binding the IsSelected property.
                 Binding lIsSelectedBinding = new Binding("IsSelected") {Source = lNewContent, Mode = BindingMode.TwoWay};
                 this.SetBinding(GraphItem.IsSelectedProperty, lIsSelectedBinding);
+
+                if (lNewContent is IPositionable)
+                {
+                    // Binding the X position.
+                    Binding lXBinding = new Binding("X") { Source = lNewContent, Mode = BindingMode.TwoWay };
+                    this.SetBinding(GraphItem.PosXProperty, lXBinding);
+
+                    // Binding the Y position.
+                    Binding lYBinding = new Binding("Y") { Source = lNewContent, Mode = BindingMode.TwoWay };
+                    this.SetBinding(GraphItem.PosYProperty, lYBinding);
+                }
             }
         }
 
