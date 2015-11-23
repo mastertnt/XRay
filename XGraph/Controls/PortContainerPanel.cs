@@ -49,9 +49,11 @@ namespace XGraph.Controls
             }
 
             // Computing the size of the panel.
-            Size lAvailableSize = new Size();
-            lAvailableSize.Height = Math.Max(lInputPortsSize.Height, lOutputPortsSize.Height);
-            lAvailableSize.Width = lInputPortsSize.Width + lOutputPortsSize.Width;
+            Size lAvailableSize = new Size
+            {
+                Height = Math.Max(lInputPortsSize.Height, lOutputPortsSize.Height),
+                Width = lInputPortsSize.Width + lOutputPortsSize.Width
+            };
 
             return lAvailableSize;
         }
@@ -67,12 +69,12 @@ namespace XGraph.Controls
             int lOutputPortsCount = 0;
 
             // Both ports column can have columns of different sizes depending on the data template.
-            double lInputPortsWidth = this.Children.Cast<PortView>().Where(lPort => lPort.Direction == PortDirection.Input).Max(lPort => lPort.DesiredSize.Width);
+            double lInputPortsWidth = this.Children.Cast<PortView>().Where(pPort => pPort.Direction == PortDirection.Input).Max(pPort => pPort.DesiredSize.Width);
             lInputPortsWidth = Math.Round(lInputPortsWidth);
-            double lOutputPortsWidth = this.Children.Cast<PortView>().Where(lPort => lPort.Direction == PortDirection.Output).Max(lPort => lPort.DesiredSize.Width);
+            double lOutputPortsWidth = this.Children.Cast<PortView>().Where(pPort => pPort.Direction == PortDirection.Output).Max(pPort => pPort.DesiredSize.Width);
             lOutputPortsWidth = Math.Round(lOutputPortsWidth);
 
-            for (int i = 0, count = this.Children.Count; i < count; ++i)
+            for (int i = 0, lCount = this.Children.Count; i < lCount; ++i)
             {
                 PortView lPort = this.Children[i] as PortView;
                 if (lPort != null)

@@ -157,8 +157,7 @@ namespace XGraph.Controls
 
             List<Point> lPoints = this.mSourceConnector.Position.GetShortestPath(pFinalPosition);
             this.mDrawingGeometry.Figures.Clear();
-            PathFigure lFigure = new PathFigure();
-            lFigure.StartPoint = this.mSourceConnector.Position;
+            PathFigure lFigure = new PathFigure {StartPoint = this.mSourceConnector.Position};
             lPoints.RemoveAt(0);
             lFigure.Segments.Add(new PolyLineSegment(lPoints, true));
             this.mDrawingGeometry.Figures.Add(lFigure);

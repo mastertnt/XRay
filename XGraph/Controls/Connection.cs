@@ -75,14 +75,33 @@ namespace XGraph.Controls
         /// <param name="pNewContent">The new content.</param>
         protected override void OnContentChanged(object pOldContent, object pNewContent)
         {
+            ConnectionViewModel lPreviousContent = this.Content as ConnectionViewModel;
+            if (lPreviousContent != null)
+            {
+                lPreviousContent.Output.PropertyChanged -= this.OnPortPropertyChanged;
+                lPreviousContent.Input.PropertyChanged -= this.OnPortPropertyChanged;
+            }
+
             base.OnContentChanged(pOldContent, pNewContent);
 
             // The content is the view model.
             ConnectionViewModel lNewContent = pNewContent as ConnectionViewModel;
             if (lNewContent != null)
             {
+                lNewContent.Output.PropertyChanged += this.OnPortPropertyChanged;
+                lNewContent.Input.PropertyChanged += this.OnPortPropertyChanged;
                 this.UpdatePathGeometry();
             }
+        }
+
+        /// <summary>
+        /// Called when [port property changed].
+        /// </summary>
+        /// <param name="pSender">The sender.</param>
+        /// <param name="pEventArgs">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
+        private void OnPortPropertyChanged(object pSender, System.ComponentModel.PropertyChangedEventArgs pEventArgs)
+        {
+            this.UpdatePathGeometry();
         }
 
         /// <summary>
