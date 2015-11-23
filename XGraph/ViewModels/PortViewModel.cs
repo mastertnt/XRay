@@ -24,6 +24,11 @@ namespace XGraph.ViewModels
     {
         #region Properties
 
+        public Point Position
+        {
+            get; set;
+        }
+
         /// <summary>
         /// Gets or sets the type of the port.
         /// </summary>

@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using PropertyChanged;
-using XGraph.Controls;
 using System.ComponentModel;
 
 namespace XGraph.ViewModels

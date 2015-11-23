@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using PropertyChanged;
+using XGraph.Extensions;
 using XGraph.ViewModels;
 
 namespace XGraph.Controls
@@ -21,114 +18,16 @@ namespace XGraph.Controls
         #region Fields
 
         /// <summary>
-        /// This field stores the input connector.
-        /// </summary>
-        private AConnector mInput = null;
-
-        /// <summary>
-        /// This field stores the output connector.
-        /// </summary>
-        private AConnector mOutput = null;
-
-        /// <summary>
         /// This field stores the geometry to draw.
         /// </summary>
         private PathGeometry mDrawingGeometry;
 
-        #endregion // Fields.
-
-        #region Properties
-
-        ///// <summary>
-        ///// Gets or sets the input connector.
-        ///// </summary>
-        //public Connector Input
-        //{
-        //    get
-        //    {
-        //        return this.mInput;
-        //    }
-        //    set
-        //    {
-        //        //if
-        //        //    (this.mInput != value)
-        //        //{
-        //        //    if
-        //        //        (this.mInput != null)
-        //        //    {
-        //        //        this.mInput.PropertyChanged -= new PropertyChangedEventHandler(OnConnectorPropertyChanged);
-        //        //        this.mInput.Connections.Remove(this);
-        //        //    }
-
-        //        //    this.mInput = value;
-
-        //        //    if 
-        //        //        (this.mInput != null)
-        //        //    {
-        //        //        this.mInput.Connections.Add(this);
-        //        //        this.mInput.PropertyChanged += new PropertyChangedEventHandler(OnConnectorPropertyChanged);
-        //        //    }
-
-        //        //    this.OnPropertyChanged("Input");
-        //        //    this.OnPropertyChanged("Position");
-        //        //    this.UpdatePathGeometry();
-        //        //}
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Gets or sets the ouput connector.
-        ///// </summary>
-        //public Connector Output
-        //{
-        //    get
-        //    {
-        //        return this.mOutput;
-        //    }
-        //    set
-        //    {
-        //        //if 
-        //        //    (this.mOutput != value)
-        //        //{
-        //        //    if 
-        //        //        (this.mOutput != null)
-        //        //    {
-        //        //        this.mOutput.PropertyChanged -= new PropertyChangedEventHandler(OnConnectorPropertyChanged);
-        //        //        this.mOutput.Connections.Remove(this);
-        //        //    }
-
-        //        //    this.mOutput = value;
-
-        //        //    if 
-        //        //        (this.mOutput != null)
-        //        //    {
-        //        //        this.mOutput.Connections.Add(this);
-        //        //        this.mOutput.PropertyChanged += new PropertyChangedEventHandler(OnConnectorPropertyChanged);
-        //        //    }
-
-        //        //    this.OnPropertyChanged("Output");
-        //        //    this.OnPropertyChanged("Position");
-        //        //    this.UpdatePathGeometry();
-        //        //}
-        //    }
-        //}
-
         /// <summary>
-        /// Gets or sets the drawing geometry.
+        /// This field stores the pen of the adorner.
         /// </summary>
-        public PathGeometry DrawingGeometry
-        {
-            get
-            {
-                return this.mDrawingGeometry;
-            }
-            set
-            {
-                this.mDrawingGeometry = value;
-            }
-        }
+        private readonly Pen mPen;
 
-        #endregion // Properties.
+        #endregion // Fields.
 
         #region Constructors
 
@@ -146,12 +45,28 @@ namespace XGraph.Controls
         /// </summary>
         public Connection()
         {
-
+            this.mPen = new Pen(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4A7EBB")), 1);
+            this.mPen.LineJoin = PenLineJoin.Round;
         }
 
         #endregion // Constructors.
 
         #region Methods
+
+        /// <summary>
+        /// This method is called to render the adorner.
+        /// </summary>
+        /// <param name="pDC">The current drawing context.</param>
+        protected override void OnRender(DrawingContext pDC)
+        {
+            base.OnRender(pDC);
+            pDC.DrawGeometry(null, this.mPen, this.mDrawingGeometry);
+
+            // without a background the OnMouseMove event would not be fired
+            // Alternative: implement a Canvas as a child of this adorner, like
+            // the ConnectionAdorner does.
+            pDC.DrawRectangle(Brushes.Transparent, null, new Rect(RenderSize));
+        }
 
         /// <summary>
         /// Method called when the control content changed.
@@ -166,7 +81,7 @@ namespace XGraph.Controls
             ConnectionViewModel lNewContent = pNewContent as ConnectionViewModel;
             if (lNewContent != null)
             {
-                // Lets do the job!
+                this.UpdatePathGeometry();
             }
         }
 
@@ -176,24 +91,22 @@ namespace XGraph.Controls
         /// <returns>The path geometry.</returns>
         private void UpdatePathGeometry()
         {
-            //if
-            //    (   (this.Input != null)
-            //    &&  (this.Output != null)
-            //    )
-            //{
-            //    if
-            //        (this.mDrawingGeometry == null)
-            //    {
-            //        this.mDrawingGeometry = new PathGeometry();
-            //    }
-            //    List<Point> lPoints = this.Input.Position.GetShortestPath(this.Output.Position);
-            //    this.mDrawingGeometry.Figures.Clear();
-            //    PathFigure lFigure = new PathFigure();
-            //    lFigure.StartPoint = this.Input.Position;
-            //    lPoints.RemoveAt(0);
-            //    lFigure.Segments.Add(new PolyLineSegment(lPoints, true));
-            //    this.mDrawingGeometry.Figures.Add(lFigure);
-            //}
+            ConnectionViewModel lViewModel = this.Content as ConnectionViewModel;
+            if
+                (lViewModel != null)
+            {
+                if
+                    (this.mDrawingGeometry == null)
+                {
+                    this.mDrawingGeometry = new PathGeometry();
+                }
+                List<Point> lPoints = lViewModel.Output.Position.GetShortestPath(lViewModel.Input.Position);
+                this.mDrawingGeometry.Figures.Clear();
+                PathFigure lFigure = new PathFigure {StartPoint = lViewModel.Output.Position};
+                lPoints.RemoveAt(0);
+                lFigure.Segments.Add(new PolyLineSegment(lPoints, true));
+                this.mDrawingGeometry.Figures.Add(lFigure);
+            }
         }
 
         #endregion // Methods.
