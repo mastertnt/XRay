@@ -24,6 +24,12 @@ namespace XGraph.ViewModels
     {
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the position.
+        /// </summary>
+        /// <value>
+        /// The position.
+        /// </value>
         public Point Position
         {
             get; set;
