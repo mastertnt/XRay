@@ -124,6 +124,12 @@ namespace XGraph.Controls
             {
                 throw new Exception("PortView control template not correctly defined.");
             }
+
+            // The content of the ParentPort is the PortViewModel.
+            Binding lPositionBinding = new Binding("Position");
+            lPositionBinding.Source = this.Content;
+            lPositionBinding.Mode = BindingMode.OneWayToSource;
+            this.Connector.SetBinding(AConnector.PositionProperty, lPositionBinding);
         }
         
         #endregion // Methods.

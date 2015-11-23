@@ -66,12 +66,6 @@ namespace XGraph.Controls
         {
             this.ParentPort = pParentPort;
             this.LayoutUpdated += this.OnLayoutUpdated;
-
-            // The content of the ParentPort is the PortViewModel.
-            Binding lPositionBinding = new Binding("Position");
-            lPositionBinding.Source = this.ParentPort.Content;
-            lPositionBinding.Mode = BindingMode.OneWayToSource;
-            this.SetBinding(AConnector.PositionProperty, lPositionBinding);
         }
 
         #endregion // Constructors.
@@ -88,7 +82,7 @@ namespace XGraph.Controls
             if (lParentCanvas != null)
             {
                 // Get centre position of this Connector relative to the DesignerCanvas.
-                this.Position = this.TransformToVisual(lParentCanvas).Transform(new Point(this.ActualWidth / 2, this.ActualHeight / 2));
+                this.Position = this.TransformToVisual(lParentCanvas.AdornerLayer).Transform(new Point(this.ActualWidth / 2, this.ActualHeight / 2));
             }
         }
 
