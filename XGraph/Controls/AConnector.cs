@@ -7,6 +7,7 @@ using System.Windows.Input;
 using PropertyChanged;
 using XGraph.Extensions;
 using XGraph.ViewModels;
+using System.Windows.Data;
 
 namespace XGraph.Controls
 {
@@ -18,15 +19,30 @@ namespace XGraph.Controls
     [ImplementPropertyChanged]
     public abstract class AConnector : UserControl
     {
+        #region Dependencies
+
+        /// <summary>
+        /// Identifies the Position dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position", typeof(Point), typeof(AConnector), new FrameworkPropertyMetadata(new Point()));
+
+        #endregion // Dependencies.
+
         #region Properties
 
         /// <summary>
         /// Gets or sets the position.
         /// </summary>
         public Point Position 
-        { 
-            get;
-            set;
+        {
+            get
+            {
+                return (Point)this.GetValue(PositionProperty);
+            }
+            set
+            {
+                this.SetValue(PositionProperty, value);
+            }
         }
 
         /// <summary>
@@ -50,6 +66,12 @@ namespace XGraph.Controls
         {
             this.ParentPort = pParentPort;
             this.LayoutUpdated += this.OnLayoutUpdated;
+
+            // The content of the ParentPort is the PortViewModel.
+            Binding lPositionBinding = new Binding("Position");
+            lPositionBinding.Source = this.ParentPort.Content;
+            lPositionBinding.Mode = BindingMode.OneWayToSource;
+            this.SetBinding(AConnector.PositionProperty, lPositionBinding);
         }
 
         #endregion // Constructors.
