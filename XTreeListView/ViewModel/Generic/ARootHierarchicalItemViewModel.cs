@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace XTreeListView.ViewModel.Generic
 {
@@ -62,6 +63,17 @@ namespace XTreeListView.ViewModel.Generic
             get
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the icon to display in the item.
+        /// </summary>
+        public override ImageSource IconSource
+        {
+            get
+            {
+                return null;
             }
         }
 
