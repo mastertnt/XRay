@@ -129,6 +129,11 @@ namespace XTreeListView.TestApp.Model
             lPerson1.NbItemToAdd = 2000;
             lRoot.Children.Add(lPerson5);
 
+            Person lPerson6 = Person.CreateTestModel(10000, 0, 0);
+            lPerson6.Name = "10000 children";
+            lPerson1.NbItemToAdd = 10000;
+            lRoot.Children.Add(lPerson6);
+
             return lRoot;
         }
 

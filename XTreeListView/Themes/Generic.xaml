@@ -131,12 +131,12 @@
                 <ControlTemplate TargetType="{x:Type gui:TreeListView}">
                     <Grid>
                         <gui:ExtendedListView x:Name="PART_ListView" 
-                                                                  AllowDrop="{TemplateBinding AllowDrop}"
-                                                                  SelectionMode="{TemplateBinding SelectionMode}"
-                                                                  DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
-                                                                  ItemTemplate="{TemplateBinding ItemTemplate}"
-                                                                  ItemStringFormat="{TemplateBinding ItemStringFormat}"
-                                                                  ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                                              AllowDrop="{TemplateBinding AllowDrop}"
+                                              SelectionMode="{TemplateBinding SelectionMode}"
+                                              DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
+                                              ItemTemplate="{TemplateBinding ItemTemplate}"
+                                              ItemStringFormat="{TemplateBinding ItemStringFormat}"
+                                              ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
 
                         <!-- This label is used to display a message when the tree is empty. -->
                         <Label x:Name="PART_DefaultMessage" IsHitTestVisible="False" Focusable="False" Background="Transparent" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">

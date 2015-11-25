@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using XTreeListView.Gui;
+using XTreeListView.TestApp.Model;
 using XTreeListView.TestApp.ViewModel;
 
 namespace XTreeListView.TestApp.Gui
@@ -30,6 +31,12 @@ namespace XTreeListView.TestApp.Gui
         public MainWindow()
         {
             this.InitializeComponent();
+
+            // Initializing the mono column tree.
+            PersonRootViewModel lRootViewModel = new PersonRootViewModel();
+            lRootViewModel.SetIsLoadOnDemand(true);
+            lRootViewModel.Model = Person.CreateFullTestModel();
+            this.mPanel.PersonTreeListView.ViewModel = lRootViewModel;
 
             // Initializing the multi column tree list view.
             this.mPanel.MultiTreeListView.ViewModel = new RegistryRootViewModel();
