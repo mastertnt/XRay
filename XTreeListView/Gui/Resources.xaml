@@ -1,0 +1,15 @@
+﻿<ResourceDictionary x:Class="XTreeListView.Gui.Resources"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Style to use to colapse the grid view column header. -->
+    <Style x:Key="CollapsedGridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <!-- Group Item default content template. -->
+    <DataTemplate x:Key="GroupItemDefaultDataTemplate">
+        <TextBlock Text="{Binding DisplayString}" />
+    </DataTemplate>
+
+</ResourceDictionary>

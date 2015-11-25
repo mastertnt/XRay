@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C91EB045-4C68-4F7C-A03C-42362AEE5349}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XTreeListView</RootNamespace>
+    <AssemblyName>XTreeListView</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\ColumnResizeBehavior.cs" />
+    <Compile Include="Behaviors\Column\ALayoutColumn.cs" />
+    <Compile Include="Behaviors\Column\FixedColumn.cs" />
+    <Compile Include="Behaviors\Column\ProportionalColumn.cs" />
+    <Compile Include="Behaviors\Column\RangeColumn.cs" />
+    <Compile Include="Behaviors\ExpandBehavior.cs" />
+    <Compile Include="Behaviors\SelectionBehavior.cs" />
+    <Compile Include="Core\Collections\ObservableCollectionExtended.cs" />
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Converters\CanExpandConverter.cs" />
+    <Compile Include="Converters\ItemToIsGroupConverter.cs" />
+    <Compile Include="Converters\LevelToIndentConverter.cs" />
+    <Compile Include="Converters\ToolTipConverter.cs" />
+    <Compile Include="Converters\WidthHeightToRectConverter.cs" />
+    <Compile Include="Converters\WidthToLeftMarginConverter.cs" />
+    <Compile Include="Core\Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Core\Extensions\ListExtensions.cs" />
+    <Compile Include="Core\WeakEventHandler.cs" />
+    <Compile Include="DataTemplate\AHierarchicalTemplateSelector.cs" />
+    <Compile Include="DataTemplate\DefaultPresenterHierarchicalTemplateSelector.cs" />
+    <Compile Include="DataTemplate\IHierarchicalTemplateSelector.cs" />
+    <Compile Include="DataTemplate\IPresenterHierarchicalTemplateSelector.cs" />
+    <Compile Include="Gui\ExtendedGridView.cs" />
+    <Compile Include="Gui\ExtendedGridViewColumn.cs" />
+    <Compile Include="Gui\ExtendedListView.cs" />
+    <Compile Include="Gui\Resources.cs" />
+    <Compile Include="Gui\TreeListView.cs" />
+    <Compile Include="Gui\TreeListViewColumn.cs" />
+    <Compile Include="Gui\TreeListViewItem.cs" />
+    <Compile Include="Gui\TreeSelectionOptions.cs" />
+    <Compile Include="Models\CheckModel.cs" />
+    <Compile Include="Models\ExpandModel.cs" />
+    <Compile Include="Models\SelectionModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\AHierarchicalItemViewModel.cs" />
+    <Compile Include="ViewModel\AViewModel.cs" />
+    <Compile Include="ViewModel\Delegates.cs" />
+    <Compile Include="ViewModel\Generic\AHierarchicalItemViewModel.cs" />
+    <Compile Include="ViewModel\Generic\ARootHierarchicalItemViewModel.cs" />
+    <Compile Include="ViewModel\Generic\AViewModel.cs" />
+    <Compile Include="ViewModel\Generic\IHierarchicalItemViewModel.cs" />
+    <Compile Include="ViewModel\Generic\IRootHierarchicalItemViewModel.cs" />
+    <Compile Include="ViewModel\Generic\IViewModel.cs" />
+    <Compile Include="ViewModel\IHierarchicalItemViewModel.cs" />
+    <Compile Include="ViewModel\IRootHierarchicalItemViewModel.cs" />
+    <Compile Include="ViewModel\IViewModel.cs" />
+    <Compile Include="ViewModel\SelectionChangedEventArgs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Converters\Resources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Gui\Resources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XSystem\XSystem.csproj">
+      <Project>{70ab21af-5cf4-4751-8d1f-c55b55b33ec6}</Project>
+      <Name>XSystem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
