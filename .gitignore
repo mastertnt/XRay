@@ -52,3 +52,7 @@ Temporary Items
 /XSerialization/bin
 /XSystem/bin
 *.user
+XApplicationCore/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.cache
+XApplicationCore/obj/Release/XApplicationCore.dll
+*.pdb
