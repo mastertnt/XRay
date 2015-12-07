@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7BF42807-0159-401A-B077-52B42A81F8CC}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{35DFC0C4-BA6E-4A82-B8A9-6FD770764C70}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XApplicationCore</RootNamespace>
-    <AssemblyName>XApplicationCore</AssemblyName>
+    <RootNamespace>XApplicationCore.TestApp</RootNamespace>
+    <AssemblyName>XApplicationCore.TestApp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -39,17 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APluginServiceProvider.cs" />
-    <Compile Include="ApplicationBase.cs" />
-    <Compile Include="Attributes\AllowMultipleAttribute.cs" />
-    <Compile Include="ConsoleApplication.cs" />
-    <Compile Include="IDisplayable.cs" />
-    <Compile Include="ILocalizationService.cs" />
-    <Compile Include="ILogService.cs" />
-    <Compile Include="IPlugin.cs" />
-    <Compile Include="IService.cs" />
-    <Compile Include="PluginDescriptor.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XApplicationCore\XApplicationCore.csproj">
+      <Project>{7BF42807-0159-401A-B077-52B42A81F8CC}</Project>
+      <Name>XApplicationCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

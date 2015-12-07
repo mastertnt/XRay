@@ -3,7 +3,7 @@
     /// <summary>
     /// This interface defines a displayable object in the GUI.
     /// </summary>
-    interface IDisplayable
+    public interface IDisplayable
     {
         /// <summary>
         /// Gets the display string.
