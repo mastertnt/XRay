@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using XSerialization;
-using XSystem;
 
-namespace DirectCGF.Plugins.Simulation.XFactoryCodec_2015_07
+namespace XSerialization
 {
     /// <summary>
     /// This class is used to map a type to another type but with matched definition.

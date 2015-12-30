@@ -113,17 +113,21 @@ namespace XSerialization.Defaults
         {
             PropertyInfo lPropertyInfo = pObject as PropertyInfo;
             XElement lObjectElement = new XElement(lPropertyInfo.Name);
-            object lPropertyValue = lPropertyInfo.GetValue(pSerializationContext.CurrentObject, null);
-            IXSerializationContract lSerializationContract = pSerializationContext.SelectContract(lObjectElement, lPropertyInfo.PropertyType);
-            if (lPropertyValue == null)
+            ParameterInfo[] lParameters = lPropertyInfo.GetIndexParameters();
+            if (lParameters.Length == 0)
             {
-                lSerializationContract = pSerializationContext.SelectContract(lObjectElement, null);
+                object lPropertyValue = lPropertyInfo.GetValue(pSerializationContext.CurrentObject, null);
+                IXSerializationContract lSerializationContract = pSerializationContext.SelectContract(lObjectElement, lPropertyInfo.PropertyType);
+                if (lPropertyValue == null)
+                {
+                    lSerializationContract = pSerializationContext.SelectContract(lObjectElement, null);
+                }
+                if (lSerializationContract != null)
+                {
+                    lSerializationContract.Write(lPropertyValue, lObjectElement, pSerializationContext);
+                }
+                pParentElement.Add(lObjectElement);
             }
-            if (lSerializationContract != null)
-            {
-                lSerializationContract.Write(lPropertyValue, lObjectElement, pSerializationContext);
-            }
-            pParentElement.Add(lObjectElement);
             return pParentElement;
         }
 
