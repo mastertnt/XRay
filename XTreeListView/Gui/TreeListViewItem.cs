@@ -111,14 +111,14 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets or sets the view model attached to this item.
         /// </summary>
-        internal IHierarchicalItemViewModel ViewModel 
+        public IHierarchicalItemViewModel ViewModel 
         {
             get
             {
                 return this.mViewModel;
             }
 
-            set
+            internal set
             {
                 if
                     (this.mViewModel != value)

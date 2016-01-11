@@ -68,6 +68,7 @@
     <Compile Include="Bases\TupleSerializationContract.cs" />
     <Compile Include="Collections\ListSerializationContract.cs" />
     <Compile Include="Collections\DictionarySerializationContract.cs" />
+    <Compile Include="Defaults\AObjectSerializationContract.cs" />
     <Compile Include="Defaults\DefaultSkipPropertyInfoSerializationContract.cs" />
     <Compile Include="ExternalResolvers\DefaultExternalReferenceResolver.cs" />
     <Compile Include="Defaults\DefaultEnumSerializationContract.cs" />

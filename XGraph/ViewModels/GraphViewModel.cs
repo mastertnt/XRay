@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using PropertyChanged;
 using System.ComponentModel;
+using System;
 
 namespace XGraph.ViewModels
 {
@@ -51,6 +52,26 @@ namespace XGraph.ViewModels
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Event raised when a node is added.
+        /// </summary>
+        public event Action<GraphViewModel, NodeViewModel> NodeAdded;
+
+        /// <summary>
+        /// Event raised when a node is removed.
+        /// </summary>
+        public event Action<GraphViewModel, NodeViewModel> NodeRemoved;
+
+        /// <summary>
+        /// Event raised when a connection is added.
+        /// </summary>
+        public event Action<GraphViewModel, ConnectionViewModel> ConnectionAdded;
+
+        /// <summary>
+        /// Event raised when a connection is removed.
+        /// </summary>
+        public event Action<GraphViewModel, ConnectionViewModel> ConnectionRemoved;
+        
         #endregion // Events.
 
         #region Properties
@@ -106,6 +127,10 @@ namespace XGraph.ViewModels
         {
             this.mConnections.Add(pConnection);
             this.mGraphItems.Add(pConnection);
+            if (this.ConnectionAdded != null)
+            {
+                this.ConnectionAdded(this, pConnection);
+            }
         }
 
         /// <summary>
@@ -116,6 +141,10 @@ namespace XGraph.ViewModels
         {
             this.mNodes.Add(pNode);
             this.mGraphItems.Add(pNode);
+            if (this.NodeAdded != null)
+            {
+                this.NodeAdded(this, pNode);
+            }
         }
 
         /// <summary>
