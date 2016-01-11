@@ -44,13 +44,17 @@ namespace XGraph.Controls
         {
             get
             {
+                // Defining width and height.
+                double lWidth = this.ActualWidth - this.StrokeThickness;
+                double lHeight = this.ActualHeight - this.StrokeThickness;
+
                 // Defining the points.
                 Point lP1 = new Point(0.0d, this.BevelLenght);
                 Point lP2 = new Point(this.BevelLenght, 0.0d);
-                Point lP3 = new Point(this.ActualWidth, 0.0d);
-                Point lP4 = new Point(this.ActualWidth, this.ActualHeight - this.BevelLenght);
-                Point lP5 = new Point(this.ActualWidth - this.BevelLenght, this.ActualHeight);
-                Point lP6 = new Point(0.0d, this.ActualHeight);
+                Point lP3 = new Point(lWidth, 0.0d);
+                Point lP4 = new Point(lWidth, lHeight - this.BevelLenght);
+                Point lP5 = new Point(lWidth - this.BevelLenght, lHeight);
+                Point lP6 = new Point(0.0d, lHeight);
 
                 // Building the path.
                 List<PathSegment> lPath = new List<PathSegment>(3)

@@ -26,6 +26,15 @@ namespace XGraph.Controls
 
         #endregion // Fields.
 
+        #region Dependencies
+
+        /// <summary>
+        /// Identifies the IsSelected dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(NodeView), new FrameworkPropertyMetadata(false, OnIsSelectedChanged));
+
+        #endregion // Dependencies.
+
         #region Constructors
 
         /// <summary>
@@ -45,6 +54,25 @@ namespace XGraph.Controls
         }
 
         #endregion // Constructors.
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the selection state of the node.
+        /// </summary>
+        public bool IsSelected
+        {
+            get
+            {
+                return (bool)this.GetValue(IsSelectedProperty);
+            }
+            set
+            {
+                this.SetValue(IsSelectedProperty, value);
+            }
+        }
+
+        #endregion // Properties.
 
         #region Methods
 
@@ -88,6 +116,35 @@ namespace XGraph.Controls
             lNodesBinding.Source = this.Content;
             lNodesBinding.Mode = BindingMode.OneWay;
             this.mInnerPortContainer.SetBinding(ItemsControl.ItemsSourceProperty, lNodesBinding);
+        }
+         
+        /// <summary>
+        /// Delegate called when the selection state changed.
+        /// </summary>
+        /// <param name="pObject">The modified control.</param>
+        /// <param name="pEventArgs">The event arguments.</param>
+        private static void OnIsSelectedChanged(DependencyObject pObject, DependencyPropertyChangedEventArgs pEventArgs)
+        {
+            NodeView lNodeView = pObject as NodeView;
+            if (lNodeView != null)
+            {
+                lNodeView.UpdateVisualState();
+            }
+        }
+           
+        /// <summary>
+        /// Updates the visual state of the node.
+        /// </summary>
+        private void UpdateVisualState()
+        {
+            if (this.IsSelected)
+            {
+                VisualStateManager.GoToState(this, "Selected", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "Unselected", true);
+            }
         }
 
         #endregion // Methods.

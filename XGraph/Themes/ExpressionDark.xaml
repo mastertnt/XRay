@@ -30,7 +30,30 @@
 
     <!-- GraphItem template when it represents a node. -->
     <ControlTemplate x:Key="GraphItemNodeViewTemplate" TargetType="{x:Type controls:GraphItem}">
-        <controls:NodeView Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+        <Grid x:Name="INNER_RootGrid">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="SelectionStates">
+                    <VisualState x:Name="Unselected">
+                        <Storyboard>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="INNER_NodeView" Storyboard.TargetProperty="IsSelected" >
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>                    
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="INNER_NodeView" Storyboard.TargetProperty="IsSelected" >
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <controls:NodeView x:Name="INNER_NodeView" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"  />
+        </Grid>        
     </ControlTemplate>
 
     <!-- GraphItem style when it represents a node. -->
@@ -51,12 +74,27 @@
     <!-- NodeView template. -->
     <ControlTemplate x:Key="NodeViewTemplate" TargetType="{x:Type controls:NodeView}">
         <Grid Background="Transparent">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="SelectionStates">
+                    <VisualState x:Name="Unselected" />
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="INNER_BackgroundShape" Storyboard.TargetProperty="(Shape.Stroke)">
+                                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{StaticResource Icon_Foreground_Brush}" />
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="{markup:GridLength {StaticResource NodeView_Bevel_Size}}" />
             </Grid.RowDefinitions>
-            <controls:NodeViewShape x:Name="INNER_BackgroundShape" Fill="{TemplateBinding Background}" BevelLenght="{StaticResource NodeView_Bevel_Size}" Grid.RowSpan="3" />
+            <controls:NodeViewShape x:Name="INNER_BackgroundShape" Fill="{TemplateBinding Background}" BevelLenght="{StaticResource NodeView_Bevel_Size}" StrokeDashArray="3 2" StrokeThickness="2" Grid.RowSpan="3" />
             <Grid Margin="0,0,0,3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

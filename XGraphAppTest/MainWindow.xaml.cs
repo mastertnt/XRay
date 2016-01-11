@@ -25,6 +25,12 @@ namespace XGraphTest
         {
             InitializeComponent();
             this.GraphView.DataContext = this.CreateTypeGraph();
+            this.GraphView.SelectionChanged += GraphView_SelectionChanged;
+        }
+
+        void GraphView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Console.WriteLine("Selection changed!");
         }
 
         /// <summary>
