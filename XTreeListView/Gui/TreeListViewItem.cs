@@ -242,7 +242,7 @@ namespace XTreeListView.Gui
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
+            
             // Getting the parts from the control template.
             this.mDecoratorsContainer = this.GetTemplateChild(PART_DecoratorsContainer) as FrameworkElement;
             this.mExpander = this.GetTemplateChild(PART_Expander) as ToggleButton;

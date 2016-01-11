@@ -4,5 +4,6 @@
     
     <converters:CanExpandConverter x:Key="CanExpandConverterKey" />
     <converters:LevelToIndentConverter x:Key="LevelToIndentConverterKey" />
+    <converters:NullToBoolConverter x:Key="IsNotNullConverterKey" NullBoolean="false" NotNullBoolean="true" />
  
 </ResourceDictionary>

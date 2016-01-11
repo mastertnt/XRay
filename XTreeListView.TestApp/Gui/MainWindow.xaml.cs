@@ -40,9 +40,9 @@ namespace XTreeListView.TestApp.Gui
 
             // Initializing the multi column tree list view.
             this.mPanel.MultiTreeListView.ViewModel = new RegistryRootViewModel();
-            this.mPanel.MultiTreeListView.SetFirstColumn(new TreeListViewColumn() { Header = "Name", DataMemberBindingPath = "Name" });
-            this.mPanel.MultiTreeListView.AddColumn(new TreeListViewColumn() { Header = "Kind", DataMemberBindingPath = "Kind" });
-            this.mPanel.MultiTreeListView.AddColumn(new TreeListViewColumn() { Header = "Data", DataMemberBindingPath = "Data" });
+            //this.mPanel.MultiTreeListView.SetFirstColumn(new TreeListViewColumn() { Header = "Name", DataMemberBindingPath = "Name" });
+            //this.mPanel.MultiTreeListView.AddColumn(new TreeListViewColumn() { Header = "Kind", DataMemberBindingPath = "Kind" });
+            //this.mPanel.MultiTreeListView.AddColumn(new TreeListViewColumn() { Header = "Data", DataMemberBindingPath = "Data" });
         }
 
         #endregion // Constructors.

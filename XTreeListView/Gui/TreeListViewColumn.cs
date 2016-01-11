@@ -4,20 +4,20 @@ using System.Windows.Controls;
 namespace XTreeListView.Gui
 {
     /// <summary>
-    /// This class defines an ITreeListView column.
+    /// This class defines an tree list view column.
     /// </summary>
-    /// <!-- DPE -->
+    /// <!-- Damien Porte -->
     public class TreeListViewColumn
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the ITreeListViewColumn class.
+        /// Initializes a new instance of the <see cref="TreeListViewColumn"/> class.
         /// </summary>
         public TreeListViewColumn()
         {
-            this.Header = String.Empty;
-            this.DataMemberBindingPath = String.Empty;
+            this.Header = string.Empty;
+            this.DataMemberBindingPath = string.Empty;
             this.Width = 1;
             this.Stretch = true;
         }
@@ -29,17 +29,29 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets or sets the header of the column.
         /// </summary>
-        public String Header { get; set; }
+        public string Header 
+        { 
+            get; 
+            set; 
+        }
 
         /// <summary>
         /// Gets or sets the path from the view model to the value to display in the column.
         /// </summary>
-        public String DataMemberBindingPath { get; set; }
+        public string DataMemberBindingPath 
+        { 
+            get; 
+            set; 
+        }
 
         /// <summary>
         /// Gets or sets the column default width (px).
         /// </summary>
-        public Int32 Width { get; set; }
+        public int Width 
+        { 
+            get; 
+            set; 
+        }
 
         /// <summary>
         /// Gets or sets the flag indicating if the column is stretched or not.
@@ -47,17 +59,20 @@ namespace XTreeListView.Gui
         /// <remarks>
         /// If the column is stretched, the Width property defines the stretching ratio and is no more in pixel.
         /// </remarks>
-        public Boolean Stretch { get; set; }
+        public bool Stretch 
+        { 
+            get; 
+            set; 
+        }
 
         /// <summary>
         /// Gets the template selector.
         /// </summary>
-        public DataTemplateSelector TemplateSelector { get; set; }
-
-        /// <summary>
-        /// Gets the template selector in edition mode.
-        /// </summary>
-        public DataTemplateSelector EditTemplateSelector { get; set; }
+        public DataTemplateSelector TemplateSelector 
+        { 
+            get; 
+            set; 
+        }
 
         #endregion // Properties.
     }

@@ -32,6 +32,11 @@ namespace XTreeListView.Gui
         /// </summary>
         private GridViewColumnCollection mGridViewColumnBackup;
 
+        /// <summary>
+        /// Stores the default style key of the item container when displayed in this grid.
+        /// </summary>
+        private object mItemContainerDefaultStyleKey;
+
         #endregion // Fields.
 
         #region Constructors
@@ -39,12 +44,14 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtendedGridView"/> class.
         /// </summary>
-        /// <param name="pResources"></param>
-        public ExtendedGridView(Resources pResources)
+        /// <param name="pResources">The grid view resources.</param>
+        /// <param name="pItemContainerDefaultStyleKey">The default style key of the item container when displayed in this grid.</param>
+        public ExtendedGridView(Resources pResources, object pItemContainerDefaultStyleKey)
         {
             this.mResources = new Resources();
             this.ShowColumnHeaders = false;
             this.mGridViewColumnBackup = new GridViewColumnCollection();
+            this.mItemContainerDefaultStyleKey = pItemContainerDefaultStyleKey;
 
             this.Columns.CollectionChanged += this.OnGridViewColumnsCollectionChanged;
         }
@@ -52,6 +59,17 @@ namespace XTreeListView.Gui
         #endregion // Constructors.
 
         #region Properties
+
+        /// <summary>
+        /// Gets the item container default style.
+        /// </summary>
+        protected override object ItemContainerDefaultStyleKey 
+        { 
+            get
+            {
+                return this.mItemContainerDefaultStyleKey;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the flag indicating if the column headers are visible or not.

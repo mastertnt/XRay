@@ -49,7 +49,9 @@
     <Compile Include="Behaviors\Column\ProportionalColumn.cs" />
     <Compile Include="Behaviors\Column\RangeColumn.cs" />
     <Compile Include="Behaviors\ExpandBehavior.cs" />
+    <Compile Include="Behaviors\IsParentTreeMultiColumnsBehavior.cs" />
     <Compile Include="Behaviors\SelectionBehavior.cs" />
+    <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Core\Collections\ObservableCollectionExtended.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Converters\CanExpandConverter.cs" />
@@ -68,9 +70,11 @@
     <Compile Include="Gui\ExtendedGridView.cs" />
     <Compile Include="Gui\ExtendedGridViewColumn.cs" />
     <Compile Include="Gui\ExtendedListView.cs" />
+    <Compile Include="Gui\MyGridViewRowPresenter.cs" />
     <Compile Include="Gui\Resources.cs" />
     <Compile Include="Gui\TreeListView.cs" />
     <Compile Include="Gui\TreeListViewColumn.cs" />
+    <Compile Include="Gui\TreeListViewColumnCollection.cs" />
     <Compile Include="Gui\TreeListViewItem.cs" />
     <Compile Include="Gui\TreeSelectionOptions.cs" />
     <Compile Include="Models\CheckModel.cs" />
