@@ -34,6 +34,22 @@ namespace XGraph.Controls
             return new GraphItem();
         }
 
+        /// <summary>
+        /// Returns the node view containing the given view model.
+        /// </summary>
+        /// <param name="pItem">The item contained by the view.</param>
+        /// <returns>The found view if any, null otherwise.</returns>
+        public TContainer GetContainerForViewModel<TViewModel, TContainer>(TViewModel pItem) where TViewModel : IGraphItemViewModel where TContainer : FrameworkElement
+        {
+            GraphItem lItemView = this.ItemContainerGenerator.ContainerFromItem(pItem) as GraphItem;
+            if (lItemView != null)
+            {
+                return lItemView.TemplateControl as TContainer;
+            }
+
+            return null;
+        }
+
         #endregion // Methods
     }
 }

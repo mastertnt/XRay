@@ -22,7 +22,7 @@ namespace XGraph.ViewModels
         /// </summary>
         public NodeViewModel()
         {
-            this.Ports = new ObservableCollection<PortViewModel>();
+            this.Ports = new PortViewModelCollection(this);
         }
 
         #endregion // Constructors.
@@ -68,10 +68,10 @@ namespace XGraph.ViewModels
         /// <summary>
         /// Gets or sets the ports.
         /// </summary>
-        public ObservableCollection<PortViewModel> Ports 
+        public PortViewModelCollection Ports 
         { 
             get; 
-            set; 
+            private set; 
         }
 
         /// <summary>

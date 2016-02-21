@@ -48,7 +48,6 @@ namespace XGraph.Controls
                 Point lP1 = new Point(0.0d, 0.0d);
                 Point lP2 = new Point(0.0d, this.BevelLenght);
                 Point lP3 = new Point(this.BevelLenght, 0.0d);
-                
 
                 // Building the path.
                 List<PathSegment> lPath = new List<PathSegment>(3) {new LineSegment(lP1, true), new LineSegment(lP2, true), new LineSegment(lP3, true)};

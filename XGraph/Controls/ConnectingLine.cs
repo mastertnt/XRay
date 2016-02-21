@@ -134,8 +134,8 @@ namespace XGraph.Controls
                         if (lTargetViewModel != null && lTargetViewModel.CanBeConnectedTo(lSourceViewModel))
                         {
                             ConnectionViewModel lConnectionViewModel = new ConnectionViewModel();
-                            lConnectionViewModel.Input = lSourceViewModel;
-                            lConnectionViewModel.Output = lTargetViewModel;
+                            lConnectionViewModel.Output= lSourceViewModel;
+                            lConnectionViewModel.Input = lTargetViewModel;
                             lGraphViewModel.AddConnection(lConnectionViewModel);
                         }
                     }

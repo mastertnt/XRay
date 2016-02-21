@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using XGraph.ViewModels;
@@ -8,8 +9,18 @@ namespace XGraph.Controls
     /// <summary>
     /// This item stores all the others control for the graph view.
     /// </summary>
+    [TemplatePart(Name = PART_TEMPLATE_CONTROL, Type = typeof(FrameworkElement))]
     public class GraphItem : ListBoxItem
     {
+        #region Fields
+
+        /// <summary>
+        /// Name of the parts that have to be in the control template.
+        /// </summary>
+        private const string PART_TEMPLATE_CONTROL = "PART_TemplateControl";
+
+        #endregion // Fields.
+
         #region Dependencies
 
         /// <summary>
@@ -37,6 +48,15 @@ namespace XGraph.Controls
         #endregion // Constructors
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the specific view representing the item.
+        /// </summary>
+        public FrameworkElement TemplateControl
+        {
+            get;
+            protected set;
+        }
 
         /// <summary>
         /// Gets or sets X pos.
@@ -104,6 +124,22 @@ namespace XGraph.Controls
                     Binding lYBinding = new Binding("Y") { Source = lNewContent, Mode = BindingMode.TwoWay };
                     this.SetBinding(GraphItem.PosYProperty, lYBinding);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Method called when the control template is applied.
+        /// </summary>
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            // Getting the parts of the control.
+            this.TemplateControl = this.GetTemplateChild(PART_TEMPLATE_CONTROL) as FrameworkElement;
+
+            if (this.TemplateControl == null)
+            {
+                throw new Exception("GraphItem control template not correctly defined.");
             }
         }
 

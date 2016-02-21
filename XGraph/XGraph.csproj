@@ -60,6 +60,7 @@
     <Compile Include="Controls\AdornerLayeredCanvas.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\ConnectionRenderer.cs" />
     <Compile Include="Controls\ConnectorsAdorner.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -91,6 +92,7 @@
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="Controls\GraphView.cs" />
     <Compile Include="ViewModels\GraphViewModel.cs" />
+    <Compile Include="ViewModels\PortViewModelCollection.cs" />
     <Page Include="Resources\All.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -3,6 +3,7 @@ using System.Windows;
 using PropertyChanged;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
 
 namespace XGraph.ViewModels
 {
@@ -21,9 +22,19 @@ namespace XGraph.ViewModels
     /// </summary>
     /// <!-- NBY -->
     [ImplementPropertyChanged]
+    [DebuggerDisplay("[{Direction}] {DisplayString}")]
     public class PortViewModel : INotifyPropertyChanged
     {
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the parent node of the port.
+        /// </summary>
+        public NodeViewModel ParentNode
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the position.
@@ -33,7 +44,8 @@ namespace XGraph.ViewModels
         /// </value>
         public Point Position
         {
-            get; set;
+            get; 
+            set;
         }
 
         /// <summary>

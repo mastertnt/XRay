@@ -15,19 +15,24 @@ namespace XGraph.Controls
     [ImplementPropertyChanged]
     public class Connection : ContentControl
     {
-        #region Fields
+        #region Dependencies
 
         /// <summary>
-        /// This field stores the geometry to draw.
+        /// Identifies the IsSelected dependency property.
         /// </summary>
-        private PathGeometry mDrawingGeometry;
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(Connection), new FrameworkPropertyMetadata(false, OnIsSelectedChanged));
 
         /// <summary>
-        /// This field stores the pen of the adorner.
+        /// Identifies the OutputConnector dependency property.
         /// </summary>
-        private readonly Pen mPen;
+        public static readonly DependencyProperty OutputConnectorProperty = DependencyProperty.Register("OutputConnector", typeof(OutputConnector), typeof(Connection), new FrameworkPropertyMetadata(null));
 
-        #endregion // Fields.
+        /// <summary>
+        /// Identifies the InputConnector dependency property.
+        /// </summary>
+        public static readonly DependencyProperty InputConnectorProperty = DependencyProperty.Register("InputConnector", typeof(InputConnector), typeof(Connection), new FrameworkPropertyMetadata(null));
+
+        #endregion // Dependencies.
 
         #region Constructors
 
@@ -45,28 +50,60 @@ namespace XGraph.Controls
         /// </summary>
         public Connection()
         {
-            this.mPen = new Pen(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4A7EBB")), 1);
-            this.mPen.LineJoin = PenLineJoin.Round;
         }
 
         #endregion // Constructors.
 
-        #region Methods
+        #region Properties
 
         /// <summary>
-        /// This method is called to render the adorner.
+        /// Gets or sets the selection state of the connection.
         /// </summary>
-        /// <param name="pDC">The current drawing context.</param>
-        protected override void OnRender(DrawingContext pDC)
+        public bool IsSelected
         {
-            base.OnRender(pDC);
-            pDC.DrawGeometry(null, this.mPen, this.mDrawingGeometry);
-
-            // without a background the OnMouseMove event would not be fired
-            // Alternative: implement a Canvas as a child of this adorner, like
-            // the ConnectionAdorner does.
-            pDC.DrawRectangle(Brushes.Transparent, null, new Rect(RenderSize));
+            get
+            {
+                return (bool)this.GetValue(IsSelectedProperty);
+            }
+            set
+            {
+                this.SetValue(IsSelectedProperty, value);
+            }
         }
+
+        /// <summary>
+        /// Gets or sets the output connector of the connection.
+        /// </summary>
+        public OutputConnector OutputConnector
+        {
+            get
+            {
+                return (OutputConnector)this.GetValue(OutputConnectorProperty);
+            }
+            set
+            {
+                this.SetValue(OutputConnectorProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the input connector of the connection.
+        /// </summary>
+        public InputConnector InputConnector
+        {
+            get
+            {
+                return (InputConnector)this.GetValue(InputConnectorProperty);
+            }
+            set
+            {
+                this.SetValue(InputConnectorProperty, value);
+            }
+        }
+
+        #endregion // Properties.
+
+        #region Methods
 
         /// <summary>
         /// Method called when the control content changed.
@@ -75,56 +112,72 @@ namespace XGraph.Controls
         /// <param name="pNewContent">The new content.</param>
         protected override void OnContentChanged(object pOldContent, object pNewContent)
         {
-            ConnectionViewModel lPreviousContent = this.Content as ConnectionViewModel;
-            if (lPreviousContent != null)
-            {
-                lPreviousContent.Output.PropertyChanged -= this.OnPortPropertyChanged;
-                lPreviousContent.Input.PropertyChanged -= this.OnPortPropertyChanged;
-            }
-
+            // Calling ancestor methods.
             base.OnContentChanged(pOldContent, pNewContent);
 
             // The content is the view model.
-            ConnectionViewModel lNewContent = pNewContent as ConnectionViewModel;
-            if (lNewContent != null)
+            ConnectionViewModel lViewModel = pNewContent as ConnectionViewModel;
+            if (lViewModel == null)
             {
-                lNewContent.Output.PropertyChanged += this.OnPortPropertyChanged;
-                lNewContent.Input.PropertyChanged += this.OnPortPropertyChanged;
-                this.UpdatePathGeometry();
+                // Unreferencing the connectors to avoid memory leaks.
+                this.OutputConnector = null;
+                this.InputConnector = null;
+            }
+            else
+            {
+                // Filling the output and input connectors.
+                GraphView lParentCanvas = this.FindVisualParent<GraphView>();
+                if (lViewModel != null && lParentCanvas != null)
+                {
+                    NodeView lOutputNode = lParentCanvas.GetContainerForViewModel<NodeViewModel, NodeView>(lViewModel.Output.ParentNode);
+                    if (lOutputNode != null)
+                    {
+                        PortView lOutputPort = lOutputNode.GetContainerForPortViewModel(lViewModel.Output);
+                        if (lOutputPort != null)
+                        {
+                            this.OutputConnector = lOutputPort.Connector as OutputConnector;
+                        }
+                    }
+
+                    NodeView lInputNode = lParentCanvas.GetContainerForViewModel<NodeViewModel, NodeView>(lViewModel.Input.ParentNode);
+                    if (lInputNode != null)
+                    {
+                        PortView lInputPort = lInputNode.GetContainerForPortViewModel(lViewModel.Input);
+                        if (lInputPort != null)
+                        {
+                            this.InputConnector = lInputPort.Connector as InputConnector;
+                        }
+                    }
+                }
             }
         }
 
         /// <summary>
-        /// Called when [port property changed].
+        /// Delegate called when the selection state changed.
         /// </summary>
-        /// <param name="pSender">The sender.</param>
-        /// <param name="pEventArgs">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
-        private void OnPortPropertyChanged(object pSender, System.ComponentModel.PropertyChangedEventArgs pEventArgs)
+        /// <param name="pObject">The modified control.</param>
+        /// <param name="pEventArgs">The event arguments.</param>
+        private static void OnIsSelectedChanged(DependencyObject pObject, DependencyPropertyChangedEventArgs pEventArgs)
         {
-            this.UpdatePathGeometry();
+            Connection lConnection = pObject as Connection;
+            if (lConnection != null)
+            {
+                lConnection.UpdateVisualState();
+            }
         }
 
         /// <summary>
-        /// This method updates the final geometry for the path.
+        /// Updates the visual state of the node.
         /// </summary>
-        /// <returns>The path geometry.</returns>
-        private void UpdatePathGeometry()
+        private void UpdateVisualState()
         {
-            ConnectionViewModel lViewModel = this.Content as ConnectionViewModel;
-            if
-                (lViewModel != null)
+            if (this.IsSelected)
             {
-                if
-                    (this.mDrawingGeometry == null)
-                {
-                    this.mDrawingGeometry = new PathGeometry();
-                }
-                List<Point> lPoints = lViewModel.Output.Position.GetShortestPath(lViewModel.Input.Position);
-                this.mDrawingGeometry.Figures.Clear();
-                PathFigure lFigure = new PathFigure {StartPoint = lViewModel.Output.Position};
-                lPoints.RemoveAt(0);
-                lFigure.Segments.Add(new BezierSegment(lPoints[0], lPoints[1], lPoints[2], true));
-                this.mDrawingGeometry.Figures.Add(lFigure);
+                VisualStateManager.GoToState(this, "Selected", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "Unselected", true);
             }
         }
 

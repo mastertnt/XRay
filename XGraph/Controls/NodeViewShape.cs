@@ -71,7 +71,7 @@ namespace XGraph.Controls
                 PathFigure[] lFigures = { new PathFigure(lP1, lPath, true) };
 
                 // Building the final geometry.
-                return new PathGeometry(lFigures, FillRule.EvenOdd, null);
+                return new PathGeometry(lFigures);
             }
         }
 

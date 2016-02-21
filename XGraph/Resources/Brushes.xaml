@@ -10,4 +10,6 @@
 
     <SolidColorBrush x:Key="Connector_Foreground_Brush" Color="#FF9D9D9D" />
 
+    <SolidColorBrush x:Key="Connection_Background_Brush" Color="#FF9D9D9D" />
+
 </ResourceDictionary>

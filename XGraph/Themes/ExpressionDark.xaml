@@ -38,21 +38,21 @@
                 <VisualStateGroup x:Name="SelectionStates">
                     <VisualState x:Name="Unselected">
                         <Storyboard>
-                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="INNER_NodeView" Storyboard.TargetProperty="IsSelected" >
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_TemplateControl" Storyboard.TargetProperty="IsSelected" >
                                 <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False" />
                             </BooleanAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>                    
                     <VisualState x:Name="Selected">
                         <Storyboard>
-                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="INNER_NodeView" Storyboard.TargetProperty="IsSelected" >
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_TemplateControl" Storyboard.TargetProperty="IsSelected" >
                                 <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True" />
                             </BooleanAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <controls:NodeView x:Name="INNER_NodeView" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"  />
+            <controls:NodeView x:Name="PART_TemplateControl" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"  />
         </Grid>        
     </ControlTemplate>
 
@@ -63,7 +63,30 @@
 
     <!-- GraphItem template when it represents a connection. -->
     <ControlTemplate x:Key="GraphItemConnectionTemplate" TargetType="{x:Type controls:GraphItem}">
-        <controls:Connection Content="{TemplateBinding Content}" />
+        <Grid x:Name="INNER_RootGrid">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="SelectionStates">
+                    <VisualState x:Name="Unselected">
+                        <Storyboard>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_TemplateControl" Storyboard.TargetProperty="IsSelected" >
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_TemplateControl" Storyboard.TargetProperty="IsSelected" >
+                                <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <controls:Connection x:Name="PART_TemplateControl" Content="{TemplateBinding Content}" />
+        </Grid>
     </ControlTemplate>
 
     <!-- GraphItem style when it represents a connection. -->
@@ -252,11 +275,43 @@
 
     <!-- Connection template. -->
     <ControlTemplate x:Key="ConnectionTemplate" TargetType="{x:Type controls:Connection}">
+        <Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="SelectionStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="0:0:0.3" To="Selected"/>
+                        <VisualTransition From="Selected" GeneratedDuration="0:0:0.3"/>
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Unselected" />
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="INNER_SelectionHaloUp" Storyboard.TargetProperty="(UIElement.Opacity)" To="0.2" />
+                            <DoubleAnimation Storyboard.TargetName="INNER_SelectionHaloDown" Storyboard.TargetProperty="(UIElement.Opacity)" To="0.2" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <controls:ConnectionRenderer x:Name="INNER_SelectionHaloUp" From="{Binding OutputConnector.Position, RelativeSource={RelativeSource TemplatedParent}}" To="{Binding InputConnector.Position, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.0" StrokeDashArray="3 2">
+                <controls:ConnectionRenderer.RenderTransform>
+                    <TranslateTransform Y="2" />
+                </controls:ConnectionRenderer.RenderTransform>
+            </controls:ConnectionRenderer>
+            <controls:ConnectionRenderer x:Name="INNER_SelectionHaloDown" From="{Binding OutputConnector.Position, RelativeSource={RelativeSource TemplatedParent}}" To="{Binding InputConnector.Position, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.0" StrokeDashArray="3 2">
+                <controls:ConnectionRenderer.RenderTransform>
+                    <TranslateTransform Y="-2" />
+                </controls:ConnectionRenderer.RenderTransform>
+            </controls:ConnectionRenderer>
+            <controls:ConnectionRenderer x:Name="INNER_Connection" From="{Binding OutputConnector.Position, RelativeSource={RelativeSource TemplatedParent}}" To="{Binding InputConnector.Position, RelativeSource={RelativeSource TemplatedParent}}" Stroke="{TemplateBinding Background}" />
+        </Grid>
     </ControlTemplate>
     
     <!-- Connection style. -->
     <Style TargetType="{x:Type controls:Connection}" BasedOn="{StaticResource {x:Type ContentControl}}">
         <Setter Property="Template" Value="{StaticResource ConnectionTemplate}" />
+        <Setter Property="Background" Value="{StaticResource Connection_Background_Brush}" />
     </Style>
     
 </ResourceDictionary>
