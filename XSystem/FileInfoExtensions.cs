@@ -7,25 +7,6 @@ using Microsoft.SqlServer.Server;
 namespace XSystem
 {
     /// <summary>
-    /// This class adds news methods to create FileInfo.
-    /// </summary>
-    public static class FileInfoHelpers
-    {
-        /// <summary>
-        /// This method is used to build a fileinfo based on current time (to avoid creation by several instances).
-        /// </summary>
-        /// <param name="pSource">The source directory.</param>
-        /// <param name="pExtension">The pExtension to use.</param>
-        /// <returns>The file info with time stamp</returns>
-        public static System.IO.FileInfo CreateTimeStampFileInfo(DirectoryInfo pSource, string pExtension)
-        {
-            DateTime lNow = DateTime.Now;
-            string lFilename = pSource.FullName + Path.DirectorySeparatorChar + lNow.Year + "--" + lNow.Month + "--" + lNow.Day + "--" + lNow.Hour + "--" + lNow.Minute + "--" + lNow.Second + "--" + pExtension;
-            return new System.IO.FileInfo(lFilename);
-        }
-    }
-
-    /// <summary>
     /// This class stores extension methods on FileInfo.
     /// </summary>
     public static class FileInfoExtensions
@@ -137,7 +118,13 @@ namespace XSystem
         /// <returns>The relative path.</returns>
         public static string GetRelativeFrom(this FileInfo pThis, DirectoryInfo pDirectory)
         {
-            Uri lFileUri = new Uri(pThis.FullName);
+            string lCleanedPath = pThis.FullName;
+            if (Path.IsPathRooted(pThis.ToString()) == false)
+            {
+                lCleanedPath = pDirectory.FullName + pThis.ToString();
+            }
+
+            Uri lFileUri = new Uri(lCleanedPath);
             Uri lDirectoryUri = new Uri(pDirectory.FullName);
             return Uri.UnescapeDataString(lDirectoryUri.MakeRelativeUri(lFileUri).ToString());
         }
