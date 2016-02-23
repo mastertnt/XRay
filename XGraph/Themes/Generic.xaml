@@ -1,9 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-    <!-- Dictionary referencing the default theme for it to be loaded automatically by WPF -->
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/XGraph;Component/Themes/ExpressionDark.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-    
-</ResourceDictionary>

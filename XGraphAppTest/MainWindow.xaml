@@ -1,9 +1,0 @@
-﻿<Window x:Class="XGraphTest.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="clr-namespace:XGraph.Controls;assembly=XGraph"
-        Title="MainWindow" Height="500" Width="600" WindowState="Maximized">
-    <Grid>
-        <controls:GraphView x:Name="GraphView" ItemsSource="{Binding Items}" />
-    </Grid>
-</Window>
