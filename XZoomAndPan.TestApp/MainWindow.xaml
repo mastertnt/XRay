@@ -8,7 +8,7 @@
         <xzoomandpan:TooledZoomAndPanControl ContentWidth="1000" ContentHeight="800" OverviewHeight="200" OverviewWidth="200">
             <xgraph:GraphView x:Name="GraphView" ItemsSource="{Binding Items}" />
             <xzoomandpan:TooledZoomAndPanControl.OverviewContent>
-                <xgraph:GraphView x:Name="Overvierview" ItemsSource="{Binding Items}" />
+                <xgraph:GraphView x:Name="Overvierview" ItemsSource="{Binding Items}" IsReadOnly="true" />
             </xzoomandpan:TooledZoomAndPanControl.OverviewContent>
         </xzoomandpan:TooledZoomAndPanControl>
     </Grid>
