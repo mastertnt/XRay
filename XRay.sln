@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XSerialization", "XSerialization\XSerialization.csproj", "{B03F0119-4564-4787-BE7C-9E6F4368C13C}"
 EndProject
@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A80962
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XZoomAndPan", "XZoomAndPan\XZoomAndPan.csproj", "{7E539331-3331-4C5C-B0E3-466C660EE637}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XZoomAndPan.TestApp", "XZoomAndPan.TestApp\XZoomAndPan.TestApp.csproj", "{C3756489-DE1E-47B9-AD3C-A76849011C66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +56,14 @@ Global
 		{35DFC0C4-BA6E-4A82-B8A9-6FD770764C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35DFC0C4-BA6E-4A82-B8A9-6FD770764C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35DFC0C4-BA6E-4A82-B8A9-6FD770764C70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E539331-3331-4C5C-B0E3-466C660EE637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E539331-3331-4C5C-B0E3-466C660EE637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E539331-3331-4C5C-B0E3-466C660EE637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E539331-3331-4C5C-B0E3-466C660EE637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3756489-DE1E-47B9-AD3C-A76849011C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3756489-DE1E-47B9-AD3C-A76849011C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3756489-DE1E-47B9-AD3C-A76849011C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3756489-DE1E-47B9-AD3C-A76849011C66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

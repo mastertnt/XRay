@@ -1,0 +1,15 @@
+﻿<Window x:Class="XZoomAndPan.TestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xzoomandpan="http://schemas.xzoomandpan.com/winfx/2016/xaml"
+        xmlns:xgraph="http://schemas.xgraph.com/winfx/2016/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <xzoomandpan:TooledZoomAndPanControl ContentWidth="1000" ContentHeight="800" OverviewHeight="200" OverviewWidth="200">
+            <xgraph:GraphView x:Name="GraphView" ItemsSource="{Binding Items}" />
+            <xzoomandpan:TooledZoomAndPanControl.OverviewContent>
+                <xgraph:GraphView x:Name="Overvierview" ItemsSource="{Binding Items}" />
+            </xzoomandpan:TooledZoomAndPanControl.OverviewContent>
+        </xzoomandpan:TooledZoomAndPanControl>
+    </Grid>
+</Window>

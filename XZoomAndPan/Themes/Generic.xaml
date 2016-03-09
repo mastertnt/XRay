@@ -1,0 +1,133 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:XZoomAndPan.Controls"
+                    xmlns:converters="clr-namespace:XZoomAndPan.Converters">
+
+    <converters:ScaleToPercentConverter x:Key="ScaleToPercentConverterKey" />
+    
+    <!-- ZoomAndPanControl template. -->
+    <ControlTemplate x:Key="ZoomAndPanControlTemplate" TargetType="{x:Type controls:ZoomAndPanControl}" >
+        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+            <!-- 
+                The ContentPresenter is used to scale and offset the content of ZoomAndPanControl.
+                    
+                A transforms computed from 'ContentScale', 'ContentOffsetX' and 'ContentOffsetY' are assigned 
+                to the 'RenderTransform' property in OnApplyTemplate in ZoomAndPanControl.cs.
+                        
+                The alignment is set to top-left.  This allows the content offset to be used to place
+                the content in the center of the viewport when the viewport is bigger than the content.
+            -->
+            <ContentPresenter x:Name="PART_ContentPresenter" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        </Border>
+    </ControlTemplate>
+
+    <!-- ZoomAndPanControl style. -->
+    <Style TargetType="{x:Type controls:ZoomAndPanControl}">
+        <Setter Property="Template" Value="{StaticResource ZoomAndPanControlTemplate}" />
+    </Style>
+
+    <!-- TooledZoomAndPanControl template. -->
+    <ControlTemplate x:Key="TooledZoomAndPanControlTemplate" TargetType="{x:Type controls:TooledZoomAndPanControl}">
+        <Grid x:Name="INNER_MainLayout">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!--
+	            Wrap the ZoomAndPanControl in a ScrollViewer.
+	            When the scaled content that is displayed in ZoomAndPanControl is larger than the viewport onto the content
+	            ScrollViewer's scrollbars can be used to manipulate the offset of the viewport.    
+            -->
+            <ScrollViewer x:Name="PART_Scroller" CanContentScroll="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+                <controls:ZoomAndPanControl x:Name="PART_ZoomAndPanControl"
+                                            ContentScale="{Binding ContentScale, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                            ContentOffsetX="{Binding ContentOffsetX, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                            ContentOffsetY="{Binding ContentOffsetY, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                            ContentViewportWidth="{Binding ContentViewportWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                            ContentViewportHeight="{Binding ContentViewportHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                            Background="LightGray">
+                    <Grid Width="{Binding ContentWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                          Height="{Binding ContentHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                          Background="Gray">
+                        <ContentPresenter />
+                        <!--
+                            TODO : This Canvas and Border are used as a very simple way to render a drag rectangle that the user
+                            uses to specify an area to zoom in on.
+                        -->
+                        <!--<Canvas x:Name="dragZoomCanvas" Visibility="Collapsed">
+                            <Border x:Name="dragZoomBorder" BorderBrush="Black" BorderThickness="1" Background="Silver" CornerRadius="1" Opacity="0" />
+                        </Canvas>-->
+                    </Grid>
+                </controls:ZoomAndPanControl>
+            </ScrollViewer>
+            <!-- 
+                Overview control placed at the bottom right of the main control.
+            -->
+            <controls:OverviewControl HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,30"
+                                      Width="{Binding OverviewWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Height="{Binding OverviewHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                      ContentWidth="{Binding ContentWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                      ContentHeight="{Binding ContentHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                      ContentOffsetX="{Binding ContentOffsetX, ElementName=PART_ZoomAndPanControl, Mode=TwoWay}"
+                                      ContentOffsetY="{Binding ContentOffsetY, ElementName=PART_ZoomAndPanControl, Mode=TwoWay}"
+                                      ContentViewportWidth="{Binding ContentViewportWidth, ElementName=PART_ZoomAndPanControl, Mode=TwoWay}"
+                                      ContentViewportHeight="{Binding ContentViewportHeight, ElementName=PART_ZoomAndPanControl, Mode=TwoWay}"
+                                      Content="{TemplateBinding OverviewContent}"/>
+            <!-- 
+                Grid placed below the zoom and pan control that contains the zoom slider, zoom label and some button.
+            -->
+            <StackPanel x:Name="INNER_ToolBar" Margin="5" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="PART_FillButton" ToolTip="Causes the content to be scaled so that it fits in the viewport." Width="40" Margin="0,0,5,0" Content="Fill" />
+                <Button x:Name="PART_OneHundredPercentButton" ToolTip="Causes the content to be scaled to 100 percent." Width="40" Margin="0,0,5,0" Content="100%" />
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Width="35" Margin="0,0,5,0"
+                           Text="{Binding ElementName=PART_ZoomAndPanControl, Path=ContentScale, Converter={StaticResource ScaleToPercentConverterKey}, StringFormat={}{0} %}" />
+                <Button x:Name="PART_ZoomOutButton" ToolTip="Zoom out." Width="20" Margin="0,0,5,0" Content="-" />
+                <Slider x:Name="PART_ZoomSlider" Minimum="10" LargeChange="20" TickFrequency="10" Maximum="200" SmallChange="10" TickPlacement="TopLeft" Width="120"
+                        Value="{Binding ElementName=PART_ZoomAndPanControl, Path=ContentScale, Converter={StaticResource ScaleToPercentConverterKey}}" />
+                <Button x:Name="PART_ZoomInButton" ToolTip="Zoom in." Width="20" Margin="0,0,5,0" Content="+" />
+            </StackPanel>
+        </Grid>
+    </ControlTemplate>
+
+    <!-- TooledZoomAndPanControl template. -->
+    <Style TargetType="{x:Type controls:TooledZoomAndPanControl}">
+        <Setter Property="Template" Value="{StaticResource TooledZoomAndPanControlTemplate}" />
+    </Style>
+
+    <!-- OverviewControl template. -->
+    <ControlTemplate x:Key="OverviewControlTemplate" TargetType="{x:Type controls:OverviewControl}">
+        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="LightGray" >
+            <controls:ZoomAndPanControl x:Name="PART_ZoomAndPanControl" BorderThickness="0">
+                <Grid Width="{Binding ContentWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                      Height="{Binding ContentHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                      Background="Gray">
+                    <ContentPresenter />
+                    <Canvas>
+                        <controls:ViewportOverview x:Name="PART_ViewportOverview" 
+                                                   Canvas.Left="{Binding ContentOffsetX, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                   Canvas.Top="{Binding ContentOffsetY, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                   Width="{Binding ContentViewportWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                   Height="{Binding ContentViewportHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+                    </Canvas>
+                </Grid>
+            </controls:ZoomAndPanControl>
+        </Border>
+    </ControlTemplate>
+
+    <!-- OverviewControl template. -->
+    <Style TargetType="{x:Type controls:OverviewControl}">
+        <Setter Property="Template" Value="{StaticResource OverviewControlTemplate}" />
+    </Style>
+
+    <!-- ViewportOverview template. -->
+    <ControlTemplate x:Key="ViewportOverviewTemplate" TargetType="{x:Type controls:ViewportOverview}">
+        <Border BorderBrush="Black" BorderThickness="1" Background="Yellow" CornerRadius="1" />
+    </ControlTemplate>
+
+    <!-- ViewportOverview template. -->
+    <Style TargetType="{x:Type controls:ViewportOverview}">
+        <Setter Property="Template" Value="{StaticResource ViewportOverviewTemplate}" />
+        <Setter Property="Opacity" Value="0.2" />
+    </Style>
+
+</ResourceDictionary>
