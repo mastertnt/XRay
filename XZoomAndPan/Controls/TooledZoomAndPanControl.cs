@@ -13,6 +13,7 @@ namespace XZoomAndPan.Controls
     /// Class defining a zoom and pan control providing user interactions facilities.
     /// </summary>
     [TemplatePart(Name = PART_ZOOM_AND_PAN_CONTROL, Type = typeof(ZoomAndPanControl))]
+    [TemplatePart(Name = PART_TOOLBAR, Type = typeof(IZoomAndPanToolbar))]
     public class TooledZoomAndPanControl : AZoomAndPanControl
     {
         #region Dependencies
@@ -60,6 +61,7 @@ namespace XZoomAndPan.Controls
         /// Name of the parts that have to be in the control template.
         /// </summary>
         private const string PART_ZOOM_AND_PAN_CONTROL = "PART_ZoomAndPanControl";
+        private const string PART_TOOLBAR = "PART_Toolbar";
 
         /// <summary>
         /// Stores the main zoom and pan control of the overview.
@@ -196,6 +198,13 @@ namespace XZoomAndPan.Controls
             }
 
             this.mManipulationBehavior = new ManipulationBehavior(this.mZoomAndPanControl);
+
+            // Toolbar is not mandatory.
+            IZoomAndPanToolbar lZoomAndPanToolbar = this.GetTemplateChild(PART_TOOLBAR) as IZoomAndPanToolbar;
+            if (lZoomAndPanToolbar != null)
+            {
+                lZoomAndPanToolbar.BindToControl(this.mZoomAndPanControl);
+            }
         }
 
         /// <summary>
@@ -216,6 +225,178 @@ namespace XZoomAndPan.Controls
         public static object GetOverviewContent(UIElement pElement)
         {
             return pElement.GetValue(OverviewContentProperty);
+        }
+
+        /// <summary>
+        /// Do an animated zoom to view a specific scale in the given rectangle (in content coordinates).
+        /// The scale center is the rectangle center.
+        /// </summary>
+        /// <param name="pNewScale">The new scale.</param>
+        /// <param name="pContentRect">The focused rectangle.</param>
+        public override void AnimatedZoomTo(double pNewScale, Rect pContentRect)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.AnimatedZoomTo(pNewScale, pContentRect);
+            }
+        }
+
+        /// <summary>
+        /// Do an animated zoom to the specified rectangle (in content coordinates).
+        /// </summary>
+        /// <param name="pContentRect">The focused rectangle.</param>
+        public override void AnimatedZoomTo(Rect pContentRect)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.AnimatedZoomTo(pContentRect);
+            }
+        }
+
+        /// <summary>
+        /// Instantly zoom to the specified rectangle (in content coordinates).
+        /// </summary>
+        /// <param name="pContentRect">The focused rectangle.</param>
+        public override void ZoomTo(Rect pContentRect)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.ZoomTo(pContentRect);
+            }
+        }
+
+        /// <summary>
+        /// Instantly center the view on the specified point (in content coordinates).
+        /// </summary>
+        /// <param name="pContentOffset">The new content offset.</param>
+        public override void SnapContentOffsetTo(Point pContentOffset)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.SnapContentOffsetTo(pContentOffset);
+            }
+        }
+
+        /// <summary>
+        /// Instantly center the view on the specified point (in content coordinates).
+        /// </summary>
+        /// <param name="pContentPoint">The center point.</param>
+        public override void SnapTo(Point pContentPoint)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.SnapTo(pContentPoint);
+            }
+        }
+
+        /// <summary>
+        /// Use animation to center the view on the specified point (in content coordinates).
+        /// </summary>
+        /// <param name="pContentPoint">The center point.</param>
+        public override void AnimatedSnapTo(Point pContentPoint)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.AnimatedSnapTo(pContentPoint);
+            }
+        }
+
+        /// <summary>
+        /// Zoom in/out centered on the specified point (in content coordinates).
+        /// The focus point is kept locked to it's on screen position (ala google maps).
+        /// </summary>
+        /// <param name="pNewScale">The new scale.</param>
+        /// <param name="pContentZoomFocus">The center point.</param>
+        public override void AnimatedZoomAboutPoint(double pNewScale, Point pContentZoomFocus)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.AnimatedZoomAboutPoint(pNewScale, pContentZoomFocus);
+            }
+        }
+
+        /// <summary>
+        /// Zoom in/out centered on the specified point (in content coordinates).
+        /// The focus point is kept locked to it's on screen position (ala google maps).
+        /// </summary>
+        /// <param name="pNewScale">The new scale.</param>
+        /// <param name="pContentZoomFocus">The center point.</param>
+        public override void ZoomAboutPoint(double pNewScale, Point pContentZoomFocus)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.ZoomAboutPoint(pNewScale, pContentZoomFocus);
+            }
+        }
+
+        /// <summary>
+        /// Zoom in/out centered on the viewport center.
+        /// </summary>
+        /// <param name="pNewScale">The new scale.</param>
+        public override void AnimatedZoomTo(double pNewScale)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.AnimatedZoomTo(pNewScale);
+            }
+        }
+
+        /// <summary>
+        /// Zoom in/out centered on the viewport center.
+        /// </summary>
+        /// <param name="pNewScale">The new scale.</param>
+        public override void ZoomTo(double pNewScale)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.ZoomTo(pNewScale);
+            }
+        }
+
+        /// <summary>
+        /// Do animation that scales the content so that it fits completely in the control.
+        /// </summary>
+        public override void AnimatedScaleToFit()
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.AnimatedScaleToFit();
+            }
+        }
+
+        /// <summary>
+        /// Instantly scale the content so that it fits completely in the control.
+        /// </summary>
+        public override void ScaleToFit()
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.ScaleToFit();
+            }
+        }
+
+        /// <summary>
+        /// Zoom the viewport out, centering on the specified point (in content coordinates).
+        /// </summary>
+        /// <param name="pContentZoomCenter">The center of the zoom.</param>
+        public override void ZoomOut(Point pContentZoomCenter)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.ZoomOut(pContentZoomCenter);
+            }
+        }
+
+        /// <summary>
+        /// Zoom the viewport in, centering on the specified point (in content coordinates).
+        /// </summary>
+        /// <param name="pContentZoomCenter">The center of the zoom.</param>
+        public override void ZoomIn(Point pContentZoomCenter)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                this.mZoomAndPanControl.ZoomIn(pContentZoomCenter);
+            }
         }
 
         #endregion // Methods.

@@ -58,16 +58,8 @@
                                             Background="{StaticResource TooledZoomAndPanControl_Background_Brush}">
                     <Grid Width="{Binding ContentWidth, RelativeSource={RelativeSource TemplatedParent}}"
                           Height="{Binding ContentHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                          Background="{StaticResource TooledZoomAndPanControl_Content_Background_Brush}"
-                          SnapsToDevicePixels="True">
+                          Background="{StaticResource TooledZoomAndPanControl_Content_Background_Brush}">
                         <ContentPresenter />
-                        <!--
-                            TODO : This Canvas and Border are used as a very simple way to render a drag rectangle that the user
-                            uses to specify an area to zoom in on.
-                        -->
-                        <!--<Canvas x:Name="dragZoomCanvas" Visibility="Collapsed">
-                            <Border x:Name="dragZoomBorder" BorderBrush="Black" BorderThickness="1" Background="Silver" CornerRadius="1" Opacity="0" />
-                        </Canvas>-->
                     </Grid>
                 </controls:ZoomAndPanControl>
             </ScrollViewer>
@@ -89,16 +81,7 @@
             <!-- 
                 Grid placed below the zoom and pan control that contains the zoom slider, zoom label and some button.
             -->
-            <StackPanel x:Name="INNER_ToolBar" Margin="5" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="PART_FillButton" ToolTip="Causes the content to be scaled so that it fits in the viewport." Width="40" Margin="0,0,5,0" Content="Fill" />
-                <Button x:Name="PART_OneHundredPercentButton" ToolTip="Causes the content to be scaled to 100 percent." Width="40" Margin="0,0,5,0" Content="100%" />
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Width="35" Margin="0,0,5,0"
-                           Text="{Binding ElementName=PART_ZoomAndPanControl, Path=ContentScale, Converter={StaticResource ScaleToPercentConverterKey}, StringFormat={}{0} %}" />
-                <Button x:Name="PART_ZoomOutButton" ToolTip="Zoom out." Width="20" Margin="0,0,5,0" Content="-" />
-                <Slider x:Name="PART_ZoomSlider" Minimum="10" LargeChange="20" TickFrequency="10" Maximum="200" SmallChange="10" TickPlacement="TopLeft" Width="120"
-                        Value="{Binding ElementName=PART_ZoomAndPanControl, Path=ContentScale, Converter={StaticResource ScaleToPercentConverterKey}}" />
-                <Button x:Name="PART_ZoomInButton" ToolTip="Zoom in." Width="20" Margin="0,0,5,0" Content="+" />
-            </StackPanel>
+            <controls:DefaultToolbar x:Name="PART_Toolbar" Grid.Row="1" />
         </Grid>
     </ControlTemplate>
 

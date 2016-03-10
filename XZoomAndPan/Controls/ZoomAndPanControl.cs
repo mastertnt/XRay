@@ -155,7 +155,7 @@ namespace XZoomAndPan.Controls
         /// </summary>
         /// <param name="pNewScale">The new scale.</param>
         /// <param name="pContentRect">The focused rectangle.</param>
-        public void AnimatedZoomTo(double pNewScale, Rect pContentRect)
+        public override void AnimatedZoomTo(double pNewScale, Rect pContentRect)
         {
             this.AnimatedZoomPointToViewportCenter(pNewScale, new Point(pContentRect.X + (pContentRect.Width / 2), pContentRect.Y + (pContentRect.Height / 2)),
                 delegate(object pSender, EventArgs pEventArgs)
@@ -172,7 +172,7 @@ namespace XZoomAndPan.Controls
         /// Do an animated zoom to the specified rectangle (in content coordinates).
         /// </summary>
         /// <param name="pContentRect">The focused rectangle.</param>
-        public void AnimatedZoomTo(Rect pContentRect)
+        public override void AnimatedZoomTo(Rect pContentRect)
         {
             double lScaleX = this.ContentViewportWidth / pContentRect.Width;
             double lScaleY = this.ContentViewportHeight / pContentRect.Height;
@@ -185,7 +185,7 @@ namespace XZoomAndPan.Controls
         /// Instantly zoom to the specified rectangle (in content coordinates).
         /// </summary>
         /// <param name="pContentRect">The focused rectangle.</param>
-        public void ZoomTo(Rect pContentRect)
+        public override void ZoomTo(Rect pContentRect)
         {
             double lScaleX = this.ContentViewportWidth / pContentRect.Width;
             double lScaleY = this.ContentViewportHeight / pContentRect.Height;
@@ -198,7 +198,7 @@ namespace XZoomAndPan.Controls
         /// Instantly center the view on the specified point (in content coordinates).
         /// </summary>
         /// <param name="pContentOffset">The new content offset.</param>
-        public void SnapContentOffsetTo(Point pContentOffset)
+        public override void SnapContentOffsetTo(Point pContentOffset)
         {
             AnimationHelper.CancelAnimation(this, ContentOffsetXProperty);
             AnimationHelper.CancelAnimation(this, ContentOffsetYProperty);
@@ -211,7 +211,7 @@ namespace XZoomAndPan.Controls
         /// Instantly center the view on the specified point (in content coordinates).
         /// </summary>
         /// <param name="pContentPoint">The center point.</param>
-        public void SnapTo(Point pContentPoint)
+        public override void SnapTo(Point pContentPoint)
         {
             AnimationHelper.CancelAnimation(this, ContentOffsetXProperty);
             AnimationHelper.CancelAnimation(this, ContentOffsetYProperty);
@@ -224,7 +224,7 @@ namespace XZoomAndPan.Controls
         /// Use animation to center the view on the specified point (in content coordinates).
         /// </summary>
         /// <param name="pContentPoint">The center point.</param>
-        public void AnimatedSnapTo(Point pContentPoint)
+        public override void AnimatedSnapTo(Point pContentPoint)
         {
             double lNewX = pContentPoint.X - (this.ContentViewportWidth / 2);
             double lNewY = pContentPoint.Y - (this.ContentViewportHeight / 2);
@@ -239,7 +239,7 @@ namespace XZoomAndPan.Controls
         /// </summary>
         /// <param name="pNewScale">The new scale.</param>
         /// <param name="pContentZoomFocus">The center point.</param>
-        public void AnimatedZoomAboutPoint(double pNewScale, Point pContentZoomFocus)
+        public override void AnimatedZoomAboutPoint(double pNewScale, Point pContentZoomFocus)
         {
             pNewScale = Math.Min(Math.Max(pNewScale, this.MinContentScale), this.MaxContentScale);
 
@@ -270,7 +270,7 @@ namespace XZoomAndPan.Controls
         /// </summary>
         /// <param name="pNewScale">The new scale.</param>
         /// <param name="pContentZoomFocus">The center point.</param>
-        public void ZoomAboutPoint(double pNewScale, Point pContentZoomFocus)
+        public override void ZoomAboutPoint(double pNewScale, Point pContentZoomFocus)
         {
             pNewScale = Math.Min(Math.Max(pNewScale, this.MinContentScale), this.MaxContentScale);
 
@@ -294,7 +294,7 @@ namespace XZoomAndPan.Controls
         /// Zoom in/out centered on the viewport center.
         /// </summary>
         /// <param name="pNewScale">The new scale.</param>
-        public void AnimatedZoomTo(double pNewScale)
+        public override void AnimatedZoomTo(double pNewScale)
         {
             Point lZoomCenter = new Point(this.ContentOffsetX + (this.ContentViewportWidth / 2), this.ContentOffsetY + (this.ContentViewportHeight / 2));
             this.AnimatedZoomAboutPoint(pNewScale, lZoomCenter);
@@ -304,7 +304,7 @@ namespace XZoomAndPan.Controls
         /// Zoom in/out centered on the viewport center.
         /// </summary>
         /// <param name="pNewScale">The new scale.</param>
-        public void ZoomTo(double pNewScale)
+        public override void ZoomTo(double pNewScale)
         {
             Point lZoomCenter = new Point(this.ContentOffsetX + (this.ContentViewportWidth / 2), this.ContentOffsetY + (this.ContentViewportHeight / 2));
             this.ZoomAboutPoint(pNewScale, lZoomCenter);
@@ -313,7 +313,7 @@ namespace XZoomAndPan.Controls
         /// <summary>
         /// Do animation that scales the content so that it fits completely in the control.
         /// </summary>
-        public void AnimatedScaleToFit()
+        public override void AnimatedScaleToFit()
         {
             this.AnimatedZoomTo(new Rect(0, 0, this.mContentPresenter.ActualWidth, this.mContentPresenter.ActualHeight));
         }
@@ -321,7 +321,7 @@ namespace XZoomAndPan.Controls
         /// <summary>
         /// Instantly scale the content so that it fits completely in the control.
         /// </summary>
-        public void ScaleToFit()
+        public override void ScaleToFit()
         {
             this.ZoomTo(new Rect(0, 0, this.mContentPresenter.ActualWidth, this.mContentPresenter.ActualHeight));
         }
@@ -330,7 +330,7 @@ namespace XZoomAndPan.Controls
         /// Zoom the viewport out, centering on the specified point (in content coordinates).
         /// </summary>
         /// <param name="pContentZoomCenter">The center of the zoom.</param>
-        public void ZoomOut(Point pContentZoomCenter)
+        public override void ZoomOut(Point pContentZoomCenter)
         {
             this.ZoomAboutPoint(this.ContentScale - this.ContentScaleStep, pContentZoomCenter);
         }
@@ -339,7 +339,7 @@ namespace XZoomAndPan.Controls
         /// Zoom the viewport in, centering on the specified point (in content coordinates).
         /// </summary>
         /// <param name="pContentZoomCenter">The center of the zoom.</param>
-        public void ZoomIn(Point pContentZoomCenter)
+        public override void ZoomIn(Point pContentZoomCenter)
         {
             this.ZoomAboutPoint(this.ContentScale + this.ContentScaleStep, pContentZoomCenter);
         }

@@ -44,6 +44,10 @@
     <Compile Include="Behaviors\ManipulationBehavior.cs" />
     <Compile Include="Behaviors\MouseHandlingMode.cs" />
     <Compile Include="Controls\AZoomAndPanControl.cs" />
+    <Compile Include="Controls\DefaultToolbar.xaml.cs">
+      <DependentUpon>DefaultToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IZoomAndPanToolbar.cs" />
     <Compile Include="Controls\OverviewControl.cs" />
     <Compile Include="Controls\TooledZoomAndPanControl.cs" />
     <Compile Include="Controls\ViewportOverview.cs" />
@@ -54,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\DefaultToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\All.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

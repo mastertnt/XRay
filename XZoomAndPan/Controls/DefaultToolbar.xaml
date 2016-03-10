@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="XZoomAndPan.Controls.DefaultToolbar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignWidth="500">
+    <ToolBar>
+        <Button x:Name="mFillButton" ToolTip="Causes the content to be scaled so that it fits in the viewport." Width="40" Margin="0,0,5,0" Content="Fill" />
+        <Button x:Name="mOneHundredPercentButton" ToolTip="Causes the content to be scaled to 100 percent." Width="40" Margin="0,0,5,0" Content="100%" />
+        <TextBlock x:Name="mPercentTextBlock" VerticalAlignment="Center" HorizontalAlignment="Right" Width="35" Margin="0,0,5,0" />
+        <Button x:Name="mZoomOutButton" ToolTip="Zoom out." Width="20" Margin="0,0,5,0" Content="-" />
+        <Slider x:Name="mZoomSlider" Minimum="10" LargeChange="20" TickFrequency="10" Maximum="200" SmallChange="10" TickPlacement="TopLeft" Width="120" />
+        <Button x:Name="mZoomInButton" ToolTip="Zoom in." Width="20" Margin="0,0,5,0" Content="+" />
+    </ToolBar>
+</UserControl>
