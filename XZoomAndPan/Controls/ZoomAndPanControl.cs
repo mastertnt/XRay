@@ -552,10 +552,6 @@ namespace XZoomAndPan.Controls
             this.ContentScale = newContentScale;
             this.ContentOffsetX = newContentOffsetX;
             this.ContentOffsetY = newContentOffsetY;
-
-            UpdateContentViewportSize();
-
-            Console.WriteLine(string.Format(@"this.ContentScale : {0} | this.ContentOffsetX : {1} | this.ContentOffsetY : {2}", this.ContentScale, this.ContentOffsetX, this.ContentOffsetY));
         }
 
         /// <summary>

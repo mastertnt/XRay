@@ -3,8 +3,11 @@
                     xmlns:controls="clr-namespace:XZoomAndPan.Controls"
                     xmlns:converters="clr-namespace:XZoomAndPan.Converters">
 
-    <converters:ScaleToPercentConverter x:Key="ScaleToPercentConverterKey" />
-    
+    <!-- Including global resources -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/XZoomAndPan;Component/Resources/All.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+        
     <!-- ZoomAndPanControl template. -->
     <ControlTemplate x:Key="ZoomAndPanControlTemplate" TargetType="{x:Type controls:ZoomAndPanControl}" >
         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -45,10 +48,10 @@
                                             ContentOffsetY="{Binding ContentOffsetY, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                             ContentViewportWidth="{Binding ContentViewportWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                             ContentViewportHeight="{Binding ContentViewportHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                            Background="LightGray">
+                                            Background="{StaticResource TooledZoomAndPanControl_Background_Brush}">
                     <Grid Width="{Binding ContentWidth, RelativeSource={RelativeSource TemplatedParent}}"
                           Height="{Binding ContentHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                          Background="Gray">
+                          Background="{StaticResource TooledZoomAndPanControl_Content_Background_Brush}">
                         <ContentPresenter />
                         <!--
                             TODO : This Canvas and Border are used as a very simple way to render a drag rectangle that the user
@@ -64,6 +67,8 @@
                 Overview control placed at the bottom right of the main control.
             -->
             <controls:OverviewControl HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,30"
+                                      DefaultOpacity="{Binding OverviewDefaultOpacity, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Visibility="{Binding OverviewVisibility, RelativeSource={RelativeSource TemplatedParent}}"
                                       Width="{Binding OverviewWidth, RelativeSource={RelativeSource TemplatedParent}}"
                                       Height="{Binding OverviewHeight, RelativeSource={RelativeSource TemplatedParent}}"
                                       ContentWidth="{Binding ContentWidth, RelativeSource={RelativeSource TemplatedParent}}"
@@ -96,22 +101,38 @@
 
     <!-- OverviewControl template. -->
     <ControlTemplate x:Key="OverviewControlTemplate" TargetType="{x:Type controls:OverviewControl}">
-        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="LightGray" >
-            <controls:ZoomAndPanControl x:Name="PART_ZoomAndPanControl" BorderThickness="0">
-                <Grid Width="{Binding ContentWidth, RelativeSource={RelativeSource TemplatedParent}}"
-                      Height="{Binding ContentHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                      Background="Gray">
-                    <ContentPresenter />
-                    <Canvas>
-                        <controls:ViewportOverview x:Name="PART_ViewportOverview" 
-                                                   Canvas.Left="{Binding ContentOffsetX, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                   Canvas.Top="{Binding ContentOffsetY, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                   Width="{Binding ContentViewportWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                                   Height="{Binding ContentViewportHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
-                    </Canvas>
-                </Grid>
-            </controls:ZoomAndPanControl>
-        </Border>
+        <Grid x:Name="INNER_RootGrid">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="0:0:0.3" To="MouseOver"/>
+                        <VisualTransition From="MouseOver" GeneratedDuration="0:0:0.3"/>
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="INNER_Border" Storyboard.TargetProperty="(UIElement.Opacity)" To="1" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="INNER_Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{StaticResource OverviewControl_Background_Brush}" Opacity="{TemplateBinding DefaultOpacity}">
+                <controls:ZoomAndPanControl x:Name="PART_ZoomAndPanControl" BorderThickness="0">
+                    <Grid Width="{Binding ContentWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                          Height="{Binding ContentHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                          Background="{StaticResource OverviewControl_Content_Background_Brush}">
+                        <ContentPresenter />
+                        <Canvas>
+                            <controls:ViewportOverview x:Name="PART_ViewportOverview" 
+                                                       Canvas.Left="{Binding ContentOffsetX, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                       Canvas.Top="{Binding ContentOffsetY, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                       Width="{Binding ContentViewportWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                       Height="{Binding ContentViewportHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+                        </Canvas>
+                    </Grid>
+                </controls:ZoomAndPanControl>
+            </Border>
+        </Grid>
     </ControlTemplate>
 
     <!-- OverviewControl template. -->
@@ -121,7 +142,7 @@
 
     <!-- ViewportOverview template. -->
     <ControlTemplate x:Key="ViewportOverviewTemplate" TargetType="{x:Type controls:ViewportOverview}">
-        <Border BorderBrush="Black" BorderThickness="1" Background="Yellow" CornerRadius="1" />
+        <Border Background="{StaticResource ViewportOverview_Background_Brush}" />
     </ControlTemplate>
 
     <!-- ViewportOverview template. -->

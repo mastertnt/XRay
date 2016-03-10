@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace XZoomAndPan.Controls
 {
@@ -47,6 +48,11 @@ namespace XZoomAndPan.Controls
         /// Identifies the ContentViewportHeight dependency property.
         /// </summary>
         public static readonly DependencyProperty ContentViewportHeightProperty = DependencyProperty.Register("ContentViewportHeight", typeof(double), typeof(OverviewControl), new FrameworkPropertyMetadata(0.0, null, OnCoerceContentViewportHeightCallback));
+
+        /// <summary>
+        /// Identifies the DefaultOpacity attached dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DefaultOpacityProperty = DependencyProperty.RegisterAttached("DefaultOpacity", typeof(double), typeof(OverviewControl), new FrameworkPropertyMetadata(1.0));
 
         #endregion // Dependencies.
 
@@ -174,6 +180,21 @@ namespace XZoomAndPan.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the opacity of the overview when it is displayed and the mouse is not over.
+        /// </summary>
+        public double DefaultOpacity
+        {
+            get
+            {
+                return (double)GetValue(DefaultOpacityProperty);
+            }
+            set
+            {
+                SetValue(DefaultOpacityProperty, value);
+            }
+        }
+
         #endregion // Properties.
 
         #region Methods
@@ -262,6 +283,41 @@ namespace XZoomAndPan.Controls
             }
 
             return pBaseValue;
+        }
+
+        /// <summary>
+        /// Delegate called when the mouse enters in the control zone.
+        /// </summary>
+        /// <param name="pEventArgs">The event arguments.</param>
+        protected override void OnMouseEnter(MouseEventArgs pEventArgs)
+        {
+            base.OnMouseEnter(pEventArgs);
+            this.UpdateVisualState();
+        }
+
+        /// <summary>
+        /// Delegate called when the mouse leaves in the control zone.
+        /// </summary>
+        /// <param name="pEventArgs">The event arguments.</param>
+        protected override void OnMouseLeave(MouseEventArgs pEventArgs)
+        {
+            base.OnMouseLeave(pEventArgs);
+            this.UpdateVisualState();
+        }
+
+        /// <summary>
+        /// Update the visual state of the control.
+        /// </summary>
+        private void UpdateVisualState()
+        {
+            if (this.IsMouseOver)
+            {
+                VisualStateManager.GoToState(this, "MouseOver", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "Normal", true);
+            }
         }
 
         #endregion // Methods.

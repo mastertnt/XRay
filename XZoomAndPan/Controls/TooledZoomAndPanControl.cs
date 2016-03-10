@@ -107,6 +107,16 @@ namespace XZoomAndPan.Controls
         /// </summary>
         public static readonly DependencyProperty OverviewContentProperty = DependencyProperty.RegisterAttached("OverviewContent", typeof(object), typeof(TooledZoomAndPanControl), new FrameworkPropertyMetadata(null));
 
+        /// <summary>
+        /// Identifies the OverviewDefaultOpacity attached dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OverviewDefaultOpacityProperty = DependencyProperty.RegisterAttached("OverviewDefaultOpacity", typeof(double), typeof(TooledZoomAndPanControl), new FrameworkPropertyMetadata(1.0));
+
+        /// <summary>
+        /// Identifies the OverviewVisibility attached dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OverviewVisibilityProperty = DependencyProperty.RegisterAttached("OverviewVisibility", typeof(Visibility), typeof(TooledZoomAndPanControl), new FrameworkPropertyMetadata(Visibility.Visible));
+
         #endregion // Dependencies.
 
         #region Fields
@@ -397,6 +407,36 @@ namespace XZoomAndPan.Controls
             set
             {
                 SetValue(OverviewHeightProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the opacity of the overview when it is displayed and the mouse is not over.
+        /// </summary>
+        public double OverviewDefaultOpacity
+        {
+            get
+            {
+                return (double)GetValue(OverviewDefaultOpacityProperty);
+            }
+            set
+            {
+                SetValue(OverviewDefaultOpacityProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the overview visibility.
+        /// </summary>
+        public Visibility OverviewVisibility
+        {
+            get
+            {
+                return (Visibility)GetValue(OverviewVisibilityProperty);
+            }
+            set
+            {
+                SetValue(OverviewVisibilityProperty, value);
             }
         }
 
