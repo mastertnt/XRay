@@ -15,19 +15,29 @@ namespace XZoomAndPan.Converters
     {
         /// <summary>
         /// Convert a fraction to a percentage.
-        /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        /// </summary>
+        /// <param name="pValue">The value to convert.</param>
+        /// <param name="pTargetType">The target type.</param>
+        /// <param name="pExtraParameter">The extra parameter to use (not used by the converter).</param>
+        /// <param name="pCulture">The culture to use (not used by the converter).</param>
+        /// <returns>The converted value.</returns>
+        public object Convert(object pValue, Type pTargetType, object pExtraParameter, CultureInfo pCulture)
         {
             // Round to an integer value whilst converting.
-            return (double)(int)((double)value * 100.0);
+            return (double)(int)((double)pValue * 100.0);
         }
 
         /// <summary>
         /// Convert a percentage back to a fraction.
-        /// <returns></returns>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        /// </summary>
+        /// <param name="pValue">The value to convert.</param>
+        /// <param name="pTargetType">The target type.</param>
+        /// <param name="pExtraParameter">The extra parameter to use (not used by the converter).</param>
+        /// <param name="pCulture">The culture to use (not used by the converter).</param>
+        /// <returns>The converted value.</returns>
+        public object ConvertBack(object pValue, Type pTargetType, object pExtraParameter, CultureInfo pCulture)
         {
-            return (double)value / 100.0;
+            return (double)pValue / 100.0;
         }
     }
 }

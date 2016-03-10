@@ -112,8 +112,8 @@ namespace XZoomAndPan.Behaviors
                 Point lCurContentMousePoint = pEventArgs.GetPosition(lContent);
                 Vector lDragOffset = lCurContentMousePoint - this.mOrigContentMouseDownPoint;
 
-                double lNewContentOffsetX = Math.Min(Math.Max(0.0, this.mZoomAndPanControl.ContentOffsetX - lDragOffset.X), 1000 - this.mZoomAndPanControl.ContentViewportWidth);
-                double lNewContentOffsetY = Math.Min(Math.Max(0.0, this.mZoomAndPanControl.ContentOffsetY - lDragOffset.Y), 800 - this.mZoomAndPanControl.ContentViewportHeight);
+                double lNewContentOffsetX = Math.Min(Math.Max(0.0, this.mZoomAndPanControl.ContentOffsetX - lDragOffset.X), lContent.Width - this.mZoomAndPanControl.ContentViewportWidth);
+                double lNewContentOffsetY = Math.Min(Math.Max(0.0, this.mZoomAndPanControl.ContentOffsetY - lDragOffset.Y), lContent.Height - this.mZoomAndPanControl.ContentViewportHeight);
                 this.mZoomAndPanControl.ContentOffsetX = lNewContentOffsetX;
                 this.mZoomAndPanControl.ContentOffsetY = lNewContentOffsetY;
 
@@ -164,13 +164,13 @@ namespace XZoomAndPan.Behaviors
             else if ((Keyboard.Modifiers & ModifierKeys.Shift) != 0)
             {
                 // Horizontal scroll.
-                double lNewContentOffsetX = Math.Min(Math.Max(0.0, this.mZoomAndPanControl.ContentOffsetX - pEventArgs.Delta), 1000 - this.mZoomAndPanControl.ContentViewportWidth);
+                double lNewContentOffsetX = Math.Min(Math.Max(0.0, this.mZoomAndPanControl.ContentOffsetX - pEventArgs.Delta), lContent.Width - this.mZoomAndPanControl.ContentViewportWidth);
                 this.mZoomAndPanControl.ContentOffsetX = lNewContentOffsetX; 
             }
             else
             {
                 // Vertical scroll.
-                double lNewContentOffsetY = Math.Min(Math.Max(0.0, this.mZoomAndPanControl.ContentOffsetY - pEventArgs.Delta), 800 - this.mZoomAndPanControl.ContentViewportHeight);
+                double lNewContentOffsetY = Math.Min(Math.Max(0.0, this.mZoomAndPanControl.ContentOffsetY - pEventArgs.Delta), lContent.Height - this.mZoomAndPanControl.ContentViewportHeight);
                 this.mZoomAndPanControl.ContentOffsetY = lNewContentOffsetY;                              
             }
 

@@ -15,50 +15,61 @@ namespace XZoomAndPan.Helpers
         /// <summary>
         /// Starts an animation to a particular value on the specified dependency property.
         /// </summary>
-        public static void StartAnimation(UIElement animatableElement, DependencyProperty dependencyProperty, double toValue, double animationDurationSeconds)
+        /// <param name="pAnimatableElement">The gui element to animate.</param>
+        /// <param name="pDependencyProperty">The dependency property to animate.</param>
+        /// <param name="pToValue">The final value of the dependency property.</param>
+        /// <param name="pAnimationDurationSeconds">The animation duration.</param>
+        public static void StartAnimation(UIElement pAnimatableElement, DependencyProperty pDependencyProperty, double pToValue, double pAnimationDurationSeconds)
         {
-            StartAnimation(animatableElement, dependencyProperty, toValue, animationDurationSeconds, null);
+            StartAnimation(pAnimatableElement, pDependencyProperty, pToValue, pAnimationDurationSeconds, null);
         }
 
         /// <summary>
         /// Starts an animation to a particular value on the specified dependency property.
         /// You can pass in an event handler to call when the animation has completed.
         /// </summary>
-        public static void StartAnimation(UIElement animatableElement, DependencyProperty dependencyProperty, double toValue, double animationDurationSeconds, EventHandler completedEvent)
+        /// <param name="pAnimatableElement">The gui element to animate.</param>
+        /// <param name="pDependencyProperty">The dependency property to animate.</param>
+        /// <param name="pToValue">The final value of the dependency property.</param>
+        /// <param name="pAnimationDurationSeconds">The animation duration.</param>
+        /// <param name="pCompletedEvent">The callback executed when the animation ended.</param>
+        public static void StartAnimation(UIElement pAnimatableElement, DependencyProperty pDependencyProperty, double pToValue, double pAnimationDurationSeconds, EventHandler pCompletedEvent)
         {
-            double fromValue = (double)animatableElement.GetValue(dependencyProperty);
+            double lFromValue = (double)pAnimatableElement.GetValue(pDependencyProperty);
 
-            DoubleAnimation animation = new DoubleAnimation();
-            animation.From = fromValue;
-            animation.To = toValue;
-            animation.Duration = TimeSpan.FromSeconds(animationDurationSeconds);
+            DoubleAnimation lAnimation = new DoubleAnimation();
+            lAnimation.From = lFromValue;
+            lAnimation.To = pToValue;
+            lAnimation.Duration = TimeSpan.FromSeconds(pAnimationDurationSeconds);
 
-            animation.Completed += delegate(object sender, EventArgs e)
+            lAnimation.Completed += delegate(object pSender, EventArgs pEventArgs)
             {
                 //
                 // When the animation has completed bake final value of the animation
                 // into the property.
                 //
-                animatableElement.SetValue(dependencyProperty, animatableElement.GetValue(dependencyProperty));
-                CancelAnimation(animatableElement, dependencyProperty);
+                pAnimatableElement.SetValue(pDependencyProperty, pAnimatableElement.GetValue(pDependencyProperty));
+                CancelAnimation(pAnimatableElement, pDependencyProperty);
 
-                if (completedEvent != null)
+                if (pCompletedEvent != null)
                 {
-                    completedEvent(sender, e);
+                    pCompletedEvent(pSender, pEventArgs);
                 }
             };
 
-            animation.Freeze();
+            lAnimation.Freeze();
 
-            animatableElement.BeginAnimation(dependencyProperty, animation);
+            pAnimatableElement.BeginAnimation(pDependencyProperty, lAnimation);
         }
 
         /// <summary>
         /// Cancel any animations that are running on the specified dependency property.
         /// </summary>
-        public static void CancelAnimation(UIElement animatableElement, DependencyProperty dependencyProperty)
+        /// <param name="pAnimatableElement">The gui element to animate.</param>
+        /// <param name="pDependencyProperty">The dependency property to animate.</param>
+        public static void CancelAnimation(UIElement pAnimatableElement, DependencyProperty pDependencyProperty)
         {
-            animatableElement.BeginAnimation(dependencyProperty, null);
+            pAnimatableElement.BeginAnimation(pDependencyProperty, null);
         }
     }
 }

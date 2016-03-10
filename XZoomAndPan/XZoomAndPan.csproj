@@ -48,7 +48,7 @@
     <Compile Include="Controls\TooledZoomAndPanControl.cs" />
     <Compile Include="Controls\ViewportOverview.cs" />
     <Compile Include="Controls\ZoomAndPanControl.cs" />
-    <Compile Include="Controls\ZoomAndPanControl_IScrollInfo.cs" />
+    <Compile Include="Controls\ZoomAndPanControl.IScrollInfo.cs" />
     <Compile Include="Converters\ScaleToPercentConverter.cs" />
     <Compile Include="Helpers\AnimationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

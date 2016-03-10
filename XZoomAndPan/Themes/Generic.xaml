@@ -48,10 +48,18 @@
                                             ContentOffsetY="{Binding ContentOffsetY, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                             ContentViewportWidth="{Binding ContentViewportWidth, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                             ContentViewportHeight="{Binding ContentViewportHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                            MinContentScale="{TemplateBinding MinContentScale}"
+                                            MaxContentScale="{TemplateBinding MaxContentScale}"
+                                            AnimationDuration="{TemplateBinding AnimationDuration}"
+                                            ContentZoomFocusX="{TemplateBinding ContentZoomFocusX}"
+                                            ContentZoomFocusY="{TemplateBinding ContentZoomFocusY}"
+                                            ViewportZoomFocusX="{TemplateBinding ViewportZoomFocusX}"
+                                            ViewportZoomFocusY="{TemplateBinding ViewportZoomFocusY}"
                                             Background="{StaticResource TooledZoomAndPanControl_Background_Brush}">
                     <Grid Width="{Binding ContentWidth, RelativeSource={RelativeSource TemplatedParent}}"
                           Height="{Binding ContentHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                          Background="{StaticResource TooledZoomAndPanControl_Content_Background_Brush}">
+                          Background="{StaticResource TooledZoomAndPanControl_Content_Background_Brush}"
+                          SnapsToDevicePixels="True">
                         <ContentPresenter />
                         <!--
                             TODO : This Canvas and Border are used as a very simple way to render a drag rectangle that the user
