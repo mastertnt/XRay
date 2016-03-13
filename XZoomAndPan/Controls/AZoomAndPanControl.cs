@@ -373,6 +373,14 @@ namespace XZoomAndPan.Controls
         /// <param name="pContentZoomCenter">The center of the zoom.</param>
         public abstract void ZoomIn(Point pContentZoomCenter);
 
+        /// <summary>
+        /// Maps the screen position to the corresponding position in the content of this control.
+        /// </summary>
+        /// <param name="pScreenPos">The position in screen coordinates.</param>
+        /// <param name="pContentPos">The position in content coordinates, taking in account the zoom.</param>
+        /// <returns>True if the position is in the content, false otherwise. The returned pContentPos is then (-1, -1).</returns>
+        public abstract bool MapToContent(Point pScreenPos, out Point pContentPos);
+
         #endregion // Methods.
     }
 }

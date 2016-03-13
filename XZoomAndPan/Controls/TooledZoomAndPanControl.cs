@@ -83,6 +83,8 @@ namespace XZoomAndPan.Controls
         static TooledZoomAndPanControl()
         {
             TooledZoomAndPanControl.DefaultStyleKeyProperty.OverrideMetadata(typeof(TooledZoomAndPanControl), new FrameworkPropertyMetadata(typeof(TooledZoomAndPanControl)));
+            TooledZoomAndPanControl.ContentOffsetXProperty.OverrideMetadata(typeof(TooledZoomAndPanControl), new FrameworkPropertyMetadata(0.0, null, OnCoerceContentOffset));
+            TooledZoomAndPanControl.ContentOffsetYProperty.OverrideMetadata(typeof(TooledZoomAndPanControl), new FrameworkPropertyMetadata(0.0, null, OnCoerceContentOffset));
         }
 
         #endregion // Constructors.
@@ -397,6 +399,42 @@ namespace XZoomAndPan.Controls
             {
                 this.mZoomAndPanControl.ZoomIn(pContentZoomCenter);
             }
+        }
+
+        /// <summary>
+        /// Maps the screen position to the corresponding position in the content of this control.
+        /// </summary>
+        /// <param name="pScreenPos">The position in screen coordinates.</param>
+        /// <param name="pContentPos">The position in content coordinates, taking in account the zoom.</param>
+        /// <returns>True if the position is in the content, false otherwise. The returned pContentPos is then (-1, -1).</returns>
+        public override bool MapToContent(Point pScreenPos, out Point pContentPos)
+        {
+            if (this.mZoomAndPanControl != null)
+            {
+                return this.mZoomAndPanControl.MapToContent(pScreenPos, out pContentPos);
+            }
+
+            pContentPos = new Point(-1.0, -1.0);
+            return false;
+        }
+
+        /// <summary>
+        /// Method called to clamp the ContentOffset X or Y value to its valid range.
+        /// </summary>
+        /// <param name="pObject">The modified control.</param>
+        /// <param name="pBaseValue">The value to coerce.</param>
+        private static object OnCoerceContentOffset(DependencyObject pObject, object pBaseValue)
+        {
+            TooledZoomAndPanControl lControl = pObject as TooledZoomAndPanControl;
+            if (lControl != null)
+            {
+                double lValue = System.Convert.ToDouble(pBaseValue);
+                double lMinOffsetX = 0.0;
+                lValue = Math.Max(lValue, lMinOffsetX);
+                return lValue;
+            }
+
+            return pBaseValue;
         }
 
         #endregion // Methods.

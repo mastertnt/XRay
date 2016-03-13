@@ -250,8 +250,8 @@ namespace XZoomAndPan.Controls
 
             this.ContentZoomFocusX = pContentZoomFocus.X;
             this.ContentZoomFocusY = pContentZoomFocus.Y;
-            this.ViewportZoomFocusX = (this.ContentZoomFocusX - ContentOffsetX) * this.ContentScale;
-            this.ViewportZoomFocusY = (this.ContentZoomFocusY - ContentOffsetY) * this.ContentScale;
+            this.ViewportZoomFocusX = (this.ContentZoomFocusX - this.ContentOffsetX) * this.ContentScale;
+            this.ViewportZoomFocusY = (this.ContentZoomFocusY - this.ContentOffsetY) * this.ContentScale;
 
             // When zooming about a point make updates to ContentScale also update content offset.
             this.mEnableContentOffsetUpdateFromScale = true;
@@ -342,6 +342,33 @@ namespace XZoomAndPan.Controls
         public override void ZoomIn(Point pContentZoomCenter)
         {
             this.ZoomAboutPoint(this.ContentScale + this.ContentScaleStep, pContentZoomCenter);
+        }
+
+        /// <summary>
+        /// Maps the screen position to the corresponding position in the content of this control.
+        /// </summary>
+        /// <param name="pScreenPos">The position in screen coordinates.</param>
+        /// <param name="pContentPos">The position in content coordinates, taking in account the zoom.</param>
+        /// <returns>True if the position is in the content, false otherwise. The returned pContentPos is then (-1, -1).</returns>
+        public override bool MapToContent(Point pScreenPos, out Point pContentPos)
+        {
+            Point lContentPos = new Point();
+
+            double lViewportFocusOffsetX = pScreenPos.X - this.ViewportZoomFocusX;
+            double lViewportFocusOffsetY = pScreenPos.Y - this.ViewportZoomFocusY;
+            double lContentOffsetX = lViewportFocusOffsetX / this.ContentScale;
+            double lContentOffsetY = lViewportFocusOffsetY / this.ContentScale;
+            lContentPos.X = this.ContentZoomFocusX + lContentOffsetX;
+            lContentPos.Y = this.ContentZoomFocusY + lContentOffsetY;
+
+            if (lContentPos.X < 0.0 || lContentPos.X > this.mUnScaledExtent.Width || lContentPos.Y < 0.0 || lContentPos.Y > this.mUnScaledExtent.Height)
+            {
+                // Position not in the content.
+                lContentPos = new Point(-1.0, -1.0);
+            }
+
+            pContentPos = lContentPos;
+            return true;
         }
 
         /// <summary>
@@ -459,6 +486,9 @@ namespace XZoomAndPan.Controls
 
             this.UpdateTranslationX();
             this.UpdateTranslationY();
+
+            this.UpdateContentZoomFocusX();
+            this.UpdateContentZoomFocusY();
         }
 
         /// <summary>
