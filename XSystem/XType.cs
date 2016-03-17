@@ -189,6 +189,16 @@ namespace XSystem
         /// This method creates all concrete classes.
         /// </summary>
         /// <param name="pThis">The current instance.</param>
+        /// <returns>The list of concrete classes found in current AppDomain</returns>
+        public static TType Create<TType>(this Type pThis) where TType : class
+        {
+            return (TType)Activator.CreateInstance(pThis);
+        }
+
+        /// <summary>
+        /// This method creates all concrete classes.
+        /// </summary>
+        /// <param name="pThis">The current instance.</param>
         /// <param name="pConstructorParameters">The constructor parameters.</param>
         /// <returns>
         /// The list of concrete classes found in current AppDomain

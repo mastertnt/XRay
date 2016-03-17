@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Collections\CacheDictionary.cs" />
     <Compile Include="AppDomainExtensions.cs" />
+    <Compile Include="Collections\SynchronizedProducerConsumerCollection.cs" />
     <Compile Include="FileInfoExtensions.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
