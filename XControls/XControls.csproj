@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{C729E7D6-70A2-4C19-9903-4A7768CEF9A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XControls</RootNamespace>
+    <AssemblyName>XControls</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="..\Targets\XRay.Output.Targets" />
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PropertyChanged, Version=1.51.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\..\NuGet\InstalledPackages\PropertyChanged.Fody.1.51.0\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoSelectTextBox\AutoSelectBehaviorEnum.cs" />
+    <Compile Include="AutoSelectTextBox\AutoSelectTextBox.cs" />
+    <Compile Include="AutoSelectTextBox\QueryMoveFocusEventArgs.cs" />
+    <Compile Include="ButtonSpinner\ButtonSpinner.cs" />
+    <Compile Include="ButtonSpinner\SpinDirection.cs" />
+    <Compile Include="ButtonSpinner\SpinEventArgs.cs" />
+    <Compile Include="ButtonSpinner\ASpinner.cs" />
+    <Compile Include="ButtonSpinner\ValidSpinDirections.cs" />
+    <Compile Include="Core\Utilities\KeyboardUtilities.cs" />
+    <Compile Include="Core\Utilities\TreeHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DropDownButton\DropDownButton.cs" />
+    <Compile Include="DropDownButton\IUpdateable.cs" />
+    <Compile Include="NumericUpDown\UInt64UpDown.cs" />
+    <Compile Include="NumericUpDown\UInt32UpDown.cs" />
+    <Compile Include="NumericUpDown\UInt16UpDown.cs" />
+    <Compile Include="NumericUpDown\Int16UpDown.cs" />
+    <Compile Include="NumericUpDown\Int64UpDown.cs" />
+    <Compile Include="Themes\Chromes\ButtonChromeRenderer.cs" />
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Core\Converters\DebugConverter.cs" />
+    <Compile Include="Core\Converters\InverseBoolConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Converters\NullToBoolConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Input\InputValidationErrorEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Input\IValidateInput.cs" />
+    <Compile Include="Core\Markup\InfiniteStringMarkupExtension.cs" />
+    <Compile Include="NumericUpDown\AllowedSpecialValuesEnum.cs" />
+    <Compile Include="NumericUpDown\ByteUpDown.cs" />
+    <Compile Include="NumericUpDown\ANativeNumericUpDown.cs" />
+    <Compile Include="NumericUpDown\DecimalUpDown.cs" />
+    <Compile Include="NumericUpDown\DoubleUpDown.cs" />
+    <Compile Include="NumericUpDown\Int32UpDown.cs" />
+    <Compile Include="NumericUpDown\LongUpDown.cs" />
+    <Compile Include="NumericUpDown\ANumericUpDown.cs" />
+    <Compile Include="NumericUpDown\SByteUpDown.cs" />
+    <Compile Include="NumericUpDown\ShortUpDown.cs" />
+    <Compile Include="NumericUpDown\SingleUpDown.cs" />
+    <Compile Include="NumericUpDown\ULongUpDown.cs" />
+    <Compile Include="NumericUpDown\UShortUpDown.cs" />
+    <Compile Include="Primitives\InputBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Primitives\MouseWheelActiveTriggerEnum.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Themes\ResourceKeys.cs" />
+    <Compile Include="Primitives\UpDownBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WatermarkTextBox\WatermarkTextBox.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\ButtonSpinner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Chromes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\DropDownButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\NumericUpDown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Resources\All.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Resources\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Resources\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Resources\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Resources\Glyphs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\WatermarkTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,4 +1,6 @@
-﻿namespace XSerialization
+﻿using System;
+
+namespace XSerialization
 {
     /// <summary>
     /// This class stores all constants of the library.
@@ -99,5 +101,10 @@
         /// Constant which represents an undefined assembly name.
         /// </summary>
         public const string UNDEFINED_ASSEMBLY = "UND_ASS";
+
+        /// <summary>
+        /// The ma x_ version
+        /// </summary>
+        public static readonly Version MAX_VERSION = new Version(int.MaxValue, int.MaxValue, int.MaxValue, int.MaxValue);
     }
 }

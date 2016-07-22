@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using XSystem;
@@ -24,7 +25,11 @@ namespace XSerialization
         /// <summary>
         /// Gets or sets the decorated contract.
         /// </summary>
-        public IXSerializationContract SubContract { get; set; }
+        public IXSerializationContract SubContract 
+        { 
+            get; 
+            set; 
+        }
 
         /// <summary>
         /// Flag to know if an external creation is necessary.
@@ -135,8 +140,14 @@ namespace XSerialization
             //Create Element named after the property
 // ReSharper disable once PossibleNullReferenceException
             XElement lPropElement = new XElement(lPropertyInfo.Name);
-            XElement lXResult = this.SubContract.Write(lPropertyInfo.GetValue(pSerializationContext.CurrentObject, null), lPropElement, pSerializationContext);
+            XElement lXResult = null;
 
+            // Verifying if the property has parameters as it is impossible to serialize it.
+            if (lPropertyInfo.GetIndexParameters().Any() == false)
+            {
+                lXResult = this.SubContract.Write(lPropertyInfo.GetValue(pSerializationContext.CurrentObject, null), lPropElement, pSerializationContext);
+            }
+            
             //TOCHECK : Only add property element if it is not empty (for NoWrite contract which returns null).
             if (lXResult != null)
             {

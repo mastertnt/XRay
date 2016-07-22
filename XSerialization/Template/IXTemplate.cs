@@ -9,7 +9,7 @@ namespace XSerialization.Template
     /// This interface represents an object template containing the template informations into an XElement.
     /// </summary>
     /// <!-- DPE -->
-    public interface IXTemplate
+    public interface IXTemplate : ICloneable, IDisposable
     {
         #region Properties
 
@@ -64,6 +64,12 @@ namespace XSerialization.Template
         /// <returns>The instance if the creation succeed, null otherwise.</returns>
         object Create(XSerializer pSerializer);
 
-        #endregion Methods
+        /// <summary>
+        /// Returns the template editor.
+        /// </summary>
+        /// <returns>The template editor.</returns>
+        object GetEditor();
+
+        #endregion // Methods.
     }
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using XSerialization.Defaults;
 
@@ -17,7 +14,7 @@ namespace XSerialization
         /// <summary>
         /// Gets the object applicable minimum version.
         /// </summary>
-        public abstract int MinVersion
+        public abstract Version MinVersion
         {
             get;
         }
@@ -25,11 +22,11 @@ namespace XSerialization
         /// <summary>
         /// Gets the object applicable maximum version.
         /// </summary>
-        public virtual int MaxVersion
+        public virtual Version MaxVersion
         {
             get
             {
-                return int.MaxValue;
+                return XConstants.MAX_VERSION;
             }
         }
 
@@ -40,7 +37,7 @@ namespace XSerialization
         {
             get
             {
-                return (this.MaxVersion == int.MaxValue);
+                return (this.MaxVersion == XConstants.MAX_VERSION);
             }
         }
 
@@ -57,7 +54,7 @@ namespace XSerialization
         public override SupportPriority CanManage(Type pType, IXSerializationContext pSerializationContext)
         {
             bool lVersionFound;
-            int lXVersion = pSerializationContext.GetSerializationParameter<int>("Version", out lVersionFound);
+            Version lXVersion = pSerializationContext.GetSerializationParameter<Version>("Version", out lVersionFound);
             if  (lVersionFound == false)
             {
                 // When no version is specified, only allowing the contract handling the last version.

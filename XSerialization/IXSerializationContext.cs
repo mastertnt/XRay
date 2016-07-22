@@ -112,7 +112,7 @@ namespace XSerialization
         /// <param name="pParameterName">The serialization parameter name</param>
         /// <param name="pIsFound">Return whether it found the parameter or not</param>
         /// <returns>The serialization parameter</returns>
-        TType GetSerializationParameter<TType>(string pParameterName, out bool pIsFound) where TType : struct;
+        TType GetSerializationParameter<TType>(string pParameterName, out bool pIsFound);
 
         /// <summary>
         /// This method set a serialization parameter that will be indexed by the supplied name
@@ -120,7 +120,7 @@ namespace XSerialization
         /// <typeparam name="TType">The serialization parameter type</typeparam>
         /// <param name="pParameterName">The serialization parameter name</param>
         /// <param name="pParameter">The serialization parameter</param>
-        void SetSerializationParameter<TType>(string pParameterName, TType pParameter) where TType : struct;
+        void SetSerializationParameter<TType>(string pParameterName, TType pParameter);
 
         #endregion Methods
     }

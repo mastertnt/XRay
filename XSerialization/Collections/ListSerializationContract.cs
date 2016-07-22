@@ -63,46 +63,40 @@ namespace XSerialization.Collections
         /// <returns>The initialized object if the input object is valid.</returns>
         public override object Read(object pObjectToInitialize, XElement pParentElement, IXSerializationContext pSerializationContext)
         {
-            if (pObjectToInitialize != null)
+            if 
+                ( pObjectToInitialize != null )
             {
                 IList lList = pObjectToInitialize as IList;
-                if (lList != null)
+                if 
+                    ( lList != null )
                 {
-                    foreach (XElement lChild in pParentElement.Elements(XConstants.ITEM_TAG))
+                    foreach 
+                        ( XElement lChild in pParentElement.Elements( XConstants.ITEM_TAG ) )
                     {
                         Type[] lInterfaces = lList.GetType().GetInterfaces();
-                        Type lGenericListType = lInterfaces.FirstOrDefault(pType => pType.IsGenericType == true && pType.GetGenericTypeDefinition() == typeof(IList<>));
+                        Type lGenericListType = lInterfaces.FirstOrDefault( pType => pType.IsGenericType == true && 
+                                                                            pType.GetGenericTypeDefinition() == typeof(IList<>) );
 
-                        IXSerializationContract lContract = pSerializationContext.SelectContract(lChild, lGenericListType.GetGenericArguments()[0]);
-                        if (lContract != null)
+                        Type lItemType = lGenericListType.GetGenericArguments()[ 0 ];
+                        XElement lItemTypeElement = lChild.Element( XConstants.TYPE_TAG );
+                        if
+                            ( lItemTypeElement != null )
                         {
-                            object lItem = null;
-                            try
-                            {
-                                if (lGenericListType.GetGenericArguments()[0].IsValueType)
-                                {
-                                    lItem = Activator.CreateInstance(lGenericListType.GetGenericArguments()[0]);
-                                }
-                                else
-                                {
-                                    ConstructorInfo lDefaultConstructor = lGenericListType.GetGenericArguments()[0].GetConstructor(Type.EmptyTypes);
-                                    if (lDefaultConstructor != null)
-                                    {
-                                        lItem = Activator.CreateInstance(lGenericListType.GetGenericArguments()[0]);
-                                    }
-                                }
-                            }
-                            catch
-                            {
-                                
-                            }
-                            lItem = lContract.Read(lItem, lChild, pSerializationContext);
-                            lList.Add(lItem);
+                            lItemType = pSerializationContext.ResolveType( lItemTypeElement );
                         }
 
-                    } 
+                        IXSerializationContract lContract = pSerializationContext.SelectContract( lChild, lItemType );
+                        if 
+                            ( lContract != null )
+                        {
+                            object lItem = null;
+                            lItem = lContract.Read( lItem, lChild, pSerializationContext );
+                            lList.Add( lItem );
+                        }
+                    }
                 }
             }
+
             return pObjectToInitialize;
         }
 

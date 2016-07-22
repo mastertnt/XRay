@@ -11,16 +11,53 @@ namespace XSerialization.Template
     /// This class represents an object template containing the template informations into an XElement.
     /// </summary>
     /// <!-- DPE -->
-    public class XTemplate<TObject> : IXTemplate
+    public class XTemplate<TObject> : IXTemplate where TObject : class, INotifyPropertyChanged
     {
         #region Fields
+
+        /// <summary>
+        /// Stores the flag indicating if the behaviour is disposed.
+        /// </summary>
+        private bool mDisposed;
 
         /// <summary>
         /// Stores the node containing the template information.
         /// </summary>
         private XElement mTemplateNode;
+
+        /// <summary>
+        /// Stores the object defining the template and used as editor.
+        /// </summary>
+        private TObject mEditor;
         
         #endregion // Fields.
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XTemplate{TObject}"/> class.
+        /// </summary>
+        public XTemplate()
+        {
+            this.mDisposed = false;
+            this.mTemplateNode = null;
+            this.Editor = null;
+            this.TemplatedType = null;
+        }
+
+        #endregion // Constructors.
+
+        #region Finalizers
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="XTemplate{TObject}"/> class.
+        /// </summary>
+        ~XTemplate()
+        {
+            this.Dispose(false);
+        }
+
+        #endregion // Finalizers.
 
         #region Properties
 
@@ -47,6 +84,32 @@ namespace XSerialization.Template
         {
             get;
             protected set;
+        }
+
+        /// <summary>
+        /// Gets or sets the editor.
+        /// </summary>
+        protected virtual TObject Editor
+        {
+            get
+            {
+                return this.mEditor;
+            }
+
+            set
+            {
+                if (this.mEditor != null)
+                {
+                    this.mEditor.PropertyChanged -= this.OnEditorPropertyChanged;
+                }
+
+                this.mEditor = value;
+
+                if (this.mEditor != null)
+                {
+                    this.mEditor.PropertyChanged += this.OnEditorPropertyChanged;
+                }
+            }
         }
 
         #endregion // Properties.
@@ -85,11 +148,9 @@ namespace XSerialization.Template
         {
             try
             {
-                if 
-                    ( pObject != null && 
-                      this.BaseTemplatedType.IsAssignableFrom( pObject.GetType() ) )
+                if (pObject != null && this.BaseTemplatedType.IsAssignableFrom(pObject.GetType()))
                 {
-                    return this.InitializeFrom( (TObject)pObject, pSerializer );
+                    return this.InitializeFrom((TObject)pObject, pSerializer);
                 }
 
                 return false;
@@ -125,15 +186,9 @@ namespace XSerialization.Template
         /// </summary>
         /// <param name="pObject">The object initializing the template.</param>
         /// <returns>True if the type of the given object is the same or inherits the templated type.</returns>
-        public virtual bool InitializeFrom(TObject pObject)
+        public bool InitializeFrom(TObject pObject)
         {
-            if (pObject != null)
-            {
-                this.TemplatedType = pObject.GetType();
-            }
-            XSerializer lSerializer = new XSerializer();
-            this.mTemplateNode = lSerializer.Serialize( pObject );
-            return (this.mTemplateNode!= null);
+            return this.InitializeFrom(pObject, null);
         }
 
         /// <summary>
@@ -144,49 +199,34 @@ namespace XSerialization.Template
         /// <returns>True if the type of the given object is the same or inherits the templated type.</returns>
         public virtual bool InitializeFrom(TObject pObject, XSerializer pSerializer)
         {
-            bool lIsSuppliedObjectValid = pObject != null;
-            if 
-                ( lIsSuppliedObjectValid )
+            if (pObject != null)
             {
+                this.Editor = pObject;
                 this.TemplatedType = pObject.GetType();
+
+                if (pSerializer != null)
+                {
+                    this.mTemplateNode = pSerializer.Serialize(pObject);
+                }
+                else
+                {
+                    XSerializer lSerializer = new XSerializer();
+                    this.mTemplateNode = lSerializer.Serialize(pObject);
+                }
+
+                return (this.mTemplateNode != null);
             }
 
-            bool lHasSerializerProvided = pSerializer != null;
-            if 
-                ( lHasSerializerProvided )
-            {
-                this.mTemplateNode = pSerializer.Serialize( pObject );
-            }
-            else
-            {
-                XSerializer lSerializer = new XSerializer();
-                this.mTemplateNode = lSerializer.Serialize( pObject );
-            }
-
-            bool lIsTemplateNodeValid = this.mTemplateNode != null;
-
-            return lIsTemplateNodeValid;
+            return false;
         }
 
         /// <summary>
         /// Create an instance of the template type.
         /// </summary>
         /// <returns>The instance is the creation succed, default value otherwise.</returns>
-        public virtual TObject Create()
+        public TObject Create()
         {
-            try
-            {
-                if (this.mTemplateNode == null)
-                {
-                    return default(TObject);
-                }
-                XSerializer lSerializer = new XSerializer();
-                return (TObject)lSerializer.Deserialize(this.mTemplateNode);
-            }
-            catch (Exception /*lEx*/)
-            {
-                return default(TObject);
-            }
+            return this.Create(null);
         }
 
         /// <summary>
@@ -197,32 +237,114 @@ namespace XSerialization.Template
         {
             try
             {
-                bool lIsTemplateNodeInvalid = this.mTemplateNode == null;
-                if 
-                    ( lIsTemplateNodeInvalid )
+                if (this.mTemplateNode == null)
                 {
-                    return default( TObject );
+                    return default(TObject);
                 }
 
-                bool lHasSerializerProvided = pSerializer != null;
-                if
-                    ( lHasSerializerProvided )
+                if (pSerializer != null)
                 {
-                    return (TObject)pSerializer.Deserialize( this.mTemplateNode );
+                    return (TObject)pSerializer.Deserialize(this.mTemplateNode);
                 }
                 else
                 {
                     XSerializer lSerializer = new XSerializer();
-                    return (TObject)lSerializer.Deserialize( this.mTemplateNode );
+                    return (TObject)lSerializer.Deserialize(this.mTemplateNode);
                 }
             }
-            catch 
-                ( Exception /*lEx*/ )
+            catch (Exception /*lEx*/)
             {
-                return default( TObject );
+                return default(TObject);
             }
         }
 
-        #endregion Methods
+        /// <summary>
+        /// Clone this template.
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            // Cloning the node defining the template.
+            XElement lTemplateNodeCopy = null;
+            if (this.mTemplateNode != null)
+            {
+                lTemplateNodeCopy = new XElement(this.mTemplateNode);
+            }
+
+            // Cloning the template.
+            XTemplate<TObject> lTemplateCopy = new XTemplate<TObject>();
+            lTemplateCopy.mTemplateNode = lTemplateNodeCopy;
+            return lTemplateCopy;
+        }
+
+        /// <summary>
+        /// Returns the template editor.
+        /// </summary>
+        /// <returns>The template editor.</returns>
+        object IXTemplate.GetEditor()
+        {
+            return this.GetEditor();
+        }
+
+        /// <summary>
+        /// Returns the template editor.
+        /// </summary>
+        /// <returns>The template editor.</returns>
+        public virtual TObject GetEditor()
+        {
+            return this.mEditor;
+        }
+
+        /// <summary>
+        /// Delegate called when an editor property is modified.
+        /// </summary>
+        /// <param name="pSender">The modified editor.</param>
+        /// <param name="pEventArgs">The event arguments.</param>
+        private void OnEditorPropertyChanged(object pSender, PropertyChangedEventArgs pEventArgs)
+        {
+            this.InitializeFrom(this.Editor);
+        }
+
+        /// <summary>
+        /// Dispose this behavior.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+
+#pragma warning disable 1587
+            /// This object will be cleaned up by the Dispose method.
+            /// Therefore, GC.SupressFinalize should be called to take this object off the finalization queue 
+            /// and prevent finalization code for this object from executing a second time.
+#pragma warning restore 1587
+
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Dispose this behavior.
+        /// </summary>
+        /// <param name="pDisposing">Flag indicating if the owned objects have to be cleaned as well.</param>
+        protected virtual void Dispose(Boolean pDisposing)
+        {
+            if (this.mDisposed == false)
+            {
+                // Free other state (managed objects) section.
+                if (pDisposing)
+                {
+                    if (this.mEditor != null)
+                    {
+                        this.mEditor.PropertyChanged -= this.OnEditorPropertyChanged;
+                        this.mEditor = null;
+                    }
+                }
+
+                // Free your own state (unmanaged objects) section.
+
+                this.mDisposed = true;
+            }
+        }
+
+        #endregion // Methods.
     }
 }

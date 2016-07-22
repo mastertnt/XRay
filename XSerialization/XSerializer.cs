@@ -598,7 +598,7 @@ namespace XSerialization
         /// <param name="pParameterName">The serialization parameter name</param>
         /// <param name="pIsFound">Return whether it found the parameter or not</param>
         /// <returns>The serialization parameter</returns>
-        public virtual TType GetSerializationParameter<TType>(string pParameterName, out bool pIsFound) where TType : struct
+        public virtual TType GetSerializationParameter<TType>(string pParameterName, out bool pIsFound)
         {
             if 
                 ( this.mSerializationContextParameters.ContainsKey( pParameterName ) )
@@ -617,7 +617,7 @@ namespace XSerialization
         /// <typeparam name="TType">The serialization parameter type</typeparam>
         /// <param name="pParameterName">The serialization parameter name</param>
         /// <param name="pParameter">The serialization parameter</param>
-        public virtual void SetSerializationParameter<TType>(string pParameterName, TType pParameter) where TType : struct
+        public virtual void SetSerializationParameter<TType>(string pParameterName, TType pParameter)
         {
             this.mSerializationContextParameters[ pParameterName ] = pParameter;
         }

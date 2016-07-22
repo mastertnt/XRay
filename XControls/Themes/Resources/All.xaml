@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Stores all the resources needed for the default theme. -->
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/XControls;component/Themes/Resources/Brushes.xaml" />
+        <ResourceDictionary Source="/XControls;component/Themes/Resources/Buttons.xaml" />
+        <ResourceDictionary Source="/XControls;component/Themes/Resources/Glyphs.xaml" />
+        <ResourceDictionary Source="/XControls;component/Themes/Resources/Converters.xaml" />
+        <ResourceDictionary Source="/XControls;component/Themes/Chromes/Generic.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

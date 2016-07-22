@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{874C35FD-EB8C-4166-9DA8-D258C66FAC2C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestModels</RootNamespace>
+    <AssemblyName>TestModels</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DocumentationFile>..\Build\Debug_x86\TestModels.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DocumentationFile>..\Build\Debug_x64\TestModels.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DocumentationFile>..\Build\Release_x86\TestModels.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DocumentationFile>..\Build\Release_x64\TestModels.xml</DocumentationFile>
+  </PropertyGroup>
+  <Import Project="..\Targets\XRay.Output.Targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enums.cs" />
+    <Compile Include="FullModel.cs" />
+    <Compile Include="GenericObject2.cs" />
+    <Compile Include="GenericObject3.cs" />
+    <Compile Include="ITestable.cs" />
+    <Compile Include="ObjectWithForceAttribute.cs" />
+    <Compile Include="ObjectWithNullable.cs" />
+    <Compile Include="ObjectWithSkipAttribute.cs" />
+    <Compile Include="ObjectWithDictionaryOfObject.cs" />
+    <Compile Include="ObjectWithSimpleDictionary.cs" />
+    <Compile Include="ObjectWithSortedDictionary.cs" />
+    <Compile Include="ObjectWithStringList.cs" />
+    <Compile Include="InheritedObject.cs" />
+    <Compile Include="ObjectWithAggregate.cs" />
+    <Compile Include="ObjectWithDoubleList.cs" />
+    <Compile Include="ObjectWithEnum.cs" />
+    <Compile Include="ObjectWithNoKeyedList.cs" />
+    <Compile Include="ObjectWithObjectList.cs" />
+    <Compile Include="ObjectWithSimpleList.cs" />
+    <Compile Include="ObjectWithTuple.cs" />
+    <Compile Include="Position.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleObject.cs" />
+    <Compile Include="Surface.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XSerialization\XSerialization.csproj">
+      <Project>{B03F0119-4564-4787-BE7C-9E6F4368C13C}</Project>
+      <Name>XSerialization</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

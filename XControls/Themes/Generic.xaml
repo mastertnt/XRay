@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <ResourceDictionary.MergedDictionaries>
+        
+        <!-- Including all the resources. -->
+        <ResourceDictionary Source="/XControls;component/Themes/Resources/All.xaml" />
+
+        <!-- Including the theme of each control. -->
+        <ResourceDictionary Source="/XControls;component/Themes/ButtonSpinner.xaml" />
+        <ResourceDictionary Source="/XControls;component/Themes/NumericUpDown.xaml" />
+        <ResourceDictionary Source="/XControls;component/Themes/WatermarkTextBox.xaml" />
+        <ResourceDictionary Source="/XControls;component/Themes/DropDownButton.xaml" />
+        
+    </ResourceDictionary.MergedDictionaries>
+    
+</ResourceDictionary>

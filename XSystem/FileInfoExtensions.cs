@@ -14,15 +14,15 @@ namespace XSystem
         #region Methods
 
         /// <summary>
-        /// This method computes an MD5 on a file info.
+        /// This method computes a SHA1 on a file info.
         /// </summary>
         /// <param name="pInputFile">The input file.</param>
         /// <returns></returns>
-        public static string MD5(this FileInfo pInputFile)
+        public static string SHA1(this FileInfo pInputFile)
         {
             if (pInputFile.Exists)
             {
-                using (var lCrypto = System.Security.Cryptography.MD5.Create())
+                using (var lCrypto = System.Security.Cryptography.SHA1CryptoServiceProvider.Create())
                 {
                     using (var lStream = File.OpenRead(pInputFile.FullName))
                     {

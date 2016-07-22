@@ -7,7 +7,7 @@ namespace XSystem.Collections
     /// This collection can be used in two threads. 
     /// One thread produces data (in Next property), this other one can consume the data without any problem (in Current Property).
     /// </summary>
-    public class SynchronizedProducerConsumerCollection<T> where T : ICollection
+    public class SynchronizedProducerConsumerCollection<T> where T : IEnumerable, new()
     {
         #region Fields
 
@@ -56,7 +56,7 @@ namespace XSystem.Collections
         /// </summary>
         public SynchronizedProducerConsumerCollection()
         {
-            this.mBuffers = new T[2];
+            this.mBuffers = new T[ 2 ] { new T(), new T() };
             this.mCurrentIndex = 0;
         }
 

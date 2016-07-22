@@ -1,0 +1,86 @@
+﻿<Window x:Class="XControls.TestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xlib="http://schemas.xlib.com/wpf/xaml/xcontrols"
+        Title="MainWindow" Height="400" Width="525">
+    <Window.Resources>
+        <ResourceDictionary>
+            <xlib:DebugConverter x:Key="DebugConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="50" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="DoubleUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <xlib:DoubleUpDown x:Name="DoubleUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="-1" Maximum="21" Text="-0" AllowMinusZero="True" InfiniteValue="-2" Margin="4" Grid.Column="1" FormatString="0.0000" IsNullableValue="True" />
+        <ContentControl Content="{Binding Value, ElementName=DoubleUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Column="2" />
+
+        <TextBlock Text="ByteUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" />
+        <xlib:ByteUpDown x:Name="ByteUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="23" Margin="4" Grid.Row="1" Grid.Column="1" />
+        <ContentControl Content="{Binding Value, ElementName=ByteUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="1" Grid.Column="2" />
+
+        <TextBlock Text="DecimalUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2"/>
+        <xlib:DecimalUpDown x:Name="DecimalUpDown"  Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="-1" Margin="4" Grid.Column="1" Grid.Row="2" />
+        <ContentControl Content="{Binding Value, ElementName=DecimalUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="2" Grid.Column="2" />
+
+        <TextBlock Text="IntegerUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"/>
+        <xlib:Int32UpDown x:Name="IntegerUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="-1" Margin="4" Grid.Column="1" Grid.Row="3" />
+        <ContentControl Content="{Binding Value, ElementName=IntegerUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="3" Grid.Column="2" />
+
+        <TextBlock Text="LongUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4"/>
+        <xlib:LongUpDown x:Name="LongUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="-1" Margin="4" Grid.Column="1" Grid.Row="4" />
+        <ContentControl Content="{Binding Value, ElementName=LongUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="4" Grid.Column="2" />
+
+        <TextBlock Text="SByteUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5" />
+        <xlib:SByteUpDown x:Name="SByteUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="-1" Margin="4" Grid.Column="1" Grid.Row="5" />
+        <ContentControl Content="{Binding Value, ElementName=SByteUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="5" Grid.Column="2" />
+
+        <TextBlock Text="ShortUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6"/>
+        <xlib:ShortUpDown x:Name="ShortUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="-1" Margin="4" Grid.Column="1" Grid.Row="6" />
+        <ContentControl Content="{Binding Value, ElementName=ShortUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="6" Grid.Column="2" />
+
+        <TextBlock Text="SingleUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" />
+        <xlib:SingleUpDown x:Name="SingleUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="-1" Margin="4" Grid.Column="1" Grid.Row="7" />
+        <ContentControl Content="{Binding Value, ElementName=SingleUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="7" Grid.Column="2" />
+
+        <TextBlock Text="UIntegerUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" />
+        <xlib:UInt32UpDown x:Name="UInt32UpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="33" Margin="4" Grid.Column="1" Grid.Row="8" />
+        <ContentControl Content="{Binding Value, ElementName=UInt32UpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="8" Grid.Column="2" />
+
+        <TextBlock Text="ULongUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" />
+        <xlib:ULongUpDown x:Name="ULongUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="40" Margin="4" Grid.Column="1" Grid.Row="9" />
+        <ContentControl Content="{Binding Value, ElementName=ULongUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="9" Grid.Column="2" />
+
+        <TextBlock Text="UShortUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="10"/>
+        <xlib:UShortUpDown x:Name="UShortUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="54" Margin="4" Grid.Column="1" Grid.Row="10" />
+        <ContentControl Content="{Binding Value, ElementName=UShortUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="10" Grid.Column="2" />
+
+        <Button Content="Lost Focus!" Grid.Row="11" Grid.Column="1" Margin="4"/>
+
+        <StackPanel Grid.Row="12" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <xlib:DropDownButton  DropDownContent="Content" DropDownPlacementMode="Top" DropDownVisibilityDelay="5.0" Width="100" />
+            <Button x:Name="SetZeroDouble" Content="Set -0" />
+        </StackPanel>
+        
+    </Grid>
+</Window>
