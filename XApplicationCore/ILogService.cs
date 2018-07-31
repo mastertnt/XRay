@@ -20,7 +20,7 @@ namespace XApplicationCore
         void LogDebug(Exception pExceptionToLog);
 
         /// <summary>
-        // This method logs an object at debug level.
+        /// This method logs an object at debug level.
         /// </summary>
         /// <param name="pObjectToLog">The object to log.</param>
         void LogDebug(Object pObjectToLog);

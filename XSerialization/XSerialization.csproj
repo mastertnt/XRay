@@ -11,8 +11,6 @@
     <AssemblyName>XSerialization</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <Import Project="..\Targets\XRay.Output.Targets" />
   <Import Project="..\Targets\Framework.Definition.Targets" />
