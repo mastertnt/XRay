@@ -22,6 +22,9 @@ namespace XControls.TestApp
     {
         bool mFlipFlop = true;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +35,11 @@ namespace XControls.TestApp
             this.AddQuestion.Click += AddQuestion_Click;
         }
 
+        /// <summary>
+        /// Handles the Click event of the AddInformation control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         void AddInformation_Click(object sender, RoutedEventArgs e)
         {
             InformationViewModel lViewModel = new InformationViewModel("Not", "Information") { Title = "Pouet pouet" };
@@ -39,17 +47,32 @@ namespace XControls.TestApp
             this.NotifierButton.ViewModel.AddNotification(lViewModel);
         }
 
+        /// <summary>
+        /// Handles the Click event of the AddQuestion control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         void AddQuestion_Click(object sender, RoutedEventArgs e)
         {
             this.NotifierButton.ViewModel.AddNotification(new QuestionViewModel("Not", "Question") { Message = "Nouvelle notification!", CanCancel = this.mFlipFlop, ShowOnRaised = true });
             this.mFlipFlop = !this.mFlipFlop;
         }
 
+        /// <summary>
+        /// Handles the Click event of the SetZeroDouble control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         void SetZeroDouble_Click(object sender, RoutedEventArgs e)
         {
             this.DoubleUpDown.Text = "-0";
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the DoubleUpDown control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="string"/> instance containing the event data.</param>
         void DoubleUpDown_TextChanged(object sender, RoutedPropertyChangedEventArgs<string> e)
         {
             Console.WriteLine(e.NewValue);

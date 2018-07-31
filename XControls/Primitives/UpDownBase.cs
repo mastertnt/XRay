@@ -10,6 +10,12 @@ using System.Windows.Threading;
 
 namespace XControls.Primitives
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="XControls.Primitives.InputBase" />
+    /// <seealso cref="XControls.Core.Input.IValidateInput" />
     [TemplatePart(Name = PART_TextBox, Type = typeof(TextBox))]
     [TemplatePart(Name = PART_Spinner, Type = typeof(ASpinner))]
     public abstract class UpDownBase<T> : InputBase, IValidateInput
@@ -537,7 +543,16 @@ namespace XControls.Primitives
 
         #region Value
 
+        /// <summary>
+        /// The value property
+        /// </summary>
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(T), typeof(UpDownBase<T>), new FrameworkPropertyMetadata(default(T), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValueChanged, OnCoerceValue, false, UpdateSourceTrigger.PropertyChanged));
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>
+        /// The value.
+        /// </value>
         public T Value
         {
             get
@@ -597,6 +612,11 @@ namespace XControls.Primitives
                 upDownBase.OnValueChanged((T)e.OldValue, (T)e.NewValue);
         }
 
+        /// <summary>
+        /// Called when [value changed].
+        /// </summary>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
         protected virtual void OnValueChanged(T oldValue, T newValue)
         {
             if (!this._internalValueSet && this.IsInitialized)
@@ -624,6 +644,10 @@ namespace XControls.Primitives
 
         #region Base Class Overrides
 
+        /// <summary>
+        /// Fournit la gestion de classe pour les cas où une touche d'accès rapide explicite pour cet élément est appelée.
+        /// </summary>
+        /// <param name="e">Données de l'événement de touche d'accès rapide.Les données d'événement signalent la touche qui a été appelée et indiquent si l'objet <see cref="T:System.Windows.Input.AccessKeyManager" /> qui contrôle que l'envoi de ces événements a également envoyé cet appel de touche d'accès rapide à d'autres éléments.</param>
         protected override void OnAccessKey(AccessKeyEventArgs e)
         {
             if (this.TextBox != null) this.TextBox.Focus();
@@ -631,6 +655,9 @@ namespace XControls.Primitives
             base.OnAccessKey(e);
         }
 
+        /// <summary>
+        /// En cas de substitution dans une classe dérivée, appelé chaque fois que le code de l'application ou que des processus internes appellent <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
+        /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -870,11 +897,17 @@ namespace XControls.Primitives
 
         #region Events
 
+        /// <summary>
+        /// Event raised when an error occured on validation.
+        /// </summary>
         public event InputValidationErrorEventHandler InputValidationError;
 
         #region ValueChanged Event
 
         //Due to a bug in Visual Studio, you cannot create event handlers for generic T args in XAML, so I have to use object instead.
+        /// <summary>
+        /// The value changed event
+        /// </summary>
         public static readonly RoutedEvent ValueChangedEvent = EventManager.RegisterRoutedEvent("ValueChanged", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<object>), typeof(UpDownBase<T>));
         /// <summary>
         /// Occurs when [value changed].
@@ -897,6 +930,11 @@ namespace XControls.Primitives
 
         #region Methods
 
+        /// <summary>
+        /// Raises the <see cref="E:Spin" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="SpinEventArgs"/> instance containing the event data.</param>
+        /// <exception cref="System.ArgumentNullException">e</exception>
         protected virtual void OnSpin(SpinEventArgs e)
         {
             if (e == null)
@@ -1054,6 +1092,12 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Commits the modification and validate the input.
+        /// </summary>
+        /// <returns>
+        /// True if the commit validation succeed, false otherwise.
+        /// </returns>
         public virtual bool CommitInput()
         {
             //Nothing to commit if the text has not changed

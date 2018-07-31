@@ -26,9 +26,21 @@ namespace XControls.Primitives
   /// </summary>
   public enum MouseWheelActiveTrigger
   {
-    Focused,
-    FocusedMouseOver,
-    MouseOver,
-    Disabled
-  }
+        /// <summary>
+        /// The focused
+        /// </summary>
+        Focused,
+        /// <summary>
+        /// The focused mouse over
+        /// </summary>
+        FocusedMouseOver,
+        /// <summary>
+        /// The mouse over
+        /// </summary>
+        MouseOver,
+        /// <summary>
+        /// The disabled
+        /// </summary>
+        Disabled
+    }
 }
