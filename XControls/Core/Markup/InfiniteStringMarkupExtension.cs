@@ -22,7 +22,7 @@ namespace XControls.Core.Markup
         /// <returns>The infinite symbol.</returns>
         public override object ProvideValue(IServiceProvider pServiceProvider)
         {
-            return Constants.INFINITE_SYMBOLE.ToString();
+            return Constants.INFINITY_SYMBOL.ToString();
         }
 
         #endregion // Methods.

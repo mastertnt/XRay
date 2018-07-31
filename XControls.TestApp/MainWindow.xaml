@@ -32,11 +32,11 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="DoubleUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <xlib:DoubleUpDown x:Name="DoubleUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="-1" Maximum="21" Text="-0" AllowMinusZero="True" InfiniteValue="-2" Margin="4" Grid.Column="1" FormatString="0.0000" IsNullableValue="True" />
+        <xlib:DoubleUpDown x:Name="DoubleUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="-1" Maximum="21" Text="-0" AllowMinusZero="True" InfiniteValue="-2" Margin="4" Grid.Column="1" NumberDecimalDigits="4" UnitSymbol="%" IsNullableValue="True" />
         <ContentControl Content="{Binding Value, ElementName=DoubleUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Column="2" />
 
         <TextBlock Text="ByteUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" />
-        <xlib:ByteUpDown x:Name="ByteUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="23" Margin="4" Grid.Row="1" Grid.Column="1" />
+        <xlib:ByteUpDown x:Name="ByteUpDown" Watermark="Undefined Value" UpdateValueOnEnterKey="True" Minimum="0" Maximum="21" InfiniteValue="23" Margin="4" Grid.Row="1" Grid.Column="1" UnitSymbol="m/s" />
         <ContentControl Content="{Binding Value, ElementName=ByteUpDown, Converter={StaticResource DebugConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Grid.Row="1" Grid.Column="2" />
 
         <TextBlock Text="DecimalUpDown" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2"/>
@@ -78,8 +78,11 @@
         <Button Content="Lost Focus!" Grid.Row="11" Grid.Column="1" Margin="4"/>
 
         <StackPanel Grid.Row="12" Grid.ColumnSpan="3" Orientation="Horizontal">
-            <xlib:DropDownButton  DropDownContent="Content" DropDownPlacementMode="Top" DropDownVisibilityDelay="5.0" Width="100" />
+            <xlib:DropDownButton DropDownContent="Content" DropDownPlacementMode="Top" Width="100" />
             <Button x:Name="SetZeroDouble" Content="Set -0" />
+            <xlib:NotifierButton x:Name="NotifierButton" DropDownPlacementMode="Top" />
+            <Button x:Name="AddInformation" Content="+ Info Notif" />
+            <Button x:Name="AddQuestion" Content="+ Quest Notif" />
         </StackPanel>
         
     </Grid>

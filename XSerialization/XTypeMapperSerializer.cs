@@ -57,12 +57,24 @@ namespace XSerialization
         #region Methods
 
         /// <summary>
+        /// Clears all cached types of the serializer containers.
+        /// </summary>
+        protected override void ClearTypeContainers()
+        {
+            this.mMultiTypeReferences.Clear();
+
+            base.ClearTypeContainers();
+        }
+
+        /// <summary>
         /// This method is used to read all types under element "XTypeContainer"
         /// </summary>
         /// <param name="pTypeContainer">The root element.</param>
         /// <returns>The number of discovered types.</returns>
         protected override int ReadTypeContainer(XElement pTypeContainer)
         {
+            this.ClearTypeContainers();
+
             foreach (XElement lTypeRefElement in pTypeContainer.Elements())
             {
                 if (lTypeRefElement.Attribute(XConstants.TYPE_REF_ATTRIBUTE) != null)
@@ -96,6 +108,7 @@ namespace XSerialization
                         {
                             this.mErrors.Add(new XSerializationError(XErrorType.UnkwnonType, 0, 0, this.CurrentFile, lTypeRefElement.Value));
 
+#if DEBUG
                             string lPath = Path.Combine(this.mMissingTypesDirPath, MISSING_TYPES_FILE_NAME);
                             File.AppendAllText(lPath, "<TypeMapping>" + Environment.NewLine);
                             File.AppendAllText(lPath, "<OldType>" + Environment.NewLine);
@@ -104,7 +117,8 @@ namespace XSerialization
                             File.AppendAllText(lPath, "<NewType>" + Environment.NewLine);
                             File.AppendAllText(lPath, lTypeRefElement.Value + Environment.NewLine);
                             File.AppendAllText(lPath, "</NewType>" + Environment.NewLine);
-                            File.AppendAllText(lPath, "</TypeMapping>" + Environment.NewLine);
+                            File.AppendAllText(lPath, "</TypeMapping>" + Environment.NewLine); 
+#endif
                         }
                     }
                 }

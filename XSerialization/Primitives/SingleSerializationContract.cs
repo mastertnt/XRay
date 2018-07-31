@@ -38,5 +38,28 @@ namespace XSerialization.Primitives
             }
             return lValue;
         }
+
+        /// <summary>
+        /// This method writes the specified object.
+        /// </summary>
+        /// <param name="pObject">The object to serialize.</param>
+        /// <param name="pParentElement">The parent element.</param>
+        /// <param name="pSerializationContext">The serialization context.</param>
+        /// <returns>The modified parent element</returns>
+        public override XElement Write(object pObject, XElement pParentElement, IXSerializationContext pSerializationContext)
+        {
+            pParentElement.Value = SingleSerializationContract.ToFullValueString((Single)pObject);
+            return pParentElement;
+        }
+
+        /// <summary>
+        /// To the full value string.
+        /// </summary>
+        /// <param name="pValue">The p value.</param>
+        /// <returns></returns>
+        public static string ToFullValueString(Single pValue)
+        {
+            return pValue.ToString("R", CultureInfo.InvariantCulture);
+        }
     }
 }

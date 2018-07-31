@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using XSystem.Collections;
 
@@ -13,12 +14,12 @@ namespace XSystem
         /// <summary>
         /// Stores the map referencing the types by their full names.
         /// </summary>
-        internal static readonly CacheDictionary<string, Type> msTypeByFullName = new CacheDictionary<string, Type>(50);
+        internal static readonly Dictionary<string, Type> msTypeByFullName = new Dictionary<string, Type>();
 
         /// <summary>
         /// Stores the map referencing the types by their full names.
         /// </summary>
-        internal static readonly CacheDictionary<string, string> msUnkwownTypes = new CacheDictionary<string, string>(50);
+        internal static readonly Dictionary<string, string> msUnkwownTypes = new Dictionary<string, string>();
 
         #endregion // Fields.
 

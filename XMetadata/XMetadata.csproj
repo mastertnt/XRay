@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{B73034A9-2EC7-43B9-80D3-2FFB7CB3EE19}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XMetadata</RootNamespace>
+    <AssemblyName>XMetadata</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="..\Targets\XRay.Output.Targets" />
+  <Import Project="..\Targets\Framework.Definition.Targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AAttributesCreator.cs" />
+    <Compile Include="Enum.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IMetadatable.cs" />
+    <Compile Include="MetadataCollection.cs" />
+    <Compile Include="MetadataDescriptors\ABoundableMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\AMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\BooleanMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\DoubleMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\EnumMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\FloatMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\IBoundableMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\IMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\IMetadataSetType.cs" />
+    <Compile Include="MetadataDescriptors\IntMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\ListMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\LongMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\AMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\BooleanMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\DoubleMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\EnumerationMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\FloatMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\IntMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\ListMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\LongMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\MetadataTypeReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\ShortMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\StringMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\UIntMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\ULongMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\Readers\UShortMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\ShortMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\StringMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\UIntMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\ULongMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\UShortMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MetadataManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataDescriptors\MetadataSetType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MetadataSet.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XSystem\XSystem.csproj">
+      <Project>{70ab21af-5cf4-4751-8d1f-c55b55b33ec6}</Project>
+      <Name>XSystem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

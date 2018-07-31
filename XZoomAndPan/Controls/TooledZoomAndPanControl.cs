@@ -53,6 +53,11 @@ namespace XZoomAndPan.Controls
         /// </summary>
         public static readonly DependencyProperty OverviewVisibilityProperty = DependencyProperty.RegisterAttached("OverviewVisibility", typeof(Visibility), typeof(TooledZoomAndPanControl), new FrameworkPropertyMetadata(Visibility.Visible));
 
+        /// <summary>
+        /// Identifies the ToolbarVisibility attached dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ToolbarVisibilityProperty = DependencyProperty.RegisterAttached("ToolbarVisibility", typeof(Visibility), typeof(TooledZoomAndPanControl), new FrameworkPropertyMetadata(Visibility.Visible));
+
         #endregion // Dependencies.
 
         #region Fields
@@ -178,6 +183,21 @@ namespace XZoomAndPan.Controls
             set
             {
                 SetValue(OverviewVisibilityProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the toolbar visibility.
+        /// </summary>
+        public Visibility ToolbarVisibility
+        {
+            get
+            {
+                return (Visibility)GetValue(ToolbarVisibilityProperty);
+            }
+            set
+            {
+                SetValue(ToolbarVisibilityProperty, value);
             }
         }
 

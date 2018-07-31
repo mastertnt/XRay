@@ -81,7 +81,7 @@
             <!-- 
                 Grid placed below the zoom and pan control that contains the zoom slider, zoom label and some button.
             -->
-            <controls:DefaultToolbar x:Name="PART_Toolbar" Grid.Row="1" />
+            <controls:DefaultToolbar x:Name="PART_Toolbar" Grid.Row="1" Visibility="{TemplateBinding ToolbarVisibility}" />
         </Grid>
     </ControlTemplate>
 

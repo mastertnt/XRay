@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
+using XSerialization.Attributes;
 using XSerialization.Decorators;
 using XSerialization.ExternalResolvers;
 using XSerialization.Values;
@@ -598,7 +599,7 @@ namespace XSerialization
         /// <param name="pParameterName">The serialization parameter name</param>
         /// <param name="pIsFound">Return whether it found the parameter or not</param>
         /// <returns>The serialization parameter</returns>
-        public virtual TType GetSerializationParameter<TType>(string pParameterName, out bool pIsFound)
+        public virtual TType GetSerializationParameter<TType>(string pParameterName, out bool pIsFound) where TType : struct
         {
             if 
                 ( this.mSerializationContextParameters.ContainsKey( pParameterName ) )
@@ -617,7 +618,7 @@ namespace XSerialization
         /// <typeparam name="TType">The serialization parameter type</typeparam>
         /// <param name="pParameterName">The serialization parameter name</param>
         /// <param name="pParameter">The serialization parameter</param>
-        public virtual void SetSerializationParameter<TType>(string pParameterName, TType pParameter)
+        public virtual void SetSerializationParameter<TType>(string pParameterName, TType pParameter) where TType : struct
         {
             this.mSerializationContextParameters[ pParameterName ] = pParameter;
         }
@@ -648,6 +649,8 @@ namespace XSerialization
         /// <returns>The number of discovered types.</returns>
         protected virtual int ReadTypeContainer(XElement pTypeContainer)
         {
+            this.ClearTypeContainers();
+
             foreach (XElement lTypeRefElement in pTypeContainer.Elements())
             {
                 if (lTypeRefElement.Attribute(XConstants.TYPE_REF_ATTRIBUTE) != null)
@@ -663,6 +666,16 @@ namespace XSerialization
                 }
             }
             return this.mTypeReferencesByRef.Count;
+        }
+
+        /// <summary>
+        /// Clears all cached types of the serializer containers.
+        /// </summary>
+        protected virtual void ClearTypeContainers()
+        {
+            this.mTypeReferencesByRef.Clear();
+            this.mTypeReferencesByType.Clear();
+            this.mElementsByType.Clear();
         }
 
         /// <summary>

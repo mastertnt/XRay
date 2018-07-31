@@ -10,9 +10,9 @@ using XControls.Core.Utilities;
 
 namespace XControls
 {
-  [TemplatePart( Name = PART_DropDownButton, Type = typeof( ToggleButton ) )]
-  [TemplatePart( Name = PART_ContentPresenter, Type = typeof( ContentPresenter ) )]
-  [TemplatePart( Name = PART_Popup, Type = typeof( Popup ) )]
+  [TemplatePart(Name = PART_DropDownButton, Type = typeof(ToggleButton))]
+  [TemplatePart(Name = PART_ContentPresenter, Type = typeof(ContentPresenter))]
+  [TemplatePart(Name = PART_Popup, Type = typeof(Popup))]
   public class DropDownButton : ContentControl, ICommandSource
   {
     private const string PART_DropDownButton = "PART_DropDownButton";
@@ -80,11 +80,11 @@ namespace XControls
     /// <summary>
     /// Gets or sets the delay in seconds.
     /// </summary>
-    public double DropDownVisibilityDelay
+    public double? DropDownVisibilityDelay
     {
         get
         {
-            return (double)GetValue(DropDownVisibilityDelayProperty);
+            return (double?)GetValue(DropDownVisibilityDelayProperty);
         }
         set
         {
@@ -95,9 +95,17 @@ namespace XControls
     private static void OnDropDownVisibilityDelayChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
     {
         DropDownButton lDropDownButton = o as DropDownButton;
+        double lValue = (double)e.NewValue;
         if (lDropDownButton != null)
         {
-            lDropDownButton.mVisibilityTimer.Interval = (double)e.NewValue * 1000.0;
+            if (lValue <= 0.0)
+            {
+                lDropDownButton.mVisibilityTimer.Stop();
+            }
+            else
+            {
+                lDropDownButton.mVisibilityTimer.Interval = lValue * 1000.0;
+            }
         }
     }
 

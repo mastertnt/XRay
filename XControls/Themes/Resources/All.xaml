@@ -8,6 +8,7 @@
         <ResourceDictionary Source="/XControls;component/Themes/Resources/Buttons.xaml" />
         <ResourceDictionary Source="/XControls;component/Themes/Resources/Glyphs.xaml" />
         <ResourceDictionary Source="/XControls;component/Themes/Resources/Converters.xaml" />
+        <ResourceDictionary Source="/XControls;component/Themes/Resources/Icons.xaml" />
         <ResourceDictionary Source="/XControls;component/Themes/Chromes/Generic.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

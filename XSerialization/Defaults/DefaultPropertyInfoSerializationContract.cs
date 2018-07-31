@@ -94,7 +94,14 @@ namespace XSerialization.Defaults
                 if (lSerializationContract != null)
                 {
                     object lReadObject = lSerializationContract.Read(lPropertyInfo.GetValue(pSerializationContext.CurrentObject, null), lPropertyElement, pSerializationContext);
-                    lPropertyInfo.SetValue(pSerializationContext.CurrentObject, lReadObject, null);
+                    if (lReadObject == null)
+                    {
+                        lPropertyInfo.SetValue(pSerializationContext.CurrentObject, null, null);    
+                    }
+                    else if (lPropertyInfo.PropertyType.IsInstanceOfType(lReadObject))
+                    {
+                        lPropertyInfo.SetValue(pSerializationContext.CurrentObject, lReadObject, null);    
+                    }
                     return pObjectToInitialize;
                 }
             }
@@ -121,6 +128,10 @@ namespace XSerialization.Defaults
                 if (lPropertyValue == null)
                 {
                     lSerializationContract = pSerializationContext.SelectContract(lObjectElement, null);
+                }
+                else
+                {
+                    lSerializationContract = pSerializationContext.SelectContract(lObjectElement, lPropertyValue);
                 }
                 if (lSerializationContract != null)
                 {

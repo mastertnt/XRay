@@ -13,16 +13,15 @@ namespace XSerialization
         /// <summary>
         /// Gets the object applicable minimum version.
         /// </summary>
-        Version MinVersion
+        int MinVersion
         {
             get;
         }
 
         /// <summary>
         /// Gets the object applicable maximum version.
-        /// For the current version, the value must return Version(
         /// </summary>
-        Version MaxVersion
+        int MaxVersion
         {
             get;
         }

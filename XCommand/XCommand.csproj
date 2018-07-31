@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{DDE834E3-B742-402F-9CAF-E1D4FDF02920}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XCommand</RootNamespace>
+    <AssemblyName>XCommand</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="..\Targets\XRay.Output.Targets" />
+  <Import Project="..\Targets\Framework.Definition.Targets" />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ASwitchContextCommand.cs" />
+    <Compile Include="AAutoTestCommand.cs" />
+    <Compile Include="AUserCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AutoTestCommandContext.cs" />
+    <Compile Include="AutoTestCommandSession.cs" />
+    <Compile Include="CommandExecutionEventArgs.cs" />
+    <Compile Include="CommandConstants.cs" />
+    <Compile Include="ContextChangedEventArgs.cs" />
+    <Compile Include="Delegate.cs" />
+    <Compile Include="IAutoTestCommand.cs" />
+    <Compile Include="ISwitchContextCommand.cs" />
+    <Compile Include="ITooltipable.cs" />
+    <Compile Include="IUserCommand.cs" />
+    <Compile Include="IUserCommandContext.cs" />
+    <Compile Include="IUserCommandManager.cs" />
+    <Compile Include="IUserCommandSession.cs" />
+    <Compile Include="Progress\Delegate.cs" />
+    <Compile Include="Progress\Evaluators\IdentityProgressEvaluator.cs" />
+    <Compile Include="Progress\INotifyProgress.cs" />
+    <Compile Include="Progress\IProgressEvaluator.cs" />
+    <Compile Include="Progress\Net45\Delegate.cs" />
+    <Compile Include="Progress\Net45\IProgress.cs" />
+    <Compile Include="Progress\Net45\Progress.cs" />
+    <Compile Include="Progress\NotifyProgress.cs" />
+    <Compile Include="Progress\NotifyProgressEventArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionCreatedEventArgs.cs" />
+    <Compile Include="UserCommandContext.cs" />
+    <Compile Include="UserCommandManager.cs" />
+    <Compile Include="UserCommandManagerMode.cs" />
+    <Compile Include="UserCommandSession.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserCommandSessionList.cs" />
+    <Compile Include="UserCommandState.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

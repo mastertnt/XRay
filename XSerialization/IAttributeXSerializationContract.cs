@@ -1,4 +1,5 @@
 ﻿using System;
+using XSerialization.Attributes;
 
 namespace XSerialization
 {
@@ -7,6 +8,18 @@ namespace XSerialization
     /// </summary>
     public interface IAttributeXSerializationContract : IXTypedSerializationContract<Type>
     {
+        /// <summary>
+        /// Gets or sets the attribute.
+        /// </summary>
+        /// <value>
+        /// The attribute.
+        /// </value>
+        XSerializationAttribute Attribute
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets the supported attribute
         /// </summary>

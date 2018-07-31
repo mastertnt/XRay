@@ -9,13 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XSerialization</RootNamespace>
     <AssemblyName>XSerialization</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <Import Project="..\Targets\XRay.Output.Targets" />
+  <Import Project="..\Targets\Framework.Definition.Targets" />
   <ItemGroup>
     <Reference Include="PropertyChanged, Version=1.51.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\..\NuGet\InstalledPackages\PropertyChanged.Fody.1.51.0\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
@@ -30,13 +30,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AVersionElementSerializationContract.cs" />
-    <Compile Include="AttributeSerializationContract.cs" />
-    <Compile Include="APropertyInfoSerializationContract.cs" />
+    <Compile Include="Attributes\AttributeSerializationContract.cs" />
+    <Compile Include="Attributes\OrderXSerializationAttribute.cs" />
+    <Compile Include="Attributes\FieldSerializationContract.cs" />
+    <Compile Include="Attributes\FieldSerializationXAttribute.cs" />
     <Compile Include="Attributes\ForceContractXSerializationAttribute.cs" />
-    <Compile Include="Attributes\HideContractAttribute.cs" />
-    <Compile Include="Attributes\WriteOnlyXSerializationAttribute.cs" />
+    <Compile Include="Attributes\ForceFieldContractXSerializationAttribute.cs" />
     <Compile Include="Attributes\ForceWriteXSerializationAttribute.cs" />
+    <Compile Include="Attributes\SkipXSerializationAttribute.cs" />
+    <Compile Include="Attributes\WriteOnlyXSerializationAttribute.cs" />
+    <Compile Include="AVersionElementSerializationContract.cs" />
+    <Compile Include="APropertyInfoSerializationContract.cs" />
+    <Compile Include="Attributes\HideContractAttribute.cs" />
     <Compile Include="AElementSerializationContract.cs" />
     <Compile Include="ATypeSerializationContract.cs" />
     <Compile Include="AVersionTypeSerializationContract.cs" />
@@ -52,7 +57,6 @@
     <Compile Include="ExternalResolvers\DefaultExternalReferenceResolver.cs" />
     <Compile Include="Defaults\DefaultEnumSerializationContract.cs" />
     <Compile Include="Defaults\DefaultPropertyInfoSerializationContract.cs" />
-    <Compile Include="Attributes\SkipXSerializationAttribute.cs" />
     <Compile Include="IElementXSerializationContract.cs" />
     <Compile Include="IXExternalReferenceResolver.cs" />
     <Compile Include="IXSerializationAttribute.cs" />

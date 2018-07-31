@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
+using XSerialization.Attributes;
 
 namespace XSerialization.Defaults
 {
@@ -39,18 +40,31 @@ namespace XSerialization.Defaults
         {
             if (pObjectToInitialize != null)
             {
+
                 //Get public propertyinfo and the private one bearing a XSerializationAttribute attribute.
                 PropertyInfo[] lPublicPropertyInfos = pObjectToInitialize.GetType().GetProperties();
-
-                // Heed non public properties bearing a IXSerializationAttribute
                 PropertyInfo[] lNonPublicPropertyInfos = pObjectToInitialize.GetType().GetProperties(BindingFlags.Instance | BindingFlags.NonPublic);
                 IEnumerable<PropertyInfo> lFilteredPropertyInfos = lPublicPropertyInfos.Union(lNonPublicPropertyInfos.Where(pElt => pElt.GetCustomAttributes(typeof(IXSerializationAttribute), true).Any()));
-                foreach (PropertyInfo lPropertyInfo in lFilteredPropertyInfos)
+                
+                // The order is given by the XML, not by the properties.
+                foreach (var lElement in pElement.Elements())
                 {
-                    IXSerializationContract lSerializationContract = pSerializationContext.SelectContract(pElement, lPropertyInfo);
-                    if (lSerializationContract != null)
+                    PropertyInfo lPropertyInfo = lFilteredPropertyInfos.FirstOrDefault(pProp => pProp.Name == lElement.Name);
+                    if (lPropertyInfo != null)
                     {
-                        lSerializationContract.Read(lPropertyInfo, pElement, pSerializationContext);
+                        IXSerializationContract lSerializationContract = pSerializationContext.SelectContract(null, lPropertyInfo);
+                        if (lSerializationContract != null)
+                        {
+                            lSerializationContract.Read(lPropertyInfo, pElement, pSerializationContext);
+                        } 
+                    }
+                    else
+                    {
+                        IXSerializationContract lSerializationContract = pSerializationContext.SelectContract(lElement, null);
+                        if (lSerializationContract != null)
+                        {
+                            lSerializationContract.Read(null, lElement, pSerializationContext);
+                        } 
                     }
                 }
             }
@@ -72,9 +86,10 @@ namespace XSerialization.Defaults
             // Get public propertyinfo and the private one bearing a XSerializationAttribute attribute.
             PropertyInfo[] lPublicPropertyInfos = pObject.GetType().GetProperties();
             PropertyInfo[] lNonPublicPropertyInfos = pObject.GetType().GetProperties(BindingFlags.Instance | BindingFlags.NonPublic);
-            IEnumerable<PropertyInfo> lFilteredPropertyInfos = lPublicPropertyInfos.Union(lNonPublicPropertyInfos.Where(pElt => pElt.GetCustomAttributes(typeof(IXSerializationAttribute), true).Any()));
+            PropertyInfo[] lFilteredPropertyInfos = lPublicPropertyInfos.Union(lNonPublicPropertyInfos.Where(pElt => pElt.GetCustomAttributes(typeof(IXSerializationAttribute), true).Any())).ToArray();
+            PropertyInfo[] lSortedFilteredPropertyInfos = lFilteredPropertyInfos.Select(pX => new { Property = pX, Attribute = (OrderXSerializationAttribute)Attribute.GetCustomAttribute(pX, typeof(OrderXSerializationAttribute), true) }).OrderBy(pX => pX.Attribute != null ? pX.Attribute.Order : Int32.MaxValue).ThenBy(pX => pX.Property.Name).Select(pX => pX.Property).ToArray();
             pParentElement.SetAttributeValue(XConstants.ID_ATTRIBUTE, pSerializationContext.GetObjectReference(pObject));
-            foreach (PropertyInfo lPropertyInfo in lFilteredPropertyInfos)
+            foreach (PropertyInfo lPropertyInfo in lSortedFilteredPropertyInfos)
             {
                 IXSerializationContract lSerializationContract = pSerializationContext.SelectContract(null, lPropertyInfo);
                 if (lSerializationContract != null)

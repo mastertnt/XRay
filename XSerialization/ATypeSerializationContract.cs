@@ -21,7 +21,7 @@ namespace XSerialization
         /// </summary>
         public virtual Type SupportedType
         {
-            get { return typeof (TType); }
+            get { return typeof(TType); }
         }
 
         /// <summary>
@@ -60,18 +60,15 @@ namespace XSerialization
         {
             // Cache SupportPriority by type
             SupportPriority lSupportPriority;
-            if
-                (this.mSupportPriorityForType.TryGetValue(pType, out lSupportPriority) == false)
+            if (this.mSupportPriorityForType.TryGetValue(pType, out lSupportPriority) == false)
             {
                 int lDepthOfInheritance = pType.DistanceTo(this.SupportedType);
 
-                if
-                    (lDepthOfInheritance == -1)
+                if (lDepthOfInheritance == -1)
                 {
                     lSupportPriority = SupportPriority.CANNOT_SUPPORT;
                 }
-                else if
-                    (this.SupportedType.IsInterface)
+                else if (this.SupportedType.IsInterface)
                 {
                     lSupportPriority = new SupportPriority(SupportLevel.Interface, lDepthOfInheritance);
                 }

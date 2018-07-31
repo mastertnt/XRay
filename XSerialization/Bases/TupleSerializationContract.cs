@@ -90,7 +90,7 @@ namespace XSerialization.Bases
                     List<object> lParameters = new List<object>();
                     for (int lGenericIndex = 0; lGenericIndex < lRetrievedType.GetGenericArguments().Count(); lGenericIndex++)
                     {
-                        string lItemName = XConstants.ITEM_TAG + (lGenericIndex + 1);
+                        string lItemName = XConstants.TUPLE_ITEM_TAG + (lGenericIndex + 1);
                         XElement lItemElement = pParentElement.Descendants(lItemName).FirstOrDefault();
                         IXSerializationContract lItemContract = pSerializationContext.SelectContract(lItemElement, null, lRetrievedType.GetGenericArguments()[lGenericIndex], null);
                         object lItemObject = null;
@@ -149,7 +149,7 @@ namespace XSerialization.Bases
 
             for (int lGenericIndex = 0; lGenericIndex < pObject.GetType().GetGenericArguments().Count(); lGenericIndex++)
             {
-                string lItemName = XConstants.ITEM_TAG + (lGenericIndex + 1);
+                string lItemName = XConstants.TUPLE_ITEM_TAG + (lGenericIndex + 1);
                 IXSerializationContract lKeyContract = pSerializationContext.SelectContract(null, null, pObject.GetPropertyType(lItemName), null);
                 if (lKeyContract != null)
                 {

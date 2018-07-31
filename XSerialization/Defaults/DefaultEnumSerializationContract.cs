@@ -15,7 +15,7 @@ namespace XSerialization.Defaults
         /// <remarks>
         /// Used for retro compatibility.
         /// </remarks>
-        private Type mObjectType = null;
+        protected Type mObjectType = null;
 
         /// <summary>
         /// Flag to know if an external creation is necessary.

@@ -22,7 +22,7 @@ namespace TestModels
         /// <value>
         /// The tuple.
         /// </value>
-        public Tuple<int, double, int> Tuple
+        public Tuple<int, double, int> TupleProperty
         {
             get; set;
         }
@@ -44,7 +44,7 @@ namespace TestModels
         public static object InitializeTest1()
         {
             ObjectWithTuple lResult = new ObjectWithTuple();
-            lResult.Tuple = new Tuple<int, double, int>(1, 72.2, 43);
+            lResult.TupleProperty = new Tuple<int, double, int>(1, 72.2, 43);
             return lResult;
         }
     }

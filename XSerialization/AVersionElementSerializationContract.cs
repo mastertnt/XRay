@@ -16,7 +16,7 @@ namespace XSerialization
         /// <summary>
         /// Gets the object applicable minimum version.
         /// </summary>
-        public abstract Version MinVersion
+        public abstract int MinVersion
         {
             get;
         }
@@ -24,11 +24,11 @@ namespace XSerialization
         /// <summary>
         /// Gets the object applicable maximum version.
         /// </summary>
-        public virtual Version MaxVersion
+        public virtual int MaxVersion
         {
             get
             {
-                return XConstants.MAX_VERSION;
+                return int.MaxValue;
             }
         }
 
@@ -39,7 +39,7 @@ namespace XSerialization
         {
             get
             {
-                return (this.MaxVersion == XConstants.MAX_VERSION);
+                return (this.MaxVersion == int.MaxValue);
             }
         }
 
@@ -69,7 +69,7 @@ namespace XSerialization
         public override SupportPriority CanManage(XElement pParentElement, IXSerializationContext pSerializationContext)
         {
             bool lVersionFound;
-            Version lXVersion = pSerializationContext.GetSerializationParameter<Version>("Version", out lVersionFound);
+            int lXVersion = pSerializationContext.GetSerializationParameter<int>("Version", out lVersionFound);
             if (lVersionFound == false)
             {
                 // When no version is specified, only allowing the contract handling the last version.

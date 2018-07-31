@@ -469,8 +469,9 @@ namespace XControls.Primitives
 
             if (TextBox != null)
             {
-                TextBox.LostFocus -= new RoutedEventHandler(TextBox_LostFocus);
-                TextBox.TextChanged -= new TextChangedEventHandler(TextBox_TextChanged);
+                TextBox.LostFocus -= this.TextBox_LostFocus;
+                TextBox.TextChanged -= this.TextBox_TextChanged;
+                TextBox.GotFocus -= this.TextBox_GotFocus;
                 TextBox.RemoveHandler(Mouse.PreviewMouseDownEvent, new MouseButtonEventHandler(this.TextBox_PreviewMouseDown));
             }
 
@@ -479,8 +480,9 @@ namespace XControls.Primitives
             if (TextBox != null)
             {
                 TextBox.Text = Text;
-                TextBox.LostFocus += new RoutedEventHandler(TextBox_LostFocus);
-                TextBox.TextChanged += new TextChangedEventHandler(TextBox_TextChanged);
+                TextBox.LostFocus += this.TextBox_LostFocus;
+                TextBox.TextChanged += this.TextBox_TextChanged;
+                TextBox.GotFocus += this.TextBox_GotFocus;
                 TextBox.AddHandler(Mouse.PreviewMouseDownEvent, new MouseButtonEventHandler(this.TextBox_PreviewMouseDown), true);
             }
 
@@ -494,6 +496,39 @@ namespace XControls.Primitives
 
             SetValidSpinDirection();
         }
+
+        /// <summary>
+        /// Handles the GotFocus event of the TextBox control.
+        /// </summary>
+        /// <param name="pSender">The source of the event.</param>
+        /// <param name="pRoutedEventArgs">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void TextBox_GotFocus(object pSender, RoutedEventArgs pRoutedEventArgs)
+        {
+            this.DisplayRawValueAsText();
+
+            //Selectthe whole text when the TB gets the focus
+            if (this.TextBox != null && string.IsNullOrEmpty(this.TextBox.Text) == false)
+            {
+                this.TextBox.SelectionStart = 0;
+                this.TextBox.SelectionLength = this.TextBox.Text.Length; 
+            }
+        }
+
+        /// <summary>
+        /// Displays the raw value as text in the text box.
+        /// </summary>
+        protected abstract void CustomDisplayRawValueAsText();
+
+        /// <summary>
+        /// Displays the raw value as text in the text box.
+        /// </summary>
+        private void DisplayRawValueAsText()
+        {
+            this._isSyncingTextAndValueProperties = true;
+            this.CustomDisplayRawValueAsText();
+            this._isSyncingTextAndValueProperties = false;
+        }
+
 
         protected override void OnPreviewKeyDown(KeyEventArgs pEventArgs)
         {
@@ -670,6 +705,11 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Raises the value changed event.
+        /// </summary>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
         protected virtual void RaiseValueChangedEvent(T oldValue, T newValue)
         {
             RoutedPropertyChangedEventArgs<object> args = new RoutedPropertyChangedEventArgs<object>(oldValue, newValue);
@@ -677,6 +717,10 @@ namespace XControls.Primitives
             RaiseEvent(args);
         }
 
+        /// <summary>
+        /// Déclenche l'événement <see cref="E:System.Windows.FrameworkElement.Initialized" />.Cette méthode est appelée chaque fois qu'<see cref="P:System.Windows.FrameworkElement.IsInitialized" /> a la valeur true  en interne.
+        /// </summary>
+        /// <param name="e"><see cref="T:System.Windows.RoutedEventArgs" /> qui contient les données d'événement.</param>
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -713,14 +757,27 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the TextBox control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="TextChangedEventArgs"/> instance containing the event data.</param>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!this.IsKeyboardFocusWithin)
-                return;
-
-            if (this.UpdateValueOnEnterKey == false)
+            if (!this._isSyncingTextAndValueProperties)
             {
-                this.TryUpdateTextProperty();
+                if (this.TextBox != null && this.TextBox.Text.StartsWith(Constants.APPROXIMATION_SYMBOL))
+                {
+                    this.DisplayRawValueAsText();
+                }
+ 
+                if (!this.IsKeyboardFocusWithin)
+                    return;
+
+                if (this.UpdateValueOnEnterKey == false)
+                {
+                    this.TryUpdateTextProperty();
+                } 
             }
         }
 
@@ -774,6 +831,17 @@ namespace XControls.Primitives
 
         public virtual bool CommitInput()
         {
+            //Nothing to commit if the text has not changed
+            string lText = ConvertValueToText();
+
+            // Ensuring the good decimal separator is used.
+            lText = lText.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator);
+
+            if (this.Text == lText && this.TextBox.Text == lText)
+            {
+                return true;
+            }
+
             if (this.UpdateValueOnEnterKey)
             {
                 this.TryUpdateTextProperty();
@@ -897,6 +965,13 @@ namespace XControls.Primitives
         /// </summary>
         /// <returns></returns>
         protected abstract string ConvertValueToText(T pValue);
+
+        /// <summary>
+        /// Converts the raw value to text (not formatted).
+        /// </summary>
+        /// <param name="pValue">The value.</param>
+        /// <returns></returns>
+        protected abstract string ConvertRawValueToText(T pValue);
 
         /// <summary>
         /// Called by OnSpin when the spin direction is SpinDirection.Increase.

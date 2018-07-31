@@ -9,13 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XSystem</RootNamespace>
     <AssemblyName>XSystem</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <Import Project="..\Targets\XRay.Output.Targets" />
+  <Import Project="..\Targets\Framework.Definition.Targets" />
   <ItemGroup>
     <Reference Include="PropertyChanged, Version=1.51.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\..\NuGet\InstalledPackages\PropertyChanged.Fody.1.51.0\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
@@ -32,11 +32,24 @@
   <ItemGroup>
     <Compile Include="Collections\CacheDictionary.cs" />
     <Compile Include="AppDomainExtensions.cs" />
+    <Compile Include="Collections\LinkedHashSet.cs" />
+    <Compile Include="Collections\ObservableCollectionSynchronizer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Collections\SynchronizedProducerConsumerCollection.cs" />
+    <Compile Include="Dynamic\DynamicTypedObject.cs" />
+    <Compile Include="Dynamic\DynamicTypedObjectDescriptionProvider.cs" />
+    <Compile Include="Dynamic\DynamicTypedObjectPropertyDescriptor.cs" />
+    <Compile Include="Dynamic\DynamicTypedObjectTypeDescriptor.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
+    <Compile Include="Expando\Expando.cs" />
+    <Compile Include="Expando\PropertyBag.cs" />
+    <Compile Include="Expando\Utilities\SerializationUtils.cs" />
+    <Compile Include="Expando\Utilities\Utilities.cs" />
     <Compile Include="FileInfoExtensions.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreamExtensions.cs" />
     <Compile Include="XType.cs" />
   </ItemGroup>
   <ItemGroup>

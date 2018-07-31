@@ -11,6 +11,7 @@
         <ResourceDictionary Source="/XControls;component/Themes/NumericUpDown.xaml" />
         <ResourceDictionary Source="/XControls;component/Themes/WatermarkTextBox.xaml" />
         <ResourceDictionary Source="/XControls;component/Themes/DropDownButton.xaml" />
+        <ResourceDictionary Source="/XControls;component/Themes/NotifierButton.xaml" />
         
     </ResourceDictionary.MergedDictionaries>
     

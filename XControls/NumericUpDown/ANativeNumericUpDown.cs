@@ -219,6 +219,19 @@ namespace XControls
         #region Methods
 
         /// <summary>
+        /// Parse the text defining a physical value.
+        /// </summary>
+        /// <param name="pText">The text to parse.</param>
+        /// <param name="pCultureInfo">The culture info.</param>
+        /// <returns>The parsed value as decimal.</returns>
+        protected T ParsePhysicalValue(string pText, IFormatProvider pCultureInfo)
+        {
+            // Handling the unit symbol case.
+            pText = pText.Replace(this.UnitSymbol, null);
+            return this.mFromText(pText, NumberStyles.Any, pCultureInfo);
+        }
+
+        /// <summary>
         /// Updates the class metadata.
         /// </summary>
         /// <param name="pType">The type of the concrete editor.</param>
@@ -406,7 +419,7 @@ namespace XControls
             set
             {
                 this.mTempValue = value;
-                this.Text = this.ConvertValueToText(this.mTempValue);
+                this.Text = this.ConvertRawValueToText(this.mTempValue);
                 this.TextBox.Text = this.Text;
             }
         }
@@ -501,7 +514,7 @@ namespace XControls
             }
 
             // The value is the infinite.
-            if (this.InfiniteValue.HasValue && pText == Constants.INFINITE_SYMBOLE.ToString())
+            if (this.InfiniteValue.HasValue && pText == Constants.INFINITY_SYMBOL.ToString())
             {
                 return this.InfiniteValue;
             }
@@ -523,12 +536,18 @@ namespace XControls
             // Ensuring the good decimal separator is used.
             pText = pText.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator);
 
+            //If the value is approximated, remove the ~ prefix as it cannot be parsed.
+            //The prefix is to be restored just before returning the the string.
+            if (pText.StartsWith(Constants.APPROXIMATION_SYMBOL))
+            {
+                pText = pText.Replace(Constants.APPROXIMATION_SYMBOL, String.Empty);
+            }
+
             try
             {
-                //Don't know why someone would format a T as %, but just in case they do.
-                lResult = this.ContainsLetterForPercent(this.FormatString)
-                    ? mFromDecimal(ParsePercent(pText, CultureInfo.InvariantCulture))
-                    : mFromText(pText, this.ParsingNumberStyle, CultureInfo.InvariantCulture);
+                lResult = this.ContainsUnitSymbol(this.BuildFormatString())
+                    ? this.ParsePhysicalValue(pText, CultureInfo.InvariantCulture)
+                    : this.mFromText(pText, this.ParsingNumberStyle, CultureInfo.InvariantCulture);
 
                 return this.GetClippedMinMaxInfiniteValue();
             }
@@ -569,7 +588,45 @@ namespace XControls
             }
         }
 
+        /// <summary>
+        /// Converts the raw value to text (not formatted).
+        /// </summary>
+        /// <param name="pValue">The value.</param>
+        /// <returns></returns>
+        protected override string ConvertRawValueToText(T? pValue)
+        {
+            if (pValue == null)
+            {
+                return string.Empty;
+            }
 
+            if (this.InfiniteValue.HasValue && object.Equals(pValue, this.InfiniteValue))
+            {
+                return Constants.INFINITY_SYMBOL.ToString();
+            }
+
+            string lNewText = pValue.Value.ToString("0.###############", CultureInfo);
+
+            // Handling the case a negative sign has been specified in the text in front of a zero value (default(T) returns the 0 value strongly typed).
+            if (this.AllowMinusZero && this.Text != null && this.Text != Constants.INFINITY_SYMBOL.ToString())
+            {
+                T? lCurrentValue = this.GetClippedMinMaxInfiniteValue();
+                if (this.Text.StartsWith(CultureInfo.InvariantCulture.NumberFormat.NegativeSign)
+                    && lCurrentValue != null && lCurrentValue.Equals(default(T)) && this.IsLowerThan(this.Minimum, default(T))
+                    && pValue != null && pValue.Equals(default(T)))
+                {
+                    lNewText = CultureInfo.InvariantCulture.NumberFormat.NegativeSign + lNewText;
+                }
+            }
+
+            return lNewText;
+        }
+
+        /// <summary>
+        /// Converts the value to text.
+        /// </summary>
+        /// <param name="pValue">The p value.</param>
+        /// <returns></returns>
         protected override string ConvertValueToText(T? pValue)
         {
             if (pValue == null)
@@ -579,13 +636,26 @@ namespace XControls
 
             if (this.InfiniteValue.HasValue && object.Equals(pValue, this.InfiniteValue))
             {
-                return Constants.INFINITE_SYMBOLE.ToString();
+                return Constants.INFINITY_SYMBOL.ToString();
             }
 
-            string lNewText = pValue.Value.ToString(FormatString, CultureInfo);
+            string lFormatString = this.BuildFormatString();
+            string lNewText = string.Format(CultureInfo.InvariantCulture, lFormatString, pValue);
+
+            T lValue = this.ContainsUnitSymbol(lFormatString)
+                        ? this.ParsePhysicalValue(lNewText, CultureInfo.InvariantCulture)
+                        : this.mFromText(lNewText, NumberStyles.Any, CultureInfo.InvariantCulture);
+
+            // Limit the number of digit to 15 before comparison ("0.###############").
+            T lRawValue = this.mFromText(pValue.Value.ToString("0.###############", CultureInfo.InvariantCulture), NumberStyles.Any, CultureInfo.InvariantCulture);
+
+            if (lValue.CompareTo(lRawValue) != 0)
+            {
+                lNewText = string.Format("{0}{1}", Constants.APPROXIMATION_SYMBOL, lNewText);
+            }
 
             // Handling the case a negative sign has been specified in the text in front of a zero value (default(T) returns the 0 value strongly typed).
-            if (this.AllowMinusZero && this.Text != null && this.Text != Constants.INFINITE_SYMBOLE.ToString())
+            if (this.AllowMinusZero && this.Text != null && this.Text != Constants.INFINITY_SYMBOL.ToString())
             {
                 T? lCurrentValue = this.GetClippedMinMaxInfiniteValue();
                 if (this.Text.StartsWith(CultureInfo.InvariantCulture.NumberFormat.NegativeSign)
@@ -617,18 +687,6 @@ namespace XControls
             Spinner.ValidSpinDirections = validDirections;
         }
 
-        private bool ContainsLetterForPercent( string stringToTest )
-        {
-          int PIndex = stringToTest.IndexOf( "P" );
-          if( PIndex > 0 )
-          {
-            //stringToTest contains a "P" between 2 "'", it's not considered as percent
-            return !( stringToTest.Substring( 0, PIndex ).Contains( "'" )
-                    && stringToTest.Substring( PIndex, FormatString.Length - PIndex ).Contains( "'" ) );
-          }
-          return false;
-        }
-
         /// <summary>
         /// Coerce the text entered by the user.
         /// </summary>
@@ -642,7 +700,7 @@ namespace XControls
             }
 
             // The value is the infinite.
-            if (this.InfiniteValue.HasValue && pBaseText == Constants.INFINITE_SYMBOLE.ToString())
+            if (this.InfiniteValue.HasValue && pBaseText == Constants.INFINITY_SYMBOL.ToString())
             {
                 return pBaseText;
             }
@@ -650,11 +708,26 @@ namespace XControls
             // Ensuring the good decimal separator is used.
             string lText = pBaseText.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator);
 
+            //If the value is approximated, remove the ~ prefix as it cannot be parsed.
+            //The prefix is to be restored just before return ning the the string.
+            bool lIsApproximated = false;
+            if (lText.StartsWith(Constants.APPROXIMATION_SYMBOL))
+            {
+                lText = lText.Replace(Constants.APPROXIMATION_SYMBOL, String.Empty);
+                lIsApproximated = true;
+            }
+
             try
             {
-                T? result = this.ContainsLetterForPercent(this.FormatString)
-                          ? mFromDecimal(ParsePercent(lText, CultureInfo.InvariantCulture))
-                          : mFromText(lText, this.ParsingNumberStyle, CultureInfo.InvariantCulture);
+                T? result = this.ContainsUnitSymbol(this.BuildFormatString())
+                          ? this.ParsePhysicalValue(lText, CultureInfo.InvariantCulture)
+                          : this.mFromText(lText, this.ParsingNumberStyle, CultureInfo.InvariantCulture);
+
+                //If the value is approximated, add ~ prefix
+                if (lIsApproximated)
+                {
+                    lText = string.Format("{0}{1}", Constants.APPROXIMATION_SYMBOL, lText);
+                }
 
                 return lText;
             }
@@ -674,11 +747,26 @@ namespace XControls
             // Ensuring the good decimal separator is used.
             string lText = this.Text.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator);
 
+            //If the value is approximated, remove the ~ prefix as it cannot be parsed.
+            //The prefix is to be restored just before return ning the the string.
+            bool lIsApproximated = false;
+            if (lText.StartsWith(Constants.APPROXIMATION_SYMBOL))
+            {
+                lText = lText.Replace(Constants.APPROXIMATION_SYMBOL, String.Empty);
+                lIsApproximated = true;
+            }
+
             try
             {
-                T? result = this.ContainsLetterForPercent(this.FormatString)
-                          ? mFromDecimal(ParsePercent(lText, CultureInfo.InvariantCulture))
-                          : mFromText(lText, this.ParsingNumberStyle, CultureInfo.InvariantCulture);
+                T? result = this.ContainsUnitSymbol(this.BuildFormatString())
+                          ? this.ParsePhysicalValue(lText, CultureInfo.InvariantCulture)
+                          : this.mFromText(lText, this.ParsingNumberStyle, CultureInfo.InvariantCulture);
+
+                // If the value is approximated, add ~ prefix.
+                if (lIsApproximated)
+                {
+                    lText = string.Format("{0}{1}", Constants.APPROXIMATION_SYMBOL, lText);
+                }
 
                 return this.CoerceValueMinMaxInfinite(result.Value);
             }

@@ -12,8 +12,18 @@ namespace XControls.Core
     public static class Constants
     {
         /// <summary>
-        /// Constant representing the infinite symbol.
+        /// Constant representing the infinity symbol.
         /// </summary>
-        public const char INFINITE_SYMBOLE = (char)0x221E;
+        public const char INFINITY_SYMBOL = (char)0x221E;
+
+        /// <summary>
+        /// Constant representing the approximation symbol.
+        /// </summary>
+        public const string APPROXIMATION_SYMBOL = "~";
+
+        /// <summary>
+        /// Stores the watermark string format when the symbol must be displayed as well.
+        /// </summary>
+        public const string WATERMARK_WITH_SYMBOL_STRING_FORMAT = "{0} ({1})";
     }
 }

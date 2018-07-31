@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace XSerialization
+﻿namespace XSerialization
 {
     /// <summary>
     /// This class stores all constants of the library.
@@ -103,8 +101,8 @@ namespace XSerialization
         public const string UNDEFINED_ASSEMBLY = "UND_ASS";
 
         /// <summary>
-        /// The ma x_ version
+        ///  Constant which represents a tuple item.
         /// </summary>
-        public static readonly Version MAX_VERSION = new Version(int.MaxValue, int.MaxValue, int.MaxValue, int.MaxValue);
+        public const string TUPLE_ITEM_TAG = "Item";
     }
 }

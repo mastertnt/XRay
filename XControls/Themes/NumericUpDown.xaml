@@ -13,6 +13,11 @@
         <ContentControl Content="{Binding}" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Focusable="False" Margin="0,0,3,0" />
     </DataTemplate>
 
+    <!-- Watermark template for the NumericUpDown control as presenter. -->
+    <DataTemplate x:Key="PresenterWatermarkTemplate">
+        <ContentControl Content="{Binding}" Focusable="False" Margin="0,0,3,0" />
+    </DataTemplate>
+
     <!-- NumericUpDown base style. -->
     <Style x:Key="NumericUpDown" TargetType="{x:Type prim:InputBase}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
@@ -26,7 +31,7 @@
         <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Control">
+                <ControlTemplate TargetType="{x:Type prim:InputBase}">
                     <local:ButtonSpinner x:Name="PART_Spinner"
                                          IsTabStop="False"
                                          Background="{TemplateBinding Background}"
@@ -86,6 +91,14 @@
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="PART_TextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=PART_TextBox}" />
+                        </Trigger>
+                        <Trigger Property="IsPresenter" Value="True">
+                            <Setter Property="ShowButtonSpinner" Value="false" TargetName="PART_Spinner" />
+                            <Setter Property="IsReadOnly" Value="True" TargetName="PART_TextBox" />
+                            <Setter Property="Focusable" Value="false" TargetName="PART_TextBox" />
+                            <Setter Property="Cursor" Value="Arrow" TargetName="PART_TextBox"  />
+                            <Setter Property="BorderBrush" Value="{x:Null}" />
+                            <Setter Property="WatermarkTemplate" Value="{StaticResource PresenterWatermarkTemplate}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -1,22 +1,7 @@
-﻿/*************************************************************************************
-
-   Extended WPF Toolkit
-
-   Copyright (C) 2007-2013 Xceed Software Inc.
-
-   This program is provided to you under the terms of the Microsoft Public
-   License (Ms-PL) as published at http://wpftoolkit.codeplex.com/license 
-
-   For more features, controls, and fast professional support,
-   pick up the Plus Edition at http://xceed.com/wpf_toolkit
-
-   Stay informed: follow @datagrid on Twitter or Like http://facebook.com/datagrids
-
-  ***********************************************************************************/
-
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows;
+using XControls.Core;
 using XControls.Primitives;
 
 namespace XControls
@@ -42,7 +27,7 @@ namespace XControls
         /// <summary>
         /// Identifies the FormatString property.
         /// </summary>
-        public static readonly DependencyProperty FormatStringProperty = DependencyProperty.Register("FormatString", typeof(string), typeof(ANumericUpDown<T>), new UIPropertyMetadata(String.Empty, OnFormatStringChanged));
+        public static readonly DependencyProperty FormatStringProperty = DependencyProperty.Register("FormatString", typeof(string), typeof(ANumericUpDown<T>), new UIPropertyMetadata(string.Empty, OnFormatStringChanged));
 
         /// <summary>
         /// Identifies the NumberDecimalDigits property.
@@ -50,11 +35,25 @@ namespace XControls
         public static readonly DependencyProperty NumberDecimalDigitsProperty = DependencyProperty.Register("NumberDecimalDigits", typeof(int), typeof(ANumericUpDown<T>), new UIPropertyMetadata(0, OnNumberDecimalDigitsChanged));
 
         /// <summary>
+        /// Identifies the UnitSymbol property.
+        /// </summary>
+        public static readonly DependencyProperty UnitSymbolProperty = DependencyProperty.Register("UnitSymbol", typeof(string), typeof(ANumericUpDown<T>), new UIPropertyMetadata(string.Empty, OnUnitSymbolChanged));
+        
+        /// <summary>
         /// Identifies the Increment property.
         /// </summary>
         public static readonly DependencyProperty IncrementProperty = DependencyProperty.Register("Increment", typeof(T), typeof(ANumericUpDown<T>), new PropertyMetadata(default(T), OnIncrementChanged, OnCoerceIncrement));
-        
+
         #endregion // Dependencies.
+
+        #region Fields
+
+        /// <summary>
+        /// Stores the string set by the user without the unit symbol.
+        /// </summary>
+        private string mBaseWatermark;
+
+        #endregion // Fields.
 
         #region Properties
 
@@ -133,6 +132,21 @@ namespace XControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the unit symbol.
+        /// </summary>
+        public string UnitSymbol
+        {
+            get
+            {
+                return (string)GetValue(UnitSymbolProperty);
+            }
+            set
+            {
+                SetValue(UnitSymbolProperty, value);
+            }
+        }
+
         #endregion // Properties.
 
         #region Methods
@@ -161,21 +175,61 @@ namespace XControls
             ANumericUpDown<T> lNumericUpDown = pObject as ANumericUpDown<T>;
             if (lNumericUpDown != null)
             {
-                // Updating the format.
-                string lFormat = "0";
+                lNumericUpDown.SyncTextAndValueProperties();
+            }
+        }
 
-                int lValue = (int)pEventArgs.NewValue;
-                if (lValue > 0)
+        /// <summary>
+        /// Delegate called when the unit symbol changed.
+        /// </summary>
+        /// <param name="pObject">The modified control.</param>
+        /// <param name="pEventArgs">The event arguments.</param>
+        private static void OnUnitSymbolChanged(DependencyObject pObject, DependencyPropertyChangedEventArgs pEventArgs)
+        {
+            ANumericUpDown<T> lNumericUpDown = pObject as ANumericUpDown<T>;
+            if (lNumericUpDown != null)
+            {
+                lNumericUpDown.SyncTextAndValueProperties();
+
+                // Foce the watermark refresh.
+                lNumericUpDown.ForceWatermarkRefresh();
+            }
+        }
+
+        /// <summary>
+        /// Builds and returns the format string depending on the number of decimal, unit symbol... properties.
+        /// </summary>
+        protected string BuildFormatString()
+        {
+            string lFormat = string.Empty;
+
+            if (string.IsNullOrEmpty(this.FormatString) == false)
+            {
+                // Using the format string to format the number.
+                lFormat = "{0:" + this.FormatString + "}";
+            }
+            else
+            {
+                // Using the the number of digits to format the number.
+                lFormat = "{0:0";
+                if (this.NumberDecimalDigits > 0)
                 {
                     lFormat += ".";
-                    for (int lIter = 0; lIter < lValue; lIter++)
+                    for (int lIter = 0; lIter < this.NumberDecimalDigits; lIter++)
                     {
                         lFormat += "0";
                     }
                 }
-
-                lNumericUpDown.FormatString = lFormat;
+                lFormat += "}";
             }
+
+            // Adding the unit symbol if any.
+            if (string.IsNullOrEmpty(this.UnitSymbol) == false)
+            {
+                lFormat += " " + this.UnitSymbol;
+            }
+
+            return lFormat;
         }
 
         /// <summary>
@@ -184,6 +238,14 @@ namespace XControls
         /// <param name="pOldValue">The old value.</param>
         /// <param name="pNewValue">The new value.</param>
         protected virtual void OnFormatStringChanged(string pOldValue, string pNewValue)
+        {
+            this.SyncTextAndValueProperties();
+        }
+
+        /// <summary>
+        /// Synchronizes the text and the value.
+        /// </summary>
+        private void SyncTextAndValueProperties()
         {
             if (this.IsInitialized)
             {
@@ -246,23 +308,85 @@ namespace XControls
         }
 
         /// <summary>
-        /// Parse the text defining a percent value.
+        /// Verifies if the given text contains the percent symbol letter.
         /// </summary>
-        /// <param name="pText">The text to parse.</param>
-        /// <param name="pCultureInfo">The culture info.</param>
-        /// <returns>The parsed value as decimal.</returns>
-        protected static decimal ParsePercent(string pText, IFormatProvider pCultureInfo)
+        /// <param name="pStringToTest">The string to test.</param>
+        /// <returns>Flag to know if the symbol is in the string.</returns>
+        protected bool ContainsUnitSymbol(string pStringToTest)
         {
-            NumberFormatInfo lInfo = NumberFormatInfo.GetInstance(pCultureInfo);
-
-            pText = pText.Replace(lInfo.PercentSymbol, null);
-
-            decimal lResult = Decimal.Parse(pText, NumberStyles.Any, lInfo);
-            lResult = lResult / 100;
-
-            return lResult;
+            return (string.IsNullOrEmpty(this.UnitSymbol) == false && pStringToTest.Contains(this.UnitSymbol));
         }
 
-        #endregion //Methods
+        /// <summary>
+        /// Coerce the Watermark.
+        /// </summary>
+        /// <param name="pBaseValue">The Watermark to coerce.</param>
+        /// <returns>The coerced Watermark.</returns>
+        protected override string OnCoerceWatermark(string pBaseValue)
+        {
+            // Saving the base watermark.
+            this.mBaseWatermark = (string)pBaseValue;
+
+            // Taking the unit symbol in account if any.
+            if (string.IsNullOrEmpty(this.mBaseWatermark) == false && string.IsNullOrEmpty(this.UnitSymbol) == false)
+            {
+                return string.Format(Constants.WATERMARK_WITH_SYMBOL_STRING_FORMAT, pBaseValue, this.UnitSymbol);
+            }
+
+            return pBaseValue;
+        }
+
+        /// <summary>
+        /// Force the watermark refresh to display the unit.
+        /// </summary>
+        private void ForceWatermarkRefresh()
+        {
+            if (this.IsInitialized || string.IsNullOrEmpty(this.mBaseWatermark) == false)
+            {
+                string lBaseWatermark = this.mBaseWatermark;
+                this.Watermark = null;
+                this.Watermark = lBaseWatermark;
+            }
+        }
+
+        /// <summary>
+        /// Displays the raw value as text in the text box.
+        /// </summary>
+        protected override void CustomDisplayRawValueAsText()
+        {
+            string lRawNewText = this.ConvertRawValueToText(this.Value);
+            string lNewText = this.ConvertValueToText(this.Value);
+
+            // Remove the ~ prefix and the symbol : we want to compare the values as string.
+            if (lNewText.StartsWith(Constants.APPROXIMATION_SYMBOL))
+            {
+                lNewText = lNewText.Replace(Constants.APPROXIMATION_SYMBOL, String.Empty);
+            }
+            if (string.IsNullOrEmpty(this.UnitSymbol) == false && lNewText.EndsWith(this.UnitSymbol))
+            {
+                lNewText = lNewText.Replace(this.UnitSymbol, String.Empty);
+                lNewText = lNewText.Trim();
+            }
+
+            // Keep longer of both text to keep insignificant digit that are displayed because of number format : 
+            // 1.123456789 displayed as ~1.1 : dislay "1.123456789"
+            // 245 displayed as 245.0 (format string) : display 245.0 (ConvertRawValueToText would return "245")
+            if (lNewText.Length < lRawNewText.Length)
+            {
+                lNewText = lRawNewText;
+            }
+            if (object.Equals(this.Text, lNewText) == false)
+            {
+                this.Text = lNewText;
+            }
+
+            // Sync Text and textBox.
+            if (this.TextBox != null)
+            {
+                this.TextBox.Text = this.Text;
+            }
+        }
+
+        #endregion // Methods.
     }
 }

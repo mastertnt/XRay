@@ -1,101 +1,146 @@
-﻿/*************************************************************************************
-
-   Extended WPF Toolkit
-
-   Copyright (C) 2007-2013 Xceed Software Inc.
-
-   This program is provided to you under the terms of the Microsoft Public
-   License (Ms-PL) as published at http://wpftoolkit.codeplex.com/license 
-
-   For more features, controls, and fast professional support,
-   pick up the Plus Edition at http://xceed.com/wpf_toolkit
-
-   Stay informed: follow @datagrid on Twitter or Like http://facebook.com/datagrids
-
-  ***********************************************************************************/
-
-using System;
+﻿using System;
 using System.Windows;
 using System.Globalization;
 using System.IO;
 
 namespace XControls
 {
+    /// <summary>
+    /// Class defining a double editor.
+    /// </summary>
     public class DoubleUpDown : ANativeNumericUpDown<double>
     {
+        #region Dependencies
+
+        /// <summary>
+        /// Identifies the AllowInputSpecialValues property.
+        /// </summary>
+        public static readonly DependencyProperty AllowInputSpecialValuesProperty = DependencyProperty.Register("AllowInputSpecialValues", typeof(AllowedSpecialValues), typeof(DoubleUpDown), new UIPropertyMetadata(AllowedSpecialValues.None));
+        
+        #endregion // Dependencies.
+
         #region Constructors
 
+        /// <summary>
+        /// Initializes the <see cref="DoubleUpDown"/> class.
+        /// </summary>
         static DoubleUpDown()
         {
-            UpdateMetadata(typeof(DoubleUpDown), 1d, double.NegativeInfinity, double.PositiveInfinity);
+            DoubleUpDown.UpdateMetadata(typeof(DoubleUpDown), 1d, double.NegativeInfinity, double.PositiveInfinity);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DoubleUpDown"/> class.
+        /// </summary>
         public DoubleUpDown()
             : base(Double.Parse, Decimal.ToDouble, (v1, v2) => v1 < v2, (v1, v2) => v1 > v2)
         {
         }
 
-        #endregion //Constructors
+        #endregion // Constructors.
 
         #region Properties
 
-
-        #region AllowInputSpecialValues
-
-        public static readonly DependencyProperty AllowInputSpecialValuesProperty =
-            DependencyProperty.Register("AllowInputSpecialValues", typeof(AllowedSpecialValues), typeof(DoubleUpDown), new UIPropertyMetadata(AllowedSpecialValues.None));
-
+        /// <summary>
+        /// Gets or sets the flags defining the allowed special values.
+        /// </summary>
         public AllowedSpecialValues AllowInputSpecialValues
         {
-            get { return (AllowedSpecialValues)GetValue(AllowInputSpecialValuesProperty); }
-            set { SetValue(AllowInputSpecialValuesProperty, value); }
+            get 
+            { 
+                return (AllowedSpecialValues)GetValue(AllowInputSpecialValuesProperty); 
+            }
+            set 
+            { 
+                SetValue(AllowInputSpecialValuesProperty, value); 
+            }
         }
 
-        #endregion //AllowInputSpecialValues
+        #endregion // Properties.
 
-        #endregion
+        #region Methods
 
-        #region Base Class Overrides
-
-        protected override double? OnCoerceValue(double? pNewValue)
+        /// <summary>
+        /// Coerce the value.
+        /// </summary>
+        /// <param name="pBaseValue">The value to coerce.</param>
+        /// <returns>The coerced value.</returns>
+        protected override double? OnCoerceValue(double? pBaseValue)
         {
-            return this.CoerceSpecialValue(pNewValue);
+            return this.CoerceSpecialValue(pBaseValue);
         }
 
-        protected override double? OnCoerceIncrement(double? baseValue)
+        /// <summary>
+        /// Coerce the value.
+        /// </summary>
+        /// <param name="pBaseValue">The value to coerce.</param>
+        /// <returns>The coerced value.</returns>
+        protected override double? OnCoerceIncrement(double? pBaseValue)
         {
-            if (baseValue.HasValue && double.IsNaN(baseValue.Value))
+            if (pBaseValue.HasValue && double.IsNaN(pBaseValue.Value))
+            {
                 throw new ArgumentException("NaN is invalid for Increment.");
+            }
 
-            return base.OnCoerceIncrement(baseValue);
+            return base.OnCoerceIncrement(pBaseValue);
         }
 
-        protected override double? OnCoerceMaximum(double? baseValue)
+        /// <summary>
+        /// Coerce the value.
+        /// </summary>
+        /// <param name="pBaseValue">The value to coerce.</param>
+        /// <returns>The coerced value.</returns>
+        protected override double? OnCoerceMaximum(double? pBaseValue)
         {
-            if (baseValue.HasValue && double.IsNaN(baseValue.Value))
+            if (pBaseValue.HasValue && double.IsNaN(pBaseValue.Value))
+            {
                 throw new ArgumentException("NaN is invalid for Maximum.");
+            }
 
-            return base.OnCoerceMaximum(baseValue);
+            return base.OnCoerceMaximum(pBaseValue);
         }
 
-        protected override double? OnCoerceMinimum(double? baseValue)
+        /// <summary>
+        /// Coerce the value.
+        /// </summary>
+        /// <param name="pBaseValue">The value to coerce.</param>
+        /// <returns>The coerced value.</returns>
+        protected override double? OnCoerceMinimum(double? pBaseValue)
         {
-            if (baseValue.HasValue && double.IsNaN(baseValue.Value))
+            if (pBaseValue.HasValue && double.IsNaN(pBaseValue.Value))
+            {
                 throw new ArgumentException("NaN is invalid for Minimum.");
+            }
 
-            return base.OnCoerceMinimum(baseValue);
+            return base.OnCoerceMinimum(pBaseValue);
         }
 
-        protected override double CustomIncrementValue(double value, double increment)
+        /// <summary>
+        /// Increments the value.
+        /// </summary>
+        /// <param name="pValue">The value to increment.</param>
+        /// <param name="pIncrement">The increment step.</param>
+        /// <returns>The incremented value.</returns>
+        protected override double CustomIncrementValue(double pValue, double pIncrement)
         {
-            return value + increment;
+            return pValue + pIncrement;
         }
 
-        protected override double CustomDecrementValue(double value, double increment)
+        /// <summary>
+        /// Decrements the value.
+        /// </summary>
+        /// <param name="pValue">The value to decrement.</param>
+        /// <param name="pIncrement">The decrement step.</param>
+        /// <returns>The decremented value.</returns>
+        protected override double CustomDecrementValue(double pValue, double pIncrement)
         {
-            return value - increment;
+            return pValue - pIncrement;
         }
 
+        /// <summary>
+        /// Sets the valid spin direction depending on the value.s
+        /// </summary>
+        /// <param name="pValue">The value to evaluate.</param>
         protected override void SetValidSpinDirection(double? pValue)
         {
             if (pValue.HasValue && double.IsInfinity(pValue.Value) && (Spinner != null))
@@ -154,6 +199,6 @@ namespace XControls
             return pValue;
         }
 
-        #endregion
+        #endregion // Methods.
     }
 }

@@ -8,6 +8,42 @@ using XSystem.Collections;
 namespace XSystem
 {
     /// <summary>
+    /// This enumeration describes the compatibility to convert from a source type to a target type.
+    /// </summary>
+    public enum AssignationType
+    {
+        /// <summary>
+        /// The types are not assignable.
+        /// </summary>
+        NotAssignable,
+
+        /// <summary>
+        /// The target are directly assignable to the target.
+        /// </summary>
+        Assignable,
+
+        /// <summary>
+        /// The source can be converted to the target type (direct converter).
+        /// </summary>
+        SourceToTarget_Direct,
+
+        /// <summary>
+        /// The source can be converted to the target type (back converter).
+        /// </summary>
+        SourceToTarget_Back,
+
+        /// <summary>
+        /// The source can be converted to the source type (direct converter).
+        /// </summary>
+        TargetToSource_Direct,
+
+        /// <summary>
+        /// The target can be converted to the source type (back converter).
+        /// </summary>
+        TargetToSource_Back,
+    }
+
+    /// <summary>
     /// This class provides method extensions on class Type.
     /// </summary>
     public static class XType
@@ -22,27 +58,27 @@ namespace XSystem
         /// <summary>
         /// The field stores a distance cache for DistanceTo method.
         /// </summary>
-        private static readonly CacheDictionary<string, int> msDistanceToCache = new CacheDictionary<string, int>(50);
+        private static readonly Dictionary<string, int> msDistanceToCache = new Dictionary<string, int>();
 
         /// <summary>
         /// The field stores a distance cache for GetBaseTypes method.
         /// </summary>
-        private static readonly CacheDictionary<Type, IEnumerable<Type>> msBaseTypesCache = new CacheDictionary<Type, IEnumerable<Type>>(20);
+        private static readonly Dictionary<Type, IEnumerable<Type>> msBaseTypesCache = new Dictionary<Type, IEnumerable<Type>>();
 
         /// <summary>
         /// The field stores a distance cache for GetInheritedTypes method.
         /// </summary>
-        private static readonly CacheDictionary<string, IEnumerable<Type>> msInheritedTypesCache = new CacheDictionary<string, IEnumerable<Type>>(50);
+        private static readonly Dictionary<string, IEnumerable<Type>> msInheritedTypesCache = new Dictionary<string, IEnumerable<Type>>();
 
         /// <summary>
         /// The field stores a distance cache for GetFirstAttributeOfType method.
         /// </summary>
-        private static readonly CacheDictionary<string, IEnumerable<Attribute>> msAttributesOfType = new CacheDictionary<string, IEnumerable<Attribute>>(250);
+        private static readonly Dictionary<string, IEnumerable<Attribute>> msAttributesOfType = new Dictionary<string, IEnumerable<Attribute>>();
 
         /// <summary>
         /// The field stores a distance cache for GetFirstAttributeOfType method.
         /// </summary>
-        private static readonly CacheDictionary<string, Attribute> msAttributesOfTypeForProperty = new CacheDictionary<string, Attribute>(250);
+        private static readonly Dictionary<string, Attribute> msAttributesOfTypeForProperty = new Dictionary<string, Attribute>();
 
         #endregion // Fields.
 
@@ -107,7 +143,7 @@ namespace XSystem
         /// <returns>The attributes retrieved, null otherwise.</returns>
         public static IEnumerable<T> GetAttributesOfType<T>(this Type pType) where T : Attribute
         {
-            string lKey = pType.FullName + "--" + typeof (T).FullName;
+            string lKey = pType.FullName + "--" + typeof(T).FullName;
             if (msAttributesOfType.ContainsKey(lKey) == false)
             {
                 // Getting the attributes of the type hierarchy.
@@ -128,7 +164,7 @@ namespace XSystem
                 }
 
                 msAttributesOfType.Add(lKey, lCustomAttributes.OfType<T>());
-                
+
             }
             return msAttributesOfType[lKey].Cast<T>();
         }
@@ -142,7 +178,7 @@ namespace XSystem
         /// <returns>
         /// The list of concrete classes found in current AppDomain
         /// </returns>
-        public static IEnumerable<TReturnedType> CreateAll<TReturnedType>(this Type pThis,  object[] pConstructorParameters) where TReturnedType : class
+        public static IEnumerable<TReturnedType> CreateAll<TReturnedType>(this Type pThis, object[] pConstructorParameters) where TReturnedType : class
         {
             return pThis.GetInheritedTypes(false, pConstructorParameters.Count()).Select(pType => Activator.CreateInstance(pType, pConstructorParameters)).OfType<TReturnedType>();
         }
@@ -246,8 +282,8 @@ namespace XSystem
                 msAssemblyLoad = true;
             }
 
-            string lKey = pThis.FullName + " : " + pCanBeAbstract + " : " + pConstructorArgCount + ":" + lSourceAssembly.GetName().FullName;
-            
+            string lKey = pThis.FullName + " : " + pCanBeAbstract + " : " + pConstructorArgCount + " : " + lSourceAssembly.GetName().FullName;
+
             if (msInheritedTypesCache.ContainsKey(lKey) == false)
             {
                 List<Assembly> lAssemblyToCheck = AppDomain.CurrentDomain.GetAssemblies().Where(pAssembly => pAssembly.GetReferencedAssemblies().FirstOrDefault(pAssemblyName => pAssemblyName.FullName == lSourceAssembly.GetName().FullName) != null).ToList();
@@ -263,9 +299,8 @@ namespace XSystem
                     IEnumerable<Type> lFilterdTypes = lFoundTypes.Where(pType => pType.GetConstructors().Any(pConstructor => pConstructor.GetParameters().Count() == pConstructorArgCount));
                     msInheritedTypesCache.Add(lKey, lFilterdTypes);
                 }
-                
             }
-            
+
             return msInheritedTypesCache[lKey];
         }
 
@@ -276,12 +311,42 @@ namespace XSystem
         /// <param name="pArgs">The <see cref="AssemblyLoadEventArgs"/> instance containing the event data.</param>
         static void OnAssemblyLoad(object pEventSender, AssemblyLoadEventArgs pArgs)
         {
-            msInheritedTypesCache.Clear();
-            msBaseTypesCache.Clear();
-            msInheritedTypesCache.Clear();
-            msAttributesOfType.Clear();
-            AppDomainExtensions.msTypeByFullName.Clear();
-            AppDomainExtensions.msUnkwownTypes.Clear();
+
+
+            // Update msUnkwownTypes cache with the new loaded assembly
+            foreach (string lTypeName in AppDomainExtensions.msUnkwownTypes.Keys.ToList())
+            {
+                if (pArgs.LoadedAssembly.GetType(lTypeName) != null)
+                {
+                    AppDomainExtensions.msUnkwownTypes.Remove(lTypeName);
+                }
+            }
+
+            // Update msInheritedTypesCache cache with the new loaded assembly
+            foreach (string lKey in msInheritedTypesCache.Keys)
+            {
+                string[] lTokens = lKey.Split(new string[] { " : " }, StringSplitOptions.None);
+                Type lThis = AppDomain.CurrentDomain.GetTypeByFullName(lTokens[0]);
+
+                if (lThis != null)
+                {
+                    bool lCanBeAbstract = bool.Parse(lTokens[1]);
+                    int lConstructorArgCount = int.Parse(lTokens[2]);
+                    string lSourceAssemblyName = lTokens[3];
+
+                    Type[] lAllTypes = pArgs.LoadedAssembly.GetTypes();
+                    if (lConstructorArgCount == 0)
+                    {
+                        msInheritedTypesCache[lKey].Concat(lAllTypes.Where(pType => pType.IsInterface == false && pType.IsAbstract == lCanBeAbstract && lThis.IsAssignableFrom(pType) && pType.GetConstructor(Type.EmptyTypes) != null));
+                    }
+                    else
+                    {
+                        IEnumerable<Type> lFoundTypes = lAllTypes.Where(pType => pType.IsInterface == false && pType.IsAbstract == lCanBeAbstract && lThis.IsAssignableFrom(pType));
+                        IEnumerable<Type> lFilterdTypes = lFoundTypes.Where(pType => pType.GetConstructors().Any(pConstructor => pConstructor.GetParameters().Count() == lConstructorArgCount));
+                        msInheritedTypesCache[lKey].Concat(lFilterdTypes);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -331,7 +396,7 @@ namespace XSystem
                 // Store the value in the cache.
                 msDistanceToCache.Add(lKey, lValue);
             }
-            
+
             // The source type is not a child of target type.
             return msDistanceToCache[lKey];
         }
@@ -348,7 +413,10 @@ namespace XSystem
         /// <remarks>The distance between two types (C,InterfaceB) If B is the base type of C and B implements InterfaceB, the distance between C and InterfaceB is 1.1.</remarks>
         private static int PrivateDistanceTo(this Type pSourceType, Type pParentType)
         {
-            if (!pParentType.IsAssignableFrom(pSourceType)) return -1;
+            if (pParentType.IsAssignableFrom(pSourceType) == false)
+            {
+                return -1;
+            }
 
             if (pParentType == pSourceType)
             {
@@ -370,7 +438,12 @@ namespace XSystem
             }
 
             // The source type is not a child of target type.
-            return 1 + PrivateDistanceTo(pSourceType.BaseType, pParentType);
+            if (pSourceType.BaseType != null && pParentType != null)
+            {
+                return 1 + PrivateDistanceTo(pSourceType.BaseType, pParentType);
+            }
+
+            return 1;
         }
 
         /// <summary>
@@ -472,6 +545,58 @@ namespace XSystem
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Determines whether this instance [can be assigned] the specified target type.
+        /// </summary>
+        /// <param name="pThis">The this pointer.</param>
+        /// <param name="pTargetType">Type of the target.</param>
+        /// <returns>The type of assignation which can be done.</returns>
+        public static AssignationType CanBeAssigned(this Type pThis, Type pTargetType)
+        {
+            if (pThis.IsAssignableFrom(pTargetType) == false)
+            {
+                var lConverter = TypeDescriptor.GetConverter(pThis);
+                if (lConverter.CanConvertTo(pTargetType))
+                {
+                    return AssignationType.SourceToTarget_Direct;
+                }
+
+                var lBackConverter = TypeDescriptor.GetConverter(pTargetType);
+
+                if (lBackConverter.CanConvertFrom(pThis))
+                {
+                    return AssignationType.TargetToSource_Back;
+                }
+            }
+            else
+            {
+                return AssignationType.Assignable;
+            }
+
+            return AssignationType.NotAssignable;
+        }
+
+        /// <summary>
+        /// Returns the default value of a type.
+        /// </summary>
+        /// <param name="pType">The type from which to retrieve the default value.</param>
+        /// <returns>The default value.</returns>
+        public static object Default(this Type pType)
+        {
+            object lOutput = null;
+
+            if (pType.IsValueType)
+            {
+                lOutput = Activator.CreateInstance(pType);
+            }
+            else if (pType == typeof(string))
+            {
+                lOutput = string.Empty;
+            }
+
+            return lOutput;
         }
 
         #endregion // Methods.

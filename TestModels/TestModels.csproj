@@ -26,6 +26,7 @@
     <DocumentationFile>..\Build\Release_x64\TestModels.xml</DocumentationFile>
   </PropertyGroup>
   <Import Project="..\Targets\XRay.Output.Targets" />
+  <Import Project="..\Targets\Framework.Definition.Targets" />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -37,12 +38,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="OrderedObject.cs" />
+    <Compile Include="TestContracts\FieldSerializationContract2.cs" />
+    <Compile Include="TestContracts\FieldSerializationContract1.cs" />
     <Compile Include="FullModel.cs" />
     <Compile Include="GenericObject2.cs" />
     <Compile Include="GenericObject3.cs" />
     <Compile Include="ITestable.cs" />
     <Compile Include="ObjectWithForceAttribute.cs" />
     <Compile Include="ObjectWithNullable.cs" />
+    <Compile Include="ObjectWithPositionAsField.cs" />
     <Compile Include="ObjectWithSkipAttribute.cs" />
     <Compile Include="ObjectWithDictionaryOfObject.cs" />
     <Compile Include="ObjectWithSimpleDictionary.cs" />

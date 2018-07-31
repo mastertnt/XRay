@@ -11,7 +11,19 @@ namespace XSystem
     /// </summary>
     public static class FileInfoExtensions
     {
-        #region Methods
+        #region Fields
+
+        /// <summary>
+        /// PE32 hexadecimal constant.
+        /// </summary>
+        private const ushort PE32 = 0x10b;
+
+        /// <summary>
+        /// PE32Plus hexadecimal constant.
+        /// </summary>
+        private const ushort PE32_PLUS = 0x20b;
+
+        #endregion // Fields.
 
         /// <summary>
         /// This method computes a SHA1 on a file info.
@@ -35,79 +47,70 @@ namespace XSystem
 
         /// <summary>
         /// Checks if the file is managed.
+        /// taken from : https://stackoverflow.com/questions/367761/how-to-determine-whether-a-dll-is-a-managed-assembly-or-native-prevent-loading
+        /// Bug. 6123 : x64 and x32 bits
         /// </summary>
         /// <param name="pInputFile">The input file.</param>
         /// <returns>True if the file is a managed CLI file, false otherwise.</returns>
         public static bool IsManagedAssembly(this FileInfo pInputFile)
         {
-            uint[] lDataDictionaryRva = new uint[16];
-            uint[] lDataDictionarySize = new uint[16];
-
-            Stream lFileStream = new FileStream(pInputFile.FullName, FileMode.Open, FileAccess.Read);
-            try
+            using (Stream lFileStream = new FileStream(pInputFile.FullName, FileMode.Open, FileAccess.Read))
+            using (BinaryReader lBinaryReader = new BinaryReader(lFileStream))
             {
-                BinaryReader lReader = new BinaryReader(lFileStream);
+                if (lFileStream.Length < 64)
+                {
+                    return false;
+                }
 
                 //PE Header starts @ 0x3C (60). Its a 4 byte header.
                 lFileStream.Position = 0x3C;
-
-                uint lPeHeader = lReader.ReadUInt32();
-
-                // Moving to PE Header start location...
-                lFileStream.Position = lPeHeader;
-
-                // Read PE signature
-                lReader.ReadUInt32();
-
-                // Read Machine.
-                lReader.ReadUInt16();
-
-                // Read Sections.
-                lReader.ReadUInt16();
-
-                // Read Timestamp.
-                lReader.ReadUInt32();
-
-                // Read SymbolTable.
-                lReader.ReadUInt32();
-
-                // Read SymbolCount.
-                lReader.ReadUInt32();
-
-                // Read OptionalHeaderSize.
-                lReader.ReadUInt16();
-
-                // Read Characteristics.
-                lReader.ReadUInt16();
-
-                // Now we are at the end of the PE Header and from here, the
-                //            PE Optional Headers starts...
-                //      To go directly to the datadictionary, we'll increase the      
-                //      stream’s current position to with 96 (0x60). 96 because,
-                //            28 for Standard fields
-                //            68 for NT-specific fields
-                // From here DataDictionary starts...and its of total 128 bytes. DataDictionay has 16 directories in total, doing simple maths 128/16 = 8.
-                // So each directory is of 8 bytes. In this 8 bytes, 4 bytes is of RVA and 4 bytes of Size. 
-                //    By the way, the 15th directory consist of CLR header! if its 0, its not a CLR file :)
-
-                ushort lDataDictionaryStart = Convert.ToUInt16(Convert.ToUInt16(lFileStream.Position) + 0x60);
-                lFileStream.Position = lDataDictionaryStart;
-                for (int lIndex0 = 0; lIndex0 < 15; lIndex0++)
+                uint lPEHeaderPointer = lBinaryReader.ReadUInt32();
+                if (lPEHeaderPointer == 0)
                 {
-                    lDataDictionaryRva[lIndex0] = lReader.ReadUInt32();
-                    lDataDictionarySize[lIndex0] = lReader.ReadUInt32();
+                    lPEHeaderPointer = 0x80;
                 }
 
-                lFileStream.Close();
+                // Ensure there is at least enough room for the following structures:
+                //     24 byte PE Signature & Header
+                //     28 byte Standard Fields         (24 bytes for PE32+)
+                //     68 byte NT Fields               (88 bytes for PE32+)
+                // >= 128 byte Data Dictionary Table
+                if (lPEHeaderPointer > lFileStream.Length - 256)
+                {
+                    return false;
+                }
 
-                return (lDataDictionaryRva[14] != 0);
-            }
-            catch
-            {
-            }
-            lFileStream.Close();
+                // Check the PE signature.  Should equal 'PE\0\0'.
+                lFileStream.Position = lPEHeaderPointer;
+                uint lPEHeaderSignature = lBinaryReader.ReadUInt32();
+                if (lPEHeaderSignature != 0x00004550)
+                {
+                    return false;
+                }
 
-            return true;
+                // skip over the PEHeader fields
+                lFileStream.Position += 20;
+
+                // Read PE magic number from Standard Fields to determine format.
+                ushort lPEFormat = lBinaryReader.ReadUInt16();
+                if (lPEFormat != PE32 && lPEFormat != PE32_PLUS)
+                {
+                    return false;
+                }
+
+                // Read the 15th Data Dictionary RVA field which contains the CLI header RVA.
+                // When this is non-zero then the file contains CLI data otherwise not.
+                ushort lDataDictionaryStart = (ushort)(lPEHeaderPointer + (lPEFormat == PE32 ? 232 : 248));
+                lFileStream.Position = lDataDictionaryStart;
+
+                uint lCLIHeaderRva = lBinaryReader.ReadUInt32();
+                if (lCLIHeaderRva == 0)
+                {
+                    return false;
+                }
+
+                return true;
+            }
         }
 
         /// <summary>
@@ -131,6 +134,20 @@ namespace XSystem
 
         /// <summary>
         /// This method is used to build a fileinfo based on current time (to avoid creation by several instances).
+        /// </summary>
+        /// <param name="pThis">The file info to parse</param>
+        /// <returns>The new timestamped filename.</returns>
+        public static FileInfo Timestamp(this FileInfo pThis)
+        {
+            DirectoryInfo lPath = pThis.Directory;
+            DateTime lDate = DateTime.Now;
+            string lFileName = lDate.Year + "--" + lDate.Month + "--" + lDate.Day + "--" + lDate.Hour + "--" + lDate.Minute + "--" + lDate.Second + "--" + lDate.Millisecond + "--" + pThis.Name;
+
+            return new FileInfo(lPath.FullName + Path.DirectorySeparatorChar + lFileName);
+        }
+
+        /// <summary>
+        /// This method is used to retrieve the date time of a file info.
         /// </summary>
         /// <param name="pThis">The file info to parse</param>
         /// <param name="pIsValid">True if the parsing is valid</param>
@@ -166,7 +183,5 @@ namespace XSystem
             }
             return DateTime.Now;
         }
-
-        #endregion // Methods
     }
 }
