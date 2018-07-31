@@ -5,6 +5,10 @@ using System.Text;
 
 namespace XApplicationCore
 {
+    /// <summary>
+    /// This interface describes a service.
+    /// </summary>
+    /// <seealso cref="XApplicationCore.IDisplayable" />
     public interface IService : IDisplayable
     {
     }

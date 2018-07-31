@@ -3,7 +3,7 @@
     /// <summary>
     /// This interface defines a localization service.
     /// </summary>
-    interface ILocalizationService : IService
+    public interface ILocalizationService : IService
     {
         /// <summary>
         /// Gets the localized display string.

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>XScriptedObject</id>
+    <version>1.0.0</version>
+    <authors>mrHide</authors>
+    <owners>mrHide</owners>
+    <licenseUrl>https://github.com/mastertnt/XRay/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/mastertnt/XRay</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A simple bootstrapper to manage plugins and services.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>bootstraper C#</tags>
+  </metadata>
+  	<files>
+	<file src="..\Build\Release_x86\XApplicationCore.dll" target="lib\net45" />
+  </files>
+</package>

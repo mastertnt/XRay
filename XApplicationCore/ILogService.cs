@@ -14,7 +14,7 @@ namespace XApplicationCore
         void LogDebug(string pMessageToLog);
 
         /// <summary>
-        // This method logs an exception at debug level.
+        /// This method logs an exception at debug level.
         /// </summary>
         /// <param name="pExceptionToLog">The exception to log.</param>
         void LogDebug(Exception pExceptionToLog);
