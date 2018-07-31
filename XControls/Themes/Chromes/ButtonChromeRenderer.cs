@@ -29,11 +29,11 @@ namespace XControls.Themes.Chromes
     {
       get
       {
-        return ( CornerRadius )GetValue( CornerRadiusProperty );
+        return ( CornerRadius ) this.GetValue( CornerRadiusProperty );
       }
       set
       {
-        SetValue( CornerRadiusProperty, value );
+          this.SetValue( CornerRadiusProperty, value );
       }
     }
 
@@ -52,7 +52,7 @@ namespace XControls.Themes.Chromes
                                                            Math.Max( 0, newValue.BottomRight - 1 ),
                                                            Math.Max( 0, newValue.BottomLeft - 1 ) );
 
-      InnerCornerRadius = newInnerCornerRadius;
+        this.InnerCornerRadius = newInnerCornerRadius;
     }
 
     #endregion //CornerRadius
@@ -64,11 +64,11 @@ namespace XControls.Themes.Chromes
     {
       get
       {
-        return ( CornerRadius )GetValue( InnerCornerRadiusProperty );
+        return ( CornerRadius ) this.GetValue( InnerCornerRadiusProperty );
       }
       set
       {
-        SetValue( InnerCornerRadiusProperty, value );
+          this.SetValue( InnerCornerRadiusProperty, value );
       }
     }
 
@@ -93,11 +93,11 @@ namespace XControls.Themes.Chromes
     {
       get
       {
-        return ( bool )GetValue( RenderCheckedProperty );
+        return ( bool ) this.GetValue( RenderCheckedProperty );
       }
       set
       {
-        SetValue( RenderCheckedProperty, value );
+          this.SetValue( RenderCheckedProperty, value );
       }
     }
 
@@ -122,11 +122,11 @@ namespace XControls.Themes.Chromes
     {
       get
       {
-        return ( bool )GetValue( RenderEnabledProperty );
+        return ( bool ) this.GetValue( RenderEnabledProperty );
       }
       set
       {
-        SetValue( RenderEnabledProperty, value );
+          this.SetValue( RenderEnabledProperty, value );
       }
     }
 
@@ -151,11 +151,11 @@ namespace XControls.Themes.Chromes
     {
       get
       {
-        return ( bool )GetValue( RenderFocusedProperty );
+        return ( bool ) this.GetValue( RenderFocusedProperty );
       }
       set
       {
-        SetValue( RenderFocusedProperty, value );
+          this.SetValue( RenderFocusedProperty, value );
       }
     }
 
@@ -180,11 +180,11 @@ namespace XControls.Themes.Chromes
     {
       get
       {
-        return ( bool )GetValue( RenderMouseOverProperty );
+        return ( bool ) this.GetValue( RenderMouseOverProperty );
       }
       set
       {
-        SetValue( RenderMouseOverProperty, value );
+          this.SetValue( RenderMouseOverProperty, value );
       }
     }
 
@@ -209,11 +209,11 @@ namespace XControls.Themes.Chromes
     {
       get
       {
-        return ( bool )GetValue( RenderNormalProperty );
+        return ( bool ) this.GetValue( RenderNormalProperty );
       }
       set
       {
-        SetValue( RenderNormalProperty, value );
+          this.SetValue( RenderNormalProperty, value );
       }
     }
 
@@ -238,11 +238,11 @@ namespace XControls.Themes.Chromes
     {
       get
       {
-        return ( bool )GetValue( RenderPressedProperty );
+        return ( bool ) this.GetValue( RenderPressedProperty );
       }
       set
       {
-        SetValue( RenderPressedProperty, value );
+          this.SetValue( RenderPressedProperty, value );
       }
     }
 

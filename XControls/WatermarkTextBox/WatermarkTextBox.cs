@@ -65,7 +65,7 @@ namespace XControls
         /// </summary>
         static WatermarkTextBox()
         {
-            WatermarkTextBox.DefaultStyleKeyProperty.OverrideMetadata(typeof(WatermarkTextBox), new FrameworkPropertyMetadata(typeof(WatermarkTextBox)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WatermarkTextBox), new FrameworkPropertyMetadata(typeof(WatermarkTextBox)));
         }
 
         #endregion //Constructors

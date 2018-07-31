@@ -19,6 +19,10 @@ using System.Windows;
 
 namespace XControls
 {
+    /// <summary>
+    /// A up down for short value.
+    /// </summary>
+    /// <seealso cref="XControls.ANativeNumericUpDown{System.UInt16}" />
     public class UShortUpDown : ANativeNumericUpDown<ushort>
   {
     #region Constructors
@@ -33,16 +37,28 @@ namespace XControls
     {
     }
 
-    #endregion //Constructors
+        #endregion //Constructors
 
-    #region Base Class Overrides
+        #region Base Class Overrides
 
-    protected override ushort CustomIncrementValue( ushort value, ushort increment )
+        /// <summary>
+        /// Customs the increment value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="increment">The increment.</param>
+        /// <returns></returns>
+        protected override ushort CustomIncrementValue( ushort value, ushort increment )
     {
       return ( ushort )( value + increment );
     }
 
-    protected override ushort CustomDecrementValue( ushort value, ushort increment )
+        /// <summary>
+        /// Customs the decrement value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="increment">The increment.</param>
+        /// <returns></returns>
+        protected override ushort CustomDecrementValue( ushort value, ushort increment )
     {
       return ( ushort )( value - increment );
     }

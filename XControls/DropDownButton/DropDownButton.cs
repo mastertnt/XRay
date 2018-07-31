@@ -40,8 +40,8 @@ namespace XControls
 
     public DropDownButton()
     {
-      Keyboard.AddKeyDownHandler( this, OnKeyDown );
-      Mouse.AddPreviewMouseDownOutsideCapturedElementHandler( this, OnMouseDownOutsideCapturedElement );
+      Keyboard.AddKeyDownHandler( this, this.OnKeyDown );
+      Mouse.AddPreviewMouseDownOutsideCapturedElementHandler( this, this.OnMouseDownOutsideCapturedElement );
 
       this.mVisibilityTimer = new Timer();
       this.mVisibilityTimer.Elapsed += this.OnVisibilityTimerElapsed;
@@ -54,22 +54,20 @@ namespace XControls
 
 
 
-    private System.Windows.Controls.Primitives.ButtonBase _button;
-    protected System.Windows.Controls.Primitives.ButtonBase Button
+    private ButtonBase _button;
+    protected ButtonBase Button
     {
       get
       {
-        return _button;
+        return this._button;
       }
       set
       {
-        if( _button != null )
-          _button.Click -= DropDownButton_Click;
+        if(this._button != null ) this._button.Click -= this.DropDownButton_Click;
 
-        _button = value;
+          this._button = value;
 
-        if( _button != null )
-          _button.Click += DropDownButton_Click;
+        if(this._button != null ) this._button.Click += this.DropDownButton_Click;
       }
     }
 
@@ -84,11 +82,11 @@ namespace XControls
     {
         get
         {
-            return (double?)GetValue(DropDownVisibilityDelayProperty);
+            return (double?) this.GetValue(DropDownVisibilityDelayProperty);
         }
         set
         {
-            SetValue(DropDownVisibilityDelayProperty, value);
+            this.SetValue(DropDownVisibilityDelayProperty, value);
         }
     }
 
@@ -114,11 +112,11 @@ namespace XControls
     {
         get
         {
-            return (PlacementMode)GetValue(DropDownPlacementModeProperty);
+            return (PlacementMode) this.GetValue(DropDownPlacementModeProperty);
         }
         set
         {
-            SetValue(DropDownPlacementModeProperty, value);
+            this.SetValue(DropDownPlacementModeProperty, value);
         }
     }
 
@@ -127,11 +125,11 @@ namespace XControls
     {
       get
       {
-        return ( object )GetValue( DropDownContentProperty );
+        return ( object ) this.GetValue( DropDownContentProperty );
       }
       set
       {
-        SetValue( DropDownContentProperty, value );
+          this.SetValue( DropDownContentProperty, value );
       }
     }
 
@@ -156,11 +154,11 @@ namespace XControls
     {
       get
       {
-        return ( bool )GetValue( IsOpenProperty );
+        return ( bool ) this.GetValue( IsOpenProperty );
       }
       set
       {
-        SetValue( IsOpenProperty, value );
+          this.SetValue( IsOpenProperty, value );
       }
     }
 
@@ -175,7 +173,7 @@ namespace XControls
     {
         if (pNewValue)
         {
-            this.RaiseRoutedEvent(DropDownButton.OpenedEvent);
+            this.RaiseRoutedEvent(OpenedEvent);
 
             IUpdateable lUpdateableContent = this.DropDownContent as IUpdateable;
             if (lUpdateableContent != null)
@@ -191,7 +189,7 @@ namespace XControls
         else
         {
             this.mVisibilityTimer.Stop();
-            this.RaiseRoutedEvent(DropDownButton.ClosedEvent);
+            this.RaiseRoutedEvent(ClosedEvent);
         }
     }
 
@@ -213,17 +211,15 @@ namespace XControls
     public override void OnApplyTemplate()
     {
       base.OnApplyTemplate();
-      Button = GetTemplateChild( PART_DropDownButton ) as ToggleButton;
+        this.Button = this.GetTemplateChild( PART_DropDownButton ) as ToggleButton;
 
-      _contentPresenter = GetTemplateChild( PART_ContentPresenter ) as ContentPresenter;
+        this._contentPresenter = this.GetTemplateChild( PART_ContentPresenter ) as ContentPresenter;
 
-      if( _popup != null )
-        _popup.Opened -= Popup_Opened;
+      if(this._popup != null ) this._popup.Opened -= this.Popup_Opened;
 
-      _popup = GetTemplateChild( PART_Popup ) as Popup;
+        this._popup = this.GetTemplateChild( PART_Popup ) as Popup;
 
-      if( _popup != null )
-        _popup.Opened += Popup_Opened;
+      if(this._popup != null ) this._popup.Opened += this.Popup_Opened;
     }
 
     #endregion //Base Class Overrides
@@ -235,11 +231,11 @@ namespace XControls
     {
       add
       {
-        AddHandler( ClickEvent, value );
+          this.AddHandler( ClickEvent, value );
       }
       remove
       {
-        RemoveHandler( ClickEvent, value );
+          this.RemoveHandler( ClickEvent, value );
       }
     }
 
@@ -248,11 +244,11 @@ namespace XControls
     {
       add
       {
-        AddHandler( OpenedEvent, value );
+          this.AddHandler( OpenedEvent, value );
       }
       remove
       {
-        RemoveHandler( OpenedEvent, value );
+          this.RemoveHandler( OpenedEvent, value );
       }
     }
 
@@ -261,11 +257,11 @@ namespace XControls
     {
       add
       {
-        AddHandler( ClosedEvent, value );
+          this.AddHandler( ClosedEvent, value );
       }
       remove
       {
-        RemoveHandler( ClosedEvent, value );
+          this.RemoveHandler( ClosedEvent, value );
       }
     }
 
@@ -275,11 +271,11 @@ namespace XControls
 
     private void OnKeyDown( object sender, KeyEventArgs e )
     {
-      if( !IsOpen )
+      if( !this.IsOpen )
       {
         if( KeyboardUtilities.IsKeyModifyingPopupState( e ) )
         {
-          IsOpen = true;
+            this.IsOpen = true;
           // ContentPresenter items will get focus in Popup_Opened().
           e.Handled = true;
         }
@@ -288,12 +284,12 @@ namespace XControls
       {
         if( KeyboardUtilities.IsKeyModifyingPopupState( e ) )
         {
-          CloseDropDown( true );
+            this.CloseDropDown( true );
           e.Handled = true;
         }
         else if( e.Key == Key.Escape )
         {
-          CloseDropDown( true );
+            this.CloseDropDown( true );
           e.Handled = true;
         }
       }
@@ -301,25 +297,25 @@ namespace XControls
 
     private void OnMouseDownOutsideCapturedElement( object sender, MouseButtonEventArgs e )
     {
-      CloseDropDown( true );
+        this.CloseDropDown( true );
     }
 
     private void DropDownButton_Click( object sender, RoutedEventArgs e )
     {
-      OnClick();
+        this.OnClick();
     }
 
     void CanExecuteChanged( object sender, EventArgs e )
     {
-      CanExecuteChanged();
+        this.CanExecuteChanged();
     }
 
     private void Popup_Opened( object sender, EventArgs e )
     {
       // Set the focus on the content of the ContentPresenter.
-      if( _contentPresenter != null )
+      if(this._contentPresenter != null )
       {
-        _contentPresenter.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+          this._contentPresenter.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
       }
     }
 
@@ -329,16 +325,16 @@ namespace XControls
 
     private void CanExecuteChanged()
     {
-      if( Command != null )
+      if(this.Command != null )
       {
-        RoutedCommand command = Command as RoutedCommand;
+        RoutedCommand command = this.Command as RoutedCommand;
 
         // If a RoutedCommand.
         if( command != null )
-          IsEnabled = command.CanExecute( CommandParameter, CommandTarget ) ? true : false;
+            this.IsEnabled = command.CanExecute(this.CommandParameter, this.CommandTarget ) ? true : false;
         // If a not RoutedCommand.
         else
-          IsEnabled = Command.CanExecute( CommandParameter ) ? true : false;
+            this.IsEnabled = this.Command.CanExecute(this.CommandParameter ) ? true : false;
       }
     }
 
@@ -347,18 +343,16 @@ namespace XControls
     /// </summary>
     private void CloseDropDown( bool isFocusOnButton )
     {
-      if( IsOpen )
-        IsOpen = false;
-      ReleaseMouseCapture();
+      if(this.IsOpen ) this.IsOpen = false;
+        this.ReleaseMouseCapture();
 
-      if( isFocusOnButton )
-        Button.Focus();
+      if( isFocusOnButton ) this.Button.Focus();
     }
 
     protected virtual void OnClick()
     {
-      RaiseRoutedEvent( DropDownButton.ClickEvent );
-      RaiseCommand();
+        this.RaiseRoutedEvent( ClickEvent );
+        this.RaiseCommand();
     }
 
     /// <summary>
@@ -367,7 +361,7 @@ namespace XControls
     private void RaiseRoutedEvent( RoutedEvent routedEvent )
     {
       RoutedEventArgs args = new RoutedEventArgs( routedEvent, this );
-      RaiseEvent( args );
+        this.RaiseEvent( args );
     }
 
     /// <summary>
@@ -375,14 +369,14 @@ namespace XControls
     /// </summary>
     private void RaiseCommand()
     {
-      if( Command != null )
+      if(this.Command != null )
       {
-        RoutedCommand routedCommand = Command as RoutedCommand;
+        RoutedCommand routedCommand = this.Command as RoutedCommand;
 
         if( routedCommand == null )
-          ( ( ICommand )Command ).Execute( CommandParameter );
+          ( ( ICommand ) this.Command ).Execute(this.CommandParameter );
         else
-          routedCommand.Execute( CommandParameter, CommandTarget );
+          routedCommand.Execute(this.CommandParameter, this.CommandTarget );
       }
     }
 
@@ -393,7 +387,7 @@ namespace XControls
     /// <param name="newCommand">The new command.</param>
     private void UnhookCommand( ICommand oldCommand, ICommand newCommand )
     {
-      EventHandler handler = CanExecuteChanged;
+      EventHandler handler = this.CanExecuteChanged;
       oldCommand.CanExecuteChanged -= handler;
     }
 
@@ -404,10 +398,10 @@ namespace XControls
     /// <param name="newCommand">The new command.</param>
     private void HookUpCommand( ICommand oldCommand, ICommand newCommand )
     {
-      EventHandler handler = new EventHandler( CanExecuteChanged );
-      canExecuteChangedHandler = handler;
+      EventHandler handler = new EventHandler(this.CanExecuteChanged );
+        this.canExecuteChangedHandler = handler;
       if( newCommand != null )
-        newCommand.CanExecuteChanged += canExecuteChangedHandler;
+        newCommand.CanExecuteChanged += this.canExecuteChangedHandler;
     }
 
     #endregion //Methods
@@ -425,11 +419,11 @@ namespace XControls
     {
       get
       {
-        return ( ICommand )GetValue( CommandProperty );
+        return ( ICommand ) this.GetValue( CommandProperty );
       }
       set
       {
-        SetValue( CommandProperty, value );
+          this.SetValue( CommandProperty, value );
       }
     }
 
@@ -443,12 +437,11 @@ namespace XControls
     protected virtual void OnCommandChanged( ICommand oldValue, ICommand newValue )
     {
       // If old command is not null, then we need to remove the handlers.
-      if( oldValue != null )
-        UnhookCommand( oldValue, newValue );
+      if( oldValue != null ) this.UnhookCommand( oldValue, newValue );
 
-      HookUpCommand( oldValue, newValue );
+        this.HookUpCommand( oldValue, newValue );
 
-      CanExecuteChanged(); //may need to call this when changing the command parameter or target.
+        this.CanExecuteChanged(); //may need to call this when changing the command parameter or target.
     }
 
     #endregion //Command
@@ -458,11 +451,11 @@ namespace XControls
     {
       get
       {
-        return GetValue( CommandParameterProperty );
+        return this.GetValue( CommandParameterProperty );
       }
       set
       {
-        SetValue( CommandParameterProperty, value );
+          this.SetValue( CommandParameterProperty, value );
       }
     }
 
@@ -471,11 +464,11 @@ namespace XControls
     {
       get
       {
-        return ( IInputElement )GetValue( CommandTargetProperty );
+        return ( IInputElement ) this.GetValue( CommandTargetProperty );
       }
       set
       {
-        SetValue( CommandTargetProperty, value );
+          this.SetValue( CommandTargetProperty, value );
       }
     }
 

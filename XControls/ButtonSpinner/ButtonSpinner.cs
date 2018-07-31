@@ -303,9 +303,9 @@ namespace XControls
         {
             base.OnApplyTemplate();
 
-            this.IncreaseButton = GetTemplateChild(PART_IncreaseButton) as ButtonBase;
-            this.DecreaseButton = GetTemplateChild(PART_DecreaseButton) as ButtonBase;
-            this.InfiniteButton = GetTemplateChild(PART_InfiniteButton) as ButtonBase;
+            this.IncreaseButton = this.GetTemplateChild(PART_IncreaseButton) as ButtonBase;
+            this.DecreaseButton = this.GetTemplateChild(PART_DecreaseButton) as ButtonBase;
+            this.InfiniteButton = this.GetTemplateChild(PART_InfiniteButton) as ButtonBase;
 
             if (this.IncreaseButton == null || this.DecreaseButton == null || this.InfiniteButton == null)
             {

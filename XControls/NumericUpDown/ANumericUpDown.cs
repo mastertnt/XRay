@@ -64,11 +64,11 @@ namespace XControls
         {
             get
             {
-                return (AutoSelectBehavior)GetValue(AutoSelectBehaviorProperty);
+                return (AutoSelectBehavior) this.GetValue(AutoSelectBehaviorProperty);
             }
             set
             {
-                SetValue(AutoSelectBehaviorProperty, value);
+                this.SetValue(AutoSelectBehaviorProperty, value);
             }
         }
 
@@ -79,11 +79,11 @@ namespace XControls
         {
             get
             {
-                return (bool)GetValue(AutoMoveFocusProperty);
+                return (bool) this.GetValue(AutoMoveFocusProperty);
             }
             set
             {
-                SetValue(AutoMoveFocusProperty, value);
+                this.SetValue(AutoMoveFocusProperty, value);
             }
         }
 
@@ -94,11 +94,11 @@ namespace XControls
         {
             get
             {
-                return (string)GetValue(FormatStringProperty);
+                return (string) this.GetValue(FormatStringProperty);
             }
             set
             {
-                SetValue(FormatStringProperty, value);
+                this.SetValue(FormatStringProperty, value);
             }
         }
 
@@ -109,11 +109,11 @@ namespace XControls
         {
             get
             {
-                return (T)GetValue(IncrementProperty);
+                return (T) this.GetValue(IncrementProperty);
             }
             set
             {
-                SetValue(IncrementProperty, value);
+                this.SetValue(IncrementProperty, value);
             }
         }
 
@@ -124,11 +124,11 @@ namespace XControls
         {
             get
             {
-                return (int)GetValue(NumberDecimalDigitsProperty);
+                return (int) this.GetValue(NumberDecimalDigitsProperty);
             }
             set
             {
-                SetValue(NumberDecimalDigitsProperty, value);
+                this.SetValue(NumberDecimalDigitsProperty, value);
             }
         }
 
@@ -139,11 +139,11 @@ namespace XControls
         {
             get
             {
-                return (string)GetValue(UnitSymbolProperty);
+                return (string) this.GetValue(UnitSymbolProperty);
             }
             set
             {
-                SetValue(UnitSymbolProperty, value);
+                this.SetValue(UnitSymbolProperty, value);
             }
         }
 
@@ -375,7 +375,7 @@ namespace XControls
             {
                 lNewText = lRawNewText;
             }
-            if (object.Equals(this.Text, lNewText) == false)
+            if (Equals(this.Text, lNewText) == false)
             {
                 this.Text = lNewText;
             }

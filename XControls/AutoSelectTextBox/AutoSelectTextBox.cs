@@ -64,11 +64,11 @@ namespace XControls
         {
             get
             {
-                return (AutoSelectBehavior)GetValue(AutoSelectBehaviorProperty);
+                return (AutoSelectBehavior) this.GetValue(AutoSelectBehaviorProperty);
             }
             set
             {
-                SetValue(AutoSelectBehaviorProperty, value);
+                this.SetValue(AutoSelectBehaviorProperty, value);
             }
         }
 
@@ -79,11 +79,11 @@ namespace XControls
         {
             get
             {
-                return (bool)GetValue(AutoMoveFocusProperty);
+                return (bool) this.GetValue(AutoMoveFocusProperty);
             }
             set
             {
-                SetValue(AutoMoveFocusProperty, value);
+                this.SetValue(AutoMoveFocusProperty, value);
             }
         }
 

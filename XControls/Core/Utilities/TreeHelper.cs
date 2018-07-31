@@ -24,7 +24,7 @@ namespace XControls.Core.Utilities
         /// this situation.</remarks>
         public static DependencyObject GetParent(DependencyObject pElement)
         {
-            return TreeHelper.GetParent(pElement, true);
+            return GetParent(pElement, true);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace XControls.Core.Utilities
         /// <returns>Returns the found element. Null if nothing is found.</returns>
         public static T FindParent<T>(DependencyObject pStartingObject) where T : DependencyObject
         {
-            return TreeHelper.FindParent<T>(pStartingObject, false, null);
+            return FindParent<T>(pStartingObject, false, null);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace XControls.Core.Utilities
         /// <returns>Returns the found element. Null if nothing is found.</returns>
         public static T FindParent<T>(DependencyObject pStartingObject, bool pCheckStartingObject) where T : DependencyObject
         {
-            return TreeHelper.FindParent<T>(pStartingObject, pCheckStartingObject, null);
+            return FindParent<T>(pStartingObject, pCheckStartingObject, null);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace XControls.Core.Utilities
         public static T FindParent<T>(DependencyObject pStartingObject, bool pCheckStartingObject, Func<T, bool> pAdditionalCheck) where T : DependencyObject
         {
             T lFoundElement;
-            DependencyObject lParent = (pCheckStartingObject ? pStartingObject : TreeHelper.GetParent(pStartingObject, true));
+            DependencyObject lParent = (pCheckStartingObject ? pStartingObject : GetParent(pStartingObject, true));
 
             while (lParent != null)
             {
@@ -140,7 +140,7 @@ namespace XControls.Core.Utilities
                     }
                 }
 
-                lParent = TreeHelper.GetParent(lParent, true);
+                lParent = GetParent(lParent, true);
             }
 
             return null;
@@ -155,7 +155,7 @@ namespace XControls.Core.Utilities
         /// <returns>Returns the found element. Null if nothing is found.</returns>
         public static T FindChild<T>(DependencyObject pParent) where T : DependencyObject
         {
-            return TreeHelper.FindChild<T>( pParent, null );
+            return FindChild<T>( pParent, null );
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace XControls.Core.Utilities
 
             for (int lIndex = 0; lIndex < lChildrenCount; lIndex++)
             {
-                lChild = TreeHelper.FindChild<T>(VisualTreeHelper.GetChild(pParent, lIndex), pAdditionalCheck);
+                lChild = FindChild<T>(VisualTreeHelper.GetChild(pParent, lIndex), pAdditionalCheck);
                 if (lChild != null)
                 {
                     return lChild;
@@ -212,7 +212,7 @@ namespace XControls.Core.Utilities
         /// <param name="pParent">The element that is potentially a parent of the specified element.</param>
         public static bool IsDescendantOf(DependencyObject pElement, DependencyObject pParent)
         {
-            return TreeHelper.IsDescendantOf(pElement, pParent, true);
+            return IsDescendantOf(pElement, pParent, true);
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace XControls.Core.Utilities
                     return true;
                 }
 
-                pElement = TreeHelper.GetParent(pElement, recurseIntoPopup);
+                pElement = GetParent(pElement, recurseIntoPopup);
             }
 
             return false;

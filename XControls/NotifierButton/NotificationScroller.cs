@@ -69,11 +69,11 @@ namespace XControls
         {
             get
             {
-                return (int)GetValue(MessageViewHeightProperty);
+                return (int) this.GetValue(MessageViewHeightProperty);
             }
             set
             {
-                SetValue(MessageViewHeightProperty, value);
+                this.SetValue(MessageViewHeightProperty, value);
             }
         }
 
@@ -84,11 +84,11 @@ namespace XControls
         {
             get
             {
-                return (int)GetValue(MessageViewWidthProperty);
+                return (int) this.GetValue(MessageViewWidthProperty);
             }
             set
             {
-                SetValue(MessageViewWidthProperty, value);
+                this.SetValue(MessageViewWidthProperty, value);
             }
         }
 
@@ -101,8 +101,8 @@ namespace XControls
         /// </summary>
         static NotificationScroller()
         {
-            NotificationScroller.DefaultStyleKeyProperty.OverrideMetadata(typeof(NotificationScroller), new FrameworkPropertyMetadata(typeof(NotificationScroller)));
-            NotificationScroller.DataContextProperty.OverrideMetadata(typeof(NotificationScroller), new FrameworkPropertyMetadata(null, OnDataContextChanged));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NotificationScroller), new FrameworkPropertyMetadata(typeof(NotificationScroller)));
+            DataContextProperty.OverrideMetadata(typeof(NotificationScroller), new FrameworkPropertyMetadata(null, OnDataContextChanged));
         }
 
         /// <summary>
@@ -128,15 +128,15 @@ namespace XControls
             {
                 Binding lContentBinding = new Binding("DisplayedNotification");
                 lContentBinding.Source = pEventArgs.NewValue;
-                lControl.SetBinding(NotificationScroller.ContentProperty, lContentBinding);
+                lControl.SetBinding(ContentProperty, lContentBinding);
 
                 Binding lMessageViewHeightBinding = new Binding("MessageViewHeight");
                 lMessageViewHeightBinding.Source = pEventArgs.NewValue;
-                lControl.SetBinding(NotificationScroller.MessageViewHeightProperty, lMessageViewHeightBinding);
+                lControl.SetBinding(MessageViewHeightProperty, lMessageViewHeightBinding);
 
                 Binding lMessageViewWidthBinding = new Binding("MessageViewWidth");
                 lMessageViewWidthBinding.Source = pEventArgs.NewValue;
-                lControl.SetBinding(NotificationScroller.MessageViewWidthProperty, lMessageViewWidthBinding);
+                lControl.SetBinding(MessageViewWidthProperty, lMessageViewWidthBinding);
             }
         }
 
@@ -162,14 +162,14 @@ namespace XControls
             Binding lCanGoPreviousBinding = new Binding("CanGoPrevious");
             lCanGoPreviousBinding.Source = this.ViewModel;
             lCanGoPreviousBinding.Mode = BindingMode.OneWay;
-            this.mPreviousNotificationButton.SetBinding(Button.IsEnabledProperty, lCanGoPreviousBinding);
+            this.mPreviousNotificationButton.SetBinding(IsEnabledProperty, lCanGoPreviousBinding);
             
             this.mNextNotificationButton.Click += this.OnNextNotificationButtonClicked;
 
             Binding lCanGoNextBinding = new Binding("CanGoNext");
             lCanGoNextBinding.Source = this.ViewModel;
             lCanGoNextBinding.Mode = BindingMode.OneWay;
-            this.mNextNotificationButton.SetBinding(Button.IsEnabledProperty, lCanGoNextBinding);
+            this.mNextNotificationButton.SetBinding(IsEnabledProperty, lCanGoNextBinding);
         }
 
         /// <summary>

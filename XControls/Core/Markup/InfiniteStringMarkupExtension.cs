@@ -11,7 +11,7 @@ namespace XControls.Core.Markup
     /// Class allowing the user to display an infinite symbol into a WPF control.
     /// </summary>
     [MarkupExtensionReturnType(typeof(string))]
-    public class InfiniteStringMarkupExtension : System.Windows.Markup.MarkupExtension
+    public class InfiniteStringMarkupExtension : MarkupExtension
     {
         #region Methods
 

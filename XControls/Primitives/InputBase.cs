@@ -29,11 +29,11 @@ namespace XControls.Primitives
         {
             get
             {
-                return (bool)GetValue(IsPresenterProperty);
+                return (bool) this.GetValue(IsPresenterProperty);
             }
             set
             {
-                SetValue(IsPresenterProperty, value);
+                this.SetValue(IsPresenterProperty, value);
             }
         }
 
@@ -46,11 +46,11 @@ namespace XControls.Primitives
         {
             get
             {
-            return ( bool )GetValue( AllowTextInputProperty );
+            return ( bool ) this.GetValue( AllowTextInputProperty );
             }
             set
             {
-            SetValue( AllowTextInputProperty, value );
+                this.SetValue( AllowTextInputProperty, value );
             }
         }
 
@@ -74,11 +74,11 @@ namespace XControls.Primitives
         {
             get
             {
-            return ( CultureInfo )GetValue( CultureInfoProperty );
+            return ( CultureInfo ) this.GetValue( CultureInfoProperty );
             }
             set
             {
-            SetValue( CultureInfoProperty, value );
+                this.SetValue( CultureInfoProperty, value );
             }
         }
 
@@ -103,11 +103,11 @@ namespace XControls.Primitives
         {
             get
             {
-            return ( bool )GetValue( IsReadOnlyProperty );
+            return ( bool ) this.GetValue( IsReadOnlyProperty );
             }
             set
             {
-            SetValue( IsReadOnlyProperty, value );
+                this.SetValue( IsReadOnlyProperty, value );
             }
         }
 
@@ -131,11 +131,11 @@ namespace XControls.Primitives
         {
             get
             {
-            return ( bool )GetValue( IsUndoEnabledProperty );
+            return ( bool ) this.GetValue( IsUndoEnabledProperty );
             }
             set
             {
-            SetValue( IsUndoEnabledProperty, value );
+                this.SetValue( IsUndoEnabledProperty, value );
             }
         }
 
@@ -159,11 +159,11 @@ namespace XControls.Primitives
         {
             get
             {
-            return ( string )GetValue( TextProperty );
+            return ( string ) this.GetValue( TextProperty );
             }
             set
             {
-            SetValue( TextProperty, value );
+                this.SetValue( TextProperty, value );
             }
         }
 
@@ -222,11 +222,11 @@ namespace XControls.Primitives
         {
             add
             {
-                AddHandler(TextChangedEvent, value);
+                this.AddHandler(TextChangedEvent, value);
             }
             remove
             {
-                RemoveHandler(TextChangedEvent, value);
+                this.RemoveHandler(TextChangedEvent, value);
             }
         }
 
@@ -235,7 +235,7 @@ namespace XControls.Primitives
         {
             RoutedPropertyChangedEventArgs<string> args = new RoutedPropertyChangedEventArgs<string>(oldValue, newValue);
             args.RoutedEvent = TextChangedEvent;
-            RaiseEvent(args);
+            this.RaiseEvent(args);
         }
 
         #endregion
@@ -248,11 +248,11 @@ namespace XControls.Primitives
         {
             get
             {
-            return ( TextAlignment )GetValue( TextAlignmentProperty );
+            return ( TextAlignment ) this.GetValue( TextAlignmentProperty );
             }
             set
             {
-            SetValue( TextAlignmentProperty, value );
+                this.SetValue( TextAlignmentProperty, value );
             }
         }
 
@@ -266,11 +266,11 @@ namespace XControls.Primitives
         {
             get
             {
-            return ( object )GetValue( WatermarkProperty );
+            return ( object ) this.GetValue( WatermarkProperty );
             }
             set
             {
-            SetValue( WatermarkProperty, value );
+                this.SetValue( WatermarkProperty, value );
             }
         }
 
@@ -311,11 +311,11 @@ namespace XControls.Primitives
         {
             get
             {
-            return ( DataTemplate )GetValue( WatermarkTemplateProperty );
+            return ( DataTemplate ) this.GetValue( WatermarkTemplateProperty );
             }
             set
             {
-            SetValue( WatermarkTemplateProperty, value );
+                this.SetValue( WatermarkTemplateProperty, value );
             }
         }
 

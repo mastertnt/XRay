@@ -46,8 +46,8 @@ namespace XControls
 
         public AllowedSpecialValues AllowInputSpecialValues
         {
-            get { return (AllowedSpecialValues)GetValue(AllowInputSpecialValuesProperty); }
-            set { SetValue(AllowInputSpecialValuesProperty, value); }
+            get { return (AllowedSpecialValues) this.GetValue(AllowInputSpecialValuesProperty); }
+            set { this.SetValue(AllowInputSpecialValuesProperty, value); }
         }
 
         #endregion //AllowInputSpecialValues
@@ -97,9 +97,9 @@ namespace XControls
 
         protected override void SetValidSpinDirection(float? pValue)
         {
-            if (pValue.HasValue && float.IsInfinity(pValue.Value) && (Spinner != null))
+            if (pValue.HasValue && float.IsInfinity(pValue.Value) && (this.Spinner != null))
             {
-                Spinner.ValidSpinDirections = ValidSpinDirections.None;
+                this.Spinner.ValidSpinDirections = ValidSpinDirections.None;
             }
             else
             {

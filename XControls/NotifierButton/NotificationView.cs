@@ -119,11 +119,11 @@ namespace XControls
         {
             get
             {
-                return (NotificationQuickStyle)GetValue(QuickStyleProperty);
+                return (NotificationQuickStyle) this.GetValue(QuickStyleProperty);
             }
             set
             {
-                SetValue(QuickStyleProperty, value);
+                this.SetValue(QuickStyleProperty, value);
             }
         }
 
@@ -134,11 +134,11 @@ namespace XControls
         {
             get
             {
-                return (Style)GetValue(YesButtonStyleProperty);
+                return (Style) this.GetValue(YesButtonStyleProperty);
             }
             set
             {
-                SetValue(YesButtonStyleProperty, value);
+                this.SetValue(YesButtonStyleProperty, value);
             }
         }
 
@@ -149,11 +149,11 @@ namespace XControls
         {
             get
             {
-                return (Style)GetValue(NoButtonStyleProperty);
+                return (Style) this.GetValue(NoButtonStyleProperty);
             }
             set
             {
-                SetValue(NoButtonStyleProperty, value);
+                this.SetValue(NoButtonStyleProperty, value);
             }
         }
 
@@ -164,11 +164,11 @@ namespace XControls
         {
             get
             {
-                return (Style)GetValue(CancelButtonStyleProperty);
+                return (Style) this.GetValue(CancelButtonStyleProperty);
             }
             set
             {
-                SetValue(CancelButtonStyleProperty, value);
+                this.SetValue(CancelButtonStyleProperty, value);
             }
         }
 
@@ -179,11 +179,11 @@ namespace XControls
         {
             get
             {
-                return (Style)GetValue(OkButtonStyleProperty);
+                return (Style) this.GetValue(OkButtonStyleProperty);
             }
             set
             {
-                SetValue(OkButtonStyleProperty, value);
+                this.SetValue(OkButtonStyleProperty, value);
             }
         }
 
@@ -196,8 +196,8 @@ namespace XControls
         /// </summary>
         static NotificationView()
         {
-            NotificationView.DefaultStyleKeyProperty.OverrideMetadata(typeof(NotificationView), new FrameworkPropertyMetadata(typeof(NotificationView)));
-            NotificationView.DataContextProperty.OverrideMetadata(typeof(NotificationView), new FrameworkPropertyMetadata(null, OnDataContextChanged));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NotificationView), new FrameworkPropertyMetadata(typeof(NotificationView)));
+            DataContextProperty.OverrideMetadata(typeof(NotificationView), new FrameworkPropertyMetadata(null, OnDataContextChanged));
         }
 
         /// <summary>
@@ -228,26 +228,26 @@ namespace XControls
                 {
                     Binding lHeaderBinding = new Binding();
                     lHeaderBinding.Source = lControl.ViewModel;
-                    lControl.SetBinding(NotificationView.HeaderProperty, lHeaderBinding);
+                    lControl.SetBinding(HeaderProperty, lHeaderBinding);
 
                     Binding lQuickStyleBinding = new Binding("QuickStyle");
                     lQuickStyleBinding.Source = lControl.ViewModel;
-                    lControl.SetBinding(NotificationView.QuickStyleProperty, lQuickStyleBinding);
+                    lControl.SetBinding(QuickStyleProperty, lQuickStyleBinding);
 
                     QuestionViewModel lQuestionViewModel = lNotificationViewModel as QuestionViewModel;
                     if (lQuestionViewModel != null)
                     {
                         Binding lYesButtonStyleBinding = new Binding("YesButtonStyle");
                         lYesButtonStyleBinding.Source = lControl.ViewModel;
-                        lControl.SetBinding(NotificationView.YesButtonStyleProperty, lYesButtonStyleBinding);
+                        lControl.SetBinding(YesButtonStyleProperty, lYesButtonStyleBinding);
 
                         Binding lNoButtonStyleBinding = new Binding("NoButtonStyle");
                         lNoButtonStyleBinding.Source = lControl.ViewModel;
-                        lControl.SetBinding(NotificationView.NoButtonStyleProperty, lNoButtonStyleBinding);
+                        lControl.SetBinding(NoButtonStyleProperty, lNoButtonStyleBinding);
 
                         Binding lCancelButtonStyleBinding = new Binding("CancelButtonStyle");
                         lCancelButtonStyleBinding.Source = lControl.ViewModel;
-                        lControl.SetBinding(NotificationView.CancelButtonStyleProperty, lCancelButtonStyleBinding);
+                        lControl.SetBinding(CancelButtonStyleProperty, lCancelButtonStyleBinding);
                     }
 
                     InformationViewModel lInformationViewModel = lNotificationViewModel as InformationViewModel;
@@ -255,7 +255,7 @@ namespace XControls
                     {
                         Binding lOkButtonStyleBinding = new Binding("OkButtonStyle");
                         lOkButtonStyleBinding.Source = lControl.ViewModel;
-                        lControl.SetBinding(NotificationView.OkButtonStyleProperty, lOkButtonStyleBinding);
+                        lControl.SetBinding(OkButtonStyleProperty, lOkButtonStyleBinding);
                     }
                 }
 
@@ -329,10 +329,10 @@ namespace XControls
                         }
                     }
 
-                    this.mOkButton.Visibility = System.Windows.Visibility.Visible;
-                    this.mCancelButton.Visibility = System.Windows.Visibility.Visible;
-                    this.mYesButton.Visibility = System.Windows.Visibility.Collapsed;
-                    this.mNoButton.Visibility = System.Windows.Visibility.Collapsed;
+                    this.mOkButton.Visibility = Visibility.Visible;
+                    this.mCancelButton.Visibility = Visibility.Visible;
+                    this.mYesButton.Visibility = Visibility.Collapsed;
+                    this.mNoButton.Visibility = Visibility.Collapsed;
 
                     this.mCancelButtonFistColumn.Width = new GridLength(0);
                     this.mCancelButtonSecondColumn.Width = new GridLength(0);
@@ -413,18 +413,18 @@ namespace XControls
                         }
                     }
 
-                    this.mOkButton.Visibility = System.Windows.Visibility.Collapsed;
-                    this.mYesButton.Visibility = System.Windows.Visibility.Visible;
-                    this.mNoButton.Visibility = System.Windows.Visibility.Visible;
+                    this.mOkButton.Visibility = Visibility.Collapsed;
+                    this.mYesButton.Visibility = Visibility.Visible;
+                    this.mNoButton.Visibility = Visibility.Visible;
                     if (lQuestionViewModel.CanCancel)
                     {
-                        this.mCancelButton.Visibility = System.Windows.Visibility.Visible;
+                        this.mCancelButton.Visibility = Visibility.Visible;
                         this.mCancelButtonFistColumn.Width = new GridLength(3, GridUnitType.Star);
                         this.mCancelButtonSecondColumn.Width = new GridLength(1, GridUnitType.Star);
                     }
                     else
                     {
-                        this.mCancelButton.Visibility = System.Windows.Visibility.Collapsed;
+                        this.mCancelButton.Visibility = Visibility.Collapsed;
                         this.mCancelButtonFistColumn.Width = new GridLength(0);
                         this.mCancelButtonSecondColumn.Width = new GridLength(0);
                     }

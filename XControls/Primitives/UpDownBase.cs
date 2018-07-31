@@ -34,25 +34,46 @@ namespace XControls.Primitives
         /// Name constant for control template part.
         /// </summary>
         internal const string PART_TextBox = "PART_TextBox";
+        /// <summary>
+        /// The part spinner
+        /// </summary>
         internal const string PART_Spinner = "PART_Spinner";
 
+        /// <summary>
+        /// The is text changed from UI
+        /// </summary>
         internal bool _isTextChangedFromUI;
 
         /// <summary>
         /// Flags if the Text and Value properties are in the process of being sync'd
         /// </summary>
         private bool _isSyncingTextAndValueProperties;
+        /// <summary>
+        /// The internal value set
+        /// </summary>
         private bool _internalValueSet;
 
         #endregion //Members
 
         #region Properties
 
+        /// <summary>
+        /// Gets the spinner.
+        /// </summary>
+        /// <value>
+        /// The spinner.
+        /// </value>
         protected ASpinner Spinner
         {
             get;
             private set;
         }
+        /// <summary>
+        /// Gets the text box.
+        /// </summary>
+        /// <value>
+        /// The text box.
+        /// </value>
         protected TextBox TextBox
         {
             get;
@@ -66,11 +87,11 @@ namespace XControls.Primitives
         {
             get
             {
-                return (FocusNavigationDirection)GetValue(FocusNavigationDirectionProperty);
+                return (FocusNavigationDirection) this.GetValue(FocusNavigationDirectionProperty);
             }
             set
             {
-                SetValue(FocusNavigationDirectionProperty, value);
+                this.SetValue(FocusNavigationDirectionProperty, value);
             }
         }
 
@@ -81,26 +102,35 @@ namespace XControls.Primitives
         {
             get
             {
-                return (bool)GetValue(HandlesSpecialKeysProperty);
+                return (bool) this.GetValue(HandlesSpecialKeysProperty);
             }
             set
             {
-                SetValue(HandlesSpecialKeysProperty, value);
+                this.SetValue(HandlesSpecialKeysProperty, value);
             }
         }
 
         #region AllowSpin
 
+        /// <summary>
+        /// The allow spin property
+        /// </summary>
         public static readonly DependencyProperty AllowSpinProperty = DependencyProperty.Register("AllowSpin", typeof(bool), typeof(UpDownBase<T>), new UIPropertyMetadata(true));
+        /// <summary>
+        /// Gets or sets a value indicating whether [allow spin].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [allow spin]; otherwise, <c>false</c>.
+        /// </value>
         public bool AllowSpin
         {
             get
             {
-                return (bool)GetValue(AllowSpinProperty);
+                return (bool) this.GetValue(AllowSpinProperty);
             }
             set
             {
-                SetValue(AllowSpinProperty, value);
+                this.SetValue(AllowSpinProperty, value);
             }
         }
 
@@ -108,16 +138,25 @@ namespace XControls.Primitives
 
         #region ButtonSpinnerLocation
 
+        /// <summary>
+        /// The button spinner location property
+        /// </summary>
         public static readonly DependencyProperty ButtonSpinnerLocationProperty = DependencyProperty.Register("ButtonSpinnerLocation", typeof(Location), typeof(UpDownBase<T>), new UIPropertyMetadata(Location.Right));
+        /// <summary>
+        /// Gets or sets the button spinner location.
+        /// </summary>
+        /// <value>
+        /// The button spinner location.
+        /// </value>
         public Location ButtonSpinnerLocation
         {
             get
             {
-                return (Location)GetValue(ButtonSpinnerLocationProperty);
+                return (Location) this.GetValue(ButtonSpinnerLocationProperty);
             }
             set
             {
-                SetValue(ButtonSpinnerLocationProperty, value);
+                this.SetValue(ButtonSpinnerLocationProperty, value);
             }
         }
 
@@ -125,29 +164,48 @@ namespace XControls.Primitives
 
         #region DisplayDefaultValueOnEmptyText
 
+        /// <summary>
+        /// The display default value on empty text property
+        /// </summary>
         public static readonly DependencyProperty DisplayDefaultValueOnEmptyTextProperty = DependencyProperty.Register("DisplayDefaultValueOnEmptyText", typeof(bool), typeof(UpDownBase<T>), new UIPropertyMetadata(false, OnDisplayDefaultValueOnEmptyTextChanged));
+        /// <summary>
+        /// Gets or sets a value indicating whether [display default value on empty text].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [display default value on empty text]; otherwise, <c>false</c>.
+        /// </value>
         public bool DisplayDefaultValueOnEmptyText
         {
             get
             {
-                return (bool)GetValue(DisplayDefaultValueOnEmptyTextProperty);
+                return (bool) this.GetValue(DisplayDefaultValueOnEmptyTextProperty);
             }
             set
             {
-                SetValue(DisplayDefaultValueOnEmptyTextProperty, value);
+                this.SetValue(DisplayDefaultValueOnEmptyTextProperty, value);
             }
         }
 
+        /// <summary>
+        /// Called when [display default value on empty text changed].
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="args">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void OnDisplayDefaultValueOnEmptyTextChanged(DependencyObject source, DependencyPropertyChangedEventArgs args)
         {
             ((UpDownBase<T>)source).OnDisplayDefaultValueOnEmptyTextChanged((bool)args.OldValue, (bool)args.NewValue);
         }
 
+        /// <summary>
+        /// Called when [display default value on empty text changed].
+        /// </summary>
+        /// <param name="oldValue">if set to <c>true</c> [old value].</param>
+        /// <param name="newValue">if set to <c>true</c> [new value].</param>
         private void OnDisplayDefaultValueOnEmptyTextChanged(bool oldValue, bool newValue)
         {
-            if (this.IsInitialized && string.IsNullOrEmpty(Text))
+            if (this.IsInitialized && string.IsNullOrEmpty(this.Text))
             {
-                this.SyncTextAndValueProperties(false, Text);
+                this.SyncTextAndValueProperties(false, this.Text);
             }
         }
 
@@ -155,29 +213,48 @@ namespace XControls.Primitives
 
         #region DefaultValue
 
+        /// <summary>
+        /// The default value property
+        /// </summary>
         public static readonly DependencyProperty DefaultValueProperty = DependencyProperty.Register("DefaultValue", typeof(T), typeof(UpDownBase<T>), new UIPropertyMetadata(default(T), OnDefaultValueChanged));
+        /// <summary>
+        /// Gets or sets the default value.
+        /// </summary>
+        /// <value>
+        /// The default value.
+        /// </value>
         public T DefaultValue
         {
             get
             {
-                return (T)GetValue(DefaultValueProperty);
+                return (T) this.GetValue(DefaultValueProperty);
             }
             set
             {
-                SetValue(DefaultValueProperty, value);
+                this.SetValue(DefaultValueProperty, value);
             }
         }
 
+        /// <summary>
+        /// Called when [default value changed].
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="args">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void OnDefaultValueChanged(DependencyObject source, DependencyPropertyChangedEventArgs args)
         {
             ((UpDownBase<T>)source).OnDefaultValueChanged((T)args.OldValue, (T)args.NewValue);
         }
 
+        /// <summary>
+        /// Called when [default value changed].
+        /// </summary>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
         private void OnDefaultValueChanged(T oldValue, T newValue)
         {
-            if (this.IsInitialized && string.IsNullOrEmpty(Text))
+            if (this.IsInitialized && string.IsNullOrEmpty(this.Text))
             {
-                this.SyncTextAndValueProperties(true, Text);
+                this.SyncTextAndValueProperties(true, this.Text);
             }
         }
 
@@ -185,19 +262,33 @@ namespace XControls.Primitives
 
         #region Maximum
 
+        /// <summary>
+        /// The maximum property
+        /// </summary>
         public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register("Maximum", typeof(T), typeof(UpDownBase<T>), new UIPropertyMetadata(default(T), OnMaximumChanged, OnCoerceMaximum));
+        /// <summary>
+        /// Gets or sets the maximum.
+        /// </summary>
+        /// <value>
+        /// The maximum.
+        /// </value>
         public T Maximum
         {
             get
             {
-                return (T)GetValue(MaximumProperty);
+                return (T) this.GetValue(MaximumProperty);
             }
             set
             {
-                SetValue(MaximumProperty, value);
+                this.SetValue(MaximumProperty, value);
             }
         }
 
+        /// <summary>
+        /// Called when [maximum changed].
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.</param>
         private static void OnMaximumChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             UpDownBase<T> upDown = o as UpDownBase<T>;
@@ -205,6 +296,11 @@ namespace XControls.Primitives
                 upDown.OnMaximumChanged((T)e.OldValue, (T)e.NewValue);
         }
 
+        /// <summary>
+        /// Called when [maximum changed].
+        /// </summary>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
         protected virtual void OnMaximumChanged(T oldValue, T newValue)
         {
             if (this.IsInitialized)
@@ -213,6 +309,12 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Called when [coerce maximum].
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="baseValue">The base value.</param>
+        /// <returns></returns>
         private static object OnCoerceMaximum(DependencyObject d, object baseValue)
         {
             UpDownBase<T> upDown = d as UpDownBase<T>;
@@ -222,6 +324,11 @@ namespace XControls.Primitives
             return baseValue;
         }
 
+        /// <summary>
+        /// Called when [coerce maximum].
+        /// </summary>
+        /// <param name="baseValue">The base value.</param>
+        /// <returns></returns>
         protected virtual T OnCoerceMaximum(T baseValue)
         {
             return baseValue;
@@ -231,19 +338,33 @@ namespace XControls.Primitives
 
         #region Minimum
 
+        /// <summary>
+        /// The minimum property
+        /// </summary>
         public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register("Minimum", typeof(T), typeof(UpDownBase<T>), new UIPropertyMetadata(default(T), OnMinimumChanged, OnCoerceMinimum));
+        /// <summary>
+        /// Gets or sets the minimum.
+        /// </summary>
+        /// <value>
+        /// The minimum.
+        /// </value>
         public T Minimum
         {
             get
             {
-                return (T)GetValue(MinimumProperty);
+                return (T) this.GetValue(MinimumProperty);
             }
             set
             {
-                SetValue(MinimumProperty, value);
+                this.SetValue(MinimumProperty, value);
             }
         }
 
+        /// <summary>
+        /// Called when [minimum changed].
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void OnMinimumChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             UpDownBase<T> upDown = o as UpDownBase<T>;
@@ -251,6 +372,11 @@ namespace XControls.Primitives
                 upDown.OnMinimumChanged((T)e.OldValue, (T)e.NewValue);
         }
 
+        /// <summary>
+        /// Called when [minimum changed].
+        /// </summary>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
         protected virtual void OnMinimumChanged(T oldValue, T newValue)
         {
             if (this.IsInitialized)
@@ -259,6 +385,12 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Called when [coerce minimum].
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="baseValue">The base value.</param>
+        /// <returns></returns>
         private static object OnCoerceMinimum(DependencyObject d, object baseValue)
         {
             UpDownBase<T> upDown = d as UpDownBase<T>;
@@ -268,6 +400,11 @@ namespace XControls.Primitives
             return baseValue;
         }
 
+        /// <summary>
+        /// Called when [coerce minimum].
+        /// </summary>
+        /// <param name="baseValue">The base value.</param>
+        /// <returns></returns>
         protected virtual T OnCoerceMinimum(T baseValue)
         {
             return baseValue;
@@ -289,11 +426,11 @@ namespace XControls.Primitives
         {
             get
             {
-                return (MouseWheelActiveTrigger)GetValue(MouseWheelActiveTriggerProperty);
+                return (MouseWheelActiveTrigger) this.GetValue(MouseWheelActiveTriggerProperty);
             }
             set
             {
-                SetValue(MouseWheelActiveTriggerProperty, value);
+                this.SetValue(MouseWheelActiveTriggerProperty, value);
             }
         }
 
@@ -301,26 +438,40 @@ namespace XControls.Primitives
 
         #region MouseWheelActiveOnFocus
 
+        /// <summary>
+        /// The mouse wheel active on focus property
+        /// </summary>
         [Obsolete("Use MouseWheelActiveTrigger property instead")]
         public static readonly DependencyProperty MouseWheelActiveOnFocusProperty = DependencyProperty.Register("MouseWheelActiveOnFocus", typeof(bool), typeof(UpDownBase<T>), new UIPropertyMetadata(true, OnMouseWheelActiveOnFocusChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [mouse wheel active on focus].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [mouse wheel active on focus]; otherwise, <c>false</c>.
+        /// </value>
         [Obsolete("Use MouseWheelActiveTrigger property instead")]
         public bool MouseWheelActiveOnFocus
         {
             get
             {
 #pragma warning disable 618
-                return (bool)GetValue(MouseWheelActiveOnFocusProperty);
+                return (bool) this.GetValue(MouseWheelActiveOnFocusProperty);
 #pragma warning restore 618
             }
             set
             {
 #pragma warning disable 618
-                SetValue(MouseWheelActiveOnFocusProperty, value);
+                this.SetValue(MouseWheelActiveOnFocusProperty, value);
 #pragma warning restore 618
             }
         }
 
+        /// <summary>
+        /// Called when [mouse wheel active on focus changed].
+        /// </summary>
+        /// <param name="o">The o.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void OnMouseWheelActiveOnFocusChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             UpDownBase<T> upDownBase = o as UpDownBase<T>;
@@ -334,16 +485,25 @@ namespace XControls.Primitives
 
         #region ShowButtonSpinner
 
+        /// <summary>
+        /// The show button spinner property
+        /// </summary>
         public static readonly DependencyProperty ShowButtonSpinnerProperty = DependencyProperty.Register("ShowButtonSpinner", typeof(bool), typeof(UpDownBase<T>), new UIPropertyMetadata(true));
+        /// <summary>
+        /// Gets or sets a value indicating whether [show button spinner].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [show button spinner]; otherwise, <c>false</c>.
+        /// </value>
         public bool ShowButtonSpinner
         {
             get
             {
-                return (bool)GetValue(ShowButtonSpinnerProperty);
+                return (bool) this.GetValue(ShowButtonSpinnerProperty);
             }
             set
             {
-                SetValue(ShowButtonSpinnerProperty, value);
+                this.SetValue(ShowButtonSpinnerProperty, value);
             }
         }
 
@@ -351,16 +511,25 @@ namespace XControls.Primitives
 
         #region UpdateValueOnEnterKey
 
+        /// <summary>
+        /// The update value on enter key property
+        /// </summary>
         public static readonly DependencyProperty UpdateValueOnEnterKeyProperty = DependencyProperty.Register("UpdateValueOnEnterKey", typeof(bool), typeof(UpDownBase<T>), new FrameworkPropertyMetadata(false));
+        /// <summary>
+        /// Gets or sets a value indicating whether [update value on enter key].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [update value on enter key]; otherwise, <c>false</c>.
+        /// </value>
         public bool UpdateValueOnEnterKey
         {
             get
             {
-                return (bool)GetValue(UpdateValueOnEnterKeyProperty);
+                return (bool) this.GetValue(UpdateValueOnEnterKeyProperty);
             }
             set
             {
-                SetValue(UpdateValueOnEnterKeyProperty, value);
+                this.SetValue(UpdateValueOnEnterKeyProperty, value);
             }
         }
 
@@ -373,24 +542,24 @@ namespace XControls.Primitives
         {
             get
             {
-                return (T)GetValue(ValueProperty);
+                return (T) this.GetValue(ValueProperty);
             }
             set
             {
-                SetValue(ValueProperty, value);
+                this.SetValue(ValueProperty, value);
             }
         }
 
         private void SetValueInternal(T value)
         {
-            _internalValueSet = true;
+            this._internalValueSet = true;
             try
             {
                 this.Value = value;
             }
             finally
             {
-                _internalValueSet = false;
+                this._internalValueSet = false;
             }
         }
 
@@ -430,12 +599,12 @@ namespace XControls.Primitives
 
         protected virtual void OnValueChanged(T oldValue, T newValue)
         {
-            if (!_internalValueSet && this.IsInitialized)
+            if (!this._internalValueSet && this.IsInitialized)
             {
-                SyncTextAndValueProperties(false, null, true);
+                this.SyncTextAndValueProperties(false, null, true);
             }
 
-            SetValidSpinDirection();
+            this.SetValidSpinDirection();
 
             this.RaiseValueChangedEvent(oldValue, newValue);
         }
@@ -457,8 +626,7 @@ namespace XControls.Primitives
 
         protected override void OnAccessKey(AccessKeyEventArgs e)
         {
-            if (TextBox != null)
-                TextBox.Focus();
+            if (this.TextBox != null) this.TextBox.Focus();
 
             base.OnAccessKey(e);
         }
@@ -467,34 +635,32 @@ namespace XControls.Primitives
         {
             base.OnApplyTemplate();
 
-            if (TextBox != null)
+            if (this.TextBox != null)
             {
-                TextBox.LostFocus -= this.TextBox_LostFocus;
-                TextBox.TextChanged -= this.TextBox_TextChanged;
-                TextBox.GotFocus -= this.TextBox_GotFocus;
-                TextBox.RemoveHandler(Mouse.PreviewMouseDownEvent, new MouseButtonEventHandler(this.TextBox_PreviewMouseDown));
+                this.TextBox.LostFocus -= this.TextBox_LostFocus;
+                this.TextBox.TextChanged -= this.TextBox_TextChanged;
+                this.TextBox.GotFocus -= this.TextBox_GotFocus;
+                this.TextBox.RemoveHandler(Mouse.PreviewMouseDownEvent, new MouseButtonEventHandler(this.TextBox_PreviewMouseDown));
             }
 
-            TextBox = GetTemplateChild(PART_TextBox) as TextBox;
+            this.TextBox = this.GetTemplateChild(PART_TextBox) as TextBox;
 
-            if (TextBox != null)
+            if (this.TextBox != null)
             {
-                TextBox.Text = Text;
-                TextBox.LostFocus += this.TextBox_LostFocus;
-                TextBox.TextChanged += this.TextBox_TextChanged;
-                TextBox.GotFocus += this.TextBox_GotFocus;
-                TextBox.AddHandler(Mouse.PreviewMouseDownEvent, new MouseButtonEventHandler(this.TextBox_PreviewMouseDown), true);
+                this.TextBox.Text = this.Text;
+                this.TextBox.LostFocus += this.TextBox_LostFocus;
+                this.TextBox.TextChanged += this.TextBox_TextChanged;
+                this.TextBox.GotFocus += this.TextBox_GotFocus;
+                this.TextBox.AddHandler(Mouse.PreviewMouseDownEvent, new MouseButtonEventHandler(this.TextBox_PreviewMouseDown), true);
             }
 
-            if (Spinner != null)
-                Spinner.Spin -= OnSpinnerSpin;
+            if (this.Spinner != null) this.Spinner.Spin -= this.OnSpinnerSpin;
 
-            Spinner = GetTemplateChild(PART_Spinner) as ASpinner;
+            this.Spinner = this.GetTemplateChild(PART_Spinner) as ASpinner;
 
-            if (Spinner != null)
-                Spinner.Spin += OnSpinnerSpin;
+            if (this.Spinner != null) this.Spinner.Spin += this.OnSpinnerSpin;
 
-            SetValidSpinDirection();
+            this.SetValidSpinDirection();
         }
 
         /// <summary>
@@ -530,6 +696,10 @@ namespace XControls.Primitives
         }
 
 
+        /// <summary>
+        /// Raises the <see cref="E:PreviewKeyDown" /> event.
+        /// </summary>
+        /// <param name="pEventArgs">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         protected override void OnPreviewKeyDown(KeyEventArgs pEventArgs)
         {
             if (this.HandlesSpecialKeys)
@@ -555,6 +725,13 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Determines whether this instance [can move focus] the specified p direction.
+        /// </summary>
+        /// <param name="pDirection">The p direction.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can move focus] the specified p direction; otherwise, <c>false</c>.
+        /// </returns>
         private bool CanMoveFocus(FocusNavigationDirection pDirection)
         {
             QueryMoveFocusEventArgs lEventArgs = new QueryMoveFocusEventArgs(pDirection, false);
@@ -562,6 +739,10 @@ namespace XControls.Primitives
             return lEventArgs.CanMoveFocus;
         }
 
+        /// <summary>
+        /// Moves the focus.
+        /// </summary>
+        /// <returns></returns>
         private bool MoveFocus()
         {
             if (this.CanMoveFocus(this.FocusNavigationDirection))
@@ -571,7 +752,7 @@ namespace XControls.Primitives
                 if (lResult == false)
                 {
                     // Using the default one.
-                    lResult = this.TextBox.MoveFocus(new TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
+                    lResult = this.TextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 }
 
                 return lResult;
@@ -581,6 +762,11 @@ namespace XControls.Primitives
         }
 
 
+        /// <summary>
+        /// Called when [text changed].
+        /// </summary>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
         protected override void OnTextChanged(string oldValue, string newValue)
         {
             base.OnTextChanged(oldValue, newValue);
@@ -589,28 +775,38 @@ namespace XControls.Primitives
             {
                 if (this.UpdateValueOnEnterKey == false)
                 {
-                    SyncTextAndValueProperties(true, Text);
+                    this.SyncTextAndValueProperties(true, this.Text);
                 }
 
                 if (this.IsKeyboardFocusWithin == false)
                 {
                     // Focus is not on the control. Text property has been set from the code behind and not using the GUI.
-                    SyncTextAndValueProperties(true, Text);
+                    this.SyncTextAndValueProperties(true, this.Text);
                 }
             }
         }
 
+        /// <summary>
+        /// Called when [culture information changed].
+        /// </summary>
+        /// <param name="oldValue">The old value.</param>
+        /// <param name="newValue">The new value.</param>
         protected override void OnCultureInfoChanged(CultureInfo oldValue, CultureInfo newValue)
         {
-            if (IsInitialized)
+            if (this.IsInitialized)
             {
-                SyncTextAndValueProperties(false, null);
+                this.SyncTextAndValueProperties(false, null);
             }
         }
 
+        /// <summary>
+        /// Called when [read only changed].
+        /// </summary>
+        /// <param name="oldValue">if set to <c>true</c> [old value].</param>
+        /// <param name="newValue">if set to <c>true</c> [new value].</param>
         protected override void OnReadOnlyChanged(bool oldValue, bool newValue)
         {
-            SetValidSpinDirection();
+            this.SetValidSpinDirection();
         }
 
         #endregion //Base Class Overrides
@@ -619,7 +815,7 @@ namespace XControls.Primitives
 
         private void TextBox_PreviewMouseDown(object sender, RoutedEventArgs e)
         {
-            if (this.MouseWheelActiveTrigger == Primitives.MouseWheelActiveTrigger.Focused)
+            if (this.MouseWheelActiveTrigger == MouseWheelActiveTrigger.Focused)
             {
                 //Capture the spinner when user clicks on the control.
                 if (Mouse.Captured != this.Spinner)
@@ -634,6 +830,11 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Handles the click outside of control with mouse capture.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void HandleClickOutsideOfControlWithMouseCapture(object sender, RoutedEventArgs e)
         {
             if (Mouse.Captured is ASpinner)
@@ -643,19 +844,24 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Called when [spinner spin].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="SpinEventArgs"/> instance containing the event data.</param>
         private void OnSpinnerSpin(object sender, SpinEventArgs e)
         {
-            if (AllowSpin && !IsReadOnly)
+            if (this.AllowSpin && !this.IsReadOnly)
             {
                 var activeTrigger = this.MouseWheelActiveTrigger;
                 bool spin = !e.UsingMouseWheel;
                 spin |= (activeTrigger == MouseWheelActiveTrigger.MouseOver);
-                spin |= (TextBox.IsFocused && (activeTrigger == MouseWheelActiveTrigger.FocusedMouseOver));
-                spin |= (TextBox.IsFocused && (activeTrigger == MouseWheelActiveTrigger.Focused) && (Mouse.Captured is ASpinner));
+                spin |= (this.TextBox.IsFocused && (activeTrigger == MouseWheelActiveTrigger.FocusedMouseOver));
+                spin |= (this.TextBox.IsFocused && (activeTrigger == MouseWheelActiveTrigger.Focused) && (Mouse.Captured is ASpinner));
 
                 if (spin)
                 {
-                    OnSpin(e);
+                    this.OnSpin(e);
                 }
             }
         }
@@ -670,15 +876,18 @@ namespace XControls.Primitives
 
         //Due to a bug in Visual Studio, you cannot create event handlers for generic T args in XAML, so I have to use object instead.
         public static readonly RoutedEvent ValueChangedEvent = EventManager.RegisterRoutedEvent("ValueChanged", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventHandler<object>), typeof(UpDownBase<T>));
+        /// <summary>
+        /// Occurs when [value changed].
+        /// </summary>
         public event RoutedPropertyChangedEventHandler<object> ValueChanged
         {
             add
             {
-                AddHandler(ValueChangedEvent, value);
+                this.AddHandler(ValueChangedEvent, value);
             }
             remove
             {
-                RemoveHandler(ValueChangedEvent, value);
+                this.RemoveHandler(ValueChangedEvent, value);
             }
         }
 
@@ -714,7 +923,7 @@ namespace XControls.Primitives
         {
             RoutedPropertyChangedEventArgs<object> args = new RoutedPropertyChangedEventArgs<object>(oldValue, newValue);
             args.RoutedEvent = ValueChangedEvent;
-            RaiseEvent(args);
+            this.RaiseEvent(args);
         }
 
         /// <summary>
@@ -730,9 +939,9 @@ namespace XControls.Primitives
             bool updateValueFromText =
               (this.ReadLocalValue(ValueProperty) == DependencyProperty.UnsetValue)
               && (BindingOperations.GetBinding(this, ValueProperty) == null)
-              && (object.Equals(this.Value, ValueProperty.DefaultMetadata.DefaultValue));
+              && (Equals(this.Value, ValueProperty.DefaultMetadata.DefaultValue));
 
-            this.SyncTextAndValueProperties(updateValueFromText, Text, !updateValueFromText);
+            this.SyncTextAndValueProperties(updateValueFromText, this.Text, !updateValueFromText);
         }
 
         /// <summary>
@@ -740,9 +949,9 @@ namespace XControls.Primitives
         /// </summary>
         internal void DoDecrement()
         {
-            if (Spinner == null || (Spinner.ValidSpinDirections & ValidSpinDirections.Decrease) == ValidSpinDirections.Decrease)
+            if (this.Spinner == null || (this.Spinner.ValidSpinDirections & ValidSpinDirections.Decrease) == ValidSpinDirections.Decrease)
             {
-                OnDecrement();
+                this.OnDecrement();
             }
         }
 
@@ -751,9 +960,9 @@ namespace XControls.Primitives
         /// </summary>
         internal void DoIncrement()
         {
-            if (Spinner == null || (Spinner.ValidSpinDirections & ValidSpinDirections.Increase) == ValidSpinDirections.Increase)
+            if (this.Spinner == null || (this.Spinner.ValidSpinDirections & ValidSpinDirections.Increase) == ValidSpinDirections.Increase)
             {
-                OnIncrement();
+                this.OnIncrement();
             }
         }
 
@@ -781,30 +990,42 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Tries the update text property.
+        /// </summary>
         private void TryUpdateTextProperty()
         {
             try
             {
                 if (this.TextBox != null)
                 {
-                    _isTextChangedFromUI = true;
-                    Text = this.TextBox.Text;
+                    this._isTextChangedFromUI = true;
+                    this.Text = this.TextBox.Text;
                 }
             }
             finally
             {
-                _isTextChangedFromUI = false;
+                this._isTextChangedFromUI = false;
             }
         }
 
+        /// <summary>
+        /// Handles the LostFocus event of the TextBox control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (this.UpdateValueOnEnterKey == false)
             {
-                CommitInput();
+                this.CommitInput();
             }
         }
 
+        /// <summary>
+        /// Appelé juste avant que l'événement <see cref="E:System.Windows.UIElement.IsKeyboardFocusWithinChanged" /> soit déclenché par cet élément.Implémentez cette méthode pour permettre la gestion de classes pour cet événement.
+        /// </summary>
+        /// <param name="e"><see cref="T:System.Windows.DependencyPropertyChangedEventArgs" /> qui contient les données d'événement.</param>
         protected override void OnIsKeyboardFocusWithinChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnIsKeyboardFocusWithinChanged(e);
@@ -816,12 +1037,16 @@ namespace XControls.Primitives
             }
         }
 
+        /// <summary>
+        /// Raises the input validation error.
+        /// </summary>
+        /// <param name="e">The e.</param>
         private void RaiseInputValidationError(Exception e)
         {
-            if (InputValidationError != null)
+            if (this.InputValidationError != null)
             {
                 InputValidationErrorEventArgs args = new InputValidationErrorEventArgs(e);
-                InputValidationError(this, args);
+                this.InputValidationError(this, args);
                 if (args.ThrowException)
                 {
                     throw args.Exception;
@@ -832,7 +1057,7 @@ namespace XControls.Primitives
         public virtual bool CommitInput()
         {
             //Nothing to commit if the text has not changed
-            string lText = ConvertValueToText();
+            string lText = this.ConvertValueToText();
 
             // Ensuring the good decimal separator is used.
             lText = lText.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator);
@@ -847,25 +1072,44 @@ namespace XControls.Primitives
                 this.TryUpdateTextProperty();
             }
 
-            return this.SyncTextAndValueProperties(true, Text);
+            return this.SyncTextAndValueProperties(true, this.Text);
         }
 
+        /// <summary>
+        /// Cancels the modification.
+        /// </summary>
+        /// <returns>
+        /// True if the cancelation succeed, false otherwise.
+        /// </returns>
         public virtual bool CancelInput()
         {
-            return this.SyncTextAndValueProperties(false, Text);
+            return this.SyncTextAndValueProperties(false, this.Text);
         }
 
+        /// <summary>
+        /// Synchronizes the text and value properties.
+        /// </summary>
+        /// <param name="updateValueFromText">if set to <c>true</c> [update value from text].</param>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
         protected bool SyncTextAndValueProperties(bool updateValueFromText, string text)
         {
             return this.SyncTextAndValueProperties(updateValueFromText, text, false);
         }
 
+        /// <summary>
+        /// Synchronizes the text and value properties.
+        /// </summary>
+        /// <param name="updateValueFromText">if set to <c>true</c> [update value from text].</param>
+        /// <param name="text">The text.</param>
+        /// <param name="forceTextUpdate">if set to <c>true</c> [force text update].</param>
+        /// <returns></returns>
         protected bool SyncTextAndValueProperties(bool updateValueFromText, string text, bool forceTextUpdate)
         {
-            if (_isSyncingTextAndValueProperties)
+            if (this._isSyncingTextAndValueProperties)
                 return true;
 
-            _isSyncingTextAndValueProperties = true;
+            this._isSyncingTextAndValueProperties = true;
             bool parsedTextIsValid = true;
             try
             {
@@ -881,7 +1125,7 @@ namespace XControls.Primitives
                         try
                         {
                             T newValue = this.ConvertTextToValue(text);
-                            if (!object.Equals(newValue, this.Value))
+                            if (!Equals(newValue, this.Value))
                             {
                                 this.SetValueInternal(newValue);
                             }
@@ -891,7 +1135,7 @@ namespace XControls.Primitives
                             parsedTextIsValid = false;
 
                             // From the UI, just allow any input.
-                            if (!_isTextChangedFromUI)
+                            if (!this._isTextChangedFromUI)
                             {
                                 // This call may throw an exception. 
                                 // See RaiseInputValidationError() implementation.
@@ -902,32 +1146,31 @@ namespace XControls.Primitives
                 }
 
                 // Do not touch the ongoing text input from user.
-                if (!_isTextChangedFromUI)
+                if (!this._isTextChangedFromUI)
                 {
                     // Don't replace the empty Text with the non-empty representation of DefaultValue.
-                    bool shouldKeepEmpty = !forceTextUpdate && string.IsNullOrEmpty(Text) && object.Equals(Value, DefaultValue) && !this.DisplayDefaultValueOnEmptyText;
+                    bool shouldKeepEmpty = !forceTextUpdate && string.IsNullOrEmpty(this.Text) && Equals(this.Value, this.DefaultValue) && !this.DisplayDefaultValueOnEmptyText;
                     if (!shouldKeepEmpty)
                     {
-                        string newText = ConvertValueToText();
-                        if (!object.Equals(this.Text, newText))
+                        string newText = this.ConvertValueToText();
+                        if (!Equals(this.Text, newText))
                         {
-                            Text = newText;
+                            this.Text = newText;
                         }
                     }
 
                     // Sync Text and textBox
-                    if (TextBox != null)
-                        TextBox.Text = Text;
+                    if (this.TextBox != null) this.TextBox.Text = this.Text;
                 }
 
-                if (_isTextChangedFromUI && !parsedTextIsValid)
+                if (this._isTextChangedFromUI && !parsedTextIsValid)
                 {
                     // Text input was made from the user and the text
                     // repesents an invalid value. Disable the spinner
                     // in this case.
-                    if (Spinner != null)
+                    if (this.Spinner != null)
                     {
-                        Spinner.ValidSpinDirections = ValidSpinDirections.None;
+                        this.Spinner.ValidSpinDirections = ValidSpinDirections.None;
                     }
                 }
                 else
@@ -937,16 +1180,23 @@ namespace XControls.Primitives
             }
             finally
             {
-                _isSyncingTextAndValueProperties = false;
+                this._isSyncingTextAndValueProperties = false;
             }
             return parsedTextIsValid;
         }
 
+        /// <summary>
+        /// Converts the value to text.
+        /// </summary>
+        /// <returns></returns>
         protected string ConvertValueToText()
         {
             return this.ConvertValueToText(this.Value);
         }
 
+        /// <summary>
+        /// Sets the valid spin direction.
+        /// </summary>
         protected void SetValidSpinDirection()
         {
             // Nothing to do as disabling an up down button will result in loosing the focus...

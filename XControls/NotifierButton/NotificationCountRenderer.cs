@@ -45,11 +45,11 @@ namespace XControls
         {
             get
             {
-                return (int)GetValue(NotificationCountProperty);
+                return (int) this.GetValue(NotificationCountProperty);
             }
             set
             {
-                SetValue(NotificationCountProperty, value);
+                this.SetValue(NotificationCountProperty, value);
             }
         }
 
@@ -60,11 +60,11 @@ namespace XControls
         {
             get
             {
-                return (bool)GetValue(BlinkProperty);
+                return (bool) this.GetValue(BlinkProperty);
             }
             set
             {
-                SetValue(BlinkProperty, value);
+                this.SetValue(BlinkProperty, value);
             }
         }
 
@@ -77,8 +77,8 @@ namespace XControls
         /// </summary>
         static NotificationCountRenderer()
         {
-            NotificationCountRenderer.DefaultStyleKeyProperty.OverrideMetadata(typeof(NotificationCountRenderer), new FrameworkPropertyMetadata(typeof(NotificationCountRenderer)));
-            NotificationScroller.DataContextProperty.OverrideMetadata(typeof(NotificationCountRenderer), new FrameworkPropertyMetadata(null, OnDataContextChanged));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NotificationCountRenderer), new FrameworkPropertyMetadata(typeof(NotificationCountRenderer)));
+            DataContextProperty.OverrideMetadata(typeof(NotificationCountRenderer), new FrameworkPropertyMetadata(null, OnDataContextChanged));
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace XControls
             {
                 Binding lNotificationCountBinding = new Binding("Notifications.Count");
                 lNotificationCountBinding.Source = lViewModel;
-                lControl.SetBinding(NotificationCountRenderer.NotificationCountProperty, lNotificationCountBinding);
+                lControl.SetBinding(NotificationCountProperty, lNotificationCountBinding);
 
                 lControl.UpdateRendering(lViewModel.Notifications.Count);
             }

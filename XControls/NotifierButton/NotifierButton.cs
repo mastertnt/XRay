@@ -54,11 +54,11 @@ namespace XControls
         {
             get
             {
-                return (int)GetValue(NotificationCountProperty);
+                return (int) this.GetValue(NotificationCountProperty);
             }
             set
             {
-                SetValue(NotificationCountProperty, value);
+                this.SetValue(NotificationCountProperty, value);
             }
         }
 
@@ -80,8 +80,8 @@ namespace XControls
         /// </summary>
         static NotifierButton()
         {
-            NotifierButton.DefaultStyleKeyProperty.OverrideMetadata(typeof(NotifierButton), new FrameworkPropertyMetadata(typeof(NotifierButton)));
-            NotifierButton.IsOpenProperty.OverrideMetadata(typeof(NotifierButton), new FrameworkPropertyMetadata(false, OnIsOpenChanged));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NotifierButton), new FrameworkPropertyMetadata(typeof(NotifierButton)));
+            IsOpenProperty.OverrideMetadata(typeof(NotifierButton), new FrameworkPropertyMetadata(false, OnIsOpenChanged));
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace XControls
 
             Binding lNotificationCountBinding = new Binding("Notifications.Count");
             lNotificationCountBinding.Source = this.ViewModel;
-            this.SetBinding(NotifierButton.NotificationCountProperty, lNotificationCountBinding);
+            this.SetBinding(NotificationCountProperty, lNotificationCountBinding);
 
             this.DropDownContent = lScroller;
 

@@ -26,7 +26,7 @@ namespace XControls
         /// </summary>
         static DoubleUpDown()
         {
-            DoubleUpDown.UpdateMetadata(typeof(DoubleUpDown), 1d, double.NegativeInfinity, double.PositiveInfinity);
+            UpdateMetadata(typeof(DoubleUpDown), 1d, double.NegativeInfinity, double.PositiveInfinity);
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace XControls
         {
             get 
             { 
-                return (AllowedSpecialValues)GetValue(AllowInputSpecialValuesProperty); 
+                return (AllowedSpecialValues) this.GetValue(AllowInputSpecialValuesProperty); 
             }
             set 
-            { 
-                SetValue(AllowInputSpecialValuesProperty, value); 
+            {
+                this.SetValue(AllowInputSpecialValuesProperty, value); 
             }
         }
 
@@ -143,9 +143,9 @@ namespace XControls
         /// <param name="pValue">The value to evaluate.</param>
         protected override void SetValidSpinDirection(double? pValue)
         {
-            if (pValue.HasValue && double.IsInfinity(pValue.Value) && (Spinner != null))
+            if (pValue.HasValue && double.IsInfinity(pValue.Value) && (this.Spinner != null))
             {
-                Spinner.ValidSpinDirections = ValidSpinDirections.None;
+                this.Spinner.ValidSpinDirections = ValidSpinDirections.None;
             }
             else
             {

@@ -15,7 +15,7 @@ namespace XControls
         /// </summary>
         static Int16UpDown()
         {
-            Int16UpDown.UpdateMetadata(typeof(Int16UpDown), 1, Int16.MinValue, Int16.MaxValue);
+            UpdateMetadata(typeof(Int16UpDown), 1, Int16.MinValue, Int16.MaxValue);
         }
 
         /// <summary>

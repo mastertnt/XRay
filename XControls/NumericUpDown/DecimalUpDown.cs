@@ -15,7 +15,7 @@ namespace XControls
         /// </summary>
         static DecimalUpDown()
         {
-            DecimalUpDown.UpdateMetadata(typeof(DecimalUpDown), 1m, decimal.MinValue, decimal.MaxValue);
+            UpdateMetadata(typeof(DecimalUpDown), 1m, decimal.MinValue, decimal.MaxValue);
         }
 
         /// <summary>

@@ -104,11 +104,11 @@ namespace XControls
         {
             get
             {
-                return (bool)GetValue(IsNullableValueProperty);
+                return (bool) this.GetValue(IsNullableValueProperty);
             }
             set
             {
-                SetValue(IsNullableValueProperty, value);
+                this.SetValue(IsNullableValueProperty, value);
             }
         }
 
@@ -122,11 +122,11 @@ namespace XControls
         {
             get
             {
-                return (T?)GetValue(InfiniteValueProperty);
+                return (T?) this.GetValue(InfiniteValueProperty);
             }
             set
             {
-                SetValue(InfiniteValueProperty, value);
+                this.SetValue(InfiniteValueProperty, value);
             }
         }
 
@@ -137,11 +137,11 @@ namespace XControls
         {
             get 
             { 
-                return (NumberStyles)GetValue(ParsingNumberStyleProperty); 
+                return (NumberStyles) this.GetValue(ParsingNumberStyleProperty); 
             }
             set 
-            { 
-                SetValue(ParsingNumberStyleProperty, value); 
+            {
+                this.SetValue(ParsingNumberStyleProperty, value); 
             }
         }
 
@@ -152,11 +152,11 @@ namespace XControls
         {
             get
             {
-                return (bool)GetValue(AutoReverseProperty);
+                return (bool) this.GetValue(AutoReverseProperty);
             }
             set
             {
-                SetValue(AutoReverseProperty, value);
+                this.SetValue(AutoReverseProperty, value);
             }
         }
 
@@ -167,11 +167,11 @@ namespace XControls
         {
             get
             {
-                return (bool)GetValue(AllowMinusZeroProperty);
+                return (bool) this.GetValue(AllowMinusZeroProperty);
             }
             set
             {
-                SetValue(AllowMinusZeroProperty, value);
+                this.SetValue(AllowMinusZeroProperty, value);
             }
         }
 
@@ -319,7 +319,7 @@ namespace XControls
 
         internal bool IsValid( T? value )
         {
-          return !IsLowerThan( value, Minimum ) && !IsGreaterThan( value, Maximum );
+          return !this.IsLowerThan( value, this.Minimum ) && !this.IsGreaterThan( value, this.Maximum );
         }
 
         /// <summary>
@@ -360,25 +360,25 @@ namespace XControls
 
         private T? CoerceValueMinMaxInfinite(T pValue)
         {
-            if (this.InfiniteValue != null && (this.IsGreaterThan(pValue, this.Maximum) || object.Equals(this.InfiniteValue.Value, pValue)))
+            if (this.InfiniteValue != null && (this.IsGreaterThan(pValue, this.Maximum) || Equals(this.InfiniteValue.Value, pValue)))
             {
                 return this.InfiniteValue;
             }
 
-            if (IsLowerThan(pValue, Minimum))
-                return Minimum;
-            else if (IsGreaterThan(pValue, Maximum))
-                return Maximum;
+            if (this.IsLowerThan(pValue, this.Minimum))
+                return this.Minimum;
+            else if (this.IsGreaterThan(pValue, this.Maximum))
+                return this.Maximum;
             else
                 return pValue;
         }
 
         private T? CoerceValueMinMax( T value )
         {
-          if( IsLowerThan( value, Minimum ) )
-            return Minimum;
-          else if( IsGreaterThan( value, Maximum ) )
-            return Maximum;
+          if(this.IsLowerThan( value, this.Minimum ) )
+            return this.Minimum;
+          else if(this.IsGreaterThan( value, this.Maximum ) )
+            return this.Maximum;
           else
             return value;
         }
@@ -528,7 +528,7 @@ namespace XControls
             // Since the conversion from Value to text using a FormartString may not be parsable,
             // we verify that the already existing text is not the exact same value.
             string lCurrentValueText = this.ConvertValueToText();
-            if (object.Equals(lCurrentValueText, pText))
+            if (Equals(lCurrentValueText, pText))
             {
                 return this.Value;
             }
@@ -600,12 +600,12 @@ namespace XControls
                 return string.Empty;
             }
 
-            if (this.InfiniteValue.HasValue && object.Equals(pValue, this.InfiniteValue))
+            if (this.InfiniteValue.HasValue && Equals(pValue, this.InfiniteValue))
             {
                 return Constants.INFINITY_SYMBOL.ToString();
             }
 
-            string lNewText = pValue.Value.ToString("0.###############", CultureInfo);
+            string lNewText = pValue.Value.ToString("0.###############", this.CultureInfo);
 
             // Handling the case a negative sign has been specified in the text in front of a zero value (default(T) returns the 0 value strongly typed).
             if (this.AllowMinusZero && this.Text != null && this.Text != Constants.INFINITY_SYMBOL.ToString())
@@ -634,7 +634,7 @@ namespace XControls
                 return string.Empty;
             }
 
-            if (this.InfiniteValue.HasValue && object.Equals(pValue, this.InfiniteValue))
+            if (this.InfiniteValue.HasValue && Equals(pValue, this.InfiniteValue))
             {
                 return Constants.INFINITY_SYMBOL.ToString();
             }
@@ -674,17 +674,16 @@ namespace XControls
           ValidSpinDirections validDirections = ValidSpinDirections.None;
 
           // Null increment always prevents spin.
-          if( (this.Increment != null) && !IsReadOnly )
+          if( (this.Increment != null) && !this.IsReadOnly )
           {
-              if (IsLowerThan(pValue, Maximum) || !pValue.HasValue || !Maximum.HasValue)
+              if (this.IsLowerThan(pValue, this.Maximum) || !pValue.HasValue || !this.Maximum.HasValue)
               validDirections = validDirections | ValidSpinDirections.Increase;
 
-              if (IsGreaterThan(pValue, Minimum) || !pValue.HasValue || !Minimum.HasValue)
+              if (this.IsGreaterThan(pValue, this.Minimum) || !pValue.HasValue || !this.Minimum.HasValue)
               validDirections = validDirections | ValidSpinDirections.Decrease;
           }
 
-          if( Spinner != null )
-            Spinner.ValidSpinDirections = validDirections;
+          if(this.Spinner != null ) this.Spinner.ValidSpinDirections = validDirections;
         }
 
         /// <summary>
@@ -778,7 +777,7 @@ namespace XControls
 
         private T IncrementValue(T pValue, T pIncrement)
         {
-            if (this.InfiniteValue != null && (object.Equals(pValue, this.Maximum) || object.Equals(pValue, this.InfiniteValue)))
+            if (this.InfiniteValue != null && (Equals(pValue, this.Maximum) || Equals(pValue, this.InfiniteValue)))
             {
                 return this.InfiniteValue.Value;
             }
@@ -790,7 +789,7 @@ namespace XControls
 
         private T DecrementValue(T pValue, T pIncrement)
         {
-            if (this.InfiniteValue != null && object.Equals(pValue, this.InfiniteValue))
+            if (this.InfiniteValue != null && Equals(pValue, this.InfiniteValue))
             {
                 return this.Maximum.Value;
             }

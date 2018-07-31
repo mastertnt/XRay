@@ -15,7 +15,7 @@ namespace XControls
         /// </summary>
         static ByteUpDown()
         {
-            ByteUpDown.UpdateMetadata(typeof(ByteUpDown), (byte)1, byte.MinValue, byte.MaxValue);
+            UpdateMetadata(typeof(ByteUpDown), (byte)1, byte.MinValue, byte.MaxValue);
         }
 
         /// <summary>
