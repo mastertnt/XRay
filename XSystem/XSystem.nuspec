@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>XSystem</id>
+    <version>1.0.0</version>
+    <authors>mrHide</authors>
+    <owners>mrHide</owners>
+    <licenseUrl>https://github.com/mastertnt/XRay/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/mastertnt/XRay</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Some useful extensions on system types.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>extensions C#</tags>
+  </metadata>
+  	<files>
+	<file src="..\Build\Release_x86\XSystem.dll" target="lib\net45" />
+  </files>
+</package>

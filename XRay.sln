@@ -38,8 +38,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XCommand.TestApp", "XComman
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMetadata", "XMetadata\XMetadata.csproj", "{B73034A9-2EC7-43B9-80D3-2FFB7CB3EE19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XApplicationCore", "XApplicationCore\XApplicationCore.csproj", "{7BF42807-0159-401A-B077-52B42A81F8CC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -160,14 +158,6 @@ Global
 		{B73034A9-2EC7-43B9-80D3-2FFB7CB3EE19}.Release|x64.Build.0 = Release|x64
 		{B73034A9-2EC7-43B9-80D3-2FFB7CB3EE19}.Release|x86.ActiveCfg = Release|x86
 		{B73034A9-2EC7-43B9-80D3-2FFB7CB3EE19}.Release|x86.Build.0 = Release|x86
-		{7BF42807-0159-401A-B077-52B42A81F8CC}.Debug|x64.ActiveCfg = Debug|x64
-		{7BF42807-0159-401A-B077-52B42A81F8CC}.Debug|x64.Build.0 = Debug|x64
-		{7BF42807-0159-401A-B077-52B42A81F8CC}.Debug|x86.ActiveCfg = Debug|x86
-		{7BF42807-0159-401A-B077-52B42A81F8CC}.Debug|x86.Build.0 = Debug|x86
-		{7BF42807-0159-401A-B077-52B42A81F8CC}.Release|x64.ActiveCfg = Release|x64
-		{7BF42807-0159-401A-B077-52B42A81F8CC}.Release|x64.Build.0 = Release|x64
-		{7BF42807-0159-401A-B077-52B42A81F8CC}.Release|x86.ActiveCfg = Release|x86
-		{7BF42807-0159-401A-B077-52B42A81F8CC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
