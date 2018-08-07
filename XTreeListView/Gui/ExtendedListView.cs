@@ -46,6 +46,11 @@ namespace XTreeListView.Gui
         ///// </summary>
         private ExpandBehavior mExpandBehavior;
 
+        /// <summary>
+        /// Stores the resoures of the control.
+        /// </summary>
+        private Resources mResources;
+
         #endregion // Fields.
 
         #region Constructors
@@ -65,6 +70,9 @@ namespace XTreeListView.Gui
             this.mSelectionBehavior = new SelectionBehavior(this);
             this.mExpandBehavior = new ExpandBehavior(this);
             this.mColumnResizeBehavior = new ColumnResizeBehavior(this);
+
+            this.mResources = new Resources();
+            this.ExtendedGridView = new ExtendedGridView(this.mResources);
         }
 
         #endregion // Constructors.
@@ -138,6 +146,22 @@ namespace XTreeListView.Gui
             set
             {
                 SetValue(ViewModelProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the view as extended grid view.
+        /// </summary>
+        public ExtendedGridView ExtendedGridView
+        {
+            get
+            {
+                return this.View as ExtendedGridView;
+            }
+
+            private set
+            {
+                this.View = value;
             }
         }
 

@@ -46,12 +46,7 @@ namespace XTreeListView.Gui
         /// Identifies the FirstLevelItemsAsGroup dependency property.
         /// </summary>
         public static readonly DependencyProperty FirstLevelItemsAsGroupProperty = DependencyProperty.Register("FirstLevelItemsAsGroup", typeof(bool), typeof(TreeListView), new FrameworkPropertyMetadata(false));
-
-        /// <summary>
-        /// Identifies the MultiColumnsItemContainerDefaultStyleKey dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MultiColumnsItemContainerDefaultStyleKeyProperty = DependencyProperty.Register("MultiColumnsItemContainerDefaultStyleKey", typeof(object), typeof(TreeListView), new FrameworkPropertyMetadata(null));
-        
+ 
         #endregion // Dependencies.
 
         #region Fields
@@ -253,21 +248,6 @@ namespace XTreeListView.Gui
         }
 
         /// <summary>
-        /// Gets or sets the key of the style to use by the container in multi column mode.
-        /// </summary>
-        public object MultiColumnsItemContainerDefaultStyleKey
-        {
-            get
-            {
-                return GetValue(MultiColumnsItemContainerDefaultStyleKeyProperty);
-            }
-            set
-            {
-                SetValue(MultiColumnsItemContainerDefaultStyleKeyProperty, value);
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the flag indicating the item selection mode.
         /// </summary>
         public TreeSelectionOptions SelectionOption
@@ -374,7 +354,8 @@ namespace XTreeListView.Gui
                 throw new Exception("TreeListView control template not correctly defined.");
             }
 
-            IsParentTreeMultiColumnsBehavior.SetIsParentTreeMultiColumns(this, false);
+            // Loading the grid view columns.
+            this.LoadGridViewColumns();
 
             // Loading the view model.
             this.LoadViewModel();
@@ -388,31 +369,33 @@ namespace XTreeListView.Gui
             this.InnerListView.ItemViewModelsAdded += this.OnInnerListViewItemViewModelsAdded;
             this.InnerListView.ItemViewModelsRemoved += this.OnInnerListViewItemViewModelsRemoved;
             this.InnerListView.ItemViewModelDoubleClicked += this.OnInnerListViewItemViewModelDoubleClicked;
+        }
 
-
+        /// <summary>
+        /// Loads the grid view columns.
+        /// </summary>
+        private void LoadGridViewColumns()
+        {
             // Setting the columns.
             TreeListViewColumnCollection lCollection = TreeListView.GetColumnsCollection(this) as TreeListViewColumnCollection;
             if (lCollection != null && lCollection.Count > 0)
             {
-                // Creating the grid.
-                ExtendedGridView lGridView = new ExtendedGridView(this.mResources, this.MultiColumnsItemContainerDefaultStyleKey);
-
                 foreach (TreeListViewColumn lColumn in lCollection)
                 {
                     if (lCollection[0] == lColumn)
                     {
-                        lGridView.SetFirstColumn(lColumn);
+                        this.InnerListView.ExtendedGridView.SetFirstColumn(lColumn);
                     }
                     else
                     {
-                        lGridView.AddColumn(lColumn);
+                        this.InnerListView.ExtendedGridView.AddColumn(lColumn);
                     }
                 }
-
-                // Setting the grid view to the inner list.
-                this.InnerListView.View = lGridView;
-
-                IsParentTreeMultiColumnsBehavior.SetIsParentTreeMultiColumns(this, true);
+            }
+            else
+            {
+                // Adding a default column to mimic a no column treelistview.
+                this.InnerListView.ExtendedGridView.SetFirstColumn(new TreeListViewColumn() { DataMemberBindingPath = TreeListView.cDefaultDisplayedPropertyName, Stretch = true });
             }
         }
 

@@ -2,14 +2,14 @@
 <package>
   <metadata>
     <id>XTreeListView</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>mrHide</authors>
     <owners>mrHide</owners>
     <licenseUrl>https://github.com/mastertnt/XRay/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/mastertnt/XRay</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A treelistview WPF.</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>Fix an issue with multi-column.</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>treelistview WPF</tags>
   </metadata>

@@ -32,11 +32,6 @@ namespace XTreeListView.Gui
         /// </summary>
         private GridViewColumnCollection mGridViewColumnBackup;
 
-        /// <summary>
-        /// Stores the default style key of the item container when displayed in this grid.
-        /// </summary>
-        private object mItemContainerDefaultStyleKey;
-
         #endregion // Fields.
 
         #region Constructors
@@ -45,13 +40,11 @@ namespace XTreeListView.Gui
         /// Initializes a new instance of the <see cref="ExtendedGridView"/> class.
         /// </summary>
         /// <param name="pResources">The grid view resources.</param>
-        /// <param name="pItemContainerDefaultStyleKey">The default style key of the item container when displayed in this grid.</param>
-        public ExtendedGridView(Resources pResources, object pItemContainerDefaultStyleKey)
+        public ExtendedGridView(Resources pResources)
         {
             this.mResources = new Resources();
             this.ShowColumnHeaders = false;
             this.mGridViewColumnBackup = new GridViewColumnCollection();
-            this.mItemContainerDefaultStyleKey = pItemContainerDefaultStyleKey;
 
             this.Columns.CollectionChanged += this.OnGridViewColumnsCollectionChanged;
         }
@@ -59,17 +52,6 @@ namespace XTreeListView.Gui
         #endregion // Constructors.
 
         #region Properties
-
-        /// <summary>
-        /// Gets the item container default style.
-        /// </summary>
-        protected override object ItemContainerDefaultStyleKey 
-        { 
-            get
-            {
-                return this.mItemContainerDefaultStyleKey;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the flag indicating if the column headers are visible or not.
@@ -109,20 +91,6 @@ namespace XTreeListView.Gui
 
             ExtendedGridViewColumn lColumn = ExtendedGridViewColumn.CreateFrom(pColumn, 0);
 
-            if (this.Columns.Any())
-            {
-                this.Columns.RemoveAt(0);
-            }
-
-            if (this.Columns.Any())
-            {
-                this.Columns.Insert(0, lColumn);
-            }
-            else
-            {
-                this.Columns.Add(lColumn);
-            }
-
             if (this.mGridViewColumnBackup.Any())
             {
                 this.mGridViewColumnBackup.RemoveAt(0);
@@ -130,11 +98,11 @@ namespace XTreeListView.Gui
 
             if (this.mGridViewColumnBackup.Any())
             {
-                this.mGridViewColumnBackup.Insert(0, lColumn.Clone());
+                this.mGridViewColumnBackup.Insert(0, lColumn);
             }
             else
             {
-                this.mGridViewColumnBackup.Add(lColumn.Clone());
+                this.mGridViewColumnBackup.Add(lColumn);
             }
 
             this.UpdateColumns();
@@ -151,9 +119,9 @@ namespace XTreeListView.Gui
             this.Columns.CollectionChanged -= this.OnGridViewColumnsCollectionChanged;
 
             ExtendedGridViewColumn lColumn = ExtendedGridViewColumn.CreateFrom(pColumn, this.Columns.Count);
-            
-            this.Columns.Add(lColumn);
-            this.mGridViewColumnBackup.Add(lColumn.Clone());
+            this.mGridViewColumnBackup.Add(lColumn);
+
+            this.UpdateColumns();
 
             this.UpdateColumnHeaderVisibility();
 
@@ -165,11 +133,14 @@ namespace XTreeListView.Gui
         /// </summary>
         private void UpdateColumns()
         {
-            for (int lIter = 0; lIter < this.Columns.Count; lIter++)
+            this.Columns.Clear();
+
+            for (int lIter = 0; lIter < this.mGridViewColumnBackup.Count; lIter++)
             {
+                ExtendedGridViewColumn lColumn = (this.mGridViewColumnBackup[lIter] as ExtendedGridViewColumn).Clone();
+
                 // Indenting the data template used in the first column.
-                if
-                    (lIter == 0)
+                if (lIter == 0)
                 {
                     // Creating the indentation of the data template.
                     Binding lTemplateMarginBinding = new Binding("DecoratorWidth");
@@ -184,43 +155,42 @@ namespace XTreeListView.Gui
                     lCellFactory.SetBinding(ContentControl.ContentProperty, new Binding() { BindsDirectlyToSource = true });
 
                     // Trying to get the data template already defined in the first column.
-                    if
-                        (this.Columns[0].CellTemplate != null)
+                    if (lColumn.CellTemplate != null)
                     {
-                        lCellFactory.SetValue(ContentControl.ContentTemplateProperty, this.Columns[0].CellTemplate);
+                        lCellFactory.SetValue(ContentControl.ContentTemplateProperty, this.mGridViewColumnBackup[0].CellTemplate);
                     }
 
                     // Trying to get the data template selector if any.
-                    if
-                        (this.Columns[0].CellTemplateSelector != null)
+                    if (lColumn.CellTemplateSelector != null)
                     {
-                        lCellFactory.SetValue(ContentControl.ContentTemplateSelectorProperty, this.Columns[0].CellTemplateSelector);
+                        lCellFactory.SetValue(ContentControl.ContentTemplateSelectorProperty, this.mGridViewColumnBackup[0].CellTemplateSelector);
 
                         // Removing the template selector from the cell as it is now applied in the ContentControl.
-                        this.Columns[0].CellTemplateSelector = null;
+                        lColumn.CellTemplateSelector = null;
                     }
 
                     // Trying to get the display path.
-                    if
-                        (this.Columns[0].DisplayMemberBinding != null)
+                    if (lColumn.DisplayMemberBinding != null)
                     {
-                        lCellFactory.SetValue(ContentControl.ContentProperty, this.Columns[0].DisplayMemberBinding);
+                        lCellFactory.SetValue(ContentControl.ContentProperty, this.mGridViewColumnBackup[0].DisplayMemberBinding);
 
                         // Removing the template selector from the cell as it is now applied in the ContentControl.
-                        this.Columns[0].DisplayMemberBinding = null;
+                        lColumn.DisplayMemberBinding = null;
                     }
 
                     // Updating the cell template.
                     lCellDataTemplate.VisualTree = lCellFactory;
-                    this.Columns[0].CellTemplate = lCellDataTemplate;
+                    lColumn.CellTemplate = lCellDataTemplate;
                 }
                 else
                 {
                     // Other columns have classic configuration.
-                    this.Columns[lIter].CellTemplate = this.mGridViewColumnBackup[lIter].CellTemplate;
-                    this.Columns[lIter].CellTemplateSelector = this.mGridViewColumnBackup[lIter].CellTemplateSelector;
-                    this.Columns[lIter].DisplayMemberBinding = this.mGridViewColumnBackup[lIter].DisplayMemberBinding;
+                    lColumn.CellTemplate = this.mGridViewColumnBackup[lIter].CellTemplate;
+                    lColumn.CellTemplateSelector = this.mGridViewColumnBackup[lIter].CellTemplateSelector;
+                    lColumn.DisplayMemberBinding = this.mGridViewColumnBackup[lIter].DisplayMemberBinding;
                 }
+
+                this.Columns.Add(lColumn);
             }
         }
 
