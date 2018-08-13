@@ -10,6 +10,7 @@ using System.Windows.Media;
 using XTreeListView.Converters;
 using XTreeListView.ViewModel;
 using XTreeListView.Core.Extensions;
+using XTreeListView.Behaviors;
 
 namespace XTreeListView.Gui
 {
@@ -83,17 +84,17 @@ namespace XTreeListView.Gui
 
         #endregion // Fields.
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
         /// Initializes the <see cref="TreeListViewItem"/> class.
         /// </summary>
         static TreeListViewItem()
         {
-            TreeListViewItem.DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeListViewItem), new FrameworkPropertyMetadata(typeof(TreeListViewItem), null, OnCoerceStyle));
+            TreeListViewItem.DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeListViewItem), new FrameworkPropertyMetadata(typeof(TreeListViewItem), null, OnCoerceDefaultStyleKey));
         }
         
-        #endregion // Constructor.
+        #endregion // Constructors.
 
         #region Properties
 
@@ -264,8 +265,7 @@ namespace XTreeListView.Gui
 
             // Register on the column changed event to update the decorator clip region.
             GridView lView = this.ParentTreeListView.InnerListView.View as GridView;
-            if
-                (lView != null)
+            if (lView != null)
             {
                 lView.Columns.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(this.OnGridViewColumnsCollectionChanged);
             }
@@ -327,6 +327,12 @@ namespace XTreeListView.Gui
             Binding lCheckBoxIsEnabledBinding = new Binding("IsCheckingEnabled");
             lCheckBoxIsEnabledBinding.Source = this.mViewModel;
             this.mCheckBox.SetBinding(CheckBox.IsEnabledProperty, lCheckBoxIsEnabledBinding);
+
+            // Binding the multicolumn state.
+            Binding lIsParentMultiColumnBinding = new Binding("Columns.Count");
+            lIsParentMultiColumnBinding.Source = this.ParentTreeListView;
+            lIsParentMultiColumnBinding.Converter = new IntegerToBoolConverter();
+            this.SetBinding(IsParentTreeMultiColumnsBehavior.IsParentTreeMultiColumnsProperty, lIsParentMultiColumnBinding);
         }
 
         /// <summary>
@@ -336,17 +342,19 @@ namespace XTreeListView.Gui
         /// <param name="pEventArgs">The event arguments.</param>
         private void OnGridViewColumnsCollectionChanged(object pSender, NotifyCollectionChangedEventArgs pEventArgs)
         {
-            switch
-                (pEventArgs.Action)
+            switch (pEventArgs.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    throw new NotImplementedException();
+                    // Nothing to do.
+                    break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    throw new NotImplementedException();
+                    // Nothing to do.
+                    break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    throw new NotImplementedException();
+                    // Nothing to do.
+                    break;
 
                 case NotifyCollectionChangedAction.Move:
                     {
@@ -357,7 +365,8 @@ namespace XTreeListView.Gui
                     break;
 
                 case NotifyCollectionChangedAction.Reset:
-                    throw new NotImplementedException();
+                    // Nothing to do.
+                    break;
             }
         }
 
@@ -539,7 +548,7 @@ namespace XTreeListView.Gui
         /// <param name="pSender">The modified tree list view item.</param>
         /// <param name="pValue">The value to coerce.</param>
         /// <returns>The coerced value.</returns>
-        private static object OnCoerceStyle(DependencyObject pSender, object pValue)
+        private static object OnCoerceDefaultStyleKey(DependencyObject pSender, object pValue)
         {
             TreeListViewItem lItem = pSender as TreeListViewItem;
             if (lItem != null && pValue == GridView.GridViewItemContainerStyleKey)

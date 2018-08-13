@@ -33,9 +33,9 @@ namespace XTreeListView.Behaviors
         /// </summary>
         /// <param name="pElement">The framework element.</param>
         /// <returns>The flag.</returns>
-        public static TreeListViewColumnCollection GetIsParentTreeMultiColumns(UIElement pElement)
+        public static bool GetIsParentTreeMultiColumns(UIElement pElement)
         {
-            return (TreeListViewColumnCollection)pElement.GetValue(IsParentTreeMultiColumnsProperty);
+            return (bool)pElement.GetValue(IsParentTreeMultiColumnsProperty);
         }
     }
 }

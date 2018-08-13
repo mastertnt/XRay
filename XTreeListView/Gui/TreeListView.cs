@@ -33,11 +33,6 @@ namespace XTreeListView.Gui
         public static readonly DependencyProperty DefaultMessageProperty = DependencyProperty.Register("DefaultMessage", typeof(string), typeof(TreeListView), new FrameworkPropertyMetadata("No message defined."));
 
         /// <summary>
-        /// Identifies the ColumnsCollection attached dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ColumnsCollectionProperty = DependencyProperty.RegisterAttached("ColumnsCollection", typeof(TreeListViewColumnCollection), typeof(TreeListView), new FrameworkPropertyMetadata(new TreeListViewColumnCollection()));
-
-        /// <summary>
         /// Identifies the GroupItemDataTemplate dependency property.
         /// </summary>
         public static readonly DependencyProperty GroupItemDataTemplateProperty = DependencyProperty.Register("GroupItemDataTemplate", typeof(System.Windows.DataTemplate), typeof(TreeListView), new FrameworkPropertyMetadata(null));
@@ -46,7 +41,17 @@ namespace XTreeListView.Gui
         /// Identifies the FirstLevelItemsAsGroup dependency property.
         /// </summary>
         public static readonly DependencyProperty FirstLevelItemsAsGroupProperty = DependencyProperty.Register("FirstLevelItemsAsGroup", typeof(bool), typeof(TreeListView), new FrameworkPropertyMetadata(false));
- 
+
+        /// <summary>
+        /// Identifies the Columns attached dependency property key.
+        /// </summary>
+        private static readonly DependencyPropertyKey ColumnsPropertyKey = DependencyProperty.RegisterAttachedReadOnly("Columns", typeof(TreeListViewColumnCollection), typeof(TreeListView), new FrameworkPropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the Columns attached dependency property.
+        /// </summary>
+        private static readonly DependencyProperty ColumnsProperty = ColumnsPropertyKey.DependencyProperty;
+
         #endregion // Dependencies.
 
         #region Fields
@@ -106,6 +111,7 @@ namespace XTreeListView.Gui
             this.SelectionOption = TreeSelectionOptions.SingleSelection;
             this.mResources = new Resources();
             this.mContextMenuName = string.Empty;
+            this.Columns = new TreeListViewColumnCollection(this);
 
             // Applying the default group data template.
             this.GroupItemDataTemplate = this.mResources["GroupItemDefaultDataTemplate"] as System.Windows.DataTemplate;
@@ -332,6 +338,22 @@ namespace XTreeListView.Gui
             private set; 
         }
 
+        /// <summary>
+        /// Gets the columns of the tree list view.
+        /// </summary>
+        public TreeListViewColumnCollection Columns
+        {
+            get
+            {
+                return TreeListView.GetColumns(this);
+            }
+
+            private set
+            {
+                this.SetValue(ColumnsPropertyKey, value);
+            }
+        }
+
         #endregion // Properties.
 
         #region Methods
@@ -354,8 +376,8 @@ namespace XTreeListView.Gui
                 throw new Exception("TreeListView control template not correctly defined.");
             }
 
-            // Loading the grid view columns.
-            this.LoadGridViewColumns();
+            // Notifying the columns collection the template is applied.
+            this.Columns.OnParentTreeListViewTemplateApplied();
 
             // Loading the view model.
             this.LoadViewModel();
@@ -377,46 +399,36 @@ namespace XTreeListView.Gui
         private void LoadGridViewColumns()
         {
             // Setting the columns.
-            TreeListViewColumnCollection lCollection = TreeListView.GetColumnsCollection(this) as TreeListViewColumnCollection;
-            if (lCollection != null && lCollection.Count > 0)
-            {
-                foreach (TreeListViewColumn lColumn in lCollection)
-                {
-                    if (lCollection[0] == lColumn)
-                    {
-                        this.InnerListView.ExtendedGridView.SetFirstColumn(lColumn);
-                    }
-                    else
-                    {
-                        this.InnerListView.ExtendedGridView.AddColumn(lColumn);
-                    }
-                }
-            }
-            else
-            {
-                // Adding a default column to mimic a no column treelistview.
-                this.InnerListView.ExtendedGridView.SetFirstColumn(new TreeListViewColumn() { DataMemberBindingPath = TreeListView.cDefaultDisplayedPropertyName, Stretch = true });
-            }
-        }
-
-        /// <summary>
-        /// Sets the columns collection.
-        /// </summary>
-        /// <param name="pElement">The modified element.</param>
-        /// <param name="pValue">The new column collection.</param>
-        public static void SetColumnsCollection(UIElement pElement, TreeListViewColumnCollection pValue)
-        {
-            pElement.SetValue(ColumnsCollectionProperty, pValue);
+            //TreeListViewColumnCollection lCollection = TreeListView.GetColumnsCollection(this) as TreeListViewColumnCollection;
+            //if (this.Columns.Count > 0)
+            //{
+            //    foreach (TreeListViewColumn lColumn in this.Columns)
+            //    {
+            //        if (this.Columns[0] == lColumn)
+            //        {
+            //            this.InnerListView.ExtendedGridView.SetFirstColumn(lColumn);
+            //        }
+            //        else
+            //        {
+            //            this.InnerListView.ExtendedGridView.AddColumn(lColumn);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    // Adding a default column to mimic a no column treelistview.
+            //    this.InnerListView.ExtendedGridView.SetFirstColumn(new TreeListViewColumn() { DataMemberBindingPath = TreeListView.cDefaultDisplayedPropertyName, Stretch = true });
+            //}
         }
 
         /// <summary>
         /// Returns the column collection.
         /// </summary>
-        /// <param name="pElement">The framework element.</param>
+        /// <param name="pControl">The tree control.</param>
         /// <returns>The column collection.</returns>
-        public static TreeListViewColumnCollection GetColumnsCollection(UIElement pElement)
+        public static TreeListViewColumnCollection GetColumns(TreeListView pControl)
         {
-            return (TreeListViewColumnCollection)pElement.GetValue(ColumnsCollectionProperty);
+            return (TreeListViewColumnCollection)pControl.GetValue(ColumnsProperty);
         }
 
         /// <summary>

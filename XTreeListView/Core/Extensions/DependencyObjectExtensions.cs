@@ -17,15 +17,15 @@ namespace XTreeListView.Core.Extensions
         /// <typeparam name="TAncestor">The type of the object requested.</typeparam>
         /// <param name="pDependencyObject">The dependency object.</param>
         /// <returns>The object retrieved if any, NULL otherwise.</returns>
-        public static TAncestor FindVisualParent<TAncestor>(this DependencyObject pDependencyObject) where TAncestor : class
+        public static TAncestor FindVisualParent<TAncestor>(this DependencyObject pDependencyObject) 
+            where TAncestor : class
         {
             DependencyObject lTarget = pDependencyObject;
             do
             {
                 lTarget = VisualTreeHelper.GetParent(lTarget);
             }
-            while
-                (lTarget != null && !(lTarget is TAncestor));
+            while (lTarget != null && (lTarget is TAncestor) == false);
 
             return lTarget as TAncestor;
         }

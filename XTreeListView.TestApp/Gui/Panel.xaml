@@ -13,13 +13,11 @@
             </TabItem>
             <TabItem Header="Multi Column">
                 <xtlv:TreeListView x:Name="mMultiContainer" x:FieldModifier="private" DisplayName="MultiTree" Margin="3">
-                    <xtlv:TreeListView.ColumnsCollection>
-                        <xtlv:TreeListViewColumnCollection>
-                            <xtlv:TreeListViewColumn Header="Name" DataMemberBindingPath="Name" />
-                            <xtlv:TreeListViewColumn Header="Kind" DataMemberBindingPath="Kind" />
-                            <xtlv:TreeListViewColumn Header="Data" DataMemberBindingPath="Data" />
-                        </xtlv:TreeListViewColumnCollection>
-                    </xtlv:TreeListView.ColumnsCollection>
+                    <xtlv:TreeListView.Columns>
+                        <xtlv:TreeListViewColumn Header="Name" DataMemberBindingPath="Name" />
+                        <xtlv:TreeListViewColumn Header="Kind" DataMemberBindingPath="Kind" />
+                        <xtlv:TreeListViewColumn Header="Data" DataMemberBindingPath="Data" />
+                    </xtlv:TreeListView.Columns>
                 </xtlv:TreeListView>
             </TabItem>
         </TabControl>            

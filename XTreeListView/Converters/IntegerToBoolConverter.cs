@@ -1,29 +1,21 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Data;
 
 namespace XTreeListView.Converters
 {
     /// <summary>
-    /// This lConverter allows to convert from Object nullness to Boolean type.
+    /// This converter allows to convert from integer to boolean type.
     /// </summary>
-    [ValueConversion(typeof(Boolean), typeof(Object))]
-    public class NullToBoolConverter : IValueConverter
+    [ValueConversion(typeof(int), typeof(bool))]
+    public class IntegerToBoolConverter : IValueConverter
     {
         #region Properties
 
         /// <summary>
-        /// Gets or set the visibility corresponding to "True".
+        /// Gets or sets the boolean equals to 0.
         /// </summary>
-        public Boolean NullBoolean
-        { 
-            get; 
-            set; 
-        }
-
-        /// <summary>
-        /// Gets or set the visibility corresponding to "False".
-        /// </summary>
-        public Boolean NotNullBoolean
+        public bool ZeroValue 
         { 
             get; 
             set; 
@@ -34,16 +26,15 @@ namespace XTreeListView.Converters
         #region Methods
 
         /// <summary>
-        /// Default constructor.
+        /// Initializes a new instance of the <see cref="IntegerToBoolConverter"/> class.
         /// </summary>
-        public NullToBoolConverter()
+        public IntegerToBoolConverter()
         {
-            this.NotNullBoolean = false;
-            this.NullBoolean = true;
+            this.ZeroValue = false;
         }
 
         /// <summary>
-        /// Convert from Visibility to Bool.
+        /// Convert from boolean to integer.
         /// </summary>
         /// <param name="pValue">The value to convert.</param>
         /// <param name="pTargetType">The target type.</param>
@@ -52,11 +43,11 @@ namespace XTreeListView.Converters
         /// <returns>The value converted.</returns>
         public Object ConvertBack(Object pValue, Type pTargetType, Object pExtraParameter, System.Globalization.CultureInfo pCulture)
         {
-            return null;
+            return Binding.DoNothing;
         }
 
         /// <summary>
-        /// Convert from Bool to Visibility.
+        /// Convert from integer to boolean.
         /// </summary>
         /// <param name="pValue">The value to convert.</param>
         /// <param name="pTargetType">The target type.</param>
@@ -65,12 +56,21 @@ namespace XTreeListView.Converters
         /// <returns>The value converted.</returns>
         public Object Convert(Object pValue, Type pTargetType, Object pExtraParameter, System.Globalization.CultureInfo pCulture)
         {
-            if (pValue == null)
+            // Checks if the value is valid.
+            if  (   (pValue == null)
+                ||  (pValue is int == false)
+                )
             {
-                return this.NullBoolean;
+                return false;
             }
 
-            return this.NotNullBoolean;
+            int lValue = (int)pValue;
+            if (lValue == 0)
+            {
+                return this.ZeroValue;
+            }
+
+            return this.ZeroValue == false;
         }
 
         #endregion // Methods.

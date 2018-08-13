@@ -33,7 +33,6 @@ using System.Windows.Markup;
     // app, or any theme specific resource dictionaries)
 )]
 
-[assembly: XmlnsPrefix("http://schemas.xray.com/wpf/xaml/xtreelistview", "xtlv")]
 [assembly: XmlnsDefinition("http://schemas.xray.com/wpf/xaml/xtreelistview", "XTreeListView.Gui")]
 
 // Version information for an assembly consists of the following four values:

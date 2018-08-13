@@ -11,6 +11,7 @@ using XTreeListView.ViewModel;
 using XTreeListView.Core.Collections;
 using XTreeListView.Models;
 using XTreeListView.Core.Extensions;
+using System.ComponentModel;
 
 namespace XTreeListView.Gui
 {
@@ -46,11 +47,6 @@ namespace XTreeListView.Gui
         ///// </summary>
         private ExpandBehavior mExpandBehavior;
 
-        /// <summary>
-        /// Stores the resoures of the control.
-        /// </summary>
-        private Resources mResources;
-
         #endregion // Fields.
 
         #region Constructors
@@ -70,9 +66,6 @@ namespace XTreeListView.Gui
             this.mSelectionBehavior = new SelectionBehavior(this);
             this.mExpandBehavior = new ExpandBehavior(this);
             this.mColumnResizeBehavior = new ColumnResizeBehavior(this);
-
-            this.mResources = new Resources();
-            this.ExtendedGridView = new ExtendedGridView(this.mResources);
         }
 
         #endregion // Constructors.
@@ -152,16 +145,16 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets the view as extended grid view.
         /// </summary>
-        public ExtendedGridView ExtendedGridView
+        public new ExtendedGridView View
         {
             get
             {
-                return this.View as ExtendedGridView;
+                return base.View as ExtendedGridView;
             }
 
-            private set
+            set
             {
-                this.View = value;
+                base.View = value;
             }
         }
 
