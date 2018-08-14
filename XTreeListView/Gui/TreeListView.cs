@@ -78,11 +78,6 @@ namespace XTreeListView.Gui
         private TreeSelectionOptions mPendingSelectionOption;
 
         /// <summary>
-        /// Stores the resoures of the control.
-        /// </summary>
-        private Resources mResources;
-
-        /// <summary>
         /// Stores the context menu name.
         /// </summary>
         private string mContextMenuName;
@@ -109,12 +104,11 @@ namespace XTreeListView.Gui
         {
             this.InnerListView = null;
             this.SelectionOption = TreeSelectionOptions.SingleSelection;
-            this.mResources = new Resources();
             this.mContextMenuName = string.Empty;
             this.Columns = new TreeListViewColumnCollection(this);
 
             // Applying the default group data template.
-            this.GroupItemDataTemplate = this.mResources["GroupItemDefaultDataTemplate"] as System.Windows.DataTemplate;
+            this.GroupItemDataTemplate = XTreeListView.Resources.All.Instance["GroupItemDefaultDataTemplate"] as System.Windows.DataTemplate;
         }
 
         #endregion // Constructors.

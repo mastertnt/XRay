@@ -4,8 +4,9 @@
     xmlns:gui="clr-namespace:XTreeListView.Gui"
     xmlns:behaviors="clr-namespace:XTreeListView.Behaviors">
 
+    <!-- Including global resources -->
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/XTreeListView;component/Converters/Resources.xaml" />
+        <ResourceDictionary Source="/XTreeListView;component/Resources/All.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Template of the item expander toogle button -->

@@ -16,7 +16,8 @@ namespace XTreeListView.DataTemplate
     /// This class is used to select a data template according to a view model.
     /// </summary>
     /// <typeparam name="TSelector">The type of the template selector to load.</typeparam>
-    public class AHierarchicalTemplateSelector<TSelector> : DataTemplateSelector where TSelector : class, IHierarchicalTemplateSelector
+    public abstract class AHierarchicalTemplateSelector<TSelector> : DataTemplateSelector 
+        where TSelector : class, IHierarchicalTemplateSelector
     {
         #region Fields
 
@@ -54,7 +55,7 @@ namespace XTreeListView.DataTemplate
         /// </summary>
         /// <param name="pColumnIndex">The column index.</param>
         /// <param name="pDefaultDataMemberBindingPath">Defines the data member binding path used when no data template is found.</param>
-        public AHierarchicalTemplateSelector(int pColumnIndex, string pDefaultDataMemberBindingPath)
+        protected AHierarchicalTemplateSelector(int pColumnIndex, string pDefaultDataMemberBindingPath)
         {
             this.mColumnIndex = pColumnIndex;
             this.mDefaultDataMemberBindingPath = pDefaultDataMemberBindingPath;
@@ -103,12 +104,10 @@ namespace XTreeListView.DataTemplate
 
             // Look for a datatemplate in a plug-in
             System.Windows.DataTemplate lTemplate = null;
-            foreach
-                (TSelector lPlugin in sTemplateSelectorPlugins)
+            foreach (TSelector lPlugin in sTemplateSelectorPlugins)
             {
                 lTemplate = lPlugin.FindDataTemplate(lViewModel, this.mColumnIndex);
-                if
-                    (lTemplate != null)
+                if (lTemplate != null)
                 {
                     this.mCachedSelectorTemplates.Add(lKey, lPlugin);
                     return lTemplate;
@@ -125,6 +124,7 @@ namespace XTreeListView.DataTemplate
                 this.mCachedDataTemplates.Add(lKey, lDataTemplate);
                 return lDataTemplate;
             }
+
             return lTemplate;
         }
 

@@ -22,11 +22,6 @@ namespace XTreeListView.Gui
         /// </summary>
         private bool mShowColumnHeaders;
 
-        /// <summary>
-        /// Stores the resources.
-        /// </summary>
-        private Resources mResources;
-
         #endregion // Fields.
 
         #region Constructors
@@ -36,7 +31,6 @@ namespace XTreeListView.Gui
         /// </summary>
         public ExtendedGridView()
         {
-            this.mResources = new Resources();
             this.ShowColumnHeaders = true;
         }
 
@@ -63,7 +57,7 @@ namespace XTreeListView.Gui
                 }
                 else
                 {
-                    this.ColumnHeaderContainerStyle = this.mResources["CollapsedGridViewColumnHeaderStyle"] as Style;
+                    this.ColumnHeaderContainerStyle = Resources.All.Instance["CollapsedGridViewColumnHeaderStyle"] as Style;
                 }
             }
         }
