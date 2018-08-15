@@ -83,6 +83,11 @@ namespace XTreeListView.Gui
         public event TreeViewEventHandler ItemViewModelsRemoved;
 
         /// <summary>
+        /// Event called when an item is clicked.
+        /// </summary>  
+        public event TreeViewEventHandler ItemViewModelClicked;
+
+        /// <summary>
         /// Event called when an item is double clicked.
         /// </summary>
         public event TreeViewEventHandler ItemViewModelDoubleClicked;
@@ -183,26 +188,6 @@ namespace XTreeListView.Gui
         }
 
         /// <summary>
-        /// This method prepares the item for overriding.
-        /// </summary>
-        /// <param name="pElement">The native element.</param>
-        /// <param name="pItem">The wrapped item.</param>
-        /// <returns>True if the item has been overriden.</returns>
-        protected override void PrepareContainerForItemOverride(DependencyObject pElement, object pItem)
-        {
-            TreeListViewItem lTreeViewItem = pElement as TreeListViewItem;
-            IHierarchicalItemViewModel lViewModel = pItem as IHierarchicalItemViewModel;
-            if
-                (   (lTreeViewItem != null)
-                &&  (lViewModel != null)
-                )
-            {
-                lTreeViewItem.ViewModel = lViewModel;
-                base.PrepareContainerForItemOverride(pElement, lViewModel);
-            }
-        }
-
-        /// <summary>
         /// This delagate is called when the view model is changed.
         /// </summary>
         /// <param name="pSender">The event sender.</param>
@@ -219,6 +204,7 @@ namespace XTreeListView.Gui
                     // Unregistering from items modification events.
                     lOldViewModel.ItemViewModelsAdded -= lExtendedListView.OnItemViewModelsAdded;
                     lOldViewModel.ItemViewModelsRemoved -= lExtendedListView.OnItemViewModelsRemoved;
+                    //lOldViewModel.ItemViewModelMoved -= lExtendedListView.OnItemViewModelMoved;
 
                     // Initializing the view model.
                     lExtendedListView.DropChildrenItems(lOldViewModel, false);
@@ -231,6 +217,7 @@ namespace XTreeListView.Gui
                     // Registering on items modification events.
                     lNewViewModel.ItemViewModelsAdded += lExtendedListView.OnItemViewModelsAdded;
                     lNewViewModel.ItemViewModelsRemoved += lExtendedListView.OnItemViewModelsRemoved;
+                    //lNewViewModel.ItemViewModelMoved += lExtendedListView.OnItemViewModelMoved;
 
                     // Loading the first level items.
                     lExtendedListView.LoadsChildrenItems(lNewViewModel);
@@ -251,7 +238,7 @@ namespace XTreeListView.Gui
                 )
             {
                 // Expand its parent to make pItem visible.
-                pItem.Parent.IsExpanded = true;
+                this.ExpandModel.SetIsExpanded(pItem.Parent, true);
 
                 // Showing the added item.
                 this.ScrollIntoView(pItem);
@@ -312,6 +299,7 @@ namespace XTreeListView.Gui
                 }
 
                 pViewModel.ChildrenAreLoaded = false;
+                pViewModel.AllVisibleChildren.Where(lItem => lItem.IsExpanded).ForEach(lItem => lItem.ChildrenAreLoaded = false);
             }
         }
 
@@ -356,6 +344,42 @@ namespace XTreeListView.Gui
         {
             // Handling the selection.
             this.mSelectionBehavior.OnItemMouseRightButtonDown(pItem, pEventArgs);
+        }
+
+        /// <summary>
+        /// Delegate called when the mouse left button is up on an item.
+        /// </summary>
+        /// <param name="pItem">The clicked item.</param>
+        /// <param name="pEventArgs">The event arguments.</param>
+        internal void OnItemMouseLeftButtonUp(IHierarchicalItemViewModel pItem, System.Windows.Input.MouseButtonEventArgs pEventArgs)
+        {
+            // Handling the selection.
+            this.mSelectionBehavior.OnItemMouseLeftButtonUp(pItem, pEventArgs);
+        }
+
+        /// <summary>
+        /// Delegate called when the mouse right button is up on an item.
+        /// </summary>
+        /// <param name="pItem">The clicked item.</param>
+        /// <param name="pEventArgs">The event arguments.</param>
+        internal void OnItemMouseRightButtonUp(IHierarchicalItemViewModel pItem, System.Windows.Input.MouseButtonEventArgs pEventArgs)
+        {
+            // Handling the selection.
+            this.mSelectionBehavior.OnItemMouseRightButtonUp(pItem, pEventArgs);
+        }
+
+        /// <summary>
+        /// Delegate called when the mouse clicked on this item.
+        /// </summary>
+        /// <param name="pItem">The clicked item.</param>
+        /// <param name="pEventArgs">The event arguments.</param>
+        internal void OnItemMouseClicked(IHierarchicalItemViewModel pItem, System.Windows.Input.MouseButtonEventArgs pEventArgs)
+        {
+            // Notification.
+            if (this.ItemViewModelClicked != null)
+            {
+                this.ItemViewModelClicked(this, new IHierarchicalItemViewModel[] { pItem });
+            }
         }
 
         /// <summary>
@@ -405,7 +429,7 @@ namespace XTreeListView.Gui
             // Updating the node loading in the list view.
             foreach (IHierarchicalItemViewModel lItem in pItems)
             {
-                if (lItem.Parent.IsExpanded == true)
+                if (lItem.Parent.IsExpanded == true && lItem.Parent.ChildrenAreLoaded)
                 {
                     // Computing the index of the item in the rows.
                     int lParentRowIndex = this.Rows.IndexOf(lItem.Parent);
@@ -466,6 +490,49 @@ namespace XTreeListView.Gui
             if (this.ItemViewModelsRemoved != null)
             {
                 this.ItemViewModelsRemoved(this, pItems);
+            }
+        }
+
+        /// <summary>
+        /// Delegate called when items are removed from the view model. 
+        /// </summary>
+        /// <param name="pSender">The modified root view model.</param>
+        /// <param name="pItem">The removed item.</param>
+        /// <param name="pOldIndex">The old index of the item.</param>
+        /// <param name="pNewIndex">THe new index of the item.</param>
+        private void OnItemViewModelMoved(object pSender, IHierarchicalItemViewModel pItem, int pOldIndex, int pNewIndex)
+        {
+            if (pItem != null)
+            {
+                // Computing the row indexes.
+                int lOldRowIndex = pOldIndex;
+                int lNewRowIndex = pNewIndex;
+                if (pItem.Parent != null && pItem.Parent is IRootHierarchicalItemViewModel == false)
+                {
+                    int lParentRowIndex = this.Rows.IndexOf(pItem.Parent);
+                    lOldRowIndex = lParentRowIndex + pOldIndex + 1;
+                    lNewRowIndex = lParentRowIndex + pNewIndex + 1;
+                }
+
+                // Removing the items from the tree view if they are displayed.
+                if (pItem.IsExpanded)
+                {
+                    this.DropChildrenItems(pItem, true);
+                }
+                else
+                {
+                    this.Rows.Remove(pItem);
+                }
+
+                // Adding the item in the rows.
+                if (lNewRowIndex >= this.Rows.Count)
+                {
+                    this.Rows.Add(pItem);
+                }
+                else
+                {
+                    this.Rows.Insert(lNewRowIndex, pItem);
+                }
             }
         }
 

@@ -109,15 +109,6 @@ namespace XTreeListView.ViewModel
         }
 
         /// <summary>
-        /// Gets or sets Background brush color of the view model
-        /// </summary>
-        System.Windows.Media.Brush Background
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets the flag indicating if the view model is disposed.
         /// </summary>
         bool IsDisposed

@@ -19,9 +19,45 @@ namespace XTreeListView.ViewModel
     public delegate AHierarchicalItemViewModel CreateChildViewModelDelegate(object pOwnedObject);
 
     /// <summary>
+    /// Sets the order.
+    /// </summary>
+    public enum SorterOrder
+    {
+        /// <summary>
+        /// Enumeration value indicating the items are sorted in increasing order.
+        /// </summary>
+        Ascending,
+
+        /// <summary>
+        /// Enumeration value indicating the items are sorted in decreasing order.
+        /// </summary>
+        Descending,
+
+        /// <summary>
+        /// Enumeration value indicating the items are unordered.
+        /// </summary>
+        Unsorted,
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum SortKey
+    {
+        /// <summary>
+        /// The display string is considered as the sort key.
+        /// </summary>
+        DisplayString,
+
+        /// <summary>
+        /// Enumeration value indicating the sort key 
+        /// </summary>
+        ChildCount,
+    }
+
+    /// <summary>
     /// This class defines an abstract tree list view item view model.
     /// </summary>
-    /// <!-- DPE -->
     public abstract class AHierarchicalItemViewModel : AViewModel, IHierarchicalItemViewModel
     {
         #region Fields
@@ -59,7 +95,7 @@ namespace XTreeListView.ViewModel
         /// <summary>
         /// This field stores the key selector.
         /// </summary>
-        private Func<IHierarchicalItemViewModel, object> mComparerKeySelector;
+        private Func<IHierarchicalItemViewModel, IHierarchicalItemViewModel, object> mComparerKeySelector;
 
         /// <summary>
         /// This field stores the key comparer.
@@ -74,12 +110,6 @@ namespace XTreeListView.ViewModel
         /// </summary> 
         private readonly Dictionary<INotifyCollectionChanged, CreateChildViewModelDelegate> mChildrenBinding;
 
-        /// <summary>
-        /// Handler used to get notified when a binded collection is modified.
-        /// </summary>
-        /// <see cref="mChildrenBinding"/>
-        private readonly WeakEventHandler<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs> mCollectionChangedHandler;
-
         #endregion // Fields.
 
         #region Constructors
@@ -88,13 +118,14 @@ namespace XTreeListView.ViewModel
         /// Initializes a new instance of the <see cref="AHierarchicalItemViewModel"/> class.
         /// </summary>
         /// <param name="pOwnedObject">The owned object.</param>
-        internal AHierarchicalItemViewModel(Object pOwnedObject)
+        internal AHierarchicalItemViewModel(object pOwnedObject)
             : base(pOwnedObject)
         {
             this.mIsExpanded = false;
             this.mIsSelected = false;
             this.ChildrenRegistered = false;
             this.IsInRegistrationMode = false;
+            this.mIndex = -1;
             (this as IHierarchicalItemViewModel).ChildrenAreLoaded = false;
             this.PropertyChanged += this.NotifyItemViewModelModified;
 
@@ -105,12 +136,31 @@ namespace XTreeListView.ViewModel
 
             // Initializing the dictionaries storing the binding between model and view model.
             this.mChildrenBinding = new Dictionary<INotifyCollectionChanged, CreateChildViewModelDelegate>();
-            this.mCollectionChangedHandler = new WeakEventHandler<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(this.OnOwnedObjectCollectionChanged);
         }
 
         #endregion // Constructors.
 
+        #region Events
+
+        /// <summary>
+        /// Event raised when the children list is modified.
+        /// </summary>
+        public event NotifyCollectionChangedEventHandler ChildrenCollectionChanged;
+
+        #endregion // Events.
+
         #region Properties
+
+        /// <summary>
+        /// Gets the index of the item in the parent list.
+        /// </summary>
+        public int Index
+        {
+            get
+            {
+                return this.mIndex;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the parent of this object.
@@ -121,6 +171,28 @@ namespace XTreeListView.ViewModel
             get
             {
                 return this.Parent;
+            }
+        }
+
+        /// <summary>
+        /// Gets the root hierarchical view models.
+        /// </summary>
+        public AHierarchicalItemViewModel Root
+        {
+            get
+            {
+                AHierarchicalItemViewModel lRoot = this.Parent;
+                if (lRoot == null)
+                {
+                    return null;
+                }
+                
+                while (lRoot.Parent != null)
+                {
+                    lRoot = lRoot.Parent;
+                }
+
+                return lRoot;
             }
         }
 
@@ -136,8 +208,7 @@ namespace XTreeListView.ViewModel
 
             private set
             {
-                if
-                    (this.mParent != value)
+                if (this.mParent != value)
                 {
                     this.mParent = value;
                     this.NotifyPropertyChanged("Parent");
@@ -206,17 +277,8 @@ namespace XTreeListView.ViewModel
             }
             set
             {
-                if
-                    (this.mIsExpanded != value)
+                if (this.mIsExpanded != value)
                 {
-                    // Expanding the parent first if not expanded.
-                    if  (   (this.Parent != null)
-                        &&  value
-                        )
-                    {
-                        this.Parent.IsExpanded = true;
-                    }
-
                     // Registering the items if it is not done.
                     if (value)
                     {
@@ -253,8 +315,7 @@ namespace XTreeListView.ViewModel
             }
             set
             {
-                if
-                    (this.mIsSelected != value && this.CanBeSelected)
+                if (this.mIsSelected != value && this.CanBeSelected)
                 {
                     this.mIsSelected = value;
                     this.NotifyPropertyChanged("IsSelected");
@@ -307,7 +368,7 @@ namespace XTreeListView.ViewModel
         {
             get
             {
-                Int32 lLevel = this.Level;
+                int lLevel = this.Level;
                 AHierarchicalItemViewModel lViewModel = this;
                 while
                     (true)
@@ -480,7 +541,7 @@ namespace XTreeListView.ViewModel
         /// </summary>
         /// <param name="pKeySelector">The key selector.</param>
         /// <param name="pComparer">The key comparer.</param>
-        public void SetSorter(Func<IHierarchicalItemViewModel, object> pKeySelector, IComparer<object> pComparer)
+        public void SetSorter(Func<IHierarchicalItemViewModel, IHierarchicalItemViewModel, object> pKeySelector, IComparer<object> pComparer)
         {
             this.mComparerKeySelector = pKeySelector;
             this.mComparer = pComparer;
@@ -499,7 +560,7 @@ namespace XTreeListView.ViewModel
         /// Adds a child in the children list.
         /// </summary>
         /// <param name="pChild">The child to add.</param>
-        public void AddChild(IHierarchicalItemViewModel pChild)
+        public virtual void AddChild(IHierarchicalItemViewModel pChild)
         {
             AHierarchicalItemViewModel lChild = pChild as AHierarchicalItemViewModel;
             if (lChild != null)
@@ -603,24 +664,24 @@ namespace XTreeListView.ViewModel
         /// <param name="pOldIndex">The old index of the child.</param>
         /// <param name="pNewIndex">The new index of the child.</param>
         /// <returns>True if the child has been moved, false if one of the indexes is out of range.</returns>
-        private void MoveChild(int pOldIndex, int pNewIndex)
+        public void MoveChild(int pOldIndex, int pNewIndex)
         {
             // Verifying if the item is in the range.
             if
                 (   (pOldIndex < 0)
                 ||  (pOldIndex >= this.mChildren.Count)
+                ||  (this.mComparerKeySelector != null)
                 )
             {
                 return;
             }
 
-            AHierarchicalItemViewModel lItem = this.mChildren[pOldIndex];
-            if (this.RemoveChildAtInternal(pOldIndex) == false)
+            AHierarchicalItemViewModel lChild = this.mChildren.ElementAt(pOldIndex);
+            if (lChild != null)
             {
-                return;
+                this.mChildren.Move(pOldIndex, pNewIndex);
+                this.NotifyChildMoved(lChild, pOldIndex, pNewIndex);
             }
-
-            this.InsertChild(pNewIndex, lItem);
         }
 
         /// <summary>
@@ -644,16 +705,16 @@ namespace XTreeListView.ViewModel
         /// Removes the child at the given position.
         /// </summary>
         /// <param name="pIndex">The position of the child to remove.</param>
-        /// <returns>True if the child has been removed, false otherwise.</returns>
-        private bool RemoveChildAtInternal(int pIndex)
+        /// <returns>The removed item if any, null otherwise.</returns>
+        private AHierarchicalItemViewModel RemoveChildAtInternal(int pIndex)
         {
             AHierarchicalItemViewModel lChild = this.mChildren.ElementAt(pIndex);
-            if (lChild != null)
+            if (lChild != null && this.RemoveChild(lChild))
             {
-                return this.RemoveChild(lChild);
+                return lChild;
             }
 
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -663,23 +724,20 @@ namespace XTreeListView.ViewModel
         public void ClearChildren(bool pDispose = true)
         {
             // Clearing the children list.
-            if
-                (pDispose)
+            while (this.mChildren.Count != 0)
             {
-                while (this.mChildren.Count != 0)
+                // Processing Dispose will remove the item from the parent children list as well.
+                AHierarchicalItemViewModel lItem = this.mChildren[0];
+                lItem.DisableNotifyPropertyChangedEvent();
+                lItem.ClearChildren(pDispose);
+                this.mChildren.RemoveAt(0);
+                lItem.EnableNotifyPropertyChangedEvent();
+                this.NotifyChildRemoved(lItem);
+
+                if (pDispose)
                 {
-                    // Processing Dispose will remove the item from the parent children list as well.
-                    this.NotifyChildRemoved(this.mChildren[0]);
-                    this.mChildren[0].Dispose();
+                    lItem.Dispose();
                 }
-            }
-            else
-            {
-                foreach (AHierarchicalItemViewModel lItem in this.mChildren)
-                {
-                    this.NotifyChildRemoved(lItem);
-                }
-                this.mChildren.Clear();
             }
         }
 
@@ -691,7 +749,7 @@ namespace XTreeListView.ViewModel
         {
             if (this.mComparerKeySelector != null)
             {
-                var lPair = this.mChildren.Select((pValue, pIndex) => new { value = pValue, index = pIndex }).FirstOrDefault(pElt => this.mComparer.Compare(this.mComparerKeySelector(pElt.value), this.mComparerKeySelector(pChild)) > 0);
+                var lPair = this.mChildren.Select((pValue, pIndex) => new { value = pValue, index = pIndex }).FirstOrDefault(pElt => this.mComparer.Compare(this.mComparerKeySelector(this, pElt.value), this.mComparerKeySelector(this, pChild)) > 0);
                 if (lPair == null)
                 {
                     //Propagate visibility to children
@@ -835,7 +893,7 @@ namespace XTreeListView.ViewModel
             {
                 // Binding the collections.
                 this.mChildrenBinding.Add(lCollectionNotifier, pCreationDelegate);
-                lCollectionNotifier.CollectionChanged += this.mCollectionChangedHandler;
+                lCollectionNotifier.CollectionChanged += this.OnOwnedObjectCollectionChanged;
 
                 // Synchronize it if the item is already expanded.
                 if
@@ -854,7 +912,7 @@ namespace XTreeListView.ViewModel
             foreach (var lChildrenBinding in this.mChildrenBinding)
             {
                 // Unregister the notification handler.
-                lChildrenBinding.Key.CollectionChanged -= this.mCollectionChangedHandler;
+                lChildrenBinding.Key.CollectionChanged -= this.OnOwnedObjectCollectionChanged;
 
                 // Clearing the children.
                 this.ClearChildren();
@@ -933,11 +991,21 @@ namespace XTreeListView.ViewModel
 
                         case NotifyCollectionChangedAction.Remove:
                             {
-                                Int32 lIndex = pEvent.OldStartingIndex;
-                                // ReSharper disable once UnusedVariable
-                                foreach (object lModel in pEvent.OldItems)
+                                List<AHierarchicalItemViewModel> lModelToRemove = new List<AHierarchicalItemViewModel>();
+
+                                foreach (AHierarchicalItemViewModel lViewModel in this.Children)
                                 {
-                                    this.RemoveChildAt(lIndex);
+                                    if (pEvent.OldItems.Contains(lViewModel.UntypedOwnedObject))
+                                    {
+                                        lModelToRemove.Add(lViewModel);
+                                    }
+                                }
+
+                                // ReSharper disable once UnusedVariable
+                                foreach (AHierarchicalItemViewModel lModel in lModelToRemove)
+                                {
+                                    Int32 lRemoveIndex = this.mChildren.IndexOf(lModel);
+                                    this.RemoveChildAt(lRemoveIndex);
                                 }
                             }
 
@@ -1097,10 +1165,16 @@ namespace XTreeListView.ViewModel
         /// </summary>
         /// <param name="pSender">The modified collection.</param>
         /// <param name="pEventArgs">The event arguments.</param>
-        private void OnChildrenCollectionChanged(Object pSender, NotifyCollectionChangedEventArgs pEventArgs)
+        protected virtual void OnChildrenCollectionChanged(object pSender, NotifyCollectionChangedEventArgs pEventArgs)
         {
             // Updating the HasChildren property.
             this.NotifyPropertyChanged("HasChildren");
+
+            // Notifying the user.
+            if (this.ChildrenCollectionChanged != null)
+            {
+                this.ChildrenCollectionChanged(pSender, pEventArgs);
+            }
         }
 
         /// <summary>
@@ -1110,8 +1184,7 @@ namespace XTreeListView.ViewModel
         protected override void OnVisibilityChanged(Visibility pNewValue)
         {
             // Updating the children visibility as well.
-            foreach
-                (AHierarchicalItemViewModel lChild in this.Children)
+            foreach (AHierarchicalItemViewModel lChild in this.Children)
             {
                 lChild.Visibility = pNewValue;
             }
@@ -1282,6 +1355,20 @@ namespace XTreeListView.ViewModel
         }
 
         /// <summary>
+        /// Method to call when children are moved in this view model.
+        /// </summary>
+        /// <param name="pChild">The child added to the children list.</param>
+        /// <param name="pOldIndex">The old index of the item.</param>
+        /// <param name="pNewIndex">THe new index of the item.</param>
+        protected virtual void NotifyChildMoved(IHierarchicalItemViewModel pChild, int pOldIndex, int pNewIndex)
+        {
+            if (this.Parent != null)
+            {
+                this.Parent.NotifyChildMoved(pChild, pOldIndex, pNewIndex);
+            }
+        }
+
+        /// <summary>
         /// Delegate called when the properties of this view model is modified.
         /// </summary>
         /// <param name="pSender">The item view model event sender.</param>
@@ -1338,6 +1425,162 @@ namespace XTreeListView.ViewModel
 
             return lFoundViewModels.ToArray();
         }
+
+        #region Sorter
+
+        /// <summary>
+        /// Sets a predefined sorter.
+        /// </summary>
+        /// <param name="pKey">The p key.</param>
+        /// <param name="pSortOrder">The p sort order.</param>
+        public void EnableSort(SortKey pKey, SorterOrder pSortOrder)
+        {
+            if (pSortOrder == SorterOrder.Unsorted)
+            {
+                this.RemoveSorter();
+            }
+            else
+            {
+                switch (pKey)
+                {
+                    case SortKey.DisplayString:
+                        {
+                            this.SetSorter(GetDisplayStringAsSortKey, new StringComparer(pSortOrder));
+                        }
+                        break;
+
+                    case SortKey.ChildCount:
+                        {
+                            this.SetSorter(GetChildCountAsSortKey, new IntComparer(pSortOrder));
+                        }
+                        break;
+                }
+            }
+            
+        }
+
+        /// <summary>
+        /// Gets the key sorter.
+        /// </summary>
+        /// <param name="pParentViewModel">The parent view model.</param>
+        /// <param name="pViewModel">The view model.</param>
+        /// <returns>The display string of the view model.</returns>
+        private static object GetDisplayStringAsSortKey(IHierarchicalItemViewModel pParentViewModel, IHierarchicalItemViewModel pViewModel)
+        {
+            return pViewModel.DisplayString;
+        }
+
+        /// <summary>
+        /// Gets the key sorter.
+        /// </summary>
+        /// <param name="pParentViewModel">The parent view model.</param>
+        /// <param name="pViewModel">The view model.</param>
+        /// <returns>The display string of the view model.</returns>
+        private static object GetChildCountAsSortKey(IHierarchicalItemViewModel pParentViewModel, IHierarchicalItemViewModel pViewModel)
+        {
+            return pViewModel.Children.Count();
+        }
+
+        /// <summary>
+        /// A ascending string comparer.
+        /// </summary>
+        public class StringComparer : IComparer<object>
+        {
+            #region Fields
+
+            /// <summary>
+            /// The m order
+            /// </summary>
+            private readonly int mOrder = 1;
+
+            #endregion // Fields.
+
+            #region Constructors
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="StringComparer"/> class.
+            /// </summary>
+            /// <param name="pSorterOrder">The sorter order.</param>
+            public StringComparer(SorterOrder pSorterOrder)
+            {
+                if (pSorterOrder == SorterOrder.Descending)
+                {
+                    this.mOrder = -1;
+                }
+            }
+
+            #endregion // Constructors.
+
+            #region Methods
+
+            /// <summary>
+            /// Compares two strings.
+            /// </summary>
+            /// <param name="pFirst">The first argument.</param>
+            /// <param name="pSecond">The second argument.</param>
+            /// <returns>string.Compare</returns>
+            int IComparer<object>.Compare(object pFirst, object pSecond)
+            {
+                return this.mOrder * string.Compare(pFirst.ToString(), pSecond.ToString(), StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            #endregion // Methods.
+        }
+
+        /// <summary>
+        /// A ascending int comparer.
+        /// </summary>
+        public class IntComparer : IComparer<object>
+        {
+            #region Fields
+
+            /// <summary>
+            /// The m order
+            /// </summary>
+            private readonly int mOrder = 1;
+
+            #endregion // Fields.
+
+            #region Constructors
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="StringComparer"/> class.
+            /// </summary>
+            /// <param name="pSorterOrder">The sorter order.</param>
+            public IntComparer(SorterOrder pSorterOrder)
+            {
+                if (pSorterOrder == SorterOrder.Descending)
+                {
+                    this.mOrder = -1;
+                }
+            }
+
+            #endregion // Constructors.
+
+            #region Methods
+
+            /// <summary>
+            /// Compares two strings.
+            /// </summary>
+            /// <param name="pFirst">The first argument.</param>
+            /// <param name="pSecond">The second argument.</param>
+            /// <returns>string.Compare</returns>
+            int IComparer<object>.Compare(object pFirst, object pSecond)
+            {
+                if (pFirst is int && pSecond is int)
+                {
+                    int lFirst = (int) pFirst;
+                    int lSecond = (int) pSecond;
+                    return this.mOrder * lFirst.CompareTo(lSecond);
+                }
+
+                return 0;
+            }
+
+            #endregion // Methods.
+        }
+
+        #endregion // Sorter.
 
         #endregion // Methods.
 
@@ -1440,9 +1683,13 @@ namespace XTreeListView.ViewModel
             protected override void RemoveItem(Int32 pItemIndex)
             {
                 // Getting the item.
-                AHierarchicalItemViewModel lItem = this[pItemIndex];
-                lItem.Parent = null;
+                AHierarchicalItemViewModel lItem = this[pItemIndex]; 
+
+                // Invalidating the index.
                 lItem.mIndex = -1;
+
+                // Invalidating the parent.
+                lItem.Parent = null;
 
                 // Updating the index of the item placed after the removed one.
                 for
@@ -1453,6 +1700,23 @@ namespace XTreeListView.ViewModel
 
                 // Removing it.
                 base.RemoveItem(pItemIndex);
+            }
+
+            /// <summary>
+            /// Method called when an item is moved.
+            /// </summary>
+            /// <param name="pOldIndex">The old index.</param>
+            /// <param name="pNewIndex">The new index.</param>
+            protected override void MoveItem(int pOldIndex, int pNewIndex)
+            {
+                // Moving the item.
+                base.MoveItem(pOldIndex, pNewIndex);
+
+                // Updating all the items.
+                for (int lIdx = 0; lIdx < this.Count; lIdx++)
+                {
+                    this[lIdx].mIndex = lIdx;
+                }
             }
 
             /// <summary>

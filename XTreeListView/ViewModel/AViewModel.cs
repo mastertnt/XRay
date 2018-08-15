@@ -13,7 +13,6 @@ namespace XTreeListView.ViewModel
     /// <summary>
     /// This class implements a base view model.
     /// </summary>
-    /// <!-- DPE -->
     public abstract class AViewModel : IViewModel
     {
         #region Fields
@@ -74,9 +73,9 @@ namespace XTreeListView.ViewModel
         private readonly Dictionary<String, List<String>> mPropertiesBinding;
 
         /// <summary>
-        /// Event handler used to notify the property modification.
+        /// Stores the flag indicating if the notify property changed event of the view model can be raised or not.
         /// </summary>
-        private readonly WeakEventHandler<PropertyChangedEventHandler, PropertyChangedEventArgs> mPropertyChangedHandler;
+        private bool mIsNotifyPropertyChangedEnable;
 
         #endregion // Fields.
 
@@ -89,10 +88,10 @@ namespace XTreeListView.ViewModel
         protected AViewModel(Object pOwnedObject)
         {
             this.mPropertiesBinding = new Dictionary<String, List<String>>();
-            this.mPropertyChangedHandler = new WeakEventHandler<PropertyChangedEventHandler, PropertyChangedEventArgs>(this.OnOwnedObjectPropertyChanged);
 
             this.UntypedOwnedObject = pOwnedObject;
 
+            this.mIsNotifyPropertyChangedEnable = true;
             this.mDisposed = false;
             this.mVisibility = Visibility.Visible;
             this.mIsChecked = false;
@@ -166,40 +165,32 @@ namespace XTreeListView.ViewModel
                 return this.mUntypedOwnedObject;
             }
 
-            protected set
+            set
             {
+                object lOldObject = this.mUntypedOwnedObject;
+                object lNewObject = value;
+
+                // Specific pre traitment.
+                this.PreviewOwnedObjectChanged(lOldObject, lNewObject);
+
                 // Unregistering the property changed event.
                 INotifyPropertyChanged lOldOwnedObject = this.mUntypedOwnedObject as INotifyPropertyChanged;
-                if
-                    (lOldOwnedObject != null)
+                if (lOldOwnedObject != null)
                 {
-                    lOldOwnedObject.PropertyChanged -= this.mPropertyChangedHandler;
+                    lOldOwnedObject.PropertyChanged -= this.OnOwnedObjectPropertyChanged;
                 }
 
                 this.mUntypedOwnedObject = value;
 
                 // Registering on the property changed event.
                 INotifyPropertyChanged lNewOwnedObject = this.mUntypedOwnedObject as INotifyPropertyChanged;
-                if
-                    (lNewOwnedObject != null)
+                if (lNewOwnedObject != null)
                 {
-                    lNewOwnedObject.PropertyChanged += this.mPropertyChangedHandler;
+                    lNewOwnedObject.PropertyChanged += this.OnOwnedObjectPropertyChanged;
                 }
-            }
-        }
 
-        /// <summary>
-        /// Gets the background color brush of the view model.
-        /// </summary>
-        public virtual Brush Background
-        {
-            get
-            {
-                return new SolidColorBrush(Colors.Transparent);
-            }
-            set
-            {
-                throw new NotSupportedException();
+                // Specific post traitment.
+                this.OwnedObjectChanged(lOldObject, lNewObject);
             }
         }
 
@@ -215,8 +206,7 @@ namespace XTreeListView.ViewModel
 
             set
             {
-                if
-                    (this.mVisibility != value)
+                if (this.mVisibility != value)
                 {
                     this.mVisibility = value;
                     this.OnVisibilityChanged(value);
@@ -236,8 +226,7 @@ namespace XTreeListView.ViewModel
             }
             set
             {
-                if
-                    (this.mIsChecked != value && this.IsCheckable && this.IsCheckingEnabled)
+                if (this.mIsChecked != value && this.IsCheckable && this.IsCheckingEnabled)
                 {
                     this.mIsChecked = value;
                     this.NotifyPropertyChanged("IsChecked");
@@ -257,8 +246,7 @@ namespace XTreeListView.ViewModel
 
             set
             {
-                if
-                    (value != this.mIsCheckingEnabled)
+                if (value != this.mIsCheckingEnabled)
                 {
                     this.mIsCheckingEnabled = value;
                     this.NotifyPropertyChanged("IsCheckingEnabled");
@@ -289,8 +277,7 @@ namespace XTreeListView.ViewModel
 
             set
             {
-                if
-                    (this.mToolTip != value)
+                if (this.mToolTip != value)
                 {
                     this.mToolTip = value;
                     this.NotifyPropertyChanged("ToolTip");
@@ -332,8 +319,7 @@ namespace XTreeListView.ViewModel
         {
             get
             {
-                if
-                    (this.IconSource == null)
+                if (this.IconSource == null)
                 {
                     return Visibility.Collapsed;
                 }
@@ -367,6 +353,26 @@ namespace XTreeListView.ViewModel
         #region Methods
 
         /// <summary>
+        /// Method called when the owned object is going to be modified.
+        /// </summary>
+        /// <param name="pPreviousOwnedObject">The previous owned object.</param>
+        /// <param name="pNewOwnedObject">The new owned object.</param>
+        protected virtual void PreviewOwnedObjectChanged(object pPreviousOwnedObject, object pNewOwnedObject)
+        {
+            // Nothing to do.
+        }
+
+        /// <summary>
+        /// Method called when the owned object has been modified.
+        /// </summary>
+        /// <param name="pPreviousOwnedObject">The previous owned object.</param>
+        /// <param name="pNewOwnedObject">The new owned object.</param>
+        protected virtual void OwnedObjectChanged(object pPreviousOwnedObject, object pNewOwnedObject)
+        {
+            // Nothing to do.
+        }
+
+        /// <summary>
         /// Delegate called when the visibility is changed.
         /// </summary>
         /// <param name="pNewValue">The new visibility.</param>
@@ -385,8 +391,7 @@ namespace XTreeListView.ViewModel
             Debug.Assert(this.UntypedOwnedObject is INotifyPropertyChanged, "The model must implement INotifyPropertyChanged.");
 
             // Registering the binding.
-            if
-                (this.mPropertiesBinding.ContainsKey(pModelProperty) == false)
+            if (this.mPropertiesBinding.ContainsKey(pModelProperty) == false)
             {
                 this.mPropertiesBinding[pModelProperty] = new List<String>();
             }
@@ -401,8 +406,7 @@ namespace XTreeListView.ViewModel
         /// <param name="pViewModelProperty">The property name of the destination</param>
         protected void UnbindProperty(String pModelProperty, String pViewModelProperty)
         {
-            if
-                (this.mPropertiesBinding.ContainsKey(pModelProperty))
+            if (this.mPropertiesBinding.ContainsKey(pModelProperty))
             {
                 this.mPropertiesBinding[pModelProperty].Remove(pViewModelProperty);
             }
@@ -420,11 +424,9 @@ namespace XTreeListView.ViewModel
             this.OnOwnedObjectPropertyChangedInternal(pEvent);
 
             // Forward if in binding list.
-            if
-                (this.mPropertiesBinding.ContainsKey(pEvent.PropertyName))
+            if (this.mPropertiesBinding.ContainsKey(pEvent.PropertyName))
             {
-                foreach
-                    (String lBoundPropertyName in this.mPropertiesBinding[pEvent.PropertyName])
+                foreach (string lBoundPropertyName in this.mPropertiesBinding[pEvent.PropertyName])
                 {
                     this.NotifyPropertyChanged(lBoundPropertyName);
                 }
@@ -446,7 +448,7 @@ namespace XTreeListView.ViewModel
         /// <param name="pPropertyName">The property name.</param>
         public void NotifyPropertyChanged(String pPropertyName)
         {
-            if (this.PropertyChanged != null)
+            if (this.PropertyChanged != null && this.mIsNotifyPropertyChangedEnable)
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(pPropertyName));
             }
@@ -527,25 +529,29 @@ namespace XTreeListView.ViewModel
         /// <param name="pDisposing">Flag indicating if the owned objects have to be cleaned as well.</param>
         private void Dispose(bool pDisposing)
         {
-            if
-                (!this.mDisposed)
+            this.DisableNotifyPropertyChangedEvent();
+
+            if (this.mUntypedOwnedObject != null && this.mUntypedOwnedObject is INotifyPropertyChanged)
+            {
+                (this.mUntypedOwnedObject as INotifyPropertyChanged).PropertyChanged -= this.OnOwnedObjectPropertyChanged;
+            }
+
+            if (this.mDisposed == false)
             {
                 // Free other state (managed objects) section.
-                if
-                    (pDisposing)
+                if (pDisposing)
                 {
+                    this.NotifyDispose();
                     this.UnregisterFromModel();
-
-                    //if (this.Disposed != null)
-                    //{
-                    //    this.Disposed();
-                    //}
                 }
 
                 // Free your own state (unmanaged objects) section.
 
                 this.mDisposed = true;
             }
+
+
+            this.EnableNotifyPropertyChangedEvent();
         }
 
         /// <summary>
@@ -557,6 +563,22 @@ namespace XTreeListView.ViewModel
             {
                 this.Disposed();
             }
+        }
+
+        /// <summary>
+        /// Locks the notify property changed event raising.
+        /// </summary>
+        protected void DisableNotifyPropertyChangedEvent()
+        {
+            this.mIsNotifyPropertyChangedEnable = false;
+        }
+
+        /// <summary>
+        /// Enables the notify property changed event raising.
+        /// </summary>
+        protected void EnableNotifyPropertyChangedEvent()
+        {
+            this.mIsNotifyPropertyChangedEnable = true;
         }
 
         #endregion // Methods.

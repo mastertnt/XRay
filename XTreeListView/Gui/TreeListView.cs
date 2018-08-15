@@ -35,7 +35,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Identifies the GroupItemDataTemplate dependency property.
         /// </summary>
-        public static readonly DependencyProperty GroupItemDataTemplateProperty = DependencyProperty.Register("GroupItemDataTemplate", typeof(System.Windows.DataTemplate), typeof(TreeListView), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty GroupItemDataTemplateProperty = DependencyProperty.Register("GroupItemDataTemplate", typeof(System.Windows.DataTemplate), typeof(TreeListView), new FrameworkPropertyMetadata(XTreeListView.Resources.All.Instance["GroupItemDefaultDataTemplate"]));
 
         /// <summary>
         /// Identifies the FirstLevelItemsAsGroup dependency property.
@@ -75,12 +75,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Stores the flag indicating the item selection mode when the inner tree list view is not loaded yet.
         /// </summary>
-        private TreeSelectionMode mPendingSelectionOption;
-
-        /// <summary>
-        /// Stores the context menu name.
-        /// </summary>
-        private string mContextMenuName;
+        private TreeSelectionMode mPendingSelectionMode;
 
         #endregion // Fields.
 
@@ -104,11 +99,7 @@ namespace XTreeListView.Gui
         {
             this.InnerListView = null;
             this.SelectionMode = TreeSelectionMode.SingleSelection;
-            this.mContextMenuName = string.Empty;
             this.Columns = new TreeListViewColumnCollection(this);
-
-            // Applying the default group data template.
-            this.GroupItemDataTemplate = XTreeListView.Resources.All.Instance["GroupItemDefaultDataTemplate"] as System.Windows.DataTemplate;
         }
 
         #endregion // Constructors.
@@ -259,7 +250,7 @@ namespace XTreeListView.Gui
                     return this.InnerListView.SelectionModel.SelectionMode;
                 }
 
-                return this.mPendingSelectionOption;
+                return this.mPendingSelectionMode;
             }
 
             set
@@ -270,7 +261,7 @@ namespace XTreeListView.Gui
                 }
                 else
                 {
-                    this.mPendingSelectionOption = value;
+                    this.mPendingSelectionMode = value;
                 }
             }
         }
@@ -377,7 +368,7 @@ namespace XTreeListView.Gui
             this.LoadViewModel();
 
             // Applying the selection option.
-            this.InnerListView.SelectionModel.SelectionMode = this.mPendingSelectionOption;
+            this.InnerListView.SelectionModel.SelectionMode = this.mPendingSelectionMode;
 
             // Registering on the collection changed event for the selected and checked items.
             this.InnerListView.SelectionModel.SelectionChanged += this.OnInnerListViewSelectionChanged;

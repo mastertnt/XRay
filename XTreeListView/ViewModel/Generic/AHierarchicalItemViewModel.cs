@@ -5,7 +5,6 @@ namespace XTreeListView.ViewModel.Generic
     /// This class defines a tree list view item view model using genericity to explicitly define the type of the owned object.
     /// </summary>
     /// <typeparam name="T">The type of the owned object.</typeparam>
-    /// <!-- DPE -->
     public abstract class AHierarchicalItemViewModel<T> : AHierarchicalItemViewModel, IHierarchicalItemViewModel<T>
     {
         #region Constructors

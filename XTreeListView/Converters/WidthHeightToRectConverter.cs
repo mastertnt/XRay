@@ -13,7 +13,7 @@ namespace XTreeListView.Converters
     /// </summary>
     public class WidthHeightToRectConverter : IMultiValueConverter
     {
-        #region Constructor
+        #region Constructors
 
         /// <summary>
         /// Insitializes a new instance of the <see cref="WidthHeightToRectConverter"/> class.
@@ -23,14 +23,18 @@ namespace XTreeListView.Converters
             this.Margin = new Thickness();
         }
 
-        #endregion // Constructor.
+        #endregion // Constructors.
 
         #region Properties
 
         /// <summary>
         /// Gets or sets the margin to apply to the rectangle.
         /// </summary>
-        public Thickness Margin { get; set; }
+        public Thickness Margin 
+        { 
+            get; 
+            set; 
+        }
 
         #endregion // Properties.
 

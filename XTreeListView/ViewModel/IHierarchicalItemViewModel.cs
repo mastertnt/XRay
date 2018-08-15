@@ -132,7 +132,7 @@ namespace XTreeListView.ViewModel
         /// </summary>
         /// <param name="pKeySelector">The key selector.</param>
         /// <param name="pComparer">The key comparer.</param>
-        void SetSorter(Func<IHierarchicalItemViewModel, object> pKeySelector, IComparer<object> pComparer);
+        void SetSorter(Func<IHierarchicalItemViewModel, IHierarchicalItemViewModel, object> pKeySelector, IComparer<object> pComparer);
 
         /// <summary>
         /// Removes the sorter from the view model.

@@ -78,9 +78,9 @@ namespace XTreeListView.Gui
         private Image mImage;
 
         /// <summary>
-        /// Stores the view model corresponding to this item.
+        /// Stores the parent grid view ensuring the item can be unregister from Columns.CollectionChanged when removed.
         /// </summary>
-        private IHierarchicalItemViewModel mViewModel;
+        private ExtendedGridView mParentGridView;
 
         #endregion // Fields.
 
@@ -112,64 +112,11 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets or sets the view model attached to this item.
         /// </summary>
-        public IHierarchicalItemViewModel ViewModel 
+        internal IHierarchicalItemViewModel ViewModel
         {
             get
             {
-                return this.mViewModel;
-            }
-
-            internal set
-            {
-                if
-                    (this.mViewModel != value)
-                {
-                    // Clearing the bindings.
-                    BindingOperations.ClearAllBindings(this);
-
-                    this.mViewModel = value;
-
-                    // Binding the IsSelected property.
-                    Binding lIsSelectedBinding = new Binding("IsSelected");
-                    lIsSelectedBinding.Source = this.mViewModel;
-                    lIsSelectedBinding.Mode = BindingMode.OneWay;
-                    this.SetBinding(TreeListViewItem.IsSelectedProperty, lIsSelectedBinding);
-
-                    // Binding the Visibility property.
-                    Binding lVisibilityBinding = new Binding("Visibility");
-                    lVisibilityBinding.Source = this.mViewModel;
-                    this.SetBinding(TreeListViewItem.VisibilityProperty, lVisibilityBinding);
-
-                    // Binding the Tooltip property.
-                    Binding lTooltipBinding = new Binding("ToolTip");
-                    lTooltipBinding.Source = this.mViewModel;
-                    lTooltipBinding.Converter = new ToolTipConverter();
-                    this.SetBinding(TreeListViewItem.ToolTipProperty, lTooltipBinding);
-
-                    // Binding the Background property.
-                    Binding lBackgroundBinding = new Binding("Background");
-                    lBackgroundBinding.Source = this.mViewModel;
-                    this.SetBinding(TreeListViewItem.BackgroundProperty, lBackgroundBinding);
-
-                    // Binding the FirstLevelItemsAsGroup property.
-                    MultiBinding lIsGroupBinding = new MultiBinding();
-                    Binding lViewModelBinding = new Binding() { BindsDirectlyToSource = true };
-                    lViewModelBinding.Source = this.mViewModel;
-                    lIsGroupBinding.Bindings.Add(lViewModelBinding);
-                    Binding lFirstLevelItemAsGroupBinding = new Binding("FirstLevelItemsAsGroup");
-                    lFirstLevelItemAsGroupBinding.Source = this.ParentTreeListView;
-                    lIsGroupBinding.Bindings.Add(lFirstLevelItemAsGroupBinding);
-                    lIsGroupBinding.Converter = new ItemToIsGroupConverter();
-                    this.SetBinding(TreeListViewItem.IsGroupProperty, lIsGroupBinding);
-
-                    // Binding the group item data template.
-                    Binding lGroupItemDataTemplateBinding = new Binding("GroupItemDataTemplate");
-                    lGroupItemDataTemplateBinding.Source = this.ParentTreeListView;
-                    this.SetBinding(TreeListViewItem.GroupDataTemplateProperty, lGroupItemDataTemplateBinding);
-
-                    // View model defines the group model if the item is displayed as a group.
-                    this.Group = this.mViewModel;
-                }
+                return this.Content as IHierarchicalItemViewModel;
             }
         }
 
@@ -263,76 +210,252 @@ namespace XTreeListView.Gui
             // Updating the decorator (icon + expander) clip region.
             this.mDecoratorsContainer.Clip = this.GetDecoratorsClipRegion();
 
-            // Register on the column changed event to update the decorator clip region.
-            GridView lView = this.ParentTreeListView.InnerListView.View as GridView;
-            if (lView != null)
+            // Updating the bindings.
+            this.UpdateBindings(null, this.ViewModel);
+        }
+
+        /// <summary>
+        /// Method called when the control content changed.
+        /// </summary>
+        /// <param name="pOldContent">The previous content.</param>
+        /// <param name="pNewContent">The new content.</param>
+        protected override void OnContentChanged(object pOldContent, object pNewContent)
+        {
+            base.OnContentChanged(pOldContent, pNewContent);
+
+            // Updating the bindings.
+            this.UpdateBindings(pOldContent as IHierarchicalItemViewModel, pNewContent as IHierarchicalItemViewModel);
+        }
+
+        /// <summary>
+        /// Registers to the grid columns event.
+        /// </summary>
+        private void RegisterToGridColumnsEvents()
+        {
+            if (this.ParentTreeListView == null || this.ParentTreeListView.InnerListView == null)
             {
-                lView.Columns.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(this.OnGridViewColumnsCollectionChanged);
+                return;
             }
 
-#pragma warning disable 1587
-            /// Binding the width to the view model. 
-            /// Used to update the margin of the first column template when a GridView is used.
-#pragma warning restore 1587
-            this.mDecoratorsContainer.SizeChanged += new SizeChangedEventHandler(this.OnDecoratorsContainerSizeChanged);
-
-            // Binding the visibility of the expander.
-            Binding lExpanderVisibilityBinding = new Binding("HasChildren");
-            lExpanderVisibilityBinding.Source = this.ViewModel;
-            lExpanderVisibilityBinding.Converter = new CanExpandConverter();
-            this.mExpander.SetBinding(ToggleButton.VisibilityProperty, lExpanderVisibilityBinding);
-
-            // Binding the indentation of the expander.
-            Binding lExpanderMarginBinding = new Binding("Parent");
-            lExpanderMarginBinding.Source = this.ViewModel;
-            lExpanderMarginBinding.Converter = new LevelToIndentConverter();
-            this.mExpander.SetBinding(ToggleButton.MarginProperty, lExpanderMarginBinding);
-
-            // Binding the expanded state.
-            this.mExpander.Checked += this.OnExpanderChecked;
-            this.mExpander.Unchecked += this.OnExpanderUnchecked;
-            Binding lExpanderIsCheckedBinding = new Binding("IsExpanded");
-            lExpanderIsCheckedBinding.Source = this.mViewModel;
-            lExpanderIsCheckedBinding.Mode = BindingMode.OneWay;
-            this.mExpander.SetBinding(ToggleButton.IsCheckedProperty, lExpanderIsCheckedBinding);
-
-            // Binding the icon source.
-            Binding lImageSourceBinding = new Binding("IconSource");
-            lImageSourceBinding.Source = this.mViewModel;
-            this.mImage.SetBinding(Image.SourceProperty, lImageSourceBinding);
-
-            if (this.IsGroup == false)
+            // Registers on the column changed event to update the decorator clip region.
+            this.mParentGridView = this.ParentTreeListView.InnerListView.View;
+            if (this.mParentGridView != null)
             {
-                // Binding the icon visibility.
-                Binding lImageVisibilityBinding = new Binding("IconVisibility");
-                lImageVisibilityBinding.Source = this.mViewModel;
-                this.mImage.SetBinding(Image.VisibilityProperty, lImageVisibilityBinding);
+                // Assure you remove a previously registered delegate if passing twice with non null model.
+                this.mParentGridView.Columns.CollectionChanged -= this.OnGridViewColumnsCollectionChanged;
+                this.mParentGridView.Columns.CollectionChanged += this.OnGridViewColumnsCollectionChanged;
+            }
+        }
+
+        /// <summary>
+        /// Registers to the container events.
+        /// </summary>
+        private void RegisterToContainerEvents()
+        {
+            if (this.mDecoratorsContainer != null)
+            {
+                // Assure you remove a previously registered delegate if passing twice with non null model.
+                this.mDecoratorsContainer.SizeChanged -= this.OnDecoratorsContainerSizeChanged;
+                this.mDecoratorsContainer.SizeChanged += this.OnDecoratorsContainerSizeChanged;
+            }
+        }
+
+        /// <summary>
+        /// Registers on the expander events.
+        /// </summary>
+        private void RegisterToExpanderEvents()
+        {
+            if (this.mExpander != null)
+            {
+                this.mExpander.Checked -= this.OnExpanderChecked;
+                this.mExpander.Unchecked -= this.OnExpanderUnchecked;
+                this.mExpander.Checked += this.OnExpanderChecked;
+                this.mExpander.Unchecked += this.OnExpanderUnchecked;
+            }
+        }
+
+        /// <summary>
+        /// Registers to the check box events.
+        /// </summary>
+        private void RegisterToCheckBoxEvents()
+        {
+            if (this.mExpander != null)
+            {
+                this.mCheckBox.Checked -= this.OnCheckBoxChecked;
+                this.mCheckBox.Unchecked -= this.OnCheckBoxUnchecked;
+                this.mCheckBox.Checked += this.OnCheckBoxChecked;
+                this.mCheckBox.Unchecked += this.OnCheckBoxUnchecked;
+            }
+        }
+
+        /// <summary>
+        /// Unregisters from the grid columns events.
+        /// </summary>
+        private void UnregisterFromGridColumnsEvents()
+        {
+            if (this.mParentGridView != null)
+            {
+                this.mParentGridView.Columns.CollectionChanged -= this.OnGridViewColumnsCollectionChanged;
+                this.mParentGridView = null;
+            }
+        }
+
+        /// <summary>
+        /// Unregisters to the container event.
+        /// </summary>
+        private void UnregisterFromContainerEvents()
+        {
+            if (this.mDecoratorsContainer != null)
+            {
+                this.mDecoratorsContainer.SizeChanged -= this.OnDecoratorsContainerSizeChanged;
+            }
+        }
+
+        /// <summary>
+        /// Unregisters from the expander events.
+        /// </summary>
+        private void UnregisterFromExpanderEvents()
+        {
+            if (this.mExpander != null)
+            {
+                this.mExpander.Checked -= this.OnExpanderChecked;
+                this.mExpander.Unchecked -= this.OnExpanderUnchecked;
+            }
+        }
+
+        /// <summary>
+        /// Unregisters from the check box events.
+        /// </summary>
+        private void UnregisterFromCheckBoxEvents()
+        {
+            if (this.mCheckBox != null)
+            {
+                this.mCheckBox.Checked -= this.OnCheckBoxChecked;
+                this.mCheckBox.Unchecked -= this.OnCheckBoxUnchecked;
+            }
+        }
+
+        /// <summary>
+        /// Updates the bindings of the view.
+        /// </summary>
+        /// <param name="pOldViewModel">The old view model.</param>
+        /// <param name="pNewViewModel">The new view model.</param>
+        private void UpdateBindings(IHierarchicalItemViewModel pOldViewModel, IHierarchicalItemViewModel pNewViewModel)
+        {
+            if (pOldViewModel != null)
+            {
+                // Unregistering from the events.
+                this.UnregisterFromExpanderEvents();
+                this.UnregisterFromCheckBoxEvents();
+                this.UnregisterFromContainerEvents();
+                this.UnregisterFromGridColumnsEvents();
+
+                // Clear reference to group property.
+                this.Group = null;
             }
 
-            // Binding the checked state.
-            Binding lCheckBoxIsCheckedBinding = new Binding("IsChecked");
-            lCheckBoxIsCheckedBinding.Source = this.mViewModel;
-            lCheckBoxIsCheckedBinding.Mode = BindingMode.OneWay;
-            this.mCheckBox.SetBinding(CheckBox.IsCheckedProperty, lCheckBoxIsCheckedBinding);
-            this.mCheckBox.Checked += this.OnCheckBoxChecked;
-            this.mCheckBox.Unchecked += this.OnCheckBoxUnchecked;
+            if (pNewViewModel != null && pNewViewModel.IsDisposed == false)
+            {
+                // Registering to uncontextual events.
+                this.RegisterToGridColumnsEvents();
+                this.RegisterToContainerEvents();
 
-            // Binding the checkable state.
-            Binding lCheckBoxVisibilityBinding = new Binding("IsCheckable");
-            lCheckBoxVisibilityBinding.Source = this.mViewModel;
-            lCheckBoxVisibilityBinding.Converter = new BooleanToVisibilityConverter();
-            this.mCheckBox.SetBinding(CheckBox.VisibilityProperty, lCheckBoxVisibilityBinding);
+                // Binding the IsSelected property.
+                Binding lIsSelectedBinding = new Binding("IsSelected");
+                lIsSelectedBinding.Source = pNewViewModel;
+                lIsSelectedBinding.Mode = BindingMode.OneWay;
+                this.SetBinding(TreeListViewItem.IsSelectedProperty, lIsSelectedBinding);
 
-            // Binding the checking state.
-            Binding lCheckBoxIsEnabledBinding = new Binding("IsCheckingEnabled");
-            lCheckBoxIsEnabledBinding.Source = this.mViewModel;
-            this.mCheckBox.SetBinding(CheckBox.IsEnabledProperty, lCheckBoxIsEnabledBinding);
+                // Binding the Tooltip property.
+                Binding lTooltipBinding = new Binding("ToolTip");
+                lTooltipBinding.Source = pNewViewModel;
+                lTooltipBinding.Converter = new ToolTipConverter();
+                this.SetBinding(TreeListViewItem.ToolTipProperty, lTooltipBinding);
 
-            // Binding the multicolumn state.
-            Binding lIsParentMultiColumnBinding = new Binding("Columns.Count");
-            lIsParentMultiColumnBinding.Source = this.ParentTreeListView;
-            lIsParentMultiColumnBinding.Converter = new IntegerToBoolConverter();
-            this.SetBinding(IsParentTreeMultiColumnsBehavior.IsParentTreeMultiColumnsProperty, lIsParentMultiColumnBinding);
+                // Binding the multicolumn state.
+                Binding lIsParentMultiColumnBinding = new Binding("Columns.Count");
+                lIsParentMultiColumnBinding.Source = this.ParentTreeListView;
+                lIsParentMultiColumnBinding.Converter = new IntegerToBoolConverter();
+                this.SetBinding(IsParentTreeMultiColumnsBehavior.IsParentTreeMultiColumnsProperty, lIsParentMultiColumnBinding);
+
+                // Binding the FirstLevelItemsAsGroup property.
+                MultiBinding lIsGroupBinding = new MultiBinding();
+                Binding lViewModelBinding = new Binding() { BindsDirectlyToSource = true };
+                lViewModelBinding.Source = pNewViewModel;
+                lIsGroupBinding.Bindings.Add(lViewModelBinding);
+                Binding lFirstLevelItemAsGroupBinding = new Binding("FirstLevelItemsAsGroup");
+                lFirstLevelItemAsGroupBinding.Source = this.ParentTreeListView;
+                lIsGroupBinding.Bindings.Add(lFirstLevelItemAsGroupBinding);
+                lIsGroupBinding.Converter = new ItemToIsGroupConverter();
+                this.SetBinding(TreeListViewItem.IsGroupProperty, lIsGroupBinding);
+
+                // Binding the group item data template.
+                Binding lGroupItemDataTemplateBinding = new Binding("GroupItemDataTemplate");
+                lGroupItemDataTemplateBinding.Source = this.ParentTreeListView;
+                this.SetBinding(TreeListViewItem.GroupDataTemplateProperty, lGroupItemDataTemplateBinding);
+
+                // View model defines the group model if the item is displayed as a group.
+                this.Group = pNewViewModel;
+
+                if (this.mExpander != null)
+                {
+                    // Binding the visibility of the expander.
+                    Binding lExpanderVisibilityBinding = new Binding("HasChildren");
+                    lExpanderVisibilityBinding.Source = pNewViewModel;
+                    lExpanderVisibilityBinding.Converter = new CanExpandConverter();
+                    this.mExpander.SetBinding(ToggleButton.VisibilityProperty, lExpanderVisibilityBinding);
+
+                    // Binding the indentation of the expander.
+                    Binding lExpanderMarginBinding = new Binding("Parent");
+                    lExpanderMarginBinding.Source = pNewViewModel;
+                    lExpanderMarginBinding.Converter = new LevelToIndentConverter();
+                    this.mExpander.SetBinding(ToggleButton.MarginProperty, lExpanderMarginBinding);
+
+                    // Binding the expanded state.
+                    this.RegisterToExpanderEvents();
+                    Binding lExpanderIsCheckedBinding = new Binding("IsExpanded");
+                    lExpanderIsCheckedBinding.Source = pNewViewModel;
+                    lExpanderIsCheckedBinding.Mode = BindingMode.OneWay;
+                    this.mExpander.SetBinding(ToggleButton.IsCheckedProperty, lExpanderIsCheckedBinding);
+                }
+
+                if (this.mImage != null)
+                {
+                    // Binding the icon source.
+                    Binding lImageSourceBinding = new Binding("IconSource");
+                    lImageSourceBinding.Source = pNewViewModel;
+                    this.mImage.SetBinding(Image.SourceProperty, lImageSourceBinding);
+
+                    if (this.IsGroup == false)
+                    {
+                        // Binding the icon visibility.
+                        Binding lImageVisibilityBinding = new Binding("IconVisibility");
+                        lImageVisibilityBinding.Source = pNewViewModel;
+                        this.mImage.SetBinding(Image.VisibilityProperty, lImageVisibilityBinding);
+                    }
+                }
+
+                if (this.mCheckBox != null)
+                {
+                    // Binding the checked state.
+                    Binding lCheckBoxIsCheckedBinding = new Binding("IsChecked");
+                    lCheckBoxIsCheckedBinding.Source = pNewViewModel;
+                    lCheckBoxIsCheckedBinding.Mode = BindingMode.OneWay;
+                    this.mCheckBox.SetBinding(CheckBox.IsCheckedProperty, lCheckBoxIsCheckedBinding);
+                    this.RegisterToCheckBoxEvents();
+
+                    // Binding the checkable state.
+                    Binding lCheckBoxVisibilityBinding = new Binding("IsCheckable");
+                    lCheckBoxVisibilityBinding.Source = pNewViewModel;
+                    lCheckBoxVisibilityBinding.Converter = new BooleanToVisibilityConverter();
+                    this.mCheckBox.SetBinding(CheckBox.VisibilityProperty, lCheckBoxVisibilityBinding);
+
+                    // Binding the checking state.
+                    Binding lCheckBoxIsEnabledBinding = new Binding("IsCheckingEnabled");
+                    lCheckBoxIsEnabledBinding.Source = pNewViewModel;
+                    this.mCheckBox.SetBinding(CheckBox.IsEnabledProperty, lCheckBoxIsEnabledBinding);
+                }
+            }
         }
 
         /// <summary>
@@ -374,7 +497,10 @@ namespace XTreeListView.Gui
         /// Retrieves the region used to clip the decorator container.
         /// </summary>
         private Geometry GetDecoratorsClipRegion()
-        {   
+        {
+            // Blank space between the end of the column and the actual end of the clip region of the column.
+            double lBlankSpaceMarginInPixels = 6;
+
             RectangleGeometry lClip = null;
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
@@ -395,7 +521,7 @@ namespace XTreeListView.Gui
                     MultiBinding lRectBinding = new MultiBinding();
                     lRectBinding.Bindings.Add(lXBinding);
                     lRectBinding.Bindings.Add(lYBinding);
-                    lRectBinding.Converter = new WidthHeightToRectConverter() { Margin = new Thickness(0, 0, 6, 0) };
+                    lRectBinding.Converter = new WidthHeightToRectConverter() { Margin = new Thickness(0, 0, lBlankSpaceMarginInPixels, 0) };
 
                     BindingOperations.SetBinding(lClip, RectangleGeometry.RectProperty, lRectBinding);
                 }
@@ -411,7 +537,7 @@ namespace XTreeListView.Gui
         /// <param name="pEventArgs">The event arguments.</param>
         private void OnDecoratorsContainerSizeChanged(object pSender, SizeChangedEventArgs pEventArgs)
         {
-            this.mViewModel.DecoratorWidth = pEventArgs.NewSize.Width;
+            this.ViewModel.DecoratorWidth = pEventArgs.NewSize.Width;
         }
 
         /// <summary>
@@ -423,7 +549,7 @@ namespace XTreeListView.Gui
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
             {
-                lParent.InnerListView.OnItemKeyUp(this.mViewModel, pEventArgs);
+                lParent.InnerListView.OnItemKeyUp(this.ViewModel, pEventArgs);
             }
         }
 
@@ -436,7 +562,7 @@ namespace XTreeListView.Gui
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
             {
-                lParent.InnerListView.OnItemMouseLeftButtonDown(this.mViewModel, pEventArgs);
+                lParent.InnerListView.OnItemMouseLeftButtonDown(this.ViewModel, pEventArgs);
             }
 
             pEventArgs.Handled = true;
@@ -451,10 +577,51 @@ namespace XTreeListView.Gui
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
             {
-                lParent.InnerListView.OnItemMouseRightButtonDown(this.mViewModel, pEventArgs);
+                lParent.InnerListView.OnItemMouseRightButtonDown(this.ViewModel, pEventArgs);
             }
 
             pEventArgs.Handled = true;
+        }
+
+        /// <summary>
+        /// Delegate called when the mouse left button is up.
+        /// </summary>
+        /// <param name="pEventArgs">The event arguments.</param>
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs pEventArgs)
+        {
+            TreeListView lParent = this.ParentTreeListView;
+            if (lParent != null)
+            {
+                lParent.InnerListView.OnItemMouseLeftButtonUp(this.ViewModel, pEventArgs);
+            }
+        }
+
+        /// <summary>
+        /// Delegate called when the mouse right button is up.
+        /// </summary>
+        /// <param name="pEventArgs">The event arguments.</param>
+        protected override void OnMouseRightButtonUp(MouseButtonEventArgs pEventArgs)
+        {
+            TreeListView lParent = this.ParentTreeListView;
+            if (lParent != null)
+            {
+                lParent.InnerListView.OnItemMouseRightButtonUp(this.ViewModel, pEventArgs);
+            }
+        }
+        
+        /// <summary>
+        /// Delegate called when the mouse clicked on this item.
+        /// </summary>
+        /// <param name="pEventArgs">The event arguments.</param>
+        protected override void OnMouseUp(MouseButtonEventArgs pEventArgs)
+        {
+            base.OnMouseUp(pEventArgs);
+
+            TreeListView lParent = this.ParentTreeListView;
+            if (lParent != null)
+            {
+                lParent.InnerListView.OnItemMouseClicked(this.ViewModel, pEventArgs);
+            }
         }
 
         /// <summary>
@@ -468,7 +635,7 @@ namespace XTreeListView.Gui
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
             {
-                lParent.InnerListView.OnItemMouseDoubleClicked(this.mViewModel, pEventArgs);
+                lParent.InnerListView.OnItemMouseDoubleClicked(this.ViewModel, pEventArgs);
             }
 
             pEventArgs.Handled = true;
@@ -484,7 +651,7 @@ namespace XTreeListView.Gui
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
             {
-                lParent.InnerListView.CheckModel.Check(this.mViewModel, false);
+                lParent.InnerListView.CheckModel.Check(this.ViewModel, false);
             }
         }
 
@@ -498,7 +665,7 @@ namespace XTreeListView.Gui
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
             {
-                lParent.InnerListView.CheckModel.Uncheck(this.mViewModel, false);
+                lParent.InnerListView.CheckModel.Uncheck(this.ViewModel, false);
             }
         }
 
@@ -512,7 +679,7 @@ namespace XTreeListView.Gui
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
             {
-                lParent.InnerListView.OnItemExpanderChecked(this.mViewModel);
+                lParent.InnerListView.OnItemExpanderChecked(this.ViewModel);
             }
         }
 
@@ -526,7 +693,7 @@ namespace XTreeListView.Gui
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
             {
-                lParent.InnerListView.OnItemExpanderUnchecked(this.mViewModel);
+                lParent.InnerListView.OnItemExpanderUnchecked(this.ViewModel);
             }
         }
 

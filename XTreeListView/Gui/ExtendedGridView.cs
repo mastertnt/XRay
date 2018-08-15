@@ -57,7 +57,7 @@ namespace XTreeListView.Gui
                 }
                 else
                 {
-                    this.ColumnHeaderContainerStyle = Resources.All.Instance["CollapsedGridViewColumnHeaderStyle"] as Style;
+                    this.ColumnHeaderContainerStyle = XTreeListView.Resources.All.Instance["CollapsedGridViewColumnHeaderStyle"] as Style;
                 }
             }
         }
