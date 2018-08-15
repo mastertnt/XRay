@@ -159,7 +159,18 @@ namespace XTreeListView.Gui
 
             set
             {
-                base.View = value;
+                if (base.View != value)
+                {
+                    base.View = value;
+                    if (base.View != null)
+                    {
+                        this.mColumnResizeBehavior.Activate();
+                    }
+                    else
+                    {
+                        this.mColumnResizeBehavior.Deactivate();
+                    }
+                }
             }
         }
 

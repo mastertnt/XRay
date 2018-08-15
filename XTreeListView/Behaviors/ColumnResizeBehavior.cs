@@ -49,6 +49,16 @@ namespace XTreeListView.Behaviors
         private Cursor mBackCursor;
 
         /// <summary>
+        /// Stores the backup horizontal scroll bar visibility.
+        /// </summary>
+        private ScrollBarVisibility mBackupHorizontalScrollBarVisibility;
+
+        /// <summary>
+        /// Stores the backup vertical scroll bar visibility.
+        /// </summary>
+        private ScrollBarVisibility mBackupVerticalScrollBarVisibility;
+
+        /// <summary>
         /// Stores the vertical scroll bar visibility.
         /// </summary>
         private ScrollBarVisibility mVerticalScrollBarVisibility;
@@ -75,13 +85,62 @@ namespace XTreeListView.Behaviors
 
             this.mVerticalScrollBarVisibility = ScrollBarVisibility.Auto;
 			this.mListView = pListView;
-            this.mListView.Loaded += new RoutedEventHandler(this.OnListViewLoaded);
-            this.mListView.Unloaded += new RoutedEventHandler(this.OnListViewUnloaded);
 		}
 
         #endregion // Constructors.
 
         #region Methods
+
+        /// <summary>
+        /// Activates the behavior.
+        /// </summary>
+        public void Activate()
+        {
+            if (this.mListView.IsLoaded)
+            {
+                this.Initialize();
+            }
+            else
+            {
+                this.mListView.Loaded -= new RoutedEventHandler(this.OnListViewLoaded);
+                this.mListView.Loaded += new RoutedEventHandler(this.OnListViewLoaded);
+            }
+        }
+
+        /// <summary>
+        /// Dectivates the behavior.
+        /// </summary>
+        public void Deactivate()
+        {
+            if (this.mLoaded == false)
+            {
+                return;
+            }
+
+            this.UnregisterEvents(this.mListView);
+            this.mLoaded = false;
+        }
+
+        /// <summary>
+        /// Initializes the behavior.
+        /// </summary>
+        public void Initialize()
+        {
+            this.RegisterEvents(this.mListView);
+            this.InitColumns();
+            this.DoResizeColumns(-1);
+            this.mLoaded = true;
+        }
+
+        /// <summary>
+        /// Delegate called when the managed list view is loaded.
+        /// </summary>
+        /// <param name="pSender">The event sender.</param>
+        /// <param name="pEventArgs">The event arguments.</param>
+        private void OnListViewLoaded(object pSender, RoutedEventArgs pEventArgs)
+        {
+            this.Initialize();
+        }
 
         /// <summary>
         /// Registers on the wanted events on the dependency object.
@@ -122,6 +181,10 @@ namespace XTreeListView.Behaviors
                     this.mScrollViewer = lChildVisual as ScrollViewer;
                     this.mScrollViewer.ScrollChanged += new ScrollChangedEventHandler(this.OnScrollViewerScrollChanged);
                     
+                    // Saving the current scrollbar parameters.
+                    this.mBackupHorizontalScrollBarVisibility = this.mScrollViewer.HorizontalScrollBarVisibility;
+                    this.mBackupVerticalScrollBarVisibility = this.mScrollViewer.VerticalScrollBarVisibility;
+
                     // Assume we do the regulation of the horizontal scrollbar.
                     this.mScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
                     this.mScrollViewer.VerticalScrollBarVisibility = this.mVerticalScrollBarVisibility;
@@ -167,6 +230,10 @@ namespace XTreeListView.Behaviors
                 {
                     this.mScrollViewer = lChildVisual as ScrollViewer;
                     this.mScrollViewer.ScrollChanged -= new ScrollChangedEventHandler(this.OnScrollViewerScrollChanged);
+
+                    // Back applying the scrollbar states.
+                    this.mScrollViewer.HorizontalScrollBarVisibility = this.mBackupHorizontalScrollBarVisibility;
+                    this.mScrollViewer.VerticalScrollBarVisibility = this.mBackupVerticalScrollBarVisibility;
                 }
 
                 this.UnregisterEvents(lChildVisual);
@@ -497,35 +564,6 @@ namespace XTreeListView.Behaviors
 
             bool? lIsFillColumn = RangeColumn.GetRangeIsFillColumn(pColumn);
             return lIsFillColumn.HasValue && lIsFillColumn.Value;
-        }
-
-        /// <summary>
-        /// Delegate called when the managed list view is loaded.
-        /// </summary>
-        /// <param name="pSender">The event sender.</param>
-        /// <param name="pEventArgs">The event arguments.</param>
-        private void OnListViewLoaded(object pSender, RoutedEventArgs pEventArgs)
-        {
-            this.RegisterEvents(this.mListView);
-            this.InitColumns();
-            this.DoResizeColumns(-1);
-            this.mLoaded = true;
-        }
-
-        /// <summary>
-        /// Delegate called when the managed list view is unloaded.
-        /// </summary>
-        /// <param name="pSender">The event sender.</param>
-        /// <param name="pEventArgs">The event arguments.</param>
-        private void OnListViewUnloaded(object pSender, RoutedEventArgs pEventArgs)
-        {
-            if (this.mLoaded == false)
-            {
-                return;
-            }
-
-            this.UnregisterEvents(this.mListView);
-            this.mLoaded = false;
         }
 
         /// <summary>
