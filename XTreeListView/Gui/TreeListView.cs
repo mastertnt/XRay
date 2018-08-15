@@ -593,15 +593,13 @@ namespace XTreeListView.Gui
         private static object OnCoerceItemTemplateAndSelector(DependencyObject pSender, object pObject)
         {
             TreeListView lControl = pSender as TreeListView;
-            if
-                (lControl != null)
+            if (lControl != null)
             {
-                if
-                    (pObject != null)
+                if (pObject != null)
                 {
 #pragma warning disable 1587
                     /// ItemTemplate and ItemTemplateSelector properties cannot be set (exception) if the DisplayMemberPath
-                    /// is defined. It is the case has it is the default behaviour of the tree.
+                    /// is defined. It is the case as it is the default behaviour of the tree.
                     /// When using the ItemTemplate or ItemTemplateSelector properties, the DisplayMemberPath is then invalidated.
 #pragma warning restore 1587
                     lControl.DisplayMemberPath = string.Empty;

@@ -7,12 +7,16 @@ namespace XTreeListView.ViewModel.Generic
     /// <typeparam name="T">The type of the owned object.</typeparam>
     public interface IRootHierarchicalItemViewModel<T> : IRootHierarchicalItemViewModel
     {
-        #region Properties.
+        #region Properties
 
         /// <summary>
         /// Gets or sets the model associated to this view model.
         /// </summary>
-        T Model { get; set; }
+        T Model 
+        { 
+            get; 
+            set; 
+        }
 
         #endregion // Properties.
     }

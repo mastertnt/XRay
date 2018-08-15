@@ -13,7 +13,7 @@ namespace XTreeListView.Gui
     /// <summary>
     /// Class extending the <see cref="GridView"/> control.
     /// </summary>
-    internal class ExtendedGridView : GridView
+    public class ExtendedGridView : GridView
     {
         #region Fields
 
@@ -59,6 +59,17 @@ namespace XTreeListView.Gui
                 {
                     this.ColumnHeaderContainerStyle = XTreeListView.Resources.All.Instance["CollapsedGridViewColumnHeaderStyle"] as Style;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets the item container default style key.
+        /// </summary>
+        protected override object ItemContainerDefaultStyleKey 
+        { 
+            get
+            {
+                return TreeListViewItem.MultiColumnDefaultStyleKey;
             }
         }
 

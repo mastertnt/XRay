@@ -58,6 +58,8 @@ namespace XTreeListView.Gui
         {
             this.Rows = new ObservableCollectionExtended<IHierarchicalItemViewModel>();
             this.ItemsSource = this.Rows;
+
+            // Creating the models.
             this.SelectionModel = new SelectionModel(this);
             this.CheckModel = new CheckModel();
             this.ExpandModel = new ExpandModel(this);
@@ -332,7 +334,7 @@ namespace XTreeListView.Gui
         internal void OnItemKeyUp(IHierarchicalItemViewModel pItem, System.Windows.Input.KeyEventArgs pEventArgs)
         {
             // Handling the expand.
-            this.mExpandBehavior.OnItemKeyUp(null, pEventArgs);
+            this.mExpandBehavior.OnItemKeyUp(pItem, pEventArgs);
         }
 
         /// <summary>

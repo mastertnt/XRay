@@ -83,6 +83,14 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <!-- Style of the tree list view item in no column mode -->
+    <Style TargetType="{x:Type gui:TreeListViewItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template" Value="{StaticResource TreeListViewItemTemplate}" />
+    </Style>
+
     <!-- Item template used when GridView is put inside the ListView -->
     <ControlTemplate x:Key="MultiColumnTreeListViewItemTemplate" TargetType="{x:Type gui:TreeListViewItem}">
         <Grid Margin="1,0,0,0">
@@ -119,17 +127,9 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <!-- Style of the tree list view item -->
-    <Style TargetType="{x:Type gui:TreeListViewItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Template" Value="{StaticResource TreeListViewItemTemplate}" />
-        <Style.Triggers>
-            <Trigger Property="behaviors:IsParentTreeMultiColumnsBehavior.IsParentTreeMultiColumns" Value="true" >
-                <Setter Property="Template" Value="{StaticResource MultiColumnTreeListViewItemTemplate}" />
-            </Trigger>
-        </Style.Triggers>
+    <!-- Style of the tree list view item in multi colums mode -->
+    <Style x:Key="{x:Static gui:TreeListViewItem.MultiColumnDefaultStyleKey}"  TargetType="{x:Type gui:TreeListViewItem}" BasedOn="{StaticResource {x:Type gui:TreeListViewItem}}">
+        <Setter Property="Template" Value="{StaticResource MultiColumnTreeListViewItemTemplate}" />
     </Style>
 
     <!-- Template of the tree list view -->

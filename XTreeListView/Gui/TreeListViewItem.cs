@@ -91,7 +91,8 @@ namespace XTreeListView.Gui
         /// </summary>
         static TreeListViewItem()
         {
-            TreeListViewItem.DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeListViewItem), new FrameworkPropertyMetadata(typeof(TreeListViewItem), null, OnCoerceDefaultStyleKey));
+            TreeListViewItem.DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeListViewItem), new FrameworkPropertyMetadata(typeof(TreeListViewItem)));
+            TreeListViewItem.MultiColumnDefaultStyleKey = new ComponentResourceKey(typeof(TreeListViewItem), "MultiColumnDefaultStyleKey");
         }
         
         #endregion // Constructors.
@@ -178,6 +179,15 @@ namespace XTreeListView.Gui
             {
                 SetValue(IsGroupProperty, value);
             }
+        }
+
+        /// <summary>
+        /// Gets the item style key when the tree is in multi column mode.
+        /// </summary>
+        public static ResourceKey MultiColumnDefaultStyleKey
+        {
+            get;
+            private set;
         }
 
         #endregion // Properties.
@@ -371,12 +381,6 @@ namespace XTreeListView.Gui
                 lTooltipBinding.Source = pNewViewModel;
                 lTooltipBinding.Converter = new ToolTipConverter();
                 this.SetBinding(TreeListViewItem.ToolTipProperty, lTooltipBinding);
-
-                // Binding the multicolumn state.
-                Binding lIsParentMultiColumnBinding = new Binding("Columns.Count");
-                lIsParentMultiColumnBinding.Source = this.ParentTreeListView;
-                lIsParentMultiColumnBinding.Converter = new IntegerToBoolConverter();
-                this.SetBinding(IsParentTreeMultiColumnsBehavior.IsParentTreeMultiColumnsProperty, lIsParentMultiColumnBinding);
 
                 // Binding the FirstLevelItemsAsGroup property.
                 MultiBinding lIsGroupBinding = new MultiBinding();
@@ -705,24 +709,6 @@ namespace XTreeListView.Gui
 
             // When the item get selected, the keyboard and mouse focus is given to it.
             this.Focus();
-        }
-
-        /// <summary>
-        /// Delegate called when default style key have to be coerced.
-        /// </summary>
-        /// <param name="pSender">The modified tree list view item.</param>
-        /// <param name="pValue">The value to coerce.</param>
-        /// <returns>The coerced value.</returns>
-        private static object OnCoerceDefaultStyleKey(DependencyObject pSender, object pValue)
-        {
-            TreeListViewItem lItem = pSender as TreeListViewItem;
-            if (lItem != null && pValue == GridView.GridViewItemContainerStyleKey)
-            {
-                // When setting the View to a ListView, the DefaultStyleKey of the item is forced to the GridViewItemContainerStyleKey. Prevent from this behavior.
-                return lItem.DefaultStyleKey;
-            }
-
-            return pValue;
         }
 
         #endregion // Methods.

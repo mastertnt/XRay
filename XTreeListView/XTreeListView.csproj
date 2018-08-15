@@ -33,7 +33,6 @@
     <Compile Include="Behaviors\Column\ProportionalColumn.cs" />
     <Compile Include="Behaviors\Column\RangeColumn.cs" />
     <Compile Include="Behaviors\ExpandBehavior.cs" />
-    <Compile Include="Behaviors\IsParentTreeMultiColumnsBehavior.cs" />
     <Compile Include="Behaviors\SelectionBehavior.cs" />
     <Compile Include="Converters\IntegerToBoolConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
