@@ -12,7 +12,7 @@ namespace XTreeListView.Gui
     public enum TreeSelectionMode
     {
         /// <summary>
-        /// No selection is available..
+        /// No selection is available.
         /// </summary>
         NoSelection = 0,
 

@@ -5,7 +5,6 @@ namespace XTreeListView.ViewModel.Generic
     /// This interface defines the generic root view model interface.
     /// </summary>
     /// <typeparam name="T">The type of the owned object.</typeparam>
-    /// <!-- DPE -->
     public interface IRootHierarchicalItemViewModel<T> : IRootHierarchicalItemViewModel
     {
         #region Properties.

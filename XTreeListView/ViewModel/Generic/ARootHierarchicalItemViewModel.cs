@@ -7,7 +7,6 @@ namespace XTreeListView.ViewModel.Generic
     /// <summary>
     /// This class defines the root of the view model to give to the tree list view.
     /// </summary>
-    /// <!-- DPE -->
     public abstract class ARootHierarchicalItemViewModel<T> : AHierarchicalItemViewModel, IRootHierarchicalItemViewModel<T>
     {
         #region Constructors

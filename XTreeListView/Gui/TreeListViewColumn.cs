@@ -6,7 +6,6 @@ namespace XTreeListView.Gui
     /// <summary>
     /// This class defines an tree list view column.
     /// </summary>
-    /// <!-- Damien Porte -->
     public class TreeListViewColumn
     {
         #region Constructors

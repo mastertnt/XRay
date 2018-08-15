@@ -4,7 +4,6 @@ namespace XTreeListView.ViewModel.Generic
     /// <summary>
     /// This class implements a generic view model.
     /// </summary>
-    /// <!-- DPE -->
     public abstract class AViewModel<T> : AViewModel, IViewModel<T>
     {
         #region Constructors

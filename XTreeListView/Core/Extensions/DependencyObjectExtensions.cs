@@ -6,7 +6,6 @@ namespace XTreeListView.Core.Extensions
     /// <summary>
     /// Class extending the properties of the <see cref="DependencyObject"/> class.
     /// </summary>
-    /// <!-- DPE -->
     public static class DependencyObjectExtensions
     {
         #region Methods

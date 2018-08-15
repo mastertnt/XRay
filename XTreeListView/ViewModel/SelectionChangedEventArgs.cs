@@ -7,7 +7,6 @@ namespace XTreeListView.ViewModel
     /// <summary>
     /// This class defines the arguments of the selection changed event.
     /// </summary>
-    /// <!-- DPE -->
     public class SelectionChangedEventArgs : EventArgs
     {
         #region Fields

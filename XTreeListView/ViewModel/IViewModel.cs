@@ -9,7 +9,6 @@ namespace XTreeListView.ViewModel
     /// This interface defines the base view model interface.
     /// It expose the most commonly used properties when creating a view model.
     /// </summary>
-    /// <!-- DPE -->
     public interface IViewModel : INotifyPropertyChanged, IDisposable
     {
         #region Events

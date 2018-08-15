@@ -8,7 +8,6 @@ namespace XTreeListView.ViewModel
     /// <summary>
     /// This interface defines an item in a hierarchical view model.
     /// </summary>
-    /// <!-- DPE -->
     public interface IHierarchicalItemViewModel : IViewModel
     {
         #region Properties

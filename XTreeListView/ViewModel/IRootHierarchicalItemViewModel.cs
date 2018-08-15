@@ -6,7 +6,6 @@ namespace XTreeListView.ViewModel
     /// <summary>
     /// This interface is the root node of a hierarchical view model.
     /// </summary>
-    /// <!-- DPE -->
     public interface IRootHierarchicalItemViewModel : IHierarchicalItemViewModel
     {
         #region Properties
