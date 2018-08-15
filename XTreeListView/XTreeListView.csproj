@@ -59,7 +59,7 @@
     <Compile Include="Gui\TreeListViewColumn.cs" />
     <Compile Include="Gui\TreeListViewColumnCollection.cs" />
     <Compile Include="Gui\TreeListViewItem.cs" />
-    <Compile Include="Gui\TreeSelectionOptions.cs" />
+    <Compile Include="Gui\TreeSelectionMode.cs" />
     <Compile Include="Models\CheckModel.cs" />
     <Compile Include="Models\ExpandModel.cs" />
     <Compile Include="Models\SelectionModel.cs" />

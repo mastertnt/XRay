@@ -75,7 +75,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Stores the flag indicating the item selection mode when the inner tree list view is not loaded yet.
         /// </summary>
-        private TreeSelectionOptions mPendingSelectionOption;
+        private TreeSelectionMode mPendingSelectionOption;
 
         /// <summary>
         /// Stores the context menu name.
@@ -103,7 +103,7 @@ namespace XTreeListView.Gui
         public TreeListView()
         {
             this.InnerListView = null;
-            this.SelectionOption = TreeSelectionOptions.SingleSelection;
+            this.SelectionMode = TreeSelectionMode.SingleSelection;
             this.mContextMenuName = string.Empty;
             this.Columns = new TreeListViewColumnCollection(this);
 
@@ -250,13 +250,13 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets or sets the flag indicating the item selection mode.
         /// </summary>
-        public TreeSelectionOptions SelectionOption
+        public new TreeSelectionMode SelectionMode
         {
             get
             {
                 if (this.InnerListView != null)
                 {
-                    return this.InnerListView.SelectionModel.SelectionOption;
+                    return this.InnerListView.SelectionModel.SelectionMode;
                 }
 
                 return this.mPendingSelectionOption;
@@ -266,7 +266,7 @@ namespace XTreeListView.Gui
             {
                 if (this.InnerListView != null)
                 {
-                    this.InnerListView.SelectionModel.SelectionOption = value;
+                    this.InnerListView.SelectionModel.SelectionMode = value;
                 }
                 else
                 {
@@ -377,7 +377,7 @@ namespace XTreeListView.Gui
             this.LoadViewModel();
 
             // Applying the selection option.
-            this.InnerListView.SelectionModel.SelectionOption = this.mPendingSelectionOption;
+            this.InnerListView.SelectionModel.SelectionMode = this.mPendingSelectionOption;
 
             // Registering on the collection changed event for the selected and checked items.
             this.InnerListView.SelectionModel.SelectionChanged += this.OnInnerListViewSelectionChanged;
@@ -385,34 +385,6 @@ namespace XTreeListView.Gui
             this.InnerListView.ItemViewModelsAdded += this.OnInnerListViewItemViewModelsAdded;
             this.InnerListView.ItemViewModelsRemoved += this.OnInnerListViewItemViewModelsRemoved;
             this.InnerListView.ItemViewModelDoubleClicked += this.OnInnerListViewItemViewModelDoubleClicked;
-        }
-
-        /// <summary>
-        /// Loads the grid view columns.
-        /// </summary>
-        private void LoadGridViewColumns()
-        {
-            // Setting the columns.
-            //TreeListViewColumnCollection lCollection = TreeListView.GetColumnsCollection(this) as TreeListViewColumnCollection;
-            //if (this.Columns.Count > 0)
-            //{
-            //    foreach (TreeListViewColumn lColumn in this.Columns)
-            //    {
-            //        if (this.Columns[0] == lColumn)
-            //        {
-            //            this.InnerListView.ExtendedGridView.SetFirstColumn(lColumn);
-            //        }
-            //        else
-            //        {
-            //            this.InnerListView.ExtendedGridView.AddColumn(lColumn);
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    // Adding a default column to mimic a no column treelistview.
-            //    this.InnerListView.ExtendedGridView.SetFirstColumn(new TreeListViewColumn() { DataMemberBindingPath = TreeListView.cDefaultDisplayedPropertyName, Stretch = true });
-            //}
         }
 
         /// <summary>

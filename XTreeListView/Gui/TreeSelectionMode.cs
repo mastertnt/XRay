@@ -9,7 +9,7 @@ namespace XTreeListView.Gui
     /// <summary>
     /// Enumeration which defines the selection behaviour.
     /// </summary>
-    public enum TreeSelectionOptions
+    public enum TreeSelectionMode
     {
         /// <summary>
         /// No selection is available..

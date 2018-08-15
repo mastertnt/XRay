@@ -13,7 +13,7 @@ namespace XTreeListView.Gui
     /// <summary>
     /// Class extending the <see cref="GridView"/> control.
     /// </summary>
-    public class ExtendedGridView : GridView
+    internal class ExtendedGridView : GridView
     {
         #region Fields
 

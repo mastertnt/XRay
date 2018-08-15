@@ -145,7 +145,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets the view as extended grid view.
         /// </summary>
-        public new ExtendedGridView View
+        internal new ExtendedGridView View
         {
             get
             {

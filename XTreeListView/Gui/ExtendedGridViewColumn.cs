@@ -12,7 +12,7 @@ namespace XTreeListView.Gui
     /// <summary>
     /// Class extending the <see cref="GridViewColumn"/> control.
     /// </summary>
-    public class ExtendedGridViewColumn : GridViewColumn
+    internal class ExtendedGridViewColumn : GridViewColumn
     {
         #region Fields
 

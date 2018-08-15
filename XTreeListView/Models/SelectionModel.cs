@@ -33,31 +33,16 @@ namespace XTreeListView.Models
 
         #endregion // Fields.
 
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SelectionModel"/> class.
-        /// </summary>
-        /// <param name="pParent">The model parent.</param>
-        public SelectionModel(ExtendedListView pParent)
-        {
-            this.mParent = pParent;
-            this.mCanSelect = true;
-            this.mSelectedItemsViewModel = new ObservableCollection<IHierarchicalItemViewModel>();
-        }
-
-        #endregion // Constructors.
-
-        #region Events
-
-        /// <summary>
-        /// Event raised when the selection is modified.
-        /// </summary>
-        public event SelectionChangedEventHandler SelectionChanged;
-
-        #endregion // Events.
-
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the anchor used to select a set of items.
+        /// </summary>
+        public IHierarchicalItemViewModel Anchor
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets the selected items.
@@ -84,23 +69,23 @@ namespace XTreeListView.Models
         /// <summary>
         /// Gets or sets the flag indicating the item selection mode.
         /// </summary>
-        public TreeSelectionOptions SelectionOption
+        public TreeSelectionMode SelectionMode
         {
             get
             {
                 if (this.mCanSelect == false)
                 {
-                    return TreeSelectionOptions.NoSelection;
+                    return TreeSelectionMode.NoSelection;
                 }
                 else
                 {
                     if (this.mParent.SelectionMode == System.Windows.Controls.SelectionMode.Extended)
                     {
-                        return TreeSelectionOptions.MultiSelection;
+                        return TreeSelectionMode.MultiSelection;
                     }
                     else
                     {
-                        return TreeSelectionOptions.SingleSelection;
+                        return TreeSelectionMode.SingleSelection;
                     }
                 }
             }
@@ -108,18 +93,18 @@ namespace XTreeListView.Models
             {
                 switch (value)
                 {
-                    case TreeSelectionOptions.NoSelection:
+                    case TreeSelectionMode.NoSelection:
                         {
                             this.mCanSelect = false;
                         }
                         break;
-                    case TreeSelectionOptions.SingleSelection:
+                    case TreeSelectionMode.SingleSelection:
                         {
                             this.mCanSelect = true;
                             this.mParent.SelectionMode = System.Windows.Controls.SelectionMode.Single;
                         }
                         break;
-                    case TreeSelectionOptions.MultiSelection:
+                    case TreeSelectionMode.MultiSelection:
                         {
                             this.mCanSelect = true;
                             this.mParent.SelectionMode = System.Windows.Controls.SelectionMode.Extended;
@@ -131,6 +116,32 @@ namespace XTreeListView.Models
 
         #endregion // Properties.
 
+        #region Events
+
+        /// <summary>
+        /// Event raised when the selection is modified.
+        /// </summary>
+        public event SelectionChangedEventHandler SelectionChanged;
+
+        #endregion // Events.
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SelectionModel"/> class.
+        /// </summary>
+        /// <param name="pParent">The model parent.</param>
+        public SelectionModel(ExtendedListView pParent)
+        {
+            this.mParent = pParent;
+            this.mCanSelect = true;
+            this.mSelectedItemsViewModel = new ObservableCollection<IHierarchicalItemViewModel>();
+
+            this.Anchor = null;
+        }
+
+        #endregion // Constructors.
+
         #region Methods
 
         /// <summary>
@@ -139,7 +150,7 @@ namespace XTreeListView.Models
         /// <param name="pItem">The selected item.</param>
         public void Select(IHierarchicalItemViewModel pItem)
         {
-            if (this.SelectionOption != TreeSelectionOptions.NoSelection)
+            if (this.SelectionMode != TreeSelectionMode.NoSelection)
             {
                 this.InternalSelect(pItem, true);
             }
@@ -151,9 +162,34 @@ namespace XTreeListView.Models
         /// <param name="pItem">The item to add to the selection.</param>
         public void AddToSelection(IHierarchicalItemViewModel pItem)
         {
-            if (this.SelectionOption != TreeSelectionOptions.NoSelection)
+            if (this.SelectionMode != TreeSelectionMode.NoSelection)
             {
-                this.InternalAddToSelection(pItem, true);
+                this.InternalAddToSelection(pItem, true, true);
+            }
+        }
+
+        /// <summary>
+        /// Selects the given items.
+        /// </summary>
+        /// <param name="pItems">The selected items.</param>
+        public void Select(IEnumerable<IHierarchicalItemViewModel> pItems)
+        {
+            if (this.SelectionMode != TreeSelectionMode.NoSelection)
+            {
+                this.InternalSelect(pItems, true, true);
+            }
+        }
+
+        /// <summary>
+        /// Selects a range of items.
+        /// </summary>
+        /// <param name="pFrom">The range start view model.</param>
+        /// <param name="pTo">The range stop view model.</param>
+        public void SelectRange(IHierarchicalItemViewModel pFrom, IHierarchicalItemViewModel pTo)
+        {
+            if (this.SelectionMode != TreeSelectionMode.NoSelection)
+            {
+                this.InternalSelectRange(pFrom, pTo, true);
             }
         }
 
@@ -162,7 +198,7 @@ namespace XTreeListView.Models
         /// </summary>
         public void SelectAll()
         {
-            if (this.SelectionOption != TreeSelectionOptions.NoSelection)
+            if (this.SelectionMode != TreeSelectionMode.NoSelection)
             {
                 this.InternalSelectAll(true);
             }
@@ -190,7 +226,7 @@ namespace XTreeListView.Models
         /// </summary>
         public void UnselectAll()
         {
-            this.InternalUnselectAll(true);
+            this.InternalUnselectAll(true, true);
         }
 
         /// <summary>
@@ -204,8 +240,8 @@ namespace XTreeListView.Models
             {
                 // Update.
                 IHierarchicalItemViewModel[] lOldSelection = this.SelectedItemsViewModel.ToArray();
-                this.InternalUnselectAll(false);
-                this.InternalAddToSelection(pItem, false);
+                this.InternalUnselectAll(true, false);
+                this.InternalAddToSelection(pItem, true, false);
 
                 // Notification.
                 if (pNotify)
@@ -219,8 +255,9 @@ namespace XTreeListView.Models
         /// Adds the given to the selection.
         /// </summary>
         /// <param name="pItem">The item to add to the selection.</param>
+        /// <param name="pUpdatePivot">Flag to know if the pivot must be updated.</param>
         /// <param name="pNotify">Flag defining if the notification must be done.</param>
-        private void InternalAddToSelection(IHierarchicalItemViewModel pItem, bool pNotify)
+        private void InternalAddToSelection(IHierarchicalItemViewModel pItem, bool pUpdatePivot, bool pNotify)
         {
             if (pItem.CanBeSelected && pItem.IsSelected == false)
             {
@@ -230,8 +267,14 @@ namespace XTreeListView.Models
                 // Updating the selected items list.
                 this.mSelectedItemsViewModel.Add(pItem);
 
+                // Setting the pivot.
+                if (pUpdatePivot)
+                {
+                    this.Anchor = pItem;
+                }
+
                 // Updating native selection handling.
-                if (this.mParent.SelectionMode == System.Windows.Controls.SelectionMode.Single)
+                if (this.SelectionMode == TreeSelectionMode.SingleSelection)
                 {
                     this.mParent.SelectedItem = pItem;
                 }
@@ -249,15 +292,89 @@ namespace XTreeListView.Models
         }
 
         /// <summary>
+        /// Selects the given items.
+        /// </summary>
+        /// <param name="pItems">The selected items.</param>
+        /// <param name="pUpdatePivot">Flag to know if the pivot must be updated.</param>
+        /// <param name="pNotify">Flag defining if the notification must be done.</param>
+        private void InternalSelect(IEnumerable<IHierarchicalItemViewModel> pItems, bool pUpdatePivot, bool pNotify)
+        {
+            if (this.SelectionMode != TreeSelectionMode.SingleSelection || pItems.Count() == 1)
+            {
+                IHierarchicalItemViewModel[] lSelectableItems = pItems.Where(lItem => lItem.CanBeSelected).ToArray();
+                IHierarchicalItemViewModel[] lUnselectedItems = lSelectableItems.Where(lItem => lItem.IsSelected == false).ToArray();
+                if (lUnselectedItems.Any() || this.mParent.SelectedItems.Count != lSelectableItems.Count())
+                {
+                    // Update.
+                    IHierarchicalItemViewModel[] lOldSelection = this.SelectedItemsViewModel.ToArray();
+                    this.InternalUnselectAll(pUpdatePivot, false);
+                    foreach (IHierarchicalItemViewModel lItem in pItems)
+                    {
+                        this.InternalAddToSelection(lItem, pUpdatePivot, false);
+                    }
+
+                    // Notification.
+                    if (pNotify)
+                    {
+                        IHierarchicalItemViewModel[] lCommonItems = lOldSelection.Intersect(pItems).ToArray();
+                        IHierarchicalItemViewModel[] lItemsToRemove = lOldSelection.Except(lCommonItems).ToArray();
+                        IHierarchicalItemViewModel[] lItemsToAdd = pItems.Except(lCommonItems).ToArray();
+
+                        this.NotifySelectionChanged(lItemsToRemove, lItemsToAdd);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Selects a range of items.
+        /// </summary>
+        /// <param name="pFrom">The range start view model.</param>
+        /// <param name="pTo">The range stop view model.</param>
+        /// <param name="pNotify">Flag defining if the notification must be done.</param>
+        private void InternalSelectRange(IHierarchicalItemViewModel pFrom, IHierarchicalItemViewModel pTo, bool pNotify)
+        {
+            if (this.SelectionMode != TreeSelectionMode.SingleSelection)
+            {
+                // Getting the indexes of the selection range.
+                int lFromIndex = this.mParent.Rows.IndexOf(pFrom);
+                int lToIndex = this.mParent.Rows.IndexOf(pTo);
+                if (lFromIndex > lToIndex)
+                {
+                    // Swap values.
+                    int lTemp = lFromIndex;
+                    lFromIndex = lToIndex;
+                    lToIndex = lTemp;
+                }
+
+                // Building the list of items to select.
+                List<IHierarchicalItemViewModel> lItemsToSelect = new List<IHierarchicalItemViewModel>();
+                for (int lIndex = lFromIndex; lIndex <= lToIndex; lIndex++)
+                {
+                    IHierarchicalItemViewModel lItem = this.mParent.Rows.ElementAtOrDefault(lIndex);
+                    if (lItem != null)
+                    {
+                        lItemsToSelect.Add(lItem);
+                    }
+                }
+
+                if (lItemsToSelect.Any())
+                {
+                    // Update.
+                    this.InternalSelect(lItemsToSelect, false, pNotify);
+                }
+            }
+        }
+
+        /// <summary>
         /// Select all the items.
         /// </summary>
         /// <param name="pNotify">Flag defining if the notification must be done.</param>
         private void InternalSelectAll(bool pNotify)
         {
-            if (this.mParent.SelectionMode != System.Windows.Controls.SelectionMode.Single)
+            if (this.SelectionMode != TreeSelectionMode.SingleSelection)
             {
                 // Updating view model.
-                IHierarchicalItemViewModel[] lOldSelection = this.SelectedItemsViewModel.ToArray();
                 List<IHierarchicalItemViewModel> lAddedItems = new List<IHierarchicalItemViewModel>();
                 foreach (IHierarchicalItemViewModel lItem in this.mParent.ViewModel.ViewModel)
                 {
@@ -297,8 +414,14 @@ namespace XTreeListView.Models
                 // Updating the selected items list.
                 this.mSelectedItemsViewModel.Remove(pItem);
 
+                // Updating the pivot.
+                if (this.Anchor == pItem)
+                {
+                    this.Anchor = null;
+                }
+
                 // Updating native selection handling.
-                if (this.mParent.SelectionMode == System.Windows.Controls.SelectionMode.Single)
+                if (this.SelectionMode == TreeSelectionMode.SingleSelection)
                 {
                     this.mParent.SelectedItem = null;
                 }
@@ -336,8 +459,14 @@ namespace XTreeListView.Models
                         this.mSelectedItemsViewModel.Remove(lItem);
                     }
 
+                    // Updating the pivot.
+                    if (lRemovedItems.Contains(this.Anchor))
+                    {
+                        this.Anchor = null;
+                    }
+
                     // Updating native selection handling.
-                    if (this.mParent.SelectionMode == System.Windows.Controls.SelectionMode.Single)
+                    if (this.SelectionMode == TreeSelectionMode.SingleSelection)
                     {
                         this.mParent.SelectedItem = null;
                     }
@@ -361,8 +490,9 @@ namespace XTreeListView.Models
         /// <summary>
         /// Unselect all the selected items.
         /// </summary>
+        /// <param name="pCleanPivot">Flag defining if the pivot must be cleaned.</param>
         /// <param name="pNotify">Flag defining if the notification must be done.</param>
-        private void InternalUnselectAll(bool pNotify)
+        private void InternalUnselectAll(bool pCleanPivot, bool pNotify)
         {
             if (this.SelectedItemsViewModel.Any())
             {
@@ -376,8 +506,14 @@ namespace XTreeListView.Models
                 // Updating the selected items list.
                 this.mSelectedItemsViewModel.Clear();
 
+                // Updating the pivot.
+                if (pCleanPivot)
+                {
+                    this.Anchor = null;
+                }
+
                 // Updating native selection handling.
-                if (this.mParent.SelectionMode == System.Windows.Controls.SelectionMode.Single)
+                if (this.SelectionMode == TreeSelectionMode.SingleSelection)
                 {
                     this.mParent.SelectedItem = null;
                 }
