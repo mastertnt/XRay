@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace XTreeListView.Core.Extensions
 {
     /// <summary>
-    /// Extensions offering more capabilities to lists.
+    /// Extensions offering more capabilities to enumerable.
     /// </summary>
-    public static class ListExtensions
+    public static class EnumerableExtensions
     {
         #region Methods
 

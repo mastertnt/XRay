@@ -46,7 +46,7 @@
     <Compile Include="Converters\WidthHeightToRectConverter.cs" />
     <Compile Include="Converters\WidthToLeftMarginConverter.cs" />
     <Compile Include="Core\Extensions\DependencyObjectExtensions.cs" />
-    <Compile Include="Core\Extensions\ListExtensions.cs" />
+    <Compile Include="Core\Extensions\EnumerableExtensions.cs" />
     <Compile Include="DataTemplate\AHierarchicalTemplateSelector.cs" />
     <Compile Include="DataTemplate\DefaultPresenterHierarchicalTemplateSelector.cs" />
     <Compile Include="DataTemplate\IHierarchicalTemplateSelector.cs" />
