@@ -10,7 +10,7 @@ namespace XTreeListView.Converters
     /// </summary>
     public class WidthToLeftMarginConverter : IValueConverter
     {
-        #region Constructor
+        #region Constructors
 
         /// <summary>
         /// Insitializes a new instance of the <see cref="WidthToLeftMarginConverter"/> class.
@@ -18,9 +18,10 @@ namespace XTreeListView.Converters
         public WidthToLeftMarginConverter()
         {
             this.InvertMargin = false;
+            this.Margin = 0.0;
         }
 
-        #endregion // Constructor.
+        #endregion // Constructors.
 
         #region Properties
 
@@ -31,6 +32,15 @@ namespace XTreeListView.Converters
         { 
             get; 
             set; 
+        }
+
+        /// <summary>
+        /// Gets or sets the margin to remove to the width.
+        /// </summary>
+        public double Margin
+        {
+            get;
+            set;
         }
 
         #endregion // Properties.
@@ -48,8 +58,9 @@ namespace XTreeListView.Converters
         public object Convert(object pValue, Type pTargetType, object pExtraParameter, CultureInfo pCulture)
         {
             double lLeftThickness = System.Convert.ToDouble(pValue);
-            if
-                (this.InvertMargin)
+            lLeftThickness -= this.Margin;
+
+            if (this.InvertMargin)
             {
                 lLeftThickness = -lLeftThickness;
             }

@@ -20,7 +20,7 @@ namespace XTreeListView.Converters
         /// <summary>
         /// Constant used to set an indentation size (in pixels).
         /// </summary>
-        private const double IndentSize = 19.0;
+        private const double IndentSize = 18.0;
 
         #endregion // Constants.
 

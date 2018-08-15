@@ -28,7 +28,7 @@ namespace XTreeListView.Converters
         #region Properties
 
         /// <summary>
-        /// Gets or sets the margin to apply to the rectangle.
+        /// Gets or sets the margin to remove to the rectangle.
         /// </summary>
         public Thickness Margin 
         { 

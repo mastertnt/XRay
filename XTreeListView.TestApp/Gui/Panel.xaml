@@ -9,10 +9,10 @@
     <Grid>
         <TabControl>
             <TabItem Header="Person">
-                <xtlv:TreeListView x:Name="mPersonContainer" x:FieldModifier="private" DisplayName="MultiTree" DefaultMessage="Click on the Load Model button." Margin="3" />
+                <xtlv:TreeListView x:Name="mPersonContainer" x:FieldModifier="private" DisplayName="MultiTree" DefaultMessage="Click on the Load Model button." Margin="2" />
             </TabItem>
             <TabItem Header="Multi Column">
-                <xtlv:TreeListView x:Name="mMultiContainer" x:FieldModifier="private" DisplayName="MultiTree" Margin="3">
+                <xtlv:TreeListView x:Name="mMultiContainer" x:FieldModifier="private" DisplayName="MultiTree" Margin="2">
                     <xtlv:TreeListView.Columns>
                         <xtlv:TreeListViewColumn Header="Name" DataMemberBindingPath="Name" />
                         <xtlv:TreeListViewColumn Header="Kind" DataMemberBindingPath="Kind" />

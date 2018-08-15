@@ -83,9 +83,12 @@ namespace XTreeListView.Gui
                 // Indenting the data template used in the first column.
                 if (lIter == 0)
                 {
+                    // Extra margin between the end of the decorators part and the beginning of the item data template to remove.
+                    double lExtraMargin = 4;
+
                     // Creating the indentation of the data template.
                     Binding lTemplateMarginBinding = new Binding("DecoratorWidth");
-                    lTemplateMarginBinding.Converter = new WidthToLeftMarginConverter();
+                    lTemplateMarginBinding.Converter = new WidthToLeftMarginConverter() { Margin = lExtraMargin };
 
                     // Creating the new cell data template.
                     System.Windows.DataTemplate lCellDataTemplate = new System.Windows.DataTemplate();
