@@ -178,13 +178,12 @@ namespace XTreeListView.Behaviors
         /// </summary>
         private void InitColumns()
         {
-            GridView lView = this.mListView.View as GridView;
-            if (lView == null)
+            if (this.mListView.View == null)
             {
                 return;
             }
 
-            foreach (GridViewColumn lColumn in lView.Columns)
+            foreach (GridViewColumn lColumn in this.mListView.View.Columns)
             {
                 if (RangeColumn.IsRangeColumn(lColumn) == false)
                 {
@@ -242,7 +241,7 @@ namespace XTreeListView.Behaviors
                 GridViewColumnHeader lColumnHeader = pObject as GridViewColumnHeader;
                 if (lColumnHeader != null)
                 {
-                    return (lColumnHeader).Column;
+                    return lColumnHeader.Column;
                 }
 
                 pObject = VisualTreeHelper.GetParent(pObject);
@@ -309,8 +308,7 @@ namespace XTreeListView.Behaviors
         /// <param name="pColumnIndex">The specific index of the resized column, or -1 if the whole control is resized.</param>
         private void ResizeColumns(int pColumnIndex)
         {
-            GridView lGridView = this.mListView.View as GridView;
-            if (lGridView == null || lGridView.Columns.Count == 0)
+            if (this.mListView.View == null || this.mListView.View.Columns.Count == 0)
             {
                 return;
             }
@@ -333,7 +331,7 @@ namespace XTreeListView.Behaviors
             // Computing column sizes.
             double lResizeableRegionCount = 0;
             double lOtherColumnsWidth = 0;
-            foreach (GridViewColumn lColumn in lGridView.Columns)
+            foreach (GridViewColumn lColumn in this.mListView.View.Columns)
             {
                 if (ProportionalColumn.IsProportionalColumn(lColumn))
                 {
@@ -359,9 +357,9 @@ namespace XTreeListView.Behaviors
 
                 // Searching for the first fill column.
                 GridViewColumn lFillColumn = null;
-                for (int lIter = 0; lIter < lGridView.Columns.Count; lIter++)
+                for (int lIter = 0; lIter < this.mListView.View.Columns.Count; lIter++)
                 {
-                    GridViewColumn lColumn = lGridView.Columns[lIter];
+                    GridViewColumn lColumn = this.mListView.View.Columns[lIter];
                     if (IsFillColumn(lColumn))
                     {
                         lFillColumn = lColumn;
@@ -408,7 +406,7 @@ namespace XTreeListView.Behaviors
 
             // Resize proportional columns.
             double lResizeableRegionWidth = lResizeableColumnsWidth / lResizeableRegionCount;
-            foreach (GridViewColumn lColumn in lGridView.Columns)
+            foreach (GridViewColumn lColumn in this.mListView.View.Columns)
             {
                 if (ProportionalColumn.IsProportionalColumn(lColumn))
                 {
@@ -423,7 +421,7 @@ namespace XTreeListView.Behaviors
                     }
                     else
                     {
-                        int lCurrentIndex = lGridView.Columns.IndexOf(lColumn);
+                        int lCurrentIndex = this.mListView.View.Columns.IndexOf(lColumn);
                         if (pColumnIndex == lCurrentIndex)
                         {
                             // Adapting the ratio so that the column can be resized.
@@ -492,8 +490,7 @@ namespace XTreeListView.Behaviors
                 return false;
             }
 
-            GridView lView = this.mListView.View as GridView;
-            if (lView == null || lView.Columns.Count == 0)
+            if (this.mListView.View == null || this.mListView.View.Columns.Count == 0)
             {
                 return false;
             }
@@ -661,8 +658,7 @@ namespace XTreeListView.Behaviors
             }
 
             // Force resize.
-            GridView lGridView = this.mListView.View as GridView;
-            this.DoResizeColumns(lGridView.Columns.IndexOf(lColumn));
+            this.DoResizeColumns(this.mListView.View.Columns.IndexOf(lColumn));
         }
 
         /// <summary>
@@ -687,8 +683,7 @@ namespace XTreeListView.Behaviors
                     lColumnHeader.Column.Width = lColumnHeader.ActualWidth;
 
                     // Force resize.
-                    GridView lGridView = this.mListView.View as GridView;
-                    DoResizeColumns(lGridView.Columns.IndexOf(lColumnHeader.Column));
+                    DoResizeColumns(this.mListView.View.Columns.IndexOf(lColumnHeader.Column));
                 }
 
                 this.mAutoSizedColumn = null;

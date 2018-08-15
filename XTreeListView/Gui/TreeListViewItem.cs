@@ -505,13 +505,11 @@ namespace XTreeListView.Gui
             TreeListView lParent = this.ParentTreeListView;
             if (lParent != null)
             {
-                GridView lView = lParent.InnerListView.View as GridView;
-                if
-                    (   (lView != null)
-                    &&  (lView.Columns.Count > 0)
+                if  (  (lParent.InnerListView.View != null)
+                    && (lParent.InnerListView.View.Columns.Count > 0)
                     )
                 {
-                    GridViewColumn lFirstColumn = lView.Columns[0];
+                    GridViewColumn lFirstColumn = lParent.InnerListView.View.Columns[0];
                     lClip = new RectangleGeometry();
 
                     Binding lXBinding = new Binding("ActualWidth");
