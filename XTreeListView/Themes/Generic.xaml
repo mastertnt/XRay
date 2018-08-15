@@ -45,13 +45,18 @@
 
     <!-- Item template used when the ListView does not use GridView -->
     <ControlTemplate x:Key="TreeListViewItemTemplate" TargetType="{x:Type gui:TreeListViewItem}">
-        <StackPanel Orientation="Horizontal">
-            <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20" Margin="1,0,0,0" SnapsToDevicePixels="true">
+        <Grid Margin="1,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border x:Name="INNER_SelectionBorder" Grid.ColumnSpan="2" Background="Transparent" />
+            <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20" SnapsToDevicePixels="true">
                 <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" SnapsToDevicePixels="true" />
                 <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" SnapsToDevicePixels="true" />
                 <Image x:Name="PART_Icon" Width="24" Height="16" HorizontalAlignment="Center" SnapsToDevicePixels="true" />
             </StackPanel>
-            <Border x:Name="PART_InformationContainer" Background="Transparent" SnapsToDevicePixels="true" Padding="2">
+            <Border Grid.Column="1" Background="Transparent" Padding="2">
                 <ContentPresenter x:Name="mContentPresenter"
                                   Content="{TemplateBinding ContentControl.Content}" 
                                   ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" 
@@ -59,12 +64,12 @@
                                   ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" 
                                   HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
                                   VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
-                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
             </Border>
-        </StackPanel>
+        </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="ListBoxItem.IsSelected" Value="True">
-                <Setter Property="Background" TargetName="PART_InformationContainer">
+                <Setter Property="Background" TargetName="INNER_SelectionBorder">
                     <Setter.Value>
                         <DynamicResource ResourceKey="{x:Static SystemColors.HighlightBrushKey}" />
                     </Setter.Value>
@@ -85,23 +90,22 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Border x:Name="mSelectionBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true">
+            <Border x:Name="INNER_SelectionBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true">
                 <GridViewRowPresenter x:Name="mGridViewRowPresenter"
                                   Content="{TemplateBinding ContentControl.Content}" 
                                   VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
                                   HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
                                   SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
             </Border>
-            <StackPanel x:Name="PART_DecoratorsContainer" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Orientation="Horizontal" Height="20">
+            <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20">
                 <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" />
                 <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" />
                 <Image x:Name="PART_Icon" Width="20" Height="16" HorizontalAlignment="Center" />
             </StackPanel>
-            <Border x:Name="PART_InformationContainer" Background="Transparent" Grid.Column="1" />
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="ListBoxItem.IsSelected" Value="True">
-                <Setter Property="Background" TargetName="mSelectionBorder">
+                <Setter Property="Background" TargetName="INNER_SelectionBorder">
                     <Setter.Value>
                         <DynamicResource ResourceKey="{x:Static SystemColors.HighlightBrushKey}" />
                     </Setter.Value>
