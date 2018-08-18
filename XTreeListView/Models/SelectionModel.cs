@@ -376,7 +376,7 @@ namespace XTreeListView.Models
             {
                 // Updating view model.
                 List<IHierarchicalItemViewModel> lAddedItems = new List<IHierarchicalItemViewModel>();
-                foreach (IHierarchicalItemViewModel lItem in this.mParent.ViewModel.ViewModel)
+                foreach (IHierarchicalItemViewModel lItem in this.mParent.ViewModel.Children)
                 {
                     lAddedItems.AddRange(lItem.SelectAll());
                 }

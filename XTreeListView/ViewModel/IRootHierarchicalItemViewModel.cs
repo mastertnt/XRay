@@ -8,18 +8,6 @@ namespace XTreeListView.ViewModel
     /// </summary>
     public interface IRootHierarchicalItemViewModel : IHierarchicalItemViewModel
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the view model.
-        /// </summary>
-        IEnumerable<IHierarchicalItemViewModel> ViewModel 
-        { 
-            get; 
-        }
-
-        #endregion // Properties.
-
         #region Events
 
         /// <summary>

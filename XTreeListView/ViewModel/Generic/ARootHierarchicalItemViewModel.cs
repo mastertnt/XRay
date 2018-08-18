@@ -45,17 +45,6 @@ namespace XTreeListView.ViewModel.Generic
         }
 
         /// <summary>
-        /// Gets the view model.
-        /// </summary>
-        public IEnumerable<IHierarchicalItemViewModel> ViewModel
-        {
-            get
-            {
-                return this.Children;
-            }
-        }
-
-        /// <summary>
         /// Gets the flag indicating if the items are loaded on demand.
         /// </summary>
         protected override bool LoadItemsOnDemand
@@ -69,7 +58,7 @@ namespace XTreeListView.ViewModel.Generic
         /// <summary>
         /// Gets the icon to display in the item.
         /// </summary>
-        public override ImageSource IconSource
+        public sealed override ImageSource IconSource
         {
             get
             {
