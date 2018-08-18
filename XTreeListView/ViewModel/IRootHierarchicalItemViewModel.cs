@@ -37,6 +37,11 @@ namespace XTreeListView.ViewModel
         /// </summary>
         event TreeViewItemEventHander ItemViewModelModified;
 
+        /// <summary>
+        /// Delegate called when an item is moved.
+        /// </summary>
+        event TreeViewItemMovedEventHandler ItemViewModelMoved;
+
         #endregion // Events.
 
         #region Methods

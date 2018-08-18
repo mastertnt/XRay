@@ -779,7 +779,7 @@ namespace XTreeListView.ViewModel
         /// </summary>
         /// <param name="pIndex">The index where the hild has to be inserted.</param>
         /// <param name="pChild">The child to insert.</param>
-        private void InsertOrganizedChild(Int32 pIndex, AHierarchicalItemViewModel pChild)
+        private void InsertOrganizedChild(int pIndex, AHierarchicalItemViewModel pChild)
         {
             if (this.mComparerKeySelector != null)
             {
@@ -833,7 +833,7 @@ namespace XTreeListView.ViewModel
             foreach (var lChildrenBinding in this.mChildrenBinding)
             {
                 IList lModelCollection = lChildrenBinding.Key as IList;
-               this.SynchronizeChildren(lModelCollection);
+                this.SynchronizeChildren(lModelCollection);
             }
         }
 
@@ -856,7 +856,7 @@ namespace XTreeListView.ViewModel
             if (pCollection != null && lCreator != null)
             {
                 // Synchronizing the children.
-                foreach (Object lModel in pCollection)
+                foreach (object lModel in pCollection)
                 {
                     // Creating the view model using the apropriate delegate.
                     AHierarchicalItemViewModel lItemViewModel = lCreator(lModel);
@@ -873,7 +873,7 @@ namespace XTreeListView.ViewModel
         /// </summary>
         /// <param name="pModelProperty">The property name of the owned model.</param>
         /// <param name="pChildViewModelType">The type of the view model to create.</param>
-        protected void BindChildren(String pModelProperty, Type pChildViewModelType)
+        protected void BindChildren(string pModelProperty, Type pChildViewModelType)
         {
             // Using the native view model creator delegate.
             this.BindChildren(pModelProperty, pOwnedObject => this.CreateChildViewModel(pChildViewModelType, pOwnedObject));
@@ -884,20 +884,18 @@ namespace XTreeListView.ViewModel
         /// </summary>
         /// <param name="pModelProperty">The property name of the owned model.</param>
         /// <param name="pCreationDelegate">Specific child view model creation delegate.</param>
-        protected void BindChildren(String pModelProperty, CreateChildViewModelDelegate pCreationDelegate)
+        protected void BindChildren(string pModelProperty, CreateChildViewModelDelegate pCreationDelegate)
         {            
             // Registering the binding.
             INotifyCollectionChanged lCollectionNotifier = this.GetCollectionFromPropertyName(this.UntypedOwnedObject, pModelProperty);
-            if
-                (lCollectionNotifier != null)
+            if (lCollectionNotifier != null)
             {
                 // Binding the collections.
                 this.mChildrenBinding.Add(lCollectionNotifier, pCreationDelegate);
                 lCollectionNotifier.CollectionChanged += this.OnOwnedObjectCollectionChanged;
 
                 // Synchronize it if the item is already expanded.
-                if
-                    (this.IsExpanded)
+                if (this.IsExpanded)
                 {
                     this.SynchronizeChildren(lCollectionNotifier as IList);
                 }
@@ -940,17 +938,15 @@ namespace XTreeListView.ViewModel
                 }
 
                 IList lSender = pSender as IList;
-                if
-                    (lSender != null)
+                if (lSender != null)
                 {
                     // Update the binded children.
-                    switch
-                        (pEvent.Action)
+                    switch (pEvent.Action)
                     {
                         case NotifyCollectionChangedAction.Add:
                             {
-                                Boolean lDoExplicitAdd = true;
-                                Int32 lIndex = pEvent.NewStartingIndex;
+                                bool lDoExplicitAdd = true;
+                                int lIndex = pEvent.NewStartingIndex;
                                 if (this.ChildrenRegistered == false)
                                 {
                                     this.RegisterChildren();
@@ -962,10 +958,9 @@ namespace XTreeListView.ViewModel
                                     }
                                 }
 
-                                if
-                                    (lDoExplicitAdd && lCreator != null)
+                                if (lDoExplicitAdd && lCreator != null)
                                 {
-                                    foreach (Object lModel in pEvent.NewItems)
+                                    foreach (object lModel in pEvent.NewItems)
                                     {
                                         // Creating the view model using the apropriate delegate.
                                         AHierarchicalItemViewModel lItemViewModel = lCreator(lModel);
@@ -1015,37 +1010,31 @@ namespace XTreeListView.ViewModel
                             {
                                 if (lCreator != null)
                                 {
-                                    Int32 lCurrentItemIndex = 0;
-                                    foreach
-                                        (Object lNewModel in pEvent.NewItems)
+                                    int lCurrentItemIndex = 0;
+                                    foreach (object lNewModel in pEvent.NewItems)
                                     {
                                         // Get old model.
-                                        Object lOldModel = pEvent.OldItems[lCurrentItemIndex];
+                                        object lOldModel = pEvent.OldItems[lCurrentItemIndex];
 
                                         // Create the new Item
                                         AHierarchicalItemViewModel lItemViewModel = lCreator(lNewModel);
-                                        if
-                                            (lItemViewModel != null)
+                                        if (lItemViewModel != null)
                                         {
                                             // Search for the removed item in the collection to update.
                                             AHierarchicalItemViewModel lViewModelToReplace = null;
-                                            // ReSharper disable once LoopCanBeConvertedToQuery
-                                            foreach
-                                                (AHierarchicalItemViewModel lViewModel in this.Children)
+                                            foreach (AHierarchicalItemViewModel lViewModel in this.Children)
                                             {
-                                                if
-                                                    (lViewModel.UntypedOwnedObject == lOldModel)
+                                                if (lViewModel.UntypedOwnedObject == lOldModel)
                                                 {
                                                     lViewModelToReplace = lViewModel;
                                                     break;
                                                 }
                                             }
 
-                                            if
-                                                (lViewModelToReplace != null)
+                                            if (lViewModelToReplace != null)
                                             {
                                                 // Get the index of the removed item
-                                                Int32 lReplaceIndex = this.mChildren.IndexOf(lViewModelToReplace);
+                                                int lReplaceIndex = this.mChildren.IndexOf(lViewModelToReplace);
 
                                                 // Replace the old item by the new one
                                                 this.RemoveChild(lViewModelToReplace);
@@ -1063,9 +1052,8 @@ namespace XTreeListView.ViewModel
 
                         case NotifyCollectionChangedAction.Move:
                             {
-                                Int32 lOldIndex = pEvent.OldStartingIndex + pEvent.OldItems.Count - 1;
-                                while
-                                    (lOldIndex > 0)
+                                int lOldIndex = pEvent.OldStartingIndex + pEvent.OldItems.Count - 1;
+                                while (lOldIndex > 0)
                                 {
                                     this.MoveChild(lOldIndex, pEvent.NewStartingIndex);
                                     lOldIndex--;
@@ -1125,13 +1113,11 @@ namespace XTreeListView.ViewModel
         {
             List<PropertyInfo> lPropertiesInfo = new List<PropertyInfo>();
 
-            String[] lProperties = pPropertyName.Split(new Char[] { '.' });
+            string[] lProperties = pPropertyName.Split(new char[] { '.' });
             lPropertiesInfo.Add(pObject.GetType().GetProperty(lProperties[0]));
-            for
-                (Int32 lP = 1; lP < lProperties.Count(); ++lP)
+            for (int lP = 1; lP < lProperties.Count(); ++lP)
             {
-                if
-                    (lPropertiesInfo.Last() != null)
+                if (lPropertiesInfo.Last() != null)
                 {
                     lPropertiesInfo.Add(lPropertiesInfo.Last().PropertyType.GetProperty(lProperties[lP]));
                 }
@@ -1147,9 +1133,8 @@ namespace XTreeListView.ViewModel
                 )
             {
                 // Get collection object from propery list
-                Object lObject = pObject;
-                foreach
-                    (PropertyInfo lPInfo in lPropertiesInfo)
+                object lObject = pObject;
+                foreach (PropertyInfo lPInfo in lPropertiesInfo)
                 {
                     lObject = lPInfo.GetValue(lObject, null);
                 }
@@ -1590,7 +1575,6 @@ namespace XTreeListView.ViewModel
         /// This class defines a view model collection implemented to handle the item index in the 
         /// parent view model for performance purpose.
         /// </summary>
-        /// <!-- DPE -->
         private class ViewModelCollection : ObservableCollection<AHierarchicalItemViewModel>
         {
             #region Fields
@@ -1622,8 +1606,7 @@ namespace XTreeListView.ViewModel
             /// </summary>
             protected override void ClearItems()
             {
-                while
-                    (this.Count != 0)
+                while (this.Count != 0)
                 {
                     this.RemoveAt(this.Count - 1);
                 }
@@ -1636,18 +1619,15 @@ namespace XTreeListView.ViewModel
             /// <param name="pItem">The item to insert.</param>
             protected override void InsertItem(Int32 pIndex, AHierarchicalItemViewModel pItem)
             {
-                if
-                    (pItem == null)
+                if (pItem == null)
                 {
                     throw new ArgumentNullException("pItem");
                 }
 
-                if
-                    (pItem.Parent != this.mOwner)
+                if (pItem.Parent != this.mOwner)
                 {
                     // Removing the element from the old parent if any.
-                    if
-                        (pItem.Parent != null)
+                    if (pItem.Parent != null)
                     {
                         pItem.Parent.mChildren.Remove(pItem);
                     }
@@ -1658,15 +1638,13 @@ namespace XTreeListView.ViewModel
                     pItem.Visibility = pItem.Parent.Visibility;
 
                     // Loading children if not load on demand.
-                    if
-                        (pItem.LoadItemsOnDemand == false)
+                    if (pItem.LoadItemsOnDemand == false)
                     {
                         pItem.RegisterChildren();
                     }
 
                     // Updating the index of the item placed after the added one.
-                    for
-                        (Int32 lIndex = pIndex; lIndex < this.Count; lIndex++)
+                    for (int lIndex = pIndex; lIndex < this.Count; lIndex++)
                     {
                         this[lIndex].mIndex++;
                     }
@@ -1692,8 +1670,7 @@ namespace XTreeListView.ViewModel
                 lItem.Parent = null;
 
                 // Updating the index of the item placed after the removed one.
-                for
-                    (Int32 lIdx = pItemIndex + 1; lIdx < this.Count; lIdx++)
+                for (int lIdx = pItemIndex + 1; lIdx < this.Count; lIdx++)
                 {
                     this[lIdx].mIndex--;
                 }
@@ -1726,8 +1703,7 @@ namespace XTreeListView.ViewModel
             /// <param name="pItem">The item.</param>
             protected override void SetItem(Int32 pItemIndex, AHierarchicalItemViewModel pItem)
             {
-                if
-                    (pItem == null)
+                if (pItem == null)
                 {
                     throw new ArgumentNullException("pItem");
                 }

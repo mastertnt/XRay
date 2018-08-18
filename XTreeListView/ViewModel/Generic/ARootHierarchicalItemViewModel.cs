@@ -95,6 +95,11 @@ namespace XTreeListView.ViewModel.Generic
         /// </summary>
         public event TreeViewItemEventHander ItemViewModelModified;
 
+        /// <summary>
+        /// Delegate called when an item is moved.
+        /// </summary>
+        public event TreeViewItemMovedEventHandler ItemViewModelMoved;
+
         #endregion // Events.
 
         #region Methods
@@ -130,6 +135,20 @@ namespace XTreeListView.ViewModel.Generic
             if (this.ItemViewModelsRemoved != null)
             {
                 this.ItemViewModelsRemoved(this, new IHierarchicalItemViewModel[] { pChild });
+            }
+        }
+
+        /// <summary>
+        /// Method to call when children are removed from this view model.
+        /// </summary>
+        /// <param name="pChild">The child added to the children list.</param>
+        /// <param name="pOldIndex">The old index of the item.</param>
+        /// <param name="pNewIndex">THe new index of the item.</param>
+        protected sealed override void NotifyChildMoved(IHierarchicalItemViewModel pChild, int pOldIndex, int pNewIndex)
+        {
+            if (this.ItemViewModelMoved != null)
+            {
+                this.ItemViewModelMoved(this, pChild, pOldIndex, pNewIndex);
             }
         }
 

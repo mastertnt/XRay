@@ -217,7 +217,7 @@ namespace XTreeListView.Gui
                     // Unregistering from items modification events.
                     lOldViewModel.ItemViewModelsAdded -= lExtendedListView.OnItemViewModelsAdded;
                     lOldViewModel.ItemViewModelsRemoved -= lExtendedListView.OnItemViewModelsRemoved;
-                    //lOldViewModel.ItemViewModelMoved -= lExtendedListView.OnItemViewModelMoved;
+                    lOldViewModel.ItemViewModelMoved -= lExtendedListView.OnItemViewModelMoved;
 
                     // Initializing the view model.
                     lExtendedListView.DropChildrenItems(lOldViewModel, false);
@@ -230,7 +230,7 @@ namespace XTreeListView.Gui
                     // Registering on items modification events.
                     lNewViewModel.ItemViewModelsAdded += lExtendedListView.OnItemViewModelsAdded;
                     lNewViewModel.ItemViewModelsRemoved += lExtendedListView.OnItemViewModelsRemoved;
-                    //lNewViewModel.ItemViewModelMoved += lExtendedListView.OnItemViewModelMoved;
+                    lNewViewModel.ItemViewModelMoved += lExtendedListView.OnItemViewModelMoved;
 
                     // Loading the first level items.
                     lExtendedListView.LoadsChildrenItems(lNewViewModel);
