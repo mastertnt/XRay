@@ -29,6 +29,17 @@ namespace XTreeListView.TestApp.ViewModel
         #region Properties
 
         /// <summary>
+        /// Gets the person name.
+        /// </summary>
+        public override string DisplayString
+        {
+            get
+            {
+                return this.OwnedObject.Name;
+            }
+        }
+
+        /// <summary>
         /// Gets the registry element name.
         /// </summary>
         public string Name
@@ -68,8 +79,7 @@ namespace XTreeListView.TestApp.ViewModel
         {
             get
             {
-                if
-                    (this.OwnedObject.Kind == Microsoft.Win32.RegistryValueKind.String)
+                if (this.OwnedObject.Kind == Microsoft.Win32.RegistryValueKind.String)
                 {
                     return new BitmapImage(new Uri(@"/XTreeListView.TestApp;component/Resources/DataString.png", UriKind.Relative));
                 }

@@ -60,7 +60,7 @@ namespace XTreeListView.Models
                     else
                     {
                         // When collapsed, if any child is selected, then all the item are unselected and the collapsed item is selected.
-                        if (this.mParent.SelectionModel.SelectedItemsViewModel.Any(lSelectedItem => pItem.AllVisibleChildren.Contains(lSelectedItem)))
+                        if (this.mParent.SelectionModel.SelectedViewModels.Any(lSelectedItem => pItem.AllVisibleChildren.Contains(lSelectedItem)))
                         {
                             this.mParent.SelectionModel.Select(pItem);
                         }

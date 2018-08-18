@@ -4,21 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xtlv="http://schemas.xray.com/wpf/xaml/xtreelistview"
+             xmlns:gui="clr-namespace:XTreeListView.TestApp.Gui"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="500">
     <Grid>
         <TabControl>
             <TabItem Header="Person">
-                <xtlv:TreeListView x:Name="mPersonContainer" x:FieldModifier="private" DisplayName="MultiTree" DefaultMessage="Click on the Load Model button." Margin="2" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <xtlv:TreeListView x:Name="mPersonContainer" x:FieldModifier="private" DisplayName="Tree" DefaultMessage="Click on the Load Model button." Margin="2" />
+                    <gui:TestPanel x:Name="PersonTestPanel" Grid.Column="1" />
+                </Grid>
             </TabItem>
             <TabItem Header="Multi Column">
-                <xtlv:TreeListView x:Name="mMultiContainer" x:FieldModifier="private" DisplayName="MultiTree" Margin="2">
-                    <xtlv:TreeListView.Columns>
-                        <xtlv:TreeListViewColumn Header="Name" DataMemberBindingPath="Name" />
-                        <xtlv:TreeListViewColumn Header="Kind" DataMemberBindingPath="Kind" />
-                        <xtlv:TreeListViewColumn Header="Data" DataMemberBindingPath="Data" />
-                    </xtlv:TreeListView.Columns>
-                </xtlv:TreeListView>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <xtlv:TreeListView x:Name="mMultiContainer" x:FieldModifier="private" DisplayName="MultiTree" Margin="2">
+                        <xtlv:TreeListView.Columns>
+                            <xtlv:TreeListViewColumn Header="Name" DataMemberBindingPath="Name" />
+                            <xtlv:TreeListViewColumn Header="Kind" DataMemberBindingPath="Kind" />
+                            <xtlv:TreeListViewColumn Header="Data" DataMemberBindingPath="Data" />
+                        </xtlv:TreeListView.Columns>
+                    </xtlv:TreeListView>
+                    <gui:TestPanel x:Name="RegisterTestPanel" Grid.Column="1" />
+                </Grid>
             </TabItem>
         </TabControl>            
     </Grid>

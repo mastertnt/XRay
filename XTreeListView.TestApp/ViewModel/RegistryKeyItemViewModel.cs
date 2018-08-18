@@ -30,6 +30,17 @@ namespace XTreeListView.TestApp.ViewModel
         #region Properties
 
         /// <summary>
+        /// Gets the person name.
+        /// </summary>
+        public override string DisplayString
+        {
+            get
+            {
+                return this.OwnedObject.Name;
+            }
+        }
+
+        /// <summary>
         /// Gets the registry element name.
         /// </summary>
         public string Name

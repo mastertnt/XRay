@@ -275,7 +275,7 @@ namespace XTreeListView.Gui
             {
                 if (this.InnerListView != null)
                 {
-                    return this.InnerListView.SelectionModel.SelectedItemsViewModel;
+                    return this.InnerListView.SelectionModel.SelectedViewModels;
                 }
 
                 return new IHierarchicalItemViewModel[] { };

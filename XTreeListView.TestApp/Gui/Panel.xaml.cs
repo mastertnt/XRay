@@ -17,6 +17,9 @@ namespace XTreeListView.TestApp.Gui
         public Panel()
         {
             this.InitializeComponent();
+
+            this.PersonTestPanel.TreeToTest = this.PersonTreeListView;
+            this.RegisterTestPanel.TreeToTest = this.MultiTreeListView;
         }
 
         #endregion // Constructors.

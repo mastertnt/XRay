@@ -24,7 +24,7 @@ namespace XTreeListView.Models
         /// <summary>
         /// Stores the list of the selected items.
         /// </summary>
-        private ObservableCollection<IHierarchicalItemViewModel> mSelectedItemsViewModel;
+        private ObservableCollection<IHierarchicalItemViewModel> mSelectedViewModels;
 
         /// <summary>
         /// Stores the flag indicating if the selection is allowed.
@@ -47,11 +47,11 @@ namespace XTreeListView.Models
         /// <summary>
         /// Gets the selected items.
         /// </summary>
-        public IEnumerable<IHierarchicalItemViewModel> SelectedItemsViewModel
+        public IEnumerable<IHierarchicalItemViewModel> SelectedViewModels
         {
             get
             {
-                return this.mSelectedItemsViewModel;
+                return this.mSelectedViewModels;
             }
         }
 
@@ -62,7 +62,7 @@ namespace XTreeListView.Models
         {
             get
             {
-                return this.mSelectedItemsViewModel.Select(lItem => lItem.UntypedOwnedObject).ToArray();
+                return this.mSelectedViewModels.Select(lItem => lItem.UntypedOwnedObject).ToArray();
             }
         }
 
@@ -135,7 +135,7 @@ namespace XTreeListView.Models
         {
             this.mParent = pParent;
             this.mCanSelect = true;
-            this.mSelectedItemsViewModel = new ObservableCollection<IHierarchicalItemViewModel>();
+            this.mSelectedViewModels = new ObservableCollection<IHierarchicalItemViewModel>();
 
             this.Anchor = null;
         }
@@ -236,10 +236,10 @@ namespace XTreeListView.Models
         /// <param name="pNotify">Flag defining if the notification must be done.</param>
         private void InternalSelect(IHierarchicalItemViewModel pItem, bool pNotify)
         {
-            if (pItem.CanBeSelected && (pItem.IsSelected == false || this.mSelectedItemsViewModel.Count > 1))
+            if (pItem.CanBeSelected && (pItem.IsSelected == false || this.mSelectedViewModels.Count > 1))
             {
                 // Update.
-                IHierarchicalItemViewModel[] lOldSelection = this.SelectedItemsViewModel.ToArray();
+                IHierarchicalItemViewModel[] lOldSelection = this.SelectedViewModels.ToArray();
                 this.InternalUnselectAll(true, false);
                 this.InternalAddToSelection(pItem, true, false);
 
@@ -265,7 +265,7 @@ namespace XTreeListView.Models
                 pItem.IsSelected = true;
 
                 // Updating the selected items list.
-                this.mSelectedItemsViewModel.Add(pItem);
+                this.mSelectedViewModels.Add(pItem);
 
                 // Setting the pivot.
                 if (pUpdatePivot)
@@ -306,7 +306,7 @@ namespace XTreeListView.Models
                 if (lUnselectedItems.Any() || this.mParent.SelectedItems.Count != lSelectableItems.Count())
                 {
                     // Update.
-                    IHierarchicalItemViewModel[] lOldSelection = this.SelectedItemsViewModel.ToArray();
+                    IHierarchicalItemViewModel[] lOldSelection = this.SelectedViewModels.ToArray();
                     this.InternalUnselectAll(pUpdatePivot, false);
                     foreach (IHierarchicalItemViewModel lItem in pItems)
                     {
@@ -387,7 +387,7 @@ namespace XTreeListView.Models
                     foreach (IHierarchicalItemViewModel lItem in lAddedItems)
                     {
                         this.mParent.SelectedItems.Add(lItem);
-                        this.mSelectedItemsViewModel.Add(lItem);
+                        this.mSelectedViewModels.Add(lItem);
                     }
 
                     // Notification.
@@ -412,7 +412,7 @@ namespace XTreeListView.Models
                 pItem.IsSelected = false;
 
                 // Updating the selected items list.
-                this.mSelectedItemsViewModel.Remove(pItem);
+                this.mSelectedViewModels.Remove(pItem);
 
                 // Updating the pivot.
                 if (this.Anchor == pItem)
@@ -447,7 +447,7 @@ namespace XTreeListView.Models
         {
             if (pItem.IsSelected)
             {
-                IHierarchicalItemViewModel[] lOldSelection = this.SelectedItemsViewModel.ToArray();
+                IHierarchicalItemViewModel[] lOldSelection = this.SelectedViewModels.ToArray();
                 List<IHierarchicalItemViewModel> lRemovedItems = new List<IHierarchicalItemViewModel>();
                 lRemovedItems.AddRange(pItem.UnSelectAll());
 
@@ -456,7 +456,7 @@ namespace XTreeListView.Models
                     // Updating the selected items list.
                     foreach (IHierarchicalItemViewModel lItem in lRemovedItems)
                     {
-                        this.mSelectedItemsViewModel.Remove(lItem);
+                        this.mSelectedViewModels.Remove(lItem);
                     }
 
                     // Updating the pivot.
@@ -494,17 +494,17 @@ namespace XTreeListView.Models
         /// <param name="pNotify">Flag defining if the notification must be done.</param>
         private void InternalUnselectAll(bool pCleanPivot, bool pNotify)
         {
-            if (this.SelectedItemsViewModel.Any())
+            if (this.SelectedViewModels.Any())
             {
                 // Updating view model.
-                IHierarchicalItemViewModel[] lOldSelection = this.SelectedItemsViewModel.ToArray();
+                IHierarchicalItemViewModel[] lOldSelection = this.SelectedViewModels.ToArray();
                 foreach (IHierarchicalItemViewModel lItem in lOldSelection)
                 {
                     lItem.UnSelectAll();
                 }
 
                 // Updating the selected items list.
-                this.mSelectedItemsViewModel.Clear();
+                this.mSelectedViewModels.Clear();
 
                 // Updating the pivot.
                 if (pCleanPivot)

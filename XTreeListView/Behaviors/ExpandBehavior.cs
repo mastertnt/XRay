@@ -73,10 +73,10 @@ namespace XTreeListView.Behaviors
                 // Handling the selection when left arrow key is pressed.
                 if (pEventArgs.Key == System.Windows.Input.Key.Left)
                 {
-                    if (this.mParent.SelectionModel.SelectedItemsViewModel.Count() > 1)
+                    if (this.mParent.SelectionModel.SelectedViewModels.Count() > 1)
                     {
                         // Selecting the first element with no selected parent.
-                        IHierarchicalItemViewModel lFoundItem = this.mParent.SelectionModel.SelectedItemsViewModel.FirstOrDefault(lItem => (lItem.Parent == null) || (lItem.Parent.IsSelected == false));
+                        IHierarchicalItemViewModel lFoundItem = this.mParent.SelectionModel.SelectedViewModels.FirstOrDefault(lItem => (lItem.Parent == null) || (lItem.Parent.IsSelected == false));
                         if (lFoundItem != null)
                         {
                             this.mParent.ScrollIntoView(lFoundItem, true);

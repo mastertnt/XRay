@@ -128,7 +128,7 @@ namespace XTreeListView.Behaviors
             if (    System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.None
                &&   pItem.CanBeSelected)
             {
-                if (pItem.IsSelected && this.mParent.SelectionModel.SelectedItemsViewModel.Count() > 1)
+                if (pItem.IsSelected && this.mParent.SelectionModel.SelectedViewModels.Count() > 1)
                 {
                     this.mParent.SelectionModel.Select(pItem);
                 }
