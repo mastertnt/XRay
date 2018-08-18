@@ -54,10 +54,10 @@
             <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20" SnapsToDevicePixels="true">
                 <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" SnapsToDevicePixels="true" />
                 <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" SnapsToDevicePixels="true" />
-                <Image x:Name="PART_Icon" Width="24" Height="16" HorizontalAlignment="Center" SnapsToDevicePixels="true" />
+                <Image x:Name="PART_Icon" Width="24" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />
             </StackPanel>
             <Border Grid.Column="1" Background="Transparent" Padding="2">
-                <ContentPresenter x:Name="mContentPresenter"
+                <ContentPresenter x:Name="INNER_ContentPresenter"
                                   Content="{TemplateBinding ContentControl.Content}" 
                                   ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" 
                                   ContentTemplateSelector="{TemplateBinding ContentControl.ContentTemplateSelector}"
@@ -99,16 +99,16 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border x:Name="INNER_SelectionBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true">
-                <GridViewRowPresenter x:Name="mGridViewRowPresenter"
-                                  Content="{TemplateBinding ContentControl.Content}" 
-                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
-                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
-                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                <GridViewRowPresenter x:Name="INNER_GridViewRowPresenter"
+                                      Content="{TemplateBinding ContentControl.Content}" 
+                                      VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
+                                      HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
+                                      SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
             </Border>
             <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20">
                 <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" />
                 <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" />
-                <Image x:Name="PART_Icon" Width="20" Height="16" HorizontalAlignment="Center" />
+                <Image x:Name="PART_Icon" Width="20" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />
             </StackPanel>
         </Grid>
         <ControlTemplate.Triggers>
