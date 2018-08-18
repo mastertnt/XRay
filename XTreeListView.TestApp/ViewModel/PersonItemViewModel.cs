@@ -22,7 +22,7 @@ namespace XTreeListView.TestApp.ViewModel
         public PersonItemViewModel(Person pOwnedObject)
             :base(pOwnedObject)
         {
-            this.ToolTipContent = "Custom tooltip test";
+            this.ToolTip = "Custom tooltip test";
             this.BindChildren("Children", typeof(PersonItemViewModel));
         }
 
@@ -93,7 +93,7 @@ namespace XTreeListView.TestApp.ViewModel
         /// Returns the current object as string.
         /// </summary>
         /// <returns>The string description of the object.</returns>
-        public override String ToString()
+        public override string ToString()
         {
             return this.OwnedObject.ToString();
         }

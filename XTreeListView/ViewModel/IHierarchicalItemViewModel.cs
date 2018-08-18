@@ -141,9 +141,9 @@ namespace XTreeListView.ViewModel
         /// <summary>
         /// Convert the item to the generic version.
         /// </summary>
-        /// <typeparam name="T">The type of the owned object.</typeparam>
+        /// <typeparam name="TModel">The type of the owned object.</typeparam>
         /// <returns>The generic version of the item.</returns>
-        new Generic.IHierarchicalItemViewModel<T> ToGeneric<T>();
+        new Generic.IHierarchicalItemViewModel<TModel> ToGeneric<TModel>();
 
         /// <summary>
         /// Select all the loaded children of this item.

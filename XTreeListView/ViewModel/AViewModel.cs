@@ -30,10 +30,10 @@ namespace XTreeListView.ViewModel
         /// <summary>
         /// Stores the visibility of the item.
         /// </summary>
-        private Visibility mVisibility;
+        private bool mIsVisible;
 
         /// <summary>
-        /// This field stores the flag to know if the item is checked.
+        /// Stores the flag to know if the item is checked.
         /// </summary>
         private bool mIsChecked;
 
@@ -48,21 +48,6 @@ namespace XTreeListView.ViewModel
         private object mToolTip;
 
         /// <summary>
-        /// Stores the content of the displayed tooltip.
-        /// </summary>
-        private string mToolTipContent;
-
-        /// <summary>
-        /// Stores the string displayed by default in the item in the information part.
-        /// </summary>
-        private string mDisplayString;
-
-        /// <summary>
-        /// Stores the name of the icon to display.
-        /// </summary>
-        private string mIconName;
-
-        /// <summary>
         /// Stores the bindings of property changed names between the ViewModel and an object
         /// that implements INotifyPropertyChanged (in most case the Model).
         /// For each INotifyPropertyChanged it gives a dictionary that associate a property name in this object
@@ -70,33 +55,39 @@ namespace XTreeListView.ViewModel
         /// e.g. with an entry ["Name", "DisplayString"] when the ViewModel (this) gets notified of the 
         /// Model's "Name" property change, it fires a propertyChangedEvent whose name is "DisplayString".
         /// </summary> 
-        private readonly Dictionary<String, List<String>> mPropertiesBinding;
+        private readonly Dictionary<string, HashSet<string>> mPropertiesBinding;
 
         /// <summary>
         /// Stores the flag indicating if the notify property changed event of the view model can be raised or not.
         /// </summary>
         private bool mIsNotifyPropertyChangedEnable;
 
+        /// <summary>
+        /// Stores the flag indicating if the view model is busy.
+        /// </summary>
+        private bool mIsBusy;
+
         #endregion // Fields.
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the AViewModel class.
+        /// Initializes a new instance of the <see cref="AViewModel"/> class.
         /// </summary>
         /// <param name="pOwnedObject">The owned object.</param>
-        protected AViewModel(Object pOwnedObject)
+        protected AViewModel(object pOwnedObject)
         {
-            this.mPropertiesBinding = new Dictionary<String, List<String>>();
+            this.mPropertiesBinding = new Dictionary<string, HashSet<string>>();
 
             this.UntypedOwnedObject = pOwnedObject;
 
             this.mIsNotifyPropertyChangedEnable = true;
             this.mDisposed = false;
-            this.mVisibility = Visibility.Visible;
-            this.mIsChecked = false;
+
+            this.mIsVisible = true;
+
             this.mIsCheckingEnabled = true;
-            this.mIconName = this.GetType().Name.ToString();
+            this.mIsChecked = false;
         }
 
         /// <summary>
@@ -129,36 +120,20 @@ namespace XTreeListView.ViewModel
         #region Properties
 
         /// <summary>
-        /// Gets the selection relative to this view model.
-        /// </summary>
-        public virtual object Selection
-        {
-            get
-            {
-                return this.UntypedOwnedObject;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the string displayed by default in the item in the information part.
         /// </summary>
         public virtual string DisplayString
         {
             get
             {
-                return this.mDisplayString;
-            }
-
-            set
-            {
-                this.mDisplayString = value;
+                return string.Empty;
             }
         }
 
         /// <summary>
         /// Gets or sets the owned object.
         /// </summary>
-        public virtual object UntypedOwnedObject
+        public object UntypedOwnedObject
         {
             get
             {
@@ -195,22 +170,22 @@ namespace XTreeListView.ViewModel
         }
 
         /// <summary>
-        /// Gets or sets the visibility state of the item.
+        /// Gets or sets the flag indicating the visibility of the view model.
         /// </summary>
-        public virtual Visibility Visibility
+        public bool IsVisible
         {
             get
             {
-                return this.mVisibility;
+                return this.mIsVisible;
             }
 
             set
             {
-                if (this.mVisibility != value)
+                if (this.mIsVisible != value)
                 {
-                    this.mVisibility = value;
+                    this.mIsVisible = value;
                     this.OnVisibilityChanged(value);
-                    this.NotifyPropertyChanged("Visibility");
+                    this.NotifyPropertyChanged("IsVisible");
                 }
             }
         }
@@ -286,25 +261,6 @@ namespace XTreeListView.ViewModel
         }
 
         /// <summary>
-        /// Sets the tooltip content.
-        /// </summary>
-        public string ToolTipContent
-        {
-            get 
-            {
-                return this.mToolTipContent; 
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value) == false)
-                {
-                    this.mToolTipContent = value;
-                    this.NotifyPropertyChanged("ToolTipContent");
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets the icon to display in the item.
         /// </summary>
         public abstract ImageSource IconSource
@@ -313,28 +269,23 @@ namespace XTreeListView.ViewModel
         }
 
         /// <summary>
-        /// Gets the icon visibility.
-        /// </summary>
-        public virtual Visibility IconVisibility
-        {
-            get
-            {
-                if (this.IconSource == null)
-                {
-                    return Visibility.Collapsed;
-                }
-
-                return Visibility.Visible;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the flag indicating if the view model is busy.
+        /// Gets the flag indicating if the view model is busy.
         /// </summary>
         public bool IsBusy
         {
-            get;
-            set;
+            get
+            {
+                return this.mIsBusy;
+            }
+
+            private set
+            {
+                if (this.mIsBusy != value)
+                {
+                    this.mIsBusy = value;
+                    this.NotifyPropertyChanged("IsBusy");
+                }
+            }
         }
 
         /// <summary>
@@ -376,7 +327,7 @@ namespace XTreeListView.ViewModel
         /// Delegate called when the visibility is changed.
         /// </summary>
         /// <param name="pNewValue">The new visibility.</param>
-        protected virtual void OnVisibilityChanged(Visibility pNewValue)
+        protected virtual void OnVisibilityChanged(bool pNewValue)
         {
             // Nothing to do.
         }
@@ -386,25 +337,25 @@ namespace XTreeListView.ViewModel
         /// </summary>
         /// <param name="pModelProperty">The property name of the origin.</param>
         /// <param name="pViewModelProperty">The property name of the destination</param>
-        protected void BindProperty(String pModelProperty, String pViewModelProperty)
+        protected void BindProperty(string pModelProperty, string pViewModelProperty)
         {
             Debug.Assert(this.UntypedOwnedObject is INotifyPropertyChanged, "The model must implement INotifyPropertyChanged.");
 
             // Registering the binding.
             if (this.mPropertiesBinding.ContainsKey(pModelProperty) == false)
             {
-                this.mPropertiesBinding[pModelProperty] = new List<String>();
+                this.mPropertiesBinding[pModelProperty] = new HashSet<string>();
             }
 
             this.mPropertiesBinding[pModelProperty].Add(pViewModelProperty);
         }
 
         /// <summary>
-        /// unbind an expression of a property from the owned object to an expression of a property in the current view model.
+        /// Unbind an expression of a property from the owned object to an expression of a property in the current view model.
         /// </summary>
         /// <param name="pModelProperty">The property name of the origin.</param>
         /// <param name="pViewModelProperty">The property name of the destination</param>
-        protected void UnbindProperty(String pModelProperty, String pViewModelProperty)
+        protected void UnbindProperty(string pModelProperty, string pViewModelProperty)
         {
             if (this.mPropertiesBinding.ContainsKey(pModelProperty))
             {
@@ -418,7 +369,7 @@ namespace XTreeListView.ViewModel
         /// </summary>
         /// <param name="pSender">The modified owned object.</param>
         /// <param name="pEvent">The event arguments.</param>
-        private void OnOwnedObjectPropertyChanged(Object pSender, PropertyChangedEventArgs pEvent)
+        private void OnOwnedObjectPropertyChanged(object pSender, PropertyChangedEventArgs pEvent)
         {
             // Calling internal handler.
             this.OnOwnedObjectPropertyChangedInternal(pEvent);
@@ -446,7 +397,7 @@ namespace XTreeListView.ViewModel
         /// Method called when a property is modified to notify the listner.
         /// </summary>
         /// <param name="pPropertyName">The property name.</param>
-        public void NotifyPropertyChanged(String pPropertyName)
+        public void NotifyPropertyChanged(string pPropertyName)
         {
             if (this.PropertyChanged != null && this.mIsNotifyPropertyChangedEnable)
             {
@@ -459,16 +410,16 @@ namespace XTreeListView.ViewModel
         /// </summary>
         /// <param name="pStart">The entry point of the work to do.</param>
         /// <param name="pParams">The background work parameters.</param>
-        public void DoBackgroundWork(ParameterizedBackgroundWorkStart pStart, Object pParams)
+        public void DoBackgroundWork(ParameterizedBackgroundWorkStart pStart, object pParams)
         {
             // Indicating the tree view is busy.
-            System.Threading.Tasks.Task lBusyTask = new System.Threading.Tasks.Task(() => (this as IViewModel).IsBusy = true);
+            System.Threading.Tasks.Task lBusyTask = new System.Threading.Tasks.Task(() => this.IsBusy = true);
 
             // Excuting the background task.
             System.Threading.Tasks.Task lBackgroundTask = lBusyTask.ContinueWith((antecedent) => pStart(this, pParams));
 
             // The tree view is not busy anymore.
-            lBackgroundTask.ContinueWith((pAntecedent) => (this as IViewModel).IsBusy = false);
+            lBackgroundTask.ContinueWith((pAntecedent) => this.IsBusy = false);
 
             // Launching the task.
             lBusyTask.Start();
@@ -477,23 +428,23 @@ namespace XTreeListView.ViewModel
         /// <summary>
         /// Convert the item to the generic version.
         /// </summary>
-        /// <typeparam name="T">The type of the owned object.</typeparam>
+        /// <typeparam name="TModel">The type of the owned object.</typeparam>
         /// <returns>The generic version of the item.</returns>
-        public Generic.AViewModel<T> ToGeneric<T>()
+        public Generic.AViewModel<TModel> ToGeneric<TModel>()
         {
-            return (this as Generic.AViewModel<T>);
+            return (this as Generic.AViewModel<TModel>);
         }
 
         /// <summary>
         /// Convert the item to the generic version.
         /// </summary>
-        /// <typeparam name="T">The type of the owned object.</typeparam>
+        /// <typeparam name="TModel">The type of the owned object.</typeparam>
         /// <returns>
         /// The generic version of the item.
         /// </returns>
-        IViewModel<T> IViewModel.ToGeneric<T>()
+        IViewModel<TModel> IViewModel.ToGeneric<TModel>()
         {
-            return (this as IViewModel<T>);
+            return (this as IViewModel<TModel>);
         }
 
         /// <summary>

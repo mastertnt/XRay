@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace XTreeListView.Gui
 {
     /// <summary>
-    /// Enumeration which defines the selection behaviour.
+    /// Enumeration which defines the selection behavior.
     /// </summary>
     public enum TreeSelectionMode
     {

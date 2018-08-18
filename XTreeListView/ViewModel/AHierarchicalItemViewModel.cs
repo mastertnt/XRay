@@ -248,7 +248,7 @@ namespace XTreeListView.ViewModel
             {
                 if (this.ChildrenRegistered)
                 {
-                    return (this.mChildren.Count > 0) && (this.Children.Any(pChild => pChild.Visibility == Visibility.Visible));
+                    return (this.mChildren.Count > 0) && (this.Children.Any(pChild => pChild.IsVisible));
                 }
 
                 return this.HasChildrenLoadedOnDemand;
@@ -370,12 +370,10 @@ namespace XTreeListView.ViewModel
             {
                 int lLevel = this.Level;
                 AHierarchicalItemViewModel lViewModel = this;
-                while
-                    (true)
+                while (true)
                 {
                     lViewModel = lViewModel.NextVisibleViewModel;
-                    if
-                        (   (lViewModel != null)
+                    if  (   (lViewModel != null)
                         &&  (lViewModel.Level > lLevel)
                         )
                     {
@@ -417,8 +415,7 @@ namespace XTreeListView.ViewModel
         {
             get
             {
-                if
-                    (this.Parent != null)
+                if (this.Parent != null)
                 {
                     return this.Parent.LoadItemsOnDemand;
                 }
@@ -434,8 +431,7 @@ namespace XTreeListView.ViewModel
         {
             get
             {
-                if
-                    (this.Parent == null)
+                if (this.Parent == null)
                 {
                     return -1;
                 }
@@ -451,8 +447,7 @@ namespace XTreeListView.ViewModel
         {
             get
             {
-                if
-                    (   (this.IsExpanded)
+                if  (   (this.IsExpanded)
                     &&  (this.mChildren.Count > 0)
                     )
                 {
@@ -461,8 +456,7 @@ namespace XTreeListView.ViewModel
                 else
                 {
                     AHierarchicalItemViewModel lNextViewModel = this.NextViewModel;
-                    if
-                        (lNextViewModel != null)
+                    if (lNextViewModel != null)
                     {
                         return lNextViewModel;
                     }
@@ -478,11 +472,9 @@ namespace XTreeListView.ViewModel
         {
             get
             {
-                if
-                    (this.Parent != null)
+                if (this.Parent != null)
                 {
-                    if
-                        (this.Parent.NextViewModel != null)
+                    if (this.Parent.NextViewModel != null)
                     {
                         return this.Parent.NextViewModel;
                     }
@@ -501,34 +493,15 @@ namespace XTreeListView.ViewModel
         {
             get
             {
-                if
-                    (this.Parent != null)
+                if (this.Parent != null)
                 {
-                    if
-                        (this.mIndex < this.Parent.mChildren.Count - 1)
+                    if (this.mIndex < this.Parent.mChildren.Count - 1)
                     {
                         return this.Parent.mChildren[this.mIndex + 1];
                     }
                 }
-                return null;
-            }
-        }
 
-        /// <summary>
-        /// This indexer is used to correctly bind the property of inherited view model.
-        /// </summary>
-        /// <param name="pIndex">The property indexer.</param>
-        /// <returns>The value of the indexed property.</returns>
-        public virtual object this[int pIndex]
-        {
-            get
-            {
                 return null;
-            }
-            // ReSharper disable once ValueParameterNotUsed
-            set
-            {
-                // Nothing to do.
             }
         }
 
@@ -752,23 +725,23 @@ namespace XTreeListView.ViewModel
                 var lPair = this.mChildren.Select((pValue, pIndex) => new { value = pValue, index = pIndex }).FirstOrDefault(pElt => this.mComparer.Compare(this.mComparerKeySelector(this, pElt.value), this.mComparerKeySelector(this, pChild)) > 0);
                 if (lPair == null)
                 {
-                    //Propagate visibility to children
-                    pChild.Visibility = this.Visibility;
+                    // Propagate visibility to children.
+                    pChild.IsVisible = this.IsVisible;
                     this.mChildren.Add(pChild);
                     this.NotifyChildAdded(pChild);
                 }
                 else
                 {
-                    //Propagate visibility to children
-                    pChild.Visibility = this.Visibility;
+                    // Propagate visibility to children.
+                    pChild.IsVisible = this.IsVisible;
                     this.mChildren.Insert(lPair.index, pChild);
                     this.NotifyChildAdded(pChild);
                 }
             }
             else
             {
-                //Propagate visibility to children
-                pChild.Visibility = this.Visibility;
+                //Propagate visibility to children.
+                pChild.IsVisible = this.IsVisible;
                 this.mChildren.Add(pChild);
                 this.NotifyChildAdded(pChild);
             }
@@ -1166,33 +1139,33 @@ namespace XTreeListView.ViewModel
         /// Delegate called when the visibility is changed.
         /// </summary>
         /// <param name="pNewValue">The new visibility.</param>
-        protected override void OnVisibilityChanged(Visibility pNewValue)
+        protected override void OnVisibilityChanged(bool pNewValue)
         {
             // Updating the children visibility as well.
             foreach (AHierarchicalItemViewModel lChild in this.Children)
             {
-                lChild.Visibility = pNewValue;
+                lChild.IsVisible = pNewValue;
             }
         }
 
         /// <summary>
         /// Convert the item to the generic version.
         /// </summary>
-        /// <typeparam name="T">The type of the owned object.</typeparam>
+        /// <typeparam name="TModel">The type of the owned object.</typeparam>
         /// <returns>The generic version of the item.</returns>
-        public new AHierarchicalItemViewModel<T> ToGeneric<T>()
+        public new AHierarchicalItemViewModel<TModel> ToGeneric<TModel>()
         {
-            return (this as AHierarchicalItemViewModel<T>);
+            return (this as AHierarchicalItemViewModel<TModel>);
         }
 
         /// <summary>
         /// Convert the item to the generic version.
         /// </summary>
-        /// <typeparam name="T">The type of the owned object.</typeparam>
+        /// <typeparam name="TModel">The type of the owned object.</typeparam>
         /// <returns>The generic version of the item.</returns>
-        IHierarchicalItemViewModel<T> IHierarchicalItemViewModel.ToGeneric<T>()
+        IHierarchicalItemViewModel<TModel> IHierarchicalItemViewModel.ToGeneric<TModel>()
         {
-            return (this as IHierarchicalItemViewModel<T>);
+            return (this as IHierarchicalItemViewModel<TModel>);
         }
 
         /// <summary>
@@ -1635,7 +1608,7 @@ namespace XTreeListView.ViewModel
                     // Updating the parenting info.
                     pItem.Parent = this.mOwner;
                     pItem.mIndex = pIndex;
-                    pItem.Visibility = pItem.Parent.Visibility;
+                    pItem.IsVisible = pItem.Parent.IsVisible;
 
                     // Loading children if not load on demand.
                     if (pItem.LoadItemsOnDemand == false)

@@ -22,8 +22,7 @@ namespace XTreeListView.TestApp.ViewModel
         public RegistryKeyItemViewModel(RegistryKey pOwnedObject)
             : base(pOwnedObject)
         {
-            this.DisplayString = "Key";
-            this.ToolTipContent = this.Name;
+            this.ToolTip = this.Name;
         }
 
         #endregion // Constructors.

@@ -4,7 +4,8 @@ namespace XTreeListView.ViewModel.Generic
     /// <summary>
     /// This class implements a generic view model.
     /// </summary>
-    public abstract class AViewModel<T> : AViewModel, IViewModel<T>
+    /// <typeparam name="TModel">The type of the owned object.</typeparam>
+    public abstract class AViewModel<TModel> : AViewModel, IViewModel<TModel>
     {
         #region Constructors
 
@@ -12,7 +13,7 @@ namespace XTreeListView.ViewModel.Generic
         /// Initializes a new instance of the AViewModel class.
         /// </summary>
         /// <param name="pOwnedObject">The owned object.</param>
-        protected AViewModel(T pOwnedObject)
+        protected AViewModel(TModel pOwnedObject)
             : base(pOwnedObject)
         {
         }
@@ -24,11 +25,11 @@ namespace XTreeListView.ViewModel.Generic
         /// <summary>
         /// Gets the owned object if any.
         /// </summary>
-        public T OwnedObject
+        public TModel OwnedObject
         {
             get
             {
-                return (T)this.UntypedOwnedObject;
+                return (TModel)this.UntypedOwnedObject;
             }
         }
 

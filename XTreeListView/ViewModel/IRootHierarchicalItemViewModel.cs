@@ -49,9 +49,9 @@ namespace XTreeListView.ViewModel
         /// <summary>
         /// Convert the item to the generic version.
         /// </summary>
-        /// <typeparam name="T">The type of the owned object.</typeparam>
+        /// <typeparam name="TModel">The type of the owned object.</typeparam>
         /// <returns>The generic version of the item.</returns>
-        new Generic.IRootHierarchicalItemViewModel<T> ToGeneric<T>();
+        new Generic.IRootHierarchicalItemViewModel<TModel> ToGeneric<TModel>();
 
         #endregion // Methods.
     }

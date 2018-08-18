@@ -23,17 +23,9 @@ namespace XTreeListView.ViewModel
         #region Properties
 
         /// <summary>
-        /// Gets the owned object if any as an Object.
+        /// Gets the owned object if any as an object.
         /// </summary>
         object UntypedOwnedObject
-        {
-            get;
-        }
-       
-        /// <summary>
-        /// Gets the selection relative to this view model.
-        /// </summary>
-        object Selection
         {
             get;
         }
@@ -55,26 +47,26 @@ namespace XTreeListView.ViewModel
         }
 
         /// <summary>
-        /// Gets or sets the visibility of the view model.
+        /// Gets or sets the flag indicating the visibility of the view model.
         /// </summary>
-        Visibility Visibility 
+        bool IsVisible 
         { 
             get; 
-            set; 
+            set;
         }
 
         /// <summary>
         /// Gets the flag indicating the if the view model is checkable or not.
         /// </summary>
-        Boolean IsCheckable
+        bool IsCheckable
         {
             get;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if the view model is checked or not.
+        /// Gets or sets the flag indicating if the view model is checked or not.
         /// </summary>
-        Boolean IsChecked
+        bool IsChecked
         {
             get;
             set;
@@ -83,7 +75,7 @@ namespace XTreeListView.ViewModel
         /// <summary>
         /// Gets or sets the flags indicating if the view model checked state can be modifyed.
         /// </summary>
-        Boolean IsCheckingEnabled
+        bool IsCheckingEnabled
         {
             get;
             set;
@@ -99,12 +91,11 @@ namespace XTreeListView.ViewModel
         }
 
         /// <summary>
-        /// Gets or sets the flag indicating if the view model is busy.
+        /// Gets the flag indicating if the view model is busy.
         /// </summary>
         bool IsBusy
         {
             get;
-            set;
         }
 
         /// <summary>
@@ -122,16 +113,16 @@ namespace XTreeListView.ViewModel
         /// <summary>
         /// Convert the item to the generic version.
         /// </summary>
-        /// <typeparam name="T">The type of the owned object.</typeparam>
+        /// <typeparam name="TModel">The type of the owned object.</typeparam>
         /// <returns>The generic version of the item.</returns>
-        Generic.IViewModel<T> ToGeneric<T>();
+        Generic.IViewModel<TModel> ToGeneric<TModel>();
 
         /// <summary>
         /// Executed a background work for the current view model.
         /// </summary>
         /// <param name="pStart">The entry point of the work to do.</param>
         /// <param name="pParams">The background work parameters.</param>
-        void DoBackgroundWork(ParameterizedBackgroundWorkStart pStart, Object pParams);
+        void DoBackgroundWork(ParameterizedBackgroundWorkStart pStart, object pParams);
 
         #endregion // Methods.
     }

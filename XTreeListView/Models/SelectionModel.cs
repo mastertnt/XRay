@@ -62,7 +62,7 @@ namespace XTreeListView.Models
         {
             get
             {
-                return this.mSelectedItemsViewModel.Select(lItem => lItem.Selection).ToArray();
+                return this.mSelectedItemsViewModel.Select(lItem => lItem.UntypedOwnedObject).ToArray();
             }
         }
 

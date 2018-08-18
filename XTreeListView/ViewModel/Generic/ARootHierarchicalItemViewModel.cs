@@ -7,12 +7,13 @@ namespace XTreeListView.ViewModel.Generic
     /// <summary>
     /// This class defines the root of the view model to give to the tree list view.
     /// </summary>
-    public abstract class ARootHierarchicalItemViewModel<T> : AHierarchicalItemViewModel, IRootHierarchicalItemViewModel<T>
+    /// <typeparam name="TModel">The type of the owned object.</typeparam>
+    public abstract class ARootHierarchicalItemViewModel<TModel> : AHierarchicalItemViewModel, IRootHierarchicalItemViewModel<TModel>
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ARootHierarchicalItemViewModel{T}"/> class.
+        /// Initializes a new instance of the <see cref="ARootHierarchicalItemViewModel{TModel}"/> class.
         /// </summary>
         /// TODO Edit XML Comment Template for #ctor
         protected ARootHierarchicalItemViewModel()
@@ -29,11 +30,11 @@ namespace XTreeListView.ViewModel.Generic
         /// <summary>
         /// Gets or sets the model associated to this view model.
         /// </summary>
-        public virtual T Model
+        public virtual TModel Model
         {
             get
             {
-                return (T)this.UntypedOwnedObject;
+                return (TModel)this.UntypedOwnedObject;
             }
 
             set
@@ -107,11 +108,11 @@ namespace XTreeListView.ViewModel.Generic
         /// <summary>
         /// Convert the item to the generic version.
         /// </summary>
-        /// <typeparam name="U">The type of the owned object.</typeparam>
+        /// <typeparam name="UModel">The type of the owned object.</typeparam>
         /// <returns>The generic version of the item.</returns>
-        IRootHierarchicalItemViewModel<U> IRootHierarchicalItemViewModel.ToGeneric<U>()
+        IRootHierarchicalItemViewModel<UModel> IRootHierarchicalItemViewModel.ToGeneric<UModel>()
         {
-            return (this as IRootHierarchicalItemViewModel<U>);
+            return (this as IRootHierarchicalItemViewModel<UModel>);
         }
 
         /// <summary>
