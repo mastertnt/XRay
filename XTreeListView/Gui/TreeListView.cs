@@ -18,7 +18,7 @@ namespace XTreeListView.Gui
     /// </summary>
     [TemplatePart(Name = PART_ListView, Type = typeof(ExtendedListView))]
     [TemplatePart(Name = PART_DefaultMessage, Type = typeof(Label))]
-    public class TreeListView : ListBox
+    public class TreeListView : ItemsControl
     {
         #region Dependencies
 
@@ -109,7 +109,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Event raised when the selection is modified.
         /// </summary>
-        public new event XTreeListView.ViewModel.SelectionChangedEventHandler SelectionChanged;
+        public event XTreeListView.ViewModel.SelectionChangedEventHandler SelectionChanged;
 
         /// <summary>
         /// Event raised when an item gets toggled.
@@ -241,7 +241,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets or sets the flag indicating the item selection mode.
         /// </summary>
-        public new TreeSelectionMode SelectionMode
+        public TreeSelectionMode SelectionMode
         {
             get
             {
@@ -415,7 +415,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// This method selects all the items.
         /// </summary>
-        public new void SelectAll()
+        public void SelectAll()
         {
             if (this.InnerListView != null)
             {
@@ -438,7 +438,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Unselect all the items in the tree.
         /// </summary>
-        public new void UnselectAll()
+        public void UnselectAll()
         {
             if (this.InnerListView != null)
             {

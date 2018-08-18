@@ -23,7 +23,7 @@ namespace XTreeListView.Converters
 
         #endregion // Properties.
 
-        #region Methods
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IntegerToBoolConverter"/> class.
@@ -33,6 +33,10 @@ namespace XTreeListView.Converters
             this.ZeroValue = false;
         }
 
+        #endregion // Constructors.
+
+        #region Methods
+
         /// <summary>
         /// Convert from boolean to integer.
         /// </summary>
@@ -41,7 +45,7 @@ namespace XTreeListView.Converters
         /// <param name="pExtraParameter">The extra parameter to use (not used by the lConverter).</param>
         /// <param name="pCulture">The culture to use (not used by the lConverter).</param>
         /// <returns>The value converted.</returns>
-        public Object ConvertBack(Object pValue, Type pTargetType, Object pExtraParameter, System.Globalization.CultureInfo pCulture)
+        public object ConvertBack(object pValue, Type pTargetType, object pExtraParameter, System.Globalization.CultureInfo pCulture)
         {
             return Binding.DoNothing;
         }
@@ -54,7 +58,7 @@ namespace XTreeListView.Converters
         /// <param name="pExtraParameter">The extra parameter to use (not used by the lConverter).</param>
         /// <param name="pCulture">The culture to use (not used by the lConverter).</param>
         /// <returns>The value converted.</returns>
-        public Object Convert(Object pValue, Type pTargetType, Object pExtraParameter, System.Globalization.CultureInfo pCulture)
+        public object Convert(object pValue, Type pTargetType, object pExtraParameter, System.Globalization.CultureInfo pCulture)
         {
             // Checks if the value is valid.
             if  (   (pValue == null)

@@ -269,23 +269,6 @@ namespace XTreeListView.ViewModel
         }
 
         /// <summary>
-        /// Gets the icon visibility.
-        /// Gets the flag indicating if the view model is busy.
-        /// </summary>
-        public virtual Visibility IconVisibility
-        {
-            get
-            {
-                if (this.IconSource == null)
-                {
-                    return Visibility.Collapsed;
-                }
-
-                return Visibility.Visible;
-            }
-        }
-
-        /// <summary>
         /// Gets the flag indicating if the view model is busy.
         /// </summary>
         public bool IsBusy

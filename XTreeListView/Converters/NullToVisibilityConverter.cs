@@ -9,11 +9,46 @@ using System.Globalization;
 namespace XTreeListView.Converters
 {
     /// <summary>
-    /// Internal converter used to check if a a node can be expanded.
+    /// Converter used to convert a boolean to visibility.
     /// </summary>
-    [ValueConversion(typeof(bool), typeof(Visibility))]
-    internal class CanExpandConverter : IValueConverter
+    [ValueConversion(typeof(object), typeof(Visibility))]
+    internal class NullToVisibilityConverter : IValueConverter
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the visibility value if the value is null.
+        /// </summary>
+        public Visibility NullValue
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the visibility value if the value is not null.
+        /// </summary>
+        public Visibility NotNullValue
+        {
+            get;
+            set;
+        }
+
+        #endregion // Properties.
+        
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoolToVisibilityConverter"/> class.
+        /// </summary>
+        public NullToVisibilityConverter()
+        {
+            this.NullValue = Visibility.Hidden;
+            this.NotNullValue = Visibility.Visible;
+        }
+
+        #endregion // Constructors.
+
         #region Methods
 
         /// <summary>
@@ -26,15 +61,13 @@ namespace XTreeListView.Converters
         /// <returns>The value converted.</returns>
         public object Convert(object pValue, Type pTargetType, object pExtraParameter, CultureInfo pCulture)
         {
-            bool lValue = System.Convert.ToBoolean(pValue);
-            if
-                (lValue)
+            if (pValue == null)
             {
-                return Visibility.Visible;
+                return this.NullValue;
             }
             else
             {
-                return Visibility.Hidden;
+                return this.NotNullValue;
             }
         }
 

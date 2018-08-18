@@ -406,7 +406,7 @@ namespace XTreeListView.Gui
                     // Binding the visibility of the expander.
                     Binding lExpanderVisibilityBinding = new Binding("HasChildren");
                     lExpanderVisibilityBinding.Source = pNewViewModel;
-                    lExpanderVisibilityBinding.Converter = new CanExpandConverter();
+                    lExpanderVisibilityBinding.Converter = new BoolToVisibilityConverter();
                     this.mExpander.SetBinding(ToggleButton.VisibilityProperty, lExpanderVisibilityBinding);
 
                     // Binding the indentation of the expander.
@@ -430,13 +430,11 @@ namespace XTreeListView.Gui
                     lImageSourceBinding.Source = pNewViewModel;
                     this.mImage.SetBinding(Image.SourceProperty, lImageSourceBinding);
 
-                    if (this.IsGroup == false)
-                    {
-                        // Binding the icon visibility.
-                        Binding lImageVisibilityBinding = new Binding("IconVisibility");
-                        lImageVisibilityBinding.Source = pNewViewModel;
-                        this.mImage.SetBinding(Image.VisibilityProperty, lImageVisibilityBinding);
-                    }
+                    // Binding the icon visibility.
+                    Binding lImageVisibilityBinding = new Binding("IconSource");
+                    lImageVisibilityBinding.Source = pNewViewModel;
+                    lImageVisibilityBinding.Converter = new NullToVisibilityConverter() { NullValue = System.Windows.Visibility.Collapsed };
+                    this.mImage.SetBinding(Image.VisibilityProperty, lImageVisibilityBinding);
                 }
 
                 if (this.mCheckBox != null)

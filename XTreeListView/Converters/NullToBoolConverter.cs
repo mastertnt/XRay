@@ -14,7 +14,7 @@ namespace XTreeListView.Converters
         /// <summary>
         /// Gets or set the visibility corresponding to "True".
         /// </summary>
-        public Boolean NullBoolean
+        public bool NullBoolean
         { 
             get; 
             set; 
@@ -23,7 +23,7 @@ namespace XTreeListView.Converters
         /// <summary>
         /// Gets or set the visibility corresponding to "False".
         /// </summary>
-        public Boolean NotNullBoolean
+        public bool NotNullBoolean
         { 
             get; 
             set; 
@@ -34,7 +34,7 @@ namespace XTreeListView.Converters
         #region Methods
 
         /// <summary>
-        /// Default constructor.
+        /// Initialiazes a new instance of the <see cref="NullToBoolConverter"/> class.
         /// </summary>
         public NullToBoolConverter()
         {
@@ -50,7 +50,7 @@ namespace XTreeListView.Converters
         /// <param name="pExtraParameter">The extra parameter to use (not used by the lConverter).</param>
         /// <param name="pCulture">The culture to use (not used by the lConverter).</param>
         /// <returns>The value converted.</returns>
-        public Object ConvertBack(Object pValue, Type pTargetType, Object pExtraParameter, System.Globalization.CultureInfo pCulture)
+        public object ConvertBack(object pValue, Type pTargetType, object pExtraParameter, System.Globalization.CultureInfo pCulture)
         {
             return null;
         }
@@ -63,7 +63,7 @@ namespace XTreeListView.Converters
         /// <param name="pExtraParameter">The extra parameter to use (not used by the lConverter).</param>
         /// <param name="pCulture">The culture to use (not used by the lConverter).</param>
         /// <returns>The value converted.</returns>
-        public Object Convert(Object pValue, Type pTargetType, Object pExtraParameter, System.Globalization.CultureInfo pCulture)
+        public object Convert(object pValue, Type pTargetType, object pExtraParameter, System.Globalization.CultureInfo pCulture)
         {
             if (pValue == null)
             {

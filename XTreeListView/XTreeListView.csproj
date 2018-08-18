@@ -34,11 +34,12 @@
     <Compile Include="Behaviors\Column\RangeColumn.cs" />
     <Compile Include="Behaviors\ExpandBehavior.cs" />
     <Compile Include="Behaviors\SelectionBehavior.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\IntegerToBoolConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Core\Collections\ObservableCollectionExtended.cs" />
     <Compile Include="Core\Constants.cs" />
-    <Compile Include="Converters\CanExpandConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ItemToIsGroupConverter.cs" />
     <Compile Include="Converters\LevelToIndentConverter.cs" />
     <Compile Include="Converters\ToolTipConverter.cs" />
