@@ -565,6 +565,9 @@ namespace XTreeListView.Gui
                 lParent.InnerListView.OnItemMouseLeftButtonDown(this.ViewModel, pEventArgs);
             }
 
+            // Focused when clicked.
+            this.Focus();
+
             pEventArgs.Handled = true;
         }
 
@@ -579,6 +582,9 @@ namespace XTreeListView.Gui
             {
                 lParent.InnerListView.OnItemMouseRightButtonDown(this.ViewModel, pEventArgs);
             }
+
+            // Focused when clicked.
+            this.Focus();
 
             pEventArgs.Handled = true;
         }
@@ -695,18 +701,6 @@ namespace XTreeListView.Gui
             {
                 lParent.InnerListView.OnItemExpanderUnchecked(this.ViewModel);
             }
-        }
-
-        /// <summary>
-        /// Delegate called when the item gets selected.
-        /// </summary>
-        /// <param name="pEventArgs">The event arguments.</param>
-        protected override void OnSelected(RoutedEventArgs pEventArgs)
-        {
-            base.OnSelected(pEventArgs);
-
-            // When the item get selected, the keyboard and mouse focus is given to it.
-            this.Focus();
         }
 
         #endregion // Methods.

@@ -11,8 +11,8 @@
 
     <!-- Template of the item expander toogle button -->
     <ControlTemplate x:Key="ExpandCollapseToggleTemplate" TargetType="ToggleButton">
-        <Border Background="Transparent" Width="19" Height="13" Margin="1">
-            <Border BorderThickness="1,1,1,1" CornerRadius="1,1,1,1" BorderBrush="#FF7898B5" Width="9" Height="9">
+        <Border Background="Transparent" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+            <Border BorderThickness="1" CornerRadius="1" BorderBrush="#FF7898B5" Width="9" Height="9">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                         <LinearGradientBrush.GradientStops>
@@ -21,25 +21,21 @@
                         </LinearGradientBrush.GradientStops>
                     </LinearGradientBrush>
                 </Border.Background>
-                <Path Data="M0,2L0,3 2,3 2,5 3,5 3,3 5,3 5,2 3,2 3,0 2,0 2,2z" Fill="#FF000000" Name="ExpandPath" Margin="1,1,1,1" />
+                <Path x:Name="INNER_ExpandPath" Data="M0,2L0,3 2,3 2,5 3,5 3,3 5,3 5,2 3,2 3,0 2,0 2,2z" Fill="#FF000000" Margin="1" />
             </Border>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="ToggleButton.IsChecked" Value="True">
-                <Setter Property="Path.Data" TargetName="ExpandPath">
-                    <Setter.Value>
-                        <StreamGeometry>M0,2L0,3 5,3 5,2z</StreamGeometry>
-                    </Setter.Value>
-                </Setter>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Data" TargetName="INNER_ExpandPath" Value="M0,2L0,3 5,3 5,2z" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <!-- Style of the item expander toogle button -->
     <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="Width" Value="20"/>
-        <Setter Property="Height" Value="14"/>
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
         <Setter Property="Template" Value="{StaticResource ExpandCollapseToggleTemplate}" />
     </Style>
 
@@ -50,42 +46,53 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Border x:Name="INNER_SelectionBorder" Grid.ColumnSpan="2" Background="Transparent" />
+            <Border x:Name="INNER_MouseOverBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true" />
+            <Border x:Name="INNER_SelectionBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true" />
             <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20" SnapsToDevicePixels="true">
                 <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" SnapsToDevicePixels="true" />
                 <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" SnapsToDevicePixels="true" />
                 <Image x:Name="PART_Icon" Width="24" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />
             </StackPanel>
             <Border Grid.Column="1" Background="Transparent" Padding="2">
-                <ContentPresenter x:Name="INNER_ContentPresenter"
-                                  Content="{TemplateBinding ContentControl.Content}" 
-                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" 
-                                  ContentTemplateSelector="{TemplateBinding ContentControl.ContentTemplateSelector}"
-                                  ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" 
-                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
-                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
-                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                <ContentPresenter x:Name="INNER_ContentPresenter" Focusable="True"
+                                  Content="{TemplateBinding Content}" 
+                                  ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                  ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                  ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
-            <Trigger Property="ListBoxItem.IsSelected" Value="True">
-                <Setter Property="Background" TargetName="INNER_SelectionBorder">
-                    <Setter.Value>
-                        <DynamicResource ResourceKey="{x:Static SystemColors.HighlightBrushKey}" />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="TextElement.Foreground">
-                    <Setter.Value>
-                        <DynamicResource ResourceKey="{x:Static SystemColors.HighlightTextBrushKey}" />
-                    </Setter.Value>
-                </Setter>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Selector.IsSelectionActive" Value="False" />
+                    <Condition Property="IsSelected" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" TargetName="INNER_SelectionBorder" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Selector.IsSelectionActive" Value="True" />
+                    <Condition Property="IsSelected" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" TargetName="INNER_SelectionBorder" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+            </MultiTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="INNER_MouseOverBorder" Value="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <!-- Style of the tree list view item in no column mode -->
     <Style TargetType="{x:Type gui:TreeListViewItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <!-- Do not allow arrow navigation when the item has the focus. -->
+        <Setter Property="IsTabStop" Value="False" />
+        <!-- Do not allow arrow key navigation outside of the item from on of the focused control inside. -->
+        <Setter Property="KeyboardNavigation.DirectionalNavigation" Value="None" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Template" Value="{StaticResource TreeListViewItemTemplate}" />
@@ -98,31 +105,39 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Border x:Name="INNER_SelectionBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true">
-                <GridViewRowPresenter x:Name="INNER_GridViewRowPresenter"
-                                      Content="{TemplateBinding ContentControl.Content}" 
-                                      VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
-                                      HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
-                                      SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-            </Border>
+            <Border x:Name="INNER_MouseOverBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true" />
+            <Border x:Name="INNER_SelectionBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true" />
+            <GridViewRowPresenter x:Name="INNER_GridViewRowPresenter" Grid.ColumnSpan="2"
+                                  Content="{TemplateBinding Content}" 
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
             <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20">
-                <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" />
+                <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" TabIndex="0" />
                 <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" />
                 <Image x:Name="PART_Icon" Width="20" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />
             </StackPanel>
         </Grid>
         <ControlTemplate.Triggers>
-            <Trigger Property="ListBoxItem.IsSelected" Value="True">
-                <Setter Property="Background" TargetName="INNER_SelectionBorder">
-                    <Setter.Value>
-                        <DynamicResource ResourceKey="{x:Static SystemColors.HighlightBrushKey}" />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="TextElement.Foreground">
-                    <Setter.Value>
-                        <DynamicResource ResourceKey="{x:Static SystemColors.HighlightTextBrushKey}" />
-                    </Setter.Value>
-                </Setter>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Selector.IsSelectionActive" Value="True" />
+                    <Condition Property="IsSelected" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" TargetName="INNER_SelectionBorder" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Selector.IsSelectionActive" Value="False" />
+                    <Condition Property="IsSelected" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" TargetName="INNER_SelectionBorder" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
+            </MultiTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="INNER_MouseOverBorder" Value="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -130,12 +145,13 @@
     <!-- Style of the tree list view item in multi colums mode -->
     <Style x:Key="{x:Static gui:TreeListViewItem.MultiColumnDefaultStyleKey}"  TargetType="{x:Type gui:TreeListViewItem}" BasedOn="{StaticResource {x:Type gui:TreeListViewItem}}">
         <Setter Property="Template" Value="{StaticResource MultiColumnTreeListViewItemTemplate}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
     </Style>
 
     <!-- Template of the tree list view -->
     <ControlTemplate x:Key="TreeListViewTemplate" TargetType="{x:Type gui:TreeListView}">
         <Grid>
-            <gui:ExtendedListView x:Name="PART_ListView" 
+            <gui:ExtendedListView x:Name="PART_ListView"
                                   AllowDrop="{TemplateBinding AllowDrop}"
                                   DisplayMemberPath="{TemplateBinding DisplayMemberPath}"
                                   ItemTemplate="{TemplateBinding ItemTemplate}"
@@ -152,6 +168,7 @@
     <!-- Style of the tree list view -->
     <Style TargetType="{x:Type gui:TreeListView}">
         <Setter Property="Template" Value="{StaticResource TreeListViewTemplate}" />
+        <Setter Property="Focusable" Value="False" />
     </Style>
 
 </ResourceDictionary>
