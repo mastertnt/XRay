@@ -33,7 +33,6 @@
 
     <!-- Style of the item expander toogle button -->
     <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Focusable" Value="False" />
         <Setter Property="Width" Value="14" />
         <Setter Property="Height" Value="14" />
         <Setter Property="Template" Value="{StaticResource ExpandCollapseToggleTemplate}" />
@@ -41,7 +40,7 @@
 
     <!-- Item template used when the ListView does not use GridView -->
     <ControlTemplate x:Key="TreeListViewItemTemplate" TargetType="{x:Type gui:TreeListViewItem}">
-        <Grid Margin="1,0,0,0">
+        <Grid Margin="1,0,0,0" KeyboardNavigation.DirectionalNavigation="{TemplateBinding KeyboardNavigation.DirectionalNavigation}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -49,8 +48,8 @@
             <Border x:Name="INNER_MouseOverBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true" />
             <Border x:Name="INNER_SelectionBorder" Grid.ColumnSpan="2" Background="Transparent" SnapsToDevicePixels="true" />
             <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20" SnapsToDevicePixels="true">
-                <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" SnapsToDevicePixels="true" />
-                <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" SnapsToDevicePixels="true" />
+                <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" TabIndex="0" />
+                <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" TabIndex="1" />
                 <Image x:Name="PART_Icon" Width="24" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />
             </StackPanel>
             <Border Grid.Column="1" Background="Transparent" Padding="2">
@@ -112,10 +111,9 @@
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
             <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20">
                 <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" TabIndex="0" />
-                <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" />
+                <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" TabIndex="1" />
                 <Image x:Name="PART_Icon" Width="20" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />
             </StackPanel>
         </Grid>
@@ -146,6 +144,10 @@
     <Style x:Key="{x:Static gui:TreeListViewItem.MultiColumnDefaultStyleKey}"  TargetType="{x:Type gui:TreeListViewItem}" BasedOn="{StaticResource {x:Type gui:TreeListViewItem}}">
         <Setter Property="Template" Value="{StaticResource MultiColumnTreeListViewItemTemplate}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <!-- Do not allow arrow navigation when the item has the focus. -->
+        <Setter Property="IsTabStop" Value="False" />
+        <!-- Do not allow arrow key navigation outside of the item from on of the focused control inside. -->
+        <Setter Property="KeyboardNavigation.DirectionalNavigation" Value="None" />
     </Style>
 
     <!-- Template of the tree list view -->

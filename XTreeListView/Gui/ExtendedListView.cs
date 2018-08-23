@@ -8,10 +8,10 @@ using System.Collections;
 using System.Windows.Controls.Primitives;
 using XTreeListView.Behaviors;
 using XTreeListView.ViewModel;
-using XTreeListView.Core.Collections;
 using XTreeListView.Models;
 using XTreeListView.Core.Extensions;
 using System.ComponentModel;
+using System.Windows.Data;
 
 namespace XTreeListView.Gui
 {
@@ -56,8 +56,11 @@ namespace XTreeListView.Gui
         /// </summary>
         public ExtendedListView()
         {
-            this.Rows = new ObservableCollectionExtended<IHierarchicalItemViewModel>();
-            this.ItemsSource = this.Rows;
+            // Creating the rows collection.
+            this.Rows = new RowsCollection();
+            Binding lItemsSourceBinding = new Binding();
+            lItemsSourceBinding.Source = this.Rows.ViewSource;
+            this.SetBinding(ExtendedListView.ItemsSourceProperty, lItemsSourceBinding);
 
             // Creating the models.
             this.SelectionModel = new SelectionModel(this);
@@ -128,7 +131,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets or sets the rows corresponding to the items displayed in the list view.
         /// </summary>
-        internal ObservableCollectionExtended<IHierarchicalItemViewModel> Rows 
+        internal RowsCollection Rows 
         { 
             get; 
             private set; 

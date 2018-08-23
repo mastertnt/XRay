@@ -37,7 +37,6 @@
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\IntegerToBoolConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
-    <Compile Include="Core\Collections\ObservableCollectionExtended.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ItemToIsGroupConverter.cs" />
@@ -54,6 +53,7 @@
     <Compile Include="Gui\ExtendedGridView.cs" />
     <Compile Include="Gui\ExtendedGridViewColumn.cs" />
     <Compile Include="Gui\ExtendedListView.cs" />
+    <Compile Include="Gui\RowsCollection.cs" />
     <Compile Include="Gui\TreeListView.cs" />
     <Compile Include="Gui\TreeListViewColumn.cs" />
     <Compile Include="Gui\TreeListViewColumnCollection.cs" />
