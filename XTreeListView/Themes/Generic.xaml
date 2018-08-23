@@ -50,7 +50,7 @@
             <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20" SnapsToDevicePixels="true">
                 <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" TabIndex="0" />
                 <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" TabIndex="1" />
-                <Image x:Name="PART_Icon" Width="24" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />
+                <Image x:Name="PART_Icon" Width="24" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" />
             </StackPanel>
             <Border Grid.Column="1" Background="Transparent" Padding="2">
                 <ContentPresenter x:Name="INNER_ContentPresenter" Focusable="True"
@@ -114,7 +114,7 @@
             <StackPanel x:Name="PART_DecoratorsContainer" Orientation="Horizontal" Height="20">
                 <ToggleButton x:Name="PART_Expander" Style="{StaticResource ExpandCollapseToggleStyle}" ClickMode="Press" TabIndex="0" />
                 <CheckBox x:Name="PART_CheckBox" VerticalAlignment="Center" TabIndex="1" />
-                <Image x:Name="PART_Icon" Width="20" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" />
+                <Image x:Name="PART_Icon" Width="20" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" />
             </StackPanel>
         </Grid>
         <ControlTemplate.Triggers>
