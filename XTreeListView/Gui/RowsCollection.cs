@@ -17,23 +17,24 @@ namespace XTreeListView.Gui
         #region Fields
 
         /// <summary>
+        /// Stores the collection owner.
+        /// </summary>
+        private ExtendedListView mOwner;
+
+        /// <summary>
         /// Stores the source collection.
         /// </summary>
         private ObservableCollection<IHierarchicalItemViewModel> mSource;
+
+        /// <summary>
+        /// Stores the collection view source.
+        /// </summary>
+        private CollectionViewSource mViewSource;
 
         #endregion // Fields.
 
         #region Properties
         
-        /// <summary>
-        /// Gets or sets the collection view source.
-        /// </summary>
-        public CollectionViewSource ViewSource
-        {
-            get;
-            private set;
-        }
-
         /// <summary>
         /// Gets or sets the item stores at the given index.
         /// </summary>
@@ -81,11 +82,20 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Initializes a new instance of the <see cref="RowsCollection"/> class.
         /// </summary>
-        public RowsCollection()
+        /// <param name="pOwner">The collection owner.</param>
+        public RowsCollection(ExtendedListView pOwner)
         {
+            this.mOwner = pOwner;
+
+            // Creating the source collection.
             this.mSource = new ObservableCollection<IHierarchicalItemViewModel>();
-            this.ViewSource = new CollectionViewSource();
-            this.ViewSource.Source = this.mSource;
+            this.mViewSource = new CollectionViewSource();
+            this.mViewSource.Source = this.mSource;
+
+            // Bind it the owner items source property.
+            Binding lItemsSourceBinding = new Binding();
+            lItemsSourceBinding.Source = this.mViewSource;
+            this.mOwner.SetBinding(ExtendedListView.ItemsSourceProperty, lItemsSourceBinding);
         }
 
         #endregion // Constructors.
@@ -99,7 +109,7 @@ namespace XTreeListView.Gui
         /// <param name="pCollection">The items to add.</param>
         public void InsertRange(int pIndex, IEnumerable<IHierarchicalItemViewModel> pCollection)
         {
-            using (this.ViewSource.DeferRefresh())
+            using (this.mViewSource.DeferRefresh())
             {
                 using (IEnumerator<IHierarchicalItemViewModel> lEnumerator = pCollection.GetEnumerator())
                 {
@@ -120,7 +130,7 @@ namespace XTreeListView.Gui
         {
             if (pCount > 0)
             {
-                using (this.ViewSource.DeferRefresh())
+                using (this.mViewSource.DeferRefresh())
                 {
                     int lRemovedCount = 0;
                     while (lRemovedCount != pCount)

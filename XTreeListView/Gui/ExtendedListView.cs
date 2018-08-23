@@ -57,11 +57,8 @@ namespace XTreeListView.Gui
         public ExtendedListView()
         {
             // Creating the rows collection.
-            this.Rows = new RowsCollection();
-            Binding lItemsSourceBinding = new Binding();
-            lItemsSourceBinding.Source = this.Rows.ViewSource;
-            this.SetBinding(ExtendedListView.ItemsSourceProperty, lItemsSourceBinding);
-
+            this.Rows = new RowsCollection(this);
+            
             // Creating the models.
             this.SelectionModel = new SelectionModel(this);
             this.CheckModel = new CheckModel();
