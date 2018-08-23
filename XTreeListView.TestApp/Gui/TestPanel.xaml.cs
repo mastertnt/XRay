@@ -90,7 +90,7 @@ namespace XTreeListView.TestApp.Gui
         {
             if (string.IsNullOrEmpty(this.NewColumnPropertyName.Text) == false)
             {
-                this.TreeToTest.Columns.Add(new TreeListViewColumn() { Header = this.NewColumnPropertyName.Text, DataMemberBindingPath = this.NewColumnPropertyName.Text });
+                this.TreeToTest.Columns.Add(new TreeListViewColumn() { Header = this.NewColumnPropertyName.Text, DisplayMemberPath = this.NewColumnPropertyName.Text });
             }
         }
 

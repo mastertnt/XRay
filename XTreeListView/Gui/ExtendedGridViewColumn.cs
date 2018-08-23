@@ -1,5 +1,4 @@
-﻿using XTreeListView.DataTemplate;
-using XTreeListView.Behaviors.Column;
+﻿using XTreeListView.Behaviors.Column;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,7 +95,8 @@ namespace XTreeListView.Gui
             }
             else
             {
-                lColumn.CellTemplateSelector = new DefaultPresenterHierarchicalTemplateSelector(pIndex, pColumn.DataMemberBindingPath);
+                // Template.
+                lColumn.CellTemplate = XTreeListView.Resources.All.Instance.GetCellTemplate(pColumn.DisplayMemberPath);
             }
 
             return lColumn;

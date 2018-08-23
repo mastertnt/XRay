@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace XTreeListView.Core.Extensions
+namespace XTreeListView.Extensions
 {
     /// <summary>
     /// Extensions offering more capabilities to enumerable.

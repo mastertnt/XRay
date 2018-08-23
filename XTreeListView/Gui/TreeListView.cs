@@ -65,7 +65,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Constant containing the default property name displayed in the tree view.
         /// </summary>
-        private const string cDefaultDisplayedPropertyName = "DisplayString";
+        internal const string cDefaultDisplayedPropertyName = "DisplayString";
 
         /// <summary>
         /// Stores the label used to display the default message.

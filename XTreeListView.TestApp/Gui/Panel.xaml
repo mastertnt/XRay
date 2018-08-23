@@ -27,9 +27,9 @@
                     </Grid.ColumnDefinitions>
                     <xtlv:TreeListView x:Name="mMultiContainer" x:FieldModifier="private" DisplayName="MultiTree" Margin="2">
                         <xtlv:TreeListView.Columns>
-                            <xtlv:TreeListViewColumn Header="Name" DataMemberBindingPath="Name" />
-                            <xtlv:TreeListViewColumn Header="Kind" DataMemberBindingPath="Kind" />
-                            <xtlv:TreeListViewColumn Header="Data" DataMemberBindingPath="Data" />
+                            <xtlv:TreeListViewColumn Header="Name" DisplayMemberPath="Name" />
+                            <xtlv:TreeListViewColumn Header="Kind" DisplayMemberPath="Kind" />
+                            <xtlv:TreeListViewColumn Header="Data" DisplayMemberPath="Data" />
                         </xtlv:TreeListView.Columns>
                     </xtlv:TreeListView>
                     <gui:TestPanel x:Name="RegisterTestPanel" Grid.Column="1" />

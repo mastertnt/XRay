@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using XTreeListView.Converters;
 using XTreeListView.ViewModel;
-using XTreeListView.Core.Extensions;
+using XTreeListView.Extensions;
 using XTreeListView.Behaviors;
 
 namespace XTreeListView.Gui

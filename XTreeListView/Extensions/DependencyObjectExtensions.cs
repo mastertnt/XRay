@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
 using System.Windows;
 
-namespace XTreeListView.Core.Extensions
+namespace XTreeListView.Extensions
 {
     /// <summary>
     /// Class extending the properties of the <see cref="DependencyObject"/> class.

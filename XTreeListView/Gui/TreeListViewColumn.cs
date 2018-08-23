@@ -16,7 +16,7 @@ namespace XTreeListView.Gui
         public TreeListViewColumn()
         {
             this.Header = string.Empty;
-            this.DataMemberBindingPath = string.Empty;
+            this.DisplayMemberPath = string.Empty;
             this.Width = 1;
             this.Stretch = true;
         }
@@ -37,7 +37,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets or sets the path from the view model to the value to display in the column.
         /// </summary>
-        public string DataMemberBindingPath 
+        public string DisplayMemberPath 
         { 
             get; 
             set; 

@@ -37,19 +37,14 @@
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\IntegerToBoolConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
-    <Compile Include="Core\Constants.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ItemToIsGroupConverter.cs" />
     <Compile Include="Converters\LevelToIndentConverter.cs" />
     <Compile Include="Converters\ToolTipConverter.cs" />
     <Compile Include="Converters\WidthHeightToRectConverter.cs" />
     <Compile Include="Converters\WidthToLeftMarginConverter.cs" />
-    <Compile Include="Core\Extensions\DependencyObjectExtensions.cs" />
-    <Compile Include="Core\Extensions\EnumerableExtensions.cs" />
-    <Compile Include="DataTemplate\AHierarchicalTemplateSelector.cs" />
-    <Compile Include="DataTemplate\DefaultPresenterHierarchicalTemplateSelector.cs" />
-    <Compile Include="DataTemplate\IHierarchicalTemplateSelector.cs" />
-    <Compile Include="DataTemplate\IPresenterHierarchicalTemplateSelector.cs" />
+    <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Gui\ExtendedGridView.cs" />
     <Compile Include="Gui\ExtendedGridViewColumn.cs" />
     <Compile Include="Gui\ExtendedListView.cs" />
@@ -100,12 +95,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XSystem\XSystem.csproj">
-      <Project>{70ab21af-5cf4-4751-8d1f-c55b55b33ec6}</Project>
-      <Name>XSystem</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

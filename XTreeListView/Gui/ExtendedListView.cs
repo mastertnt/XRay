@@ -9,7 +9,7 @@ using System.Windows.Controls.Primitives;
 using XTreeListView.Behaviors;
 using XTreeListView.ViewModel;
 using XTreeListView.Models;
-using XTreeListView.Core.Extensions;
+using XTreeListView.Extensions;
 using System.ComponentModel;
 using System.Windows.Data;
 
