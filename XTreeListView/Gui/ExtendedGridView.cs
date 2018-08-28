@@ -63,6 +63,17 @@ namespace XTreeListView.Gui
         }
 
         /// <summary>
+        /// Gets the list view default style key.
+        /// </summary>
+        protected override object DefaultStyleKey
+        {
+            get
+            {
+                return ExtendedListView.MultiColumnDefaultStyleKey;
+            }
+        }
+
+        /// <summary>
         /// Gets the item container default style key.
         /// </summary>
         protected override object ItemContainerDefaultStyleKey 
@@ -113,6 +124,9 @@ namespace XTreeListView.Gui
                     if (lColumn.CellTemplate != null)
                     {
                         lCellFactory.SetValue(ContentControl.ContentTemplateProperty, lColumn.CellTemplate);
+
+                        // Removing the template from the cell as it is now applied in the ContentControl.
+                        lColumn.CellTemplate = null;
                     }
 
                     // Trying to get the data template selector if any.

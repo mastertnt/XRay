@@ -10,7 +10,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Template of the item expander toogle button -->
-    <ControlTemplate x:Key="ExpandCollapseToggleTemplate" TargetType="ToggleButton">
+    <ControlTemplate x:Key="ExpandCollapseToggleTemplate" TargetType="{x:Type ToggleButton}">
         <Border Background="Transparent" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
             <Border BorderThickness="1" CornerRadius="1" BorderBrush="#FF7898B5" Width="9" Height="9">
                 <Border.Background>
@@ -90,7 +90,7 @@
     <Style TargetType="{x:Type gui:TreeListViewItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
         <!-- Do not allow arrow navigation when the item has the focus. -->
         <Setter Property="IsTabStop" Value="False" />
-        <!-- Do not allow arrow key navigation outside of the item from on of the focused control inside. -->
+        <!-- Do not allow arrow key navigation outside of the item from one of the focused control inside. -->
         <Setter Property="KeyboardNavigation.DirectionalNavigation" Value="None" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -146,7 +146,7 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <!-- Do not allow arrow navigation when the item has the focus. -->
         <Setter Property="IsTabStop" Value="False" />
-        <!-- Do not allow arrow key navigation outside of the item from on of the focused control inside. -->
+        <!-- Do not allow arrow key navigation outside of the item from one of the focused control inside. -->
         <Setter Property="KeyboardNavigation.DirectionalNavigation" Value="None" />
     </Style>
 
@@ -171,6 +171,64 @@
     <Style TargetType="{x:Type gui:TreeListView}">
         <Setter Property="Template" Value="{StaticResource TreeListViewTemplate}" />
         <Setter Property="Focusable" Value="False" />
+    </Style>
+
+    <!-- Template of the list view scroll viewer in multi column mode -->
+    <ControlTemplate x:Key="MultiColumnScrollViewerTemplate" TargetType="{x:Type ScrollViewer}">
+        <Grid Background="{TemplateBinding Background}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DockPanel Margin="{TemplateBinding Padding}">
+                <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false">
+                    <GridViewHeaderRowPresenter Columns="{Binding Path=TemplatedParent.View.Columns, RelativeSource={RelativeSource TemplatedParent}}"
+                                                ColumnHeaderContainerStyle="{Binding Path=TemplatedParent.View.ColumnHeaderContainerStyle, RelativeSource={RelativeSource TemplatedParent}}"
+                                                ColumnHeaderTemplate="{Binding Path=TemplatedParent.View.ColumnHeaderTemplate, RelativeSource={RelativeSource TemplatedParent}}"
+                                                ColumnHeaderTemplateSelector="{Binding Path=TemplatedParent.View.ColumnHeaderTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"
+                                                AllowsColumnReorder="{Binding Path=TemplatedParent.View.AllowsColumnReorder, RelativeSource={RelativeSource TemplatedParent}}"
+                                                ColumnHeaderContextMenu="{Binding Path=TemplatedParent.View.ColumnHeaderContextMenu, RelativeSource={RelativeSource TemplatedParent}}"
+                                                ColumnHeaderToolTip="{Binding Path=TemplatedParent.View.ColumnHeaderToolTip, RelativeSource={RelativeSource TemplatedParent}}"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                </ScrollViewer>
+                <ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="{TemplateBinding KeyboardNavigation.DirectionalNavigation}" 
+                                        CanContentScroll="True" CanHorizontallyScroll="False" CanVerticallyScroll="False" />
+            </DockPanel>
+            <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" Grid.Row="1" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" 
+                       Value="{TemplateBinding HorizontalOffset}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
+            <ScrollBar Name="PART_VerticalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}"
+                       Value="{TemplateBinding VerticalOffset}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+        </Grid>
+    </ControlTemplate>
+
+    <!-- Style of the list view scroll viewer in multi column mode -->
+    <Style x:Key="MultiColumnScrollViewerStyleKey" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="Template" Value="{StaticResource MultiColumnScrollViewerTemplate}" />
+    </Style>
+
+    <!-- Template of the list view in multi column mode -->
+    <ControlTemplate x:Key="MultiColumnListViewTemplate" TargetType="{x:Type gui:ExtendedListView}">
+        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Padding="1">
+            <ScrollViewer x:Name="INNER_ScrollViewer" Style="{StaticResource MultiColumnScrollViewerStyleKey}" >
+                <VirtualizingStackPanel Orientation="Vertical" IsItemsHost="True" />
+            </ScrollViewer>
+        </Border>
+    </ControlTemplate>
+
+    <!-- Style of the list view in multi column mode -->
+    <Style x:Key="{x:Static gui:ExtendedListView.MultiColumnDefaultStyleKey}" TargetType="{x:Type gui:ExtendedListView}">
+        <Setter Property="Template" Value="{StaticResource MultiColumnListViewTemplate}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Once"/>
+        <Setter Property="KeyboardNavigation.DirectionalNavigation" Value="None"/>
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
     </Style>
 
 </ResourceDictionary>

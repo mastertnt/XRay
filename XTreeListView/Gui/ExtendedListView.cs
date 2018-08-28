@@ -50,7 +50,15 @@ namespace XTreeListView.Gui
         #endregion // Fields.
 
         #region Constructors
-
+        
+        /// <summary>
+        /// Initializes the <see cref="ExtendedListView"/> class.
+        /// </summary>
+        static ExtendedListView()
+        {
+            ExtendedListView.MultiColumnDefaultStyleKey = new ComponentResourceKey(typeof(ExtendedListView), "MultiColumnDefaultStyleKey");
+        }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtendedListView"/> class.
         /// </summary>
@@ -174,6 +182,15 @@ namespace XTreeListView.Gui
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the item style key when the tree is in multi column mode.
+        /// </summary>
+        public static ResourceKey MultiColumnDefaultStyleKey
+        {
+            get;
+            private set;
         }
 
         #endregion // Properties.
