@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
+using System.ComponentModel;
+using System.Reflection;
+using XTreeListView.Extensions;
 
 namespace XTreeListView.Gui
 {
@@ -38,7 +42,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets or sets the column width.
         /// </summary>
-        public new GridLength Width
+        public new GridLength GridLength
         {
             get
             {
@@ -86,7 +90,7 @@ namespace XTreeListView.Gui
             {
                 lWidth = new GridLength(pColumn.Width, GridUnitType.Pixel);
             }
-            lColumn.Width = lWidth;
+            lColumn.GridLength = lWidth;
 
             // Template selector.
             if (pColumn.TemplateSelector != null)
@@ -103,21 +107,61 @@ namespace XTreeListView.Gui
         }
 
         /// <summary>
-        /// Clone this column.
+        /// Ensures final column desired width is no less than the given value.
         /// </summary>
-        /// <returns>The resulting column.</returns>
-        public ExtendedGridViewColumn Clone()
+        internal double EnsureDesiredWidth(double pWidth)
         {
-            ExtendedGridViewColumn lColumn = new ExtendedGridViewColumn();
-            lColumn.Header = this.Header;
-            lColumn.Width = this.Width;
-            lColumn.CellTemplate = this.CellTemplate;
-            lColumn.CellTemplateSelector = this.CellTemplateSelector;
-            lColumn.DisplayMemberBinding = this.DisplayMemberBinding;
-
-            return lColumn;
+            return this.CallMethod<GridViewColumn, double>("EnsureWidth", pWidth);
         }
 
         #endregion // Methods.
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the rendering state of the column.
+        /// </summary>
+        internal ExtendedGridViewColumnMeasureState State
+        {
+            get
+            {
+                return this.GetPropertyValue<GridViewColumn, ExtendedGridViewColumnMeasureState>("State");
+            }
+            set
+            {
+                this.SetPropertyValue<GridViewColumn, int>("State", (int)value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the index of the column in the grid.
+        /// </summary>
+        /// <remarks>
+        /// Perf optimization. To avoid re-search index again and again by every GridViewRowPresenter, add an index here.
+        /// </remarks>
+        internal int ActualIndex
+        {
+            get
+            {
+                return this.GetPropertyValue<GridViewColumn, int>("ActualIndex");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the width of the column if the Width property is NaN.
+        /// </summary>
+        internal double DesiredWidth
+        {
+            get
+            {
+                return this.GetPropertyValue<GridViewColumn, double>("DesiredWidth");
+            }
+            set
+            {
+                this.SetPropertyValue<GridViewColumn, double>("DesiredWidth", value);
+            }
+        }
+
+        #endregion // Properties.
     }
 }

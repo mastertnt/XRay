@@ -36,6 +36,15 @@ namespace XTreeListView.Gui
 
         #endregion // Constructors.
 
+        #region Events
+
+        /// <summary>
+        /// Event raised when the view is synchronized with the tree list view columns collection.
+        /// </summary>
+        public event Action Synchronized;
+
+        #endregion // Events.
+
         #region Properties
 
         /// <summary>
@@ -154,6 +163,12 @@ namespace XTreeListView.Gui
 
                 // Adding the column.
                 this.Columns.Add(lColumn);
+
+                // Notification.
+                if (this.Synchronized != null)
+                {
+                    this.Synchronized();
+                }
             }
         }
 

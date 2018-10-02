@@ -185,8 +185,8 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <DockPanel Margin="{TemplateBinding Padding}">
-                <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false">
-                    <GridViewHeaderRowPresenter Columns="{Binding Path=TemplatedParent.View.Columns, RelativeSource={RelativeSource TemplatedParent}}"
+                <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false" >
+                    <gui:ExtendedGridViewHeaderRowPresenter Columns="{Binding Path=TemplatedParent.View.Columns, RelativeSource={RelativeSource TemplatedParent}}"
                                                 ColumnHeaderContainerStyle="{Binding Path=TemplatedParent.View.ColumnHeaderContainerStyle, RelativeSource={RelativeSource TemplatedParent}}"
                                                 ColumnHeaderTemplate="{Binding Path=TemplatedParent.View.ColumnHeaderTemplate, RelativeSource={RelativeSource TemplatedParent}}"
                                                 ColumnHeaderTemplateSelector="{Binding Path=TemplatedParent.View.ColumnHeaderTemplateSelector, RelativeSource={RelativeSource TemplatedParent}}"
@@ -196,7 +196,7 @@
                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 </ScrollViewer>
                 <ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="{TemplateBinding KeyboardNavigation.DirectionalNavigation}" 
-                                        CanContentScroll="True" CanHorizontallyScroll="False" CanVerticallyScroll="False" />
+                                        CanContentScroll="True" CanHorizontallyScroll="True" CanVerticallyScroll="True"  />
             </DockPanel>
             <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" Grid.Row="1" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" 
                        Value="{TemplateBinding HorizontalOffset}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
@@ -208,6 +208,8 @@
     <!-- Style of the list view scroll viewer in multi column mode -->
     <Style x:Key="MultiColumnScrollViewerStyleKey" TargetType="{x:Type ScrollViewer}">
         <Setter Property="Template" Value="{StaticResource MultiColumnScrollViewerTemplate}" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
     </Style>
 
     <!-- Template of the list view in multi column mode -->

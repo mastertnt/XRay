@@ -33,6 +33,9 @@
     <Compile Include="Behaviors\Column\ProportionalColumn.cs" />
     <Compile Include="Behaviors\Column\RangeColumn.cs" />
     <Compile Include="Behaviors\ExpandBehavior.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Gui\ExtendedGridViewColumnMeasureState.cs" />
+    <Compile Include="Gui\ExtendedGridViewHeaderRowPresenter.cs" />
     <Compile Include="Behaviors\SelectionBehavior.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\IntegerToBoolConverter.cs" />

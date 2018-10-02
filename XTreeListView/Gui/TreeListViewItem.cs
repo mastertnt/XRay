@@ -252,8 +252,8 @@ namespace XTreeListView.Gui
             if (this.mParentGridView != null)
             {
                 // Assure you remove a previously registered delegate if passing twice with non null model.
-                this.mParentGridView.Columns.CollectionChanged -= this.OnGridViewColumnsCollectionChanged;
-                this.mParentGridView.Columns.CollectionChanged += this.OnGridViewColumnsCollectionChanged;
+                this.mParentGridView.Synchronized -= this.OnGridViewSynchronized;
+                this.mParentGridView.Synchronized += this.OnGridViewSynchronized;
             }
         }
 
@@ -305,7 +305,7 @@ namespace XTreeListView.Gui
         {
             if (this.mParentGridView != null)
             {
-                this.mParentGridView.Columns.CollectionChanged -= this.OnGridViewColumnsCollectionChanged;
+                this.mParentGridView.Synchronized -= this.OnGridViewSynchronized;
                 this.mParentGridView = null;
             }
         }
@@ -463,36 +463,10 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Delegate called when the columns collection of the grid view is modified.
         /// </summary>
-        /// <param name="pSender">The modified grid view.</param>
-        /// <param name="pEventArgs">The event arguments.</param>
-        private void OnGridViewColumnsCollectionChanged(object pSender, NotifyCollectionChangedEventArgs pEventArgs)
+        private void OnGridViewSynchronized()
         {
-            switch (pEventArgs.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    // Nothing to do.
-                    break;
-
-                case NotifyCollectionChangedAction.Remove:
-                    // Nothing to do.
-                    break;
-
-                case NotifyCollectionChangedAction.Replace:
-                    // Nothing to do.
-                    break;
-
-                case NotifyCollectionChangedAction.Move:
-                    {
-                        // Updating the expander clip region.
-                        this.mDecoratorsContainer.Clip = this.GetDecoratorsClipRegion();
-                    }
-
-                    break;
-
-                case NotifyCollectionChangedAction.Reset:
-                    // Nothing to do.
-                    break;
-            }
+            // Updating the expander clip region.
+            this.mDecoratorsContainer.Clip = this.GetDecoratorsClipRegion();
         }
 
         /// <summary>
