@@ -42,7 +42,7 @@ namespace XTreeListView.Gui
         /// <summary>
         /// Gets or sets the column width.
         /// </summary>
-        public new GridLength GridLength
+        public GridLength GridLength
         {
             get
             {

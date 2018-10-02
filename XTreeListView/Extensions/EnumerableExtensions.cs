@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace XTreeListView.Extensions
 {
     /// <summary>
-    /// Class extending the <see cref="IEnumerable"/> class.
+    /// Class extending the <see cref="System.Collections.IEnumerable"/> class.
     /// </summary>
     public static class EnumerableExtensions
     {

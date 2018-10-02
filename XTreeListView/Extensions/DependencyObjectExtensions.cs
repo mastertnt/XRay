@@ -4,7 +4,7 @@ using System.Windows;
 namespace XTreeListView.Extensions
 {
     /// <summary>
-    /// Class extending the <see cref="DependencyObject"/> class.
+    /// Class extending the <see cref="System.Windows.DependencyObject"/> class.
     /// </summary>
     public static class DependencyObjectExtensions
     {

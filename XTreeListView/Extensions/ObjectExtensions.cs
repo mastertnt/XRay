@@ -3,7 +3,7 @@
 namespace XTreeListView.Extensions
 {
     /// <summary>
-    /// Class extending the <see cref="object"/> class.
+    /// Class extending the <see cref="System.Object"/> class.
     /// </summary>
     public static class ObjectExtensions
     {
@@ -43,9 +43,9 @@ namespace XTreeListView.Extensions
         /// <param name="pObject">The reflected object.</param>
         /// <param name="pFieldName">The field name.</param>
         /// <returns>The property value.</returns>
-        public static TValue GetFieldValue<TObject, TValue>(this TObject pObject, string pPropertyName)
+        public static TValue GetFieldValue<TObject, TValue>(this TObject pObject, string pFieldName)
         {
-            return (TValue)typeof(TObject).InvokeMember(pPropertyName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance, null, pObject, new object[] { });
+            return (TValue)typeof(TObject).InvokeMember(pFieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetField | BindingFlags.Instance, null, pObject, new object[] { });
         }
 
         /// <summary>
