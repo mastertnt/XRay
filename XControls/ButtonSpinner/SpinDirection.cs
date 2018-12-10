@@ -1,4 +1,4 @@
-﻿namespace XControls
+﻿namespace XControls.ButtonSpinner
 {
     /// <summary>
     /// Represents spin directions that could be initiated by the end-user.

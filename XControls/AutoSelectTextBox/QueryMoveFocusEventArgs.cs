@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace XControls
+namespace XControls.AutoSelectTextBox
 {
     /// <summary>
     /// Delegate used to query a move focus.

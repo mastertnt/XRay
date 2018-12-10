@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Windows;
 
-namespace XControls
+namespace XControls.NumericUpDown
 {
     /// <summary>
     /// Class defining a decimal editor.

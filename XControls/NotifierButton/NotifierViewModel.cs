@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Timers;
 
-namespace XControls
+namespace XControls.NotifierButton
 {
     /// <summary>
     /// Class defining a notification view model.

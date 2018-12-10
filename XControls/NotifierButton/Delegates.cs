@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace XControls
+﻿namespace XControls.NotifierButton
 {
     /// <summary>
     /// Delegate handling the notification closed event.

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace XControls
+namespace XControls.ButtonSpinner
 {
     /// <summary>
     /// Provides data for the Spinner.Spin event.

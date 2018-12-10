@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
-using System.Globalization;
-using System.IO;
+using XControls.ButtonSpinner;
 
-namespace XControls
+namespace XControls.NumericUpDown
 {
     /// <summary>
     /// Class defining a double editor.

@@ -1,14 +1,11 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System;
 
-namespace XControls
+namespace XControls.WatermarkTextBox
 {
     /// <summary>
     /// Class defining a watermarked text box.
     /// </summary>
-    public class WatermarkTextBox : AutoSelectTextBox
+    public class WatermarkTextBox : AutoSelectTextBox.AutoSelectTextBox
     {
         #region Depenencies
 

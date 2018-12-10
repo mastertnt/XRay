@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Data;
 
-namespace XControls
+namespace XControls.NotifierButton
 {
     /// <summary>
     /// Class defining a notifier button displaying notifications in a popup.
     /// </summary>
-    [TemplatePart(Name = PART_NotificationCountRenderer, Type = typeof(NotificationCountRenderer))]
-    public class NotifierButton : DropDownButton
+    [TemplatePart(Name = PART_NOTIFICATION_COUNT_RENDERER, Type = typeof(NotificationCountRenderer))]
+    public class NotifierButton : DropDownButton.DropDownButton
     {
         #region Dependencies
 
@@ -27,7 +24,7 @@ namespace XControls
         /// <summary>
         /// Name of the parts that have to be in the control template.
         /// </summary>
-        private const string PART_NotificationCountRenderer = "PART_NotificationCountRenderer";
+        private const string PART_NOTIFICATION_COUNT_RENDERER = "PART_NotificationCountRenderer";
 
         /// <summary>
         /// Stores the notification count renderer.
@@ -116,7 +113,7 @@ namespace XControls
         {
             base.OnApplyTemplate();
 
-            this.mNotificationCountRenderer = this.GetTemplateChild(PART_NotificationCountRenderer) as NotificationCountRenderer;
+            this.mNotificationCountRenderer = this.GetTemplateChild(PART_NOTIFICATION_COUNT_RENDERER) as NotificationCountRenderer;
 
             if (this.mNotificationCountRenderer == null)
             {

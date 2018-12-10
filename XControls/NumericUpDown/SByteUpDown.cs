@@ -15,9 +15,8 @@
   ***********************************************************************************/
 
 using System;
-using System.Windows;
 
-namespace XControls
+namespace XControls.NumericUpDown
 {
   public class SByteUpDown : ANativeNumericUpDown<sbyte>
   {

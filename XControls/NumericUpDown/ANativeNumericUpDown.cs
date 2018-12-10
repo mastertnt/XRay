@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Windows;
 using System.Globalization;
-using System.IO;
-using XControls.Primitives;
+using System.Windows;
+using XControls.ButtonSpinner;
 using XControls.Core;
 
-namespace XControls
+namespace XControls.NumericUpDown
 {
     /// <summary>
     /// Class defining a native numeric editor.
@@ -514,7 +513,7 @@ namespace XControls
             }
 
             // The value is the infinite.
-            if (this.InfiniteValue.HasValue && pText == Constants.INFINITY_SYMBOL.ToString())
+            if (this.InfiniteValue.HasValue && pText == Constants.InfinitySymbol.ToString())
             {
                 return this.InfiniteValue;
             }
@@ -538,9 +537,9 @@ namespace XControls
 
             //If the value is approximated, remove the ~ prefix as it cannot be parsed.
             //The prefix is to be restored just before returning the the string.
-            if (pText.StartsWith(Constants.APPROXIMATION_SYMBOL))
+            if (pText.StartsWith(Constants.ApproximationSymbol))
             {
-                pText = pText.Replace(Constants.APPROXIMATION_SYMBOL, String.Empty);
+                pText = pText.Replace(Constants.ApproximationSymbol, String.Empty);
             }
 
             try
@@ -602,13 +601,13 @@ namespace XControls
 
             if (this.InfiniteValue.HasValue && Equals(pValue, this.InfiniteValue))
             {
-                return Constants.INFINITY_SYMBOL.ToString();
+                return Constants.InfinitySymbol.ToString();
             }
 
             string lNewText = pValue.Value.ToString("0.###############", this.CultureInfo);
 
             // Handling the case a negative sign has been specified in the text in front of a zero value (default(T) returns the 0 value strongly typed).
-            if (this.AllowMinusZero && this.Text != null && this.Text != Constants.INFINITY_SYMBOL.ToString())
+            if (this.AllowMinusZero && this.Text != null && this.Text != Constants.InfinitySymbol.ToString())
             {
                 T? lCurrentValue = this.GetClippedMinMaxInfiniteValue();
                 if (this.Text.StartsWith(CultureInfo.InvariantCulture.NumberFormat.NegativeSign)
@@ -636,7 +635,7 @@ namespace XControls
 
             if (this.InfiniteValue.HasValue && Equals(pValue, this.InfiniteValue))
             {
-                return Constants.INFINITY_SYMBOL.ToString();
+                return Constants.InfinitySymbol.ToString();
             }
 
             string lFormatString = this.BuildFormatString();
@@ -651,11 +650,11 @@ namespace XControls
 
             if (lValue.CompareTo(lRawValue) != 0)
             {
-                lNewText = string.Format("{0}{1}", Constants.APPROXIMATION_SYMBOL, lNewText);
+                lNewText = string.Format("{0}{1}", Constants.ApproximationSymbol, lNewText);
             }
 
             // Handling the case a negative sign has been specified in the text in front of a zero value (default(T) returns the 0 value strongly typed).
-            if (this.AllowMinusZero && this.Text != null && this.Text != Constants.INFINITY_SYMBOL.ToString())
+            if (this.AllowMinusZero && this.Text != null && this.Text != Constants.InfinitySymbol.ToString())
             {
                 T? lCurrentValue = this.GetClippedMinMaxInfiniteValue();
                 if (this.Text.StartsWith(CultureInfo.InvariantCulture.NumberFormat.NegativeSign)
@@ -699,7 +698,7 @@ namespace XControls
             }
 
             // The value is the infinite.
-            if (this.InfiniteValue.HasValue && pBaseText == Constants.INFINITY_SYMBOL.ToString())
+            if (this.InfiniteValue.HasValue && pBaseText == Constants.InfinitySymbol.ToString())
             {
                 return pBaseText;
             }
@@ -710,9 +709,9 @@ namespace XControls
             //If the value is approximated, remove the ~ prefix as it cannot be parsed.
             //The prefix is to be restored just before return ning the the string.
             bool lIsApproximated = false;
-            if (lText.StartsWith(Constants.APPROXIMATION_SYMBOL))
+            if (lText.StartsWith(Constants.ApproximationSymbol))
             {
-                lText = lText.Replace(Constants.APPROXIMATION_SYMBOL, String.Empty);
+                lText = lText.Replace(Constants.ApproximationSymbol, String.Empty);
                 lIsApproximated = true;
             }
 
@@ -725,7 +724,7 @@ namespace XControls
                 //If the value is approximated, add ~ prefix
                 if (lIsApproximated)
                 {
-                    lText = string.Format("{0}{1}", Constants.APPROXIMATION_SYMBOL, lText);
+                    lText = string.Format("{0}{1}", Constants.ApproximationSymbol, lText);
                 }
 
                 return lText;
@@ -749,9 +748,9 @@ namespace XControls
             //If the value is approximated, remove the ~ prefix as it cannot be parsed.
             //The prefix is to be restored just before return ning the the string.
             bool lIsApproximated = false;
-            if (lText.StartsWith(Constants.APPROXIMATION_SYMBOL))
+            if (lText.StartsWith(Constants.ApproximationSymbol))
             {
-                lText = lText.Replace(Constants.APPROXIMATION_SYMBOL, String.Empty);
+                lText = lText.Replace(Constants.ApproximationSymbol, String.Empty);
                 lIsApproximated = true;
             }
 
@@ -764,7 +763,7 @@ namespace XControls
                 // If the value is approximated, add ~ prefix.
                 if (lIsApproximated)
                 {
-                    lText = string.Format("{0}{1}", Constants.APPROXIMATION_SYMBOL, lText);
+                    lText = string.Format("{0}{1}", Constants.ApproximationSymbol, lText);
                 }
 
                 return this.CoerceValueMinMaxInfinite(result.Value);

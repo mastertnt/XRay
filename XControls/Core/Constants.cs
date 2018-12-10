@@ -14,16 +14,16 @@ namespace XControls.Core
         /// <summary>
         /// Constant representing the infinity symbol.
         /// </summary>
-        public const char INFINITY_SYMBOL = (char)0x221E;
+        public const char InfinitySymbol = (char)0x221E;
 
         /// <summary>
         /// Constant representing the approximation symbol.
         /// </summary>
-        public const string APPROXIMATION_SYMBOL = "~";
+        public const string ApproximationSymbol = "~";
 
         /// <summary>
         /// Stores the watermark string format when the symbol must be displayed as well.
         /// </summary>
-        public const string WATERMARK_WITH_SYMBOL_STRING_FORMAT = "{0} ({1})";
+        public const string WatermarkWithSymbolStringFormat = "{0} ({1})";
     }
 }

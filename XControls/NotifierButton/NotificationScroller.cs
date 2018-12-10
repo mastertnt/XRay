@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace XControls
+namespace XControls.NotifierButton
 {
     /// <summary>
     /// Class defining the notification scroller displayed in the popup.
     /// </summary>
-    [TemplatePart(Name = PART_PreviousNotificationButton, Type = typeof(Button))]
-    [TemplatePart(Name = PART_NextNotificationButton, Type = typeof(Button))]
+    [TemplatePart(Name = PART_PREVIOUS_NOTIFICATION_BUTTON, Type = typeof(Button))]
+    [TemplatePart(Name = PART_NEXT_NOTIFICATION_BUTTON, Type = typeof(Button))]
     public class NotificationScroller : ContentControl
     {
         #region Dependencies
@@ -34,8 +31,8 @@ namespace XControls
         /// <summary>
         /// Name of the parts that have to be in the control template.
         /// </summary>
-        private const string PART_PreviousNotificationButton = "PART_PreviousNotificationButton";
-        private const string PART_NextNotificationButton = "PART_NextNotificationButton";
+        private const string PART_PREVIOUS_NOTIFICATION_BUTTON = "PART_PreviousNotificationButton";
+        private const string PART_NEXT_NOTIFICATION_BUTTON = "PART_NextNotificationButton";
 
         /// <summary>
         /// Stores the button used to go to the previous notification.
@@ -147,8 +144,8 @@ namespace XControls
         {
             base.OnApplyTemplate();
 
-            this.mPreviousNotificationButton = this.GetTemplateChild(PART_PreviousNotificationButton) as Button;
-            this.mNextNotificationButton = this.GetTemplateChild(PART_NextNotificationButton) as Button;
+            this.mPreviousNotificationButton = this.GetTemplateChild(PART_PREVIOUS_NOTIFICATION_BUTTON) as Button;
+            this.mNextNotificationButton = this.GetTemplateChild(PART_NEXT_NOTIFICATION_BUTTON) as Button;
 
             if  (   (this.mPreviousNotificationButton == null)
                 ||  (this.mNextNotificationButton == null)

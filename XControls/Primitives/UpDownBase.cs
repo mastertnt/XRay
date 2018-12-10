@@ -7,6 +7,8 @@ using XControls.Core;
 using XControls.Core.Input;
 using System.Globalization;
 using System.Windows.Threading;
+using XControls.AutoSelectTextBox;
+using XControls.ButtonSpinner;
 
 namespace XControls.Primitives
 {
@@ -16,8 +18,8 @@ namespace XControls.Primitives
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="XControls.Primitives.InputBase" />
     /// <seealso cref="XControls.Core.Input.IValidateInput" />
-    [TemplatePart(Name = PART_TextBox, Type = typeof(TextBox))]
-    [TemplatePart(Name = PART_Spinner, Type = typeof(ASpinner))]
+    [TemplatePart(Name = PartTextBox, Type = typeof(TextBox))]
+    [TemplatePart(Name = PartSpinner, Type = typeof(ASpinner))]
     public abstract class UpDownBase<T> : InputBase, IValidateInput
     {
         #region Dependencies
@@ -39,25 +41,25 @@ namespace XControls.Primitives
         /// <summary>
         /// Name constant for control template part.
         /// </summary>
-        internal const string PART_TextBox = "PART_TextBox";
+        internal const string PartTextBox = "PART_TextBox";
         /// <summary>
         /// The part spinner
         /// </summary>
-        internal const string PART_Spinner = "PART_Spinner";
+        internal const string PartSpinner = "PART_Spinner";
 
         /// <summary>
         /// The is text changed from UI
         /// </summary>
-        internal bool _isTextChangedFromUI;
+        internal bool IsTextChangedFromUi;
 
         /// <summary>
         /// Flags if the Text and Value properties are in the process of being sync'd
         /// </summary>
-        private bool _isSyncingTextAndValueProperties;
+        private bool mIsSyncingTextAndValueProperties;
         /// <summary>
         /// The internal value set
         /// </summary>
-        private bool _internalValueSet;
+        private bool mInternalValueSet;
 
         #endregion //Members
 
@@ -567,14 +569,14 @@ namespace XControls.Primitives
 
         private void SetValueInternal(T value)
         {
-            this._internalValueSet = true;
+            this.mInternalValueSet = true;
             try
             {
                 this.Value = value;
             }
             finally
             {
-                this._internalValueSet = false;
+                this.mInternalValueSet = false;
             }
         }
 
@@ -619,7 +621,7 @@ namespace XControls.Primitives
         /// <param name="newValue">The new value.</param>
         protected virtual void OnValueChanged(T oldValue, T newValue)
         {
-            if (!this._internalValueSet && this.IsInitialized)
+            if (!this.mInternalValueSet && this.IsInitialized)
             {
                 this.SyncTextAndValueProperties(false, null, true);
             }
@@ -670,7 +672,7 @@ namespace XControls.Primitives
                 this.TextBox.RemoveHandler(Mouse.PreviewMouseDownEvent, new MouseButtonEventHandler(this.TextBox_PreviewMouseDown));
             }
 
-            this.TextBox = this.GetTemplateChild(PART_TextBox) as TextBox;
+            this.TextBox = this.GetTemplateChild(PartTextBox) as TextBox;
 
             if (this.TextBox != null)
             {
@@ -683,7 +685,7 @@ namespace XControls.Primitives
 
             if (this.Spinner != null) this.Spinner.Spin -= this.OnSpinnerSpin;
 
-            this.Spinner = this.GetTemplateChild(PART_Spinner) as ASpinner;
+            this.Spinner = this.GetTemplateChild(PartSpinner) as ASpinner;
 
             if (this.Spinner != null) this.Spinner.Spin += this.OnSpinnerSpin;
 
@@ -717,9 +719,9 @@ namespace XControls.Primitives
         /// </summary>
         private void DisplayRawValueAsText()
         {
-            this._isSyncingTextAndValueProperties = true;
+            this.mIsSyncingTextAndValueProperties = true;
             this.CustomDisplayRawValueAsText();
-            this._isSyncingTextAndValueProperties = false;
+            this.mIsSyncingTextAndValueProperties = false;
         }
 
 
@@ -1011,9 +1013,9 @@ namespace XControls.Primitives
         /// <param name="e">The <see cref="TextChangedEventArgs"/> instance containing the event data.</param>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!this._isSyncingTextAndValueProperties)
+            if (!this.mIsSyncingTextAndValueProperties)
             {
-                if (this.TextBox != null && this.TextBox.Text.StartsWith(Constants.APPROXIMATION_SYMBOL))
+                if (this.TextBox != null && this.TextBox.Text.StartsWith(Constants.ApproximationSymbol))
                 {
                     this.DisplayRawValueAsText();
                 }
@@ -1037,13 +1039,13 @@ namespace XControls.Primitives
             {
                 if (this.TextBox != null)
                 {
-                    this._isTextChangedFromUI = true;
+                    this.IsTextChangedFromUi = true;
                     this.Text = this.TextBox.Text;
                 }
             }
             finally
             {
-                this._isTextChangedFromUI = false;
+                this.IsTextChangedFromUi = false;
             }
         }
 
@@ -1150,10 +1152,10 @@ namespace XControls.Primitives
         /// <returns></returns>
         protected bool SyncTextAndValueProperties(bool updateValueFromText, string text, bool forceTextUpdate)
         {
-            if (this._isSyncingTextAndValueProperties)
+            if (this.mIsSyncingTextAndValueProperties)
                 return true;
 
-            this._isSyncingTextAndValueProperties = true;
+            this.mIsSyncingTextAndValueProperties = true;
             bool parsedTextIsValid = true;
             try
             {
@@ -1179,7 +1181,7 @@ namespace XControls.Primitives
                             parsedTextIsValid = false;
 
                             // From the UI, just allow any input.
-                            if (!this._isTextChangedFromUI)
+                            if (!this.IsTextChangedFromUi)
                             {
                                 // This call may throw an exception. 
                                 // See RaiseInputValidationError() implementation.
@@ -1190,7 +1192,7 @@ namespace XControls.Primitives
                 }
 
                 // Do not touch the ongoing text input from user.
-                if (!this._isTextChangedFromUI)
+                if (!this.IsTextChangedFromUi)
                 {
                     // Don't replace the empty Text with the non-empty representation of DefaultValue.
                     bool shouldKeepEmpty = !forceTextUpdate && string.IsNullOrEmpty(this.Text) && Equals(this.Value, this.DefaultValue) && !this.DisplayDefaultValueOnEmptyText;
@@ -1207,7 +1209,7 @@ namespace XControls.Primitives
                     if (this.TextBox != null) this.TextBox.Text = this.Text;
                 }
 
-                if (this._isTextChangedFromUI && !parsedTextIsValid)
+                if (this.IsTextChangedFromUi && !parsedTextIsValid)
                 {
                     // Text input was made from the user and the text
                     // repesents an invalid value. Disable the spinner
@@ -1224,7 +1226,7 @@ namespace XControls.Primitives
             }
             finally
             {
-                this._isSyncingTextAndValueProperties = false;
+                this.mIsSyncingTextAndValueProperties = false;
             }
             return parsedTextIsValid;
         }
