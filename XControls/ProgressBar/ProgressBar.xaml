@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="XControls.ProgressBar.ProgressBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1.5*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="mLabel" Margin="3" />
+        <ProgressBar x:Name="mProgressBar" Grid.Column="1" />
+        <TextBlock x:Name="mProgressText" Background="Transparent" Foreground="Black" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="1" />
+    </Grid>
+</UserControl>

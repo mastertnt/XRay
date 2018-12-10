@@ -84,6 +84,9 @@
     <Compile Include="PerformanceGauge\PerformanceGauge.xaml.cs">
       <DependentUpon>PerformanceGauge.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProgressBar\ProgressBar.xaml.cs">
+      <DependentUpon>ProgressBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Themes\Chromes\ButtonChromeRenderer.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\Converters\DebugConverter.cs" />
@@ -132,6 +135,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PerformanceGauge\PerformanceGauge.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ProgressBar\ProgressBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
