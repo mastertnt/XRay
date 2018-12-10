@@ -16,7 +16,7 @@
 
 using System;
 
-namespace XControls
+namespace XControls.ButtonSpinner
 {
   /// <summary>
   /// Represents spin directions that are valid.

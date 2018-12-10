@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XControls
+namespace XControls.NumericUpDown
 {
     /// <summary>
     /// Enum defining the allowed numeric special values.

@@ -2,7 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:XControls"
                     xmlns:themes="clr-namespace:XControls.Themes"
-                    xmlns:prim="clr-namespace:XControls.Primitives">
+                    xmlns:prim="clr-namespace:XControls.Primitives"
+                    xmlns:buttonSpinner="clr-namespace:XControls.ButtonSpinner"
+                    xmlns:watermarkTextBox="clr-namespace:XControls.WatermarkTextBox"
+                    xmlns:numericUpDown="clr-namespace:XControls.NumericUpDown">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/XControls;component/Themes/Resources/All.xaml" />
@@ -32,7 +35,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type prim:InputBase}">
-                    <local:ButtonSpinner x:Name="PART_Spinner"
+                    <buttonSpinner:ButtonSpinner x:Name="PART_Spinner"
                                          IsTabStop="False"
                                          Background="{TemplateBinding Background}"
                                          BorderThickness="{TemplateBinding BorderThickness}"
@@ -43,7 +46,7 @@
                                          ShowButtonSpinner="{Binding ShowButtonSpinner, RelativeSource={RelativeSource TemplatedParent}}"
                                          ButtonSpinnerLocation="{Binding ButtonSpinnerLocation, RelativeSource={RelativeSource TemplatedParent}}"
                                          ShowInfiniteButton="{Binding InfiniteValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToBoolConverter}}">
-                        <local:WatermarkTextBox x:Name="PART_TextBox"
+                        <watermarkTextBox:WatermarkTextBox x:Name="PART_TextBox"
                                           BorderThickness="0"
                                           Background="Transparent"
                                           ContextMenu="{TemplateBinding ContextMenu}"
@@ -67,7 +70,7 @@
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Watermark="{Binding Watermark, RelativeSource={RelativeSource TemplatedParent}}"
                                           WatermarkTemplate="{Binding WatermarkTemplate, RelativeSource={RelativeSource TemplatedParent}}" />
-                    </local:ButtonSpinner>
+                    </buttonSpinner:ButtonSpinner>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -107,20 +110,20 @@
     </Style>
 
     <!-- Specific NumericUpDown styles. -->
-    <Style TargetType="{x:Type local:DecimalUpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:DoubleUpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:Int16UpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:Int32UpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:Int64UpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:ShortUpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:LongUpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:ByteUpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:SingleUpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:SByteUpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:UInt16UpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:UInt32UpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:UInt64UpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:ULongUpDown}" BasedOn="{StaticResource NumericUpDown}" />
-    <Style TargetType="{x:Type local:UShortUpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:DecimalUpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:DoubleUpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:Int16UpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:Int32UpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:Int64UpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:ShortUpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:LongUpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:ByteUpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:SingleUpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:SByteUpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:UInt16UpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:UInt32UpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:UInt64UpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:ULongUpDown}" BasedOn="{StaticResource NumericUpDown}" />
+    <Style TargetType="{x:Type numericUpDown:UShortUpDown}" BasedOn="{StaticResource NumericUpDown}" />
 
 </ResourceDictionary>

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using XControls.Core.Utilities;
 
-namespace XControls
+namespace XControls.AutoSelectTextBox
 {
     /// <summary>
     /// Class defining a text box extending the base text selection behavior.

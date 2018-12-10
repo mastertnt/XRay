@@ -24,6 +24,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -36,11 +37,26 @@
     <Compile Include="AutoSelectTextBox\AutoSelectBehaviorEnum.cs" />
     <Compile Include="AutoSelectTextBox\AutoSelectTextBox.cs" />
     <Compile Include="AutoSelectTextBox\QueryMoveFocusEventArgs.cs" />
+    <Compile Include="BusyBar\BusyBar.xaml.cs">
+      <DependentUpon>BusyBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ButtonSpinner\ButtonSpinner.cs" />
     <Compile Include="ButtonSpinner\SpinDirection.cs" />
     <Compile Include="ButtonSpinner\SpinEventArgs.cs" />
     <Compile Include="ButtonSpinner\ASpinner.cs" />
     <Compile Include="ButtonSpinner\ValidSpinDirections.cs" />
+    <Compile Include="Core\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Core\Converters\BrushToColorConverter.cs" />
+    <Compile Include="Core\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Core\Converters\Int32ToVisibilityConverter.cs" />
+    <Compile Include="Core\Converters\InvertBoolConverter.cs" />
+    <Compile Include="Core\Converters\MediaColorToDrawingColorConverter.cs" />
+    <Compile Include="Core\Converters\MultiplicityToBooleanConverter.cs" />
+    <Compile Include="Core\Converters\NullableToStringConverter.cs" />
+    <Compile Include="Core\Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Core\Converters\ObjectToDoubleConverter.cs" />
+    <Compile Include="Core\Converters\ValidationToBrushConverter.cs" />
+    <Compile Include="Core\Converters\ValueConverterGroup.cs" />
     <Compile Include="Core\Utilities\KeyboardUtilities.cs" />
     <Compile Include="Core\Utilities\TreeHelper.cs">
       <SubType>Code</SubType>
@@ -65,6 +81,9 @@
     <Compile Include="NumericUpDown\UInt16UpDown.cs" />
     <Compile Include="NumericUpDown\Int16UpDown.cs" />
     <Compile Include="NumericUpDown\Int64UpDown.cs" />
+    <Compile Include="PerformanceGauge\PerformanceGauge.xaml.cs">
+      <DependentUpon>PerformanceGauge.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Themes\Chromes\ButtonChromeRenderer.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\Converters\DebugConverter.cs" />
@@ -108,6 +127,14 @@
     <Compile Include="WatermarkTextBox\WatermarkTextBox.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BusyBar\BusyBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PerformanceGauge\PerformanceGauge.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\ButtonSpinner.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

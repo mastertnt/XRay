@@ -1,24 +1,10 @@
-﻿<!--***********************************************************************************
-
-   Extended WPF Toolkit
-
-   Copyright (C) 2007-2013 Xceed Software Inc.
-
-   This program is provided to you under the terms of the Microsoft Public
-   License (Ms-PL) as published at http://wpftoolkit.codeplex.com/license 
-
-   For more features, controls, and fast professional support,
-   pick up the Plus Edition at http://xceed.com/wpf_toolkit
-
-   Stay informed: follow @datagrid on Twitter or Like http://facebook.com/datagrids
-
-  **********************************************************************************-->
-
+﻿
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:chrome="clr-namespace:XControls.Themes.Chromes"
                     xmlns:themes="clr-namespace:XControls.Themes"
-                    xmlns:local="clr-namespace:XControls">
+                    xmlns:local="clr-namespace:XControls"
+                    xmlns:dropDownButton="clr-namespace:XControls.DropDownButton">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/XControls;component/Themes/Resources/All.xaml" />
@@ -50,7 +36,7 @@
         </LinearGradientBrush.GradientStops>
     </LinearGradientBrush>
 
-    <Style TargetType="{x:Type local:DropDownButton}">
+    <Style TargetType="{x:Type dropDownButton:DropDownButton}">
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -59,7 +45,7 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:DropDownButton}">
+                <ControlTemplate TargetType="{x:Type dropDownButton:DropDownButton}">
                     <Grid x:Name="MainGrid"
                      SnapsToDevicePixels="True">
                         <ToggleButton x:Name="PART_DropDownButton" 

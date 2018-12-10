@@ -5,24 +5,23 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
 using XControls.Core.Utilities;
 
-namespace XControls
+namespace XControls.DropDownButton
 {
-  [TemplatePart(Name = PART_DropDownButton, Type = typeof(ToggleButton))]
-  [TemplatePart(Name = PART_ContentPresenter, Type = typeof(ContentPresenter))]
-  [TemplatePart(Name = PART_Popup, Type = typeof(Popup))]
+  [TemplatePart(Name = PART_DROP_DOWN_BUTTON, Type = typeof(ToggleButton))]
+  [TemplatePart(Name = PART_CONTENT_PRESENTER, Type = typeof(ContentPresenter))]
+  [TemplatePart(Name = PART_POPUP, Type = typeof(Popup))]
   public class DropDownButton : ContentControl, ICommandSource
   {
-    private const string PART_DropDownButton = "PART_DropDownButton";
-    private const string PART_ContentPresenter = "PART_ContentPresenter";
-    private const string PART_Popup = "PART_Popup";
+    private const string PART_DROP_DOWN_BUTTON = "PART_DropDownButton";
+    private const string PART_CONTENT_PRESENTER = "PART_ContentPresenter";
+    private const string PART_POPUP = "PART_Popup";
 
     #region Members 
 
-    private ContentPresenter _contentPresenter;
-    private Popup _popup;
+    private ContentPresenter mContentPresenter;
+    private Popup mPopup;
 
     /// <summary>
     /// Stores the timer used to auto hide the popup.
@@ -54,20 +53,20 @@ namespace XControls
 
 
 
-    private ButtonBase _button;
+    private ButtonBase mButton;
     protected ButtonBase Button
     {
       get
       {
-        return this._button;
+        return this.mButton;
       }
       set
       {
-        if(this._button != null ) this._button.Click -= this.DropDownButton_Click;
+        if(this.mButton != null ) this.mButton.Click -= this.DropDownButton_Click;
 
-          this._button = value;
+          this.mButton = value;
 
-        if(this._button != null ) this._button.Click += this.DropDownButton_Click;
+        if(this.mButton != null ) this.mButton.Click += this.DropDownButton_Click;
       }
     }
 
@@ -211,15 +210,15 @@ namespace XControls
     public override void OnApplyTemplate()
     {
       base.OnApplyTemplate();
-        this.Button = this.GetTemplateChild( PART_DropDownButton ) as ToggleButton;
+        this.Button = this.GetTemplateChild( PART_DROP_DOWN_BUTTON ) as ToggleButton;
 
-        this._contentPresenter = this.GetTemplateChild( PART_ContentPresenter ) as ContentPresenter;
+        this.mContentPresenter = this.GetTemplateChild( PART_CONTENT_PRESENTER ) as ContentPresenter;
 
-      if(this._popup != null ) this._popup.Opened -= this.Popup_Opened;
+      if(this.mPopup != null ) this.mPopup.Opened -= this.Popup_Opened;
 
-        this._popup = this.GetTemplateChild( PART_Popup ) as Popup;
+        this.mPopup = this.GetTemplateChild( PART_POPUP ) as Popup;
 
-      if(this._popup != null ) this._popup.Opened += this.Popup_Opened;
+      if(this.mPopup != null ) this.mPopup.Opened += this.Popup_Opened;
     }
 
     #endregion //Base Class Overrides
@@ -313,9 +312,9 @@ namespace XControls
     private void Popup_Opened( object sender, EventArgs e )
     {
       // Set the focus on the content of the ContentPresenter.
-      if(this._contentPresenter != null )
+      if(this.mContentPresenter != null )
       {
-          this._contentPresenter.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+          this.mContentPresenter.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
       }
     }
 
@@ -399,9 +398,9 @@ namespace XControls
     private void HookUpCommand( ICommand oldCommand, ICommand newCommand )
     {
       EventHandler handler = new EventHandler(this.CanExecuteChanged );
-        this.canExecuteChangedHandler = handler;
+        this.mCanExecuteChangedHandler = handler;
       if( newCommand != null )
-        newCommand.CanExecuteChanged += this.canExecuteChangedHandler;
+        newCommand.CanExecuteChanged += this.mCanExecuteChangedHandler;
     }
 
     #endregion //Methods
@@ -409,7 +408,7 @@ namespace XControls
     #region ICommandSource Members
 
     // Keeps a copy of the CanExecuteChnaged handler so it doesn't get garbage collected.
-    private EventHandler canExecuteChangedHandler;
+    private EventHandler mCanExecuteChangedHandler;
 
     #region Command
 

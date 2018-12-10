@@ -4,7 +4,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Markup;
 
-namespace XControls
+namespace XControls.ButtonSpinner
 {
     /// <summary>
     /// Enum describing the spinner position.
@@ -18,9 +18,9 @@ namespace XControls
     /// <summary>
     /// Represents a spinner control that includes two Buttons.
     /// </summary>
-    [TemplatePart(Name = PART_IncreaseButton, Type = typeof(ButtonBase))]
-    [TemplatePart(Name = PART_DecreaseButton, Type = typeof(ButtonBase))]
-    [TemplatePart(Name = PART_InfiniteButton, Type = typeof(ButtonBase))]
+    [TemplatePart(Name = PART_INCREASE_BUTTON, Type = typeof(ButtonBase))]
+    [TemplatePart(Name = PART_DECREASE_BUTTON, Type = typeof(ButtonBase))]
+    [TemplatePart(Name = PART_INFINITE_BUTTON, Type = typeof(ButtonBase))]
     [ContentProperty("Content")]
     public class ButtonSpinner : ASpinner
     {
@@ -58,9 +58,9 @@ namespace XControls
         /// <summary>
         /// Stores the names of the control template parts.
         /// </summary>
-        private const string PART_IncreaseButton = "PART_IncreaseButton";
-        private const string PART_DecreaseButton = "PART_DecreaseButton";
-        private const string PART_InfiniteButton = "PART_InfiniteButton";
+        private const string PART_INCREASE_BUTTON = "PART_IncreaseButton";
+        private const string PART_DECREASE_BUTTON = "PART_DecreaseButton";
+        private const string PART_INFINITE_BUTTON = "PART_InfiniteButton";
 
         /// <summary>
         /// Stores the decrease button.
@@ -303,9 +303,9 @@ namespace XControls
         {
             base.OnApplyTemplate();
 
-            this.IncreaseButton = this.GetTemplateChild(PART_IncreaseButton) as ButtonBase;
-            this.DecreaseButton = this.GetTemplateChild(PART_DecreaseButton) as ButtonBase;
-            this.InfiniteButton = this.GetTemplateChild(PART_InfiniteButton) as ButtonBase;
+            this.IncreaseButton = this.GetTemplateChild(PART_INCREASE_BUTTON) as ButtonBase;
+            this.DecreaseButton = this.GetTemplateChild(PART_DECREASE_BUTTON) as ButtonBase;
+            this.InfiniteButton = this.GetTemplateChild(PART_INFINITE_BUTTON) as ButtonBase;
 
             if (this.IncreaseButton == null || this.DecreaseButton == null || this.InfiniteButton == null)
             {

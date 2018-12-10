@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace XControls
+﻿namespace XControls.NotifierButton
 {
     /// <summary>
     /// Class defining the event arguments of the <see cref="NotificationClosedEventHandler{TSource}"/> delegate.

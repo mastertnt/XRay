@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows;
+using XControls.AutoSelectTextBox;
 using XControls.Core;
 using XControls.Primitives;
 
-namespace XControls
+namespace XControls.NumericUpDown
 {
     /// <summary>
     /// Class defining a base numeric up down editor.
@@ -330,7 +330,7 @@ namespace XControls
             // Taking the unit symbol in account if any.
             if (string.IsNullOrEmpty(this.mBaseWatermark) == false && string.IsNullOrEmpty(this.UnitSymbol) == false)
             {
-                return string.Format(Constants.WATERMARK_WITH_SYMBOL_STRING_FORMAT, pBaseValue, this.UnitSymbol);
+                return string.Format(Constants.WatermarkWithSymbolStringFormat, pBaseValue, this.UnitSymbol);
             }
 
             return pBaseValue;
@@ -358,9 +358,9 @@ namespace XControls
             string lNewText = this.ConvertValueToText(this.Value);
 
             // Remove the ~ prefix and the symbol : we want to compare the values as string.
-            if (lNewText.StartsWith(Constants.APPROXIMATION_SYMBOL))
+            if (lNewText.StartsWith(Constants.ApproximationSymbol))
             {
-                lNewText = lNewText.Replace(Constants.APPROXIMATION_SYMBOL, String.Empty);
+                lNewText = lNewText.Replace(Constants.ApproximationSymbol, String.Empty);
             }
             if (string.IsNullOrEmpty(this.UnitSymbol) == false && lNewText.EndsWith(this.UnitSymbol))
             {

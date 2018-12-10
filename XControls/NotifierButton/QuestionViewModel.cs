@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows;
 
-namespace XControls
+namespace XControls.NotifierButton
 {
     /// <summary>
     /// Class defining a question notification view model.

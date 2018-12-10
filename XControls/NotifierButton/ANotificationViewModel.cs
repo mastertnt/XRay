@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Timers;
-using System.Windows;
 
-namespace XControls
+namespace XControls.NotifierButton
 {
     /// <summary>
     /// Base class defining a notification view model.

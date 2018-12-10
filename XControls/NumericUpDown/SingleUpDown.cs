@@ -16,10 +16,9 @@
 
 using System;
 using System.Windows;
-using System.Globalization;
-using System.IO;
+using XControls.ButtonSpinner;
 
-namespace XControls
+namespace XControls.NumericUpDown
 {
     public class SingleUpDown : ANativeNumericUpDown<float>
     {

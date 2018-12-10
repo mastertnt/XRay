@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace XControls
+namespace XControls.ButtonSpinner
 {
     /// <summary>
     /// Base class for controls that represents controls that can spin.

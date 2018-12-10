@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace XControls
+namespace XControls.NotifierButton
 {
     /// <summary>
     /// Class defining a notification view.
     /// </summary>
-    [TemplatePart(Name = PART_OkButton, Type = typeof(Button))]
-    [TemplatePart(Name = PART_CancelButton, Type = typeof(Button))]
-    [TemplatePart(Name = PART_YesButton, Type = typeof(Button))]
-    [TemplatePart(Name = PART_NoButton, Type = typeof(Button))]
-    [TemplatePart(Name = PART_CancelButtonFistColumn, Type = typeof(ColumnDefinition))]
-    [TemplatePart(Name = PART_CancelButtonSecondColumn, Type = typeof(ColumnDefinition))]
-    [TemplatePart(Name = PART_MessageScrollViewer, Type = typeof(ScrollViewer))]
+    [TemplatePart(Name = PART_OK_BUTTON, Type = typeof(Button))]
+    [TemplatePart(Name = PART_CANCEL_BUTTON, Type = typeof(Button))]
+    [TemplatePart(Name = PART_YES_BUTTON, Type = typeof(Button))]
+    [TemplatePart(Name = PART_NO_BUTTON, Type = typeof(Button))]
+    [TemplatePart(Name = PART_CANCEL_BUTTON_FIST_COLUMN, Type = typeof(ColumnDefinition))]
+    [TemplatePart(Name = PART_CANCEL_BUTTON_SECOND_COLUMN, Type = typeof(ColumnDefinition))]
+    [TemplatePart(Name = PART_MESSAGE_SCROLL_VIEWER, Type = typeof(ScrollViewer))]
     public class NotificationView : HeaderedContentControl
     {
         #region Dependencies
@@ -54,13 +51,13 @@ namespace XControls
         /// <summary>
         /// Name of the parts that have to be in the control template.
         /// </summary>
-        private const string PART_OkButton = "PART_OkButton";
-        private const string PART_CancelButton = "PART_CancelButton";
-        private const string PART_YesButton = "PART_YesButton";
-        private const string PART_NoButton = "PART_NoButton";
-        private const string PART_CancelButtonFistColumn = "PART_CancelButtonFistColumn";
-        private const string PART_CancelButtonSecondColumn = "PART_CancelButtonSecondColumn";
-        private const string PART_MessageScrollViewer = "PART_MessageScrollViewer";
+        private const string PART_OK_BUTTON = "PART_OkButton";
+        private const string PART_CANCEL_BUTTON = "PART_CancelButton";
+        private const string PART_YES_BUTTON = "PART_YesButton";
+        private const string PART_NO_BUTTON = "PART_NoButton";
+        private const string PART_CANCEL_BUTTON_FIST_COLUMN = "PART_CancelButtonFistColumn";
+        private const string PART_CANCEL_BUTTON_SECOND_COLUMN = "PART_CancelButtonSecondColumn";
+        private const string PART_MESSAGE_SCROLL_VIEWER = "PART_MessageScrollViewer";
 
         /// <summary>
         /// Stores the ok button.
@@ -270,13 +267,13 @@ namespace XControls
         {
             base.OnApplyTemplate();
 
-            this.mOkButton = this.GetTemplateChild(PART_OkButton) as Button;
-            this.mCancelButton = this.GetTemplateChild(PART_CancelButton) as Button;
-            this.mYesButton = this.GetTemplateChild(PART_YesButton) as Button;
-            this.mNoButton = this.GetTemplateChild(PART_NoButton) as Button;
-            this.mCancelButtonFistColumn = this.GetTemplateChild(PART_CancelButtonFistColumn) as ColumnDefinition;
-            this.mCancelButtonSecondColumn = this.GetTemplateChild(PART_CancelButtonSecondColumn) as ColumnDefinition;
-            this.mMessageScrollViewer = this.GetTemplateChild(PART_MessageScrollViewer) as ScrollViewer;
+            this.mOkButton = this.GetTemplateChild(PART_OK_BUTTON) as Button;
+            this.mCancelButton = this.GetTemplateChild(PART_CANCEL_BUTTON) as Button;
+            this.mYesButton = this.GetTemplateChild(PART_YES_BUTTON) as Button;
+            this.mNoButton = this.GetTemplateChild(PART_NO_BUTTON) as Button;
+            this.mCancelButtonFistColumn = this.GetTemplateChild(PART_CANCEL_BUTTON_FIST_COLUMN) as ColumnDefinition;
+            this.mCancelButtonSecondColumn = this.GetTemplateChild(PART_CANCEL_BUTTON_SECOND_COLUMN) as ColumnDefinition;
+            this.mMessageScrollViewer = this.GetTemplateChild(PART_MESSAGE_SCROLL_VIEWER) as ScrollViewer;
 
             if  (   (this.mOkButton == null)
                 ||  (this.mCancelButton == null)
