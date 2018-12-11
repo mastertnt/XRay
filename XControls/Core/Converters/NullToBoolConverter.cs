@@ -1,32 +1,33 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Data;
 
 namespace XControls.Core.Converters
 {
     /// <summary>
-    /// This converter allows to convert from Object nullness to Boolean type.
+    ///     This converter allows to convert from Object nullness to Boolean type.
     /// </summary>
-    [ValueConversion(typeof(Boolean), typeof(Object))]
+    [ValueConversion(typeof(bool), typeof(object))]
     public class NullToBoolConverter : IValueConverter
     {
         #region Properties
 
         /// <summary>
-        /// Gets or set the visibility corresponding to "True".
+        ///     Gets or set the visibility corresponding to "True".
         /// </summary>
-        public Boolean NullBoolean
-        { 
-            get; 
-            set; 
+        public bool NullBoolean
+        {
+            get;
+            set;
         }
 
         /// <summary>
-        /// Gets or set the visibility corresponding to "False".
+        ///     Gets or set the visibility corresponding to "False".
         /// </summary>
-        public Boolean NotNullBoolean
-        { 
-            get; 
-            set; 
+        public bool NotNullBoolean
+        {
+            get;
+            set;
         }
 
         #endregion // Properties.
@@ -34,7 +35,7 @@ namespace XControls.Core.Converters
         #region Methods
 
         /// <summary>
-        /// Default constructor.
+        ///     Default constructor.
         /// </summary>
         public NullToBoolConverter()
         {
@@ -43,30 +44,29 @@ namespace XControls.Core.Converters
         }
 
         /// <summary>
-        /// Convert from Visibility to Bool.
+        ///     Convert from Visibility to Bool.
         /// </summary>
         /// <param name="pValue">The value to convert.</param>
         /// <param name="pTargetType">The target type.</param>
         /// <param name="pExtraParameter">The extra parameter to use (not used by the lConverter).</param>
         /// <param name="pCulture">The culture to use (not used by the lConverter).</param>
         /// <returns>The value converted.</returns>
-        public Object ConvertBack(Object pValue, Type pTargetType, Object pExtraParameter, System.Globalization.CultureInfo pCulture)
+        public object ConvertBack(object pValue, Type pTargetType, object pExtraParameter, CultureInfo pCulture)
         {
             return null;
         }
 
         /// <summary>
-        /// Convert from Bool to Visibility.
+        ///     Convert from Bool to Visibility.
         /// </summary>
         /// <param name="pValue">The value to convert.</param>
         /// <param name="pTargetType">The target type.</param>
         /// <param name="pExtraParameter">The extra parameter to use (not used by the lConverter).</param>
         /// <param name="pCulture">The culture to use (not used by the lConverter).</param>
         /// <returns>The value converted.</returns>
-        public Object Convert(Object pValue, Type pTargetType, Object pExtraParameter, System.Globalization.CultureInfo pCulture)
+        public object Convert(object pValue, Type pTargetType, object pExtraParameter, CultureInfo pCulture)
         {
-            if
-                (pValue == null)
+            if (pValue == null)
             {
                 return this.NullBoolean;
             }

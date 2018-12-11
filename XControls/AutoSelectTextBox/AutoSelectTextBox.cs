@@ -9,7 +9,7 @@ namespace XControls.AutoSelectTextBox
     /// <summary>
     /// Class defining a text box extending the base text selection behavior.
     /// </summary>
-    public class AutoSelectTextBox : TextBox
+    public class AutoSelectTextBox : System.Windows.Controls.TextBox
     {
         #region Dependencies
 

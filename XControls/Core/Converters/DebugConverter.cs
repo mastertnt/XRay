@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace XControls.Core.Converters
 {
     /// <summary>
-    /// Class defining a debug converter.
+    ///     Class defining a debug converter.
     /// </summary>
     public class DebugConverter : IValueConverter
     {
         #region Methods
 
         /// <summary>
-        /// Converts.
+        ///     Converts.
         /// </summary>
         /// <param name="pValue">The value to convert.</param>
         /// <param name="pTargetType">The target type.</param>
@@ -34,7 +30,7 @@ namespace XControls.Core.Converters
         }
 
         /// <summary>
-        /// Converts back.
+        ///     Converts back.
         /// </summary>
         /// <param name="pValue">The value to convert.</param>
         /// <param name="pTargetType">The target type.</param>

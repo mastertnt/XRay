@@ -5,14 +5,14 @@ using System.Windows.Data;
 namespace XControls.Core.Converters
 {
     /// <summary>
-    /// Converter inverting a boolean.
+    ///     Converter inverting a boolean.
     /// </summary>
     public class InverseBoolConverter : IValueConverter
     {
         #region Methods
 
         /// <summary>
-        /// Converts.
+        ///     Converts.
         /// </summary>
         /// <param name="pValue">The value to convert.</param>
         /// <param name="pTargetType">The target type.</param>
@@ -21,11 +21,11 @@ namespace XControls.Core.Converters
         /// <returns>The value converted.</returns>
         public object Convert(object pValue, Type pTargetType, object pExtraParameter, CultureInfo pCulture)
         {
-            return !(bool)pValue;
+            return !(bool) pValue;
         }
 
         /// <summary>
-        /// Converts back.
+        ///     Converts back.
         /// </summary>
         /// <param name="pValue">The value to convert.</param>
         /// <param name="pTargetType">The target type.</param>

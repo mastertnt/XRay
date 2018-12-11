@@ -18,7 +18,7 @@ namespace XControls.Primitives
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="XControls.Primitives.InputBase" />
     /// <seealso cref="XControls.Core.Input.IValidateInput" />
-    [TemplatePart(Name = PartTextBox, Type = typeof(TextBox))]
+    [TemplatePart(Name = PartTextBox, Type = typeof(System.Windows.Controls.TextBox))]
     [TemplatePart(Name = PartSpinner, Type = typeof(ASpinner))]
     public abstract class UpDownBase<T> : InputBase, IValidateInput
     {
@@ -82,7 +82,7 @@ namespace XControls.Primitives
         /// <value>
         /// The text box.
         /// </value>
-        protected TextBox TextBox
+        protected System.Windows.Controls.TextBox TextBox
         {
             get;
             private set;
@@ -672,7 +672,7 @@ namespace XControls.Primitives
                 this.TextBox.RemoveHandler(Mouse.PreviewMouseDownEvent, new MouseButtonEventHandler(this.TextBox_PreviewMouseDown));
             }
 
-            this.TextBox = this.GetTemplateChild(PartTextBox) as TextBox;
+            this.TextBox = this.GetTemplateChild(PartTextBox) as System.Windows.Controls.TextBox;
 
             if (this.TextBox != null)
             {
