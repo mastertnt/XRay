@@ -1,0 +1,39 @@
+<UserControl x:Class="XControls.TextBox.EditableInPlaceTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:XControls.TextBox"
+             x:Name="thisControl"
+             MouseDoubleClick="OnMouseDoubleClick"
+             IsHitTestVisible="True">
+    <UserControl.Resources>
+
+        <!--When the text is in edit mode -->
+        <DataTemplate x:Key="EditModeTemplate">
+            <TextBox
+                KeyDown="OnTextBoxKeyDown"
+                Loaded="OnTextBoxLoaded"
+                LostFocus="OnTextBoxLostFocus"
+                Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:EditableInPlaceTextBox}}, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+                MinWidth="50"
+                Margin="0" BorderThickness="1" />
+        </DataTemplate>
+
+        <!--When the text is not in edit mode -->
+        <DataTemplate x:Key="DisplayModeTemplate">
+            <TextBlock x:Name="mTextBlock"
+                       Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:EditableInPlaceTextBox}}, Path=FormattedText}"
+                       Margin="5,3,5,3" />
+        </DataTemplate>
+
+        <Style TargetType="{x:Type local:EditableInPlaceTextBox}">
+            <Style.Triggers>
+                <Trigger Property="IsInEditMode" Value="True">
+                    <Setter Property="ContentTemplate" Value="{StaticResource EditModeTemplate}" />
+                </Trigger>
+                <Trigger Property="IsInEditMode" Value="False">
+                    <Setter Property="ContentTemplate" Value="{StaticResource DisplayModeTemplate}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+</UserControl>

@@ -48,6 +48,7 @@
     <Compile Include="Core\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\BrushToColorConverter.cs" />
     <Compile Include="Core\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Core\Converters\DoubleToStringWithCulture.cs" />
     <Compile Include="Core\Converters\Int32ToVisibilityConverter.cs" />
     <Compile Include="Core\Converters\InvertBoolConverter.cs" />
     <Compile Include="Core\Converters\MediaColorToDrawingColorConverter.cs" />
@@ -86,6 +87,12 @@
     </Compile>
     <Compile Include="ProgressBar\ProgressBar.xaml.cs">
       <DependentUpon>ProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TextBox\ConstrainedTextBox.xaml.cs">
+      <DependentUpon>ConstrainedTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TextBox\EditableInPlaceTextBox.xaml.cs">
+      <DependentUpon>EditableInPlaceTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\Chromes\ButtonChromeRenderer.cs" />
     <Compile Include="Core\Constants.cs" />
@@ -139,6 +146,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ProgressBar\ProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TextBox\ConstrainedTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TextBox\EditableInPlaceTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
