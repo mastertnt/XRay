@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Collections\CacheDictionary.cs" />
     <Compile Include="AppDomainExtensions.cs" />
+    <Compile Include="Collections\IEnumerableExtension.cs" />
     <Compile Include="Collections\LinkedHashSet.cs" />
     <Compile Include="Collections\MultiKeyDictionary.cs" />
     <Compile Include="Collections\ObservableCollectionSynchronizer.cs">
@@ -70,6 +71,7 @@
     <Compile Include="Dynamic\DynamicTypedObjectPropertyDescriptor.cs" />
     <Compile Include="Dynamic\DynamicTypedObjectTypeDescriptor.cs" />
     <Compile Include="DirectoryInfoExtensions.cs" />
+    <Compile Include="Enumeration.cs" />
     <Compile Include="Expando\Expando.cs" />
     <Compile Include="Expando\PropertyBag.cs" />
     <Compile Include="Expando\Utilities\SerializationUtils.cs" />
