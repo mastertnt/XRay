@@ -33,10 +33,12 @@
     <Compile Include="Collections\CacheDictionary.cs" />
     <Compile Include="AppDomainExtensions.cs" />
     <Compile Include="Collections\LinkedHashSet.cs" />
+    <Compile Include="Collections\MultiKeyDictionary.cs" />
     <Compile Include="Collections\ObservableCollectionSynchronizer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Collections\SynchronizedProducerConsumerCollection.cs" />
+    <Compile Include="Collections\WeakDictionary.cs" />
     <Compile Include="Dynamic\DynamicTypedObject.cs" />
     <Compile Include="Dynamic\DynamicTypedObjectDescriptionProvider.cs" />
     <Compile Include="Dynamic\DynamicTypedObjectPropertyDescriptor.cs" />
