@@ -1,6 +1,4 @@
-﻿//#define SupportXmlSerialization
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Dynamic;
@@ -60,11 +58,7 @@ namespace XSystem.Expando
         /// stored on this object/instance
         /// </summary>        
         /// <remarks>Using PropertyBag to support XML Serialization of the dictionary</remarks>
-#if SupportXmlSerialization
-        public PropertyBag Properties = new PropertyBag();
-#else
         public Dictionary<string, object> Properties = new Dictionary<string, object>();
-#endif        
         
         /// <summary>
         /// This constructor just works off the internal dictionary and any 
@@ -100,12 +94,7 @@ namespace XSystem.Expando
 
             Initialize(expando);
 
-#if SupportXmlSerialization
-            Properties = new PropertyBag();
-#else
             Properties = new Dictionary<string, object>();
-#endif
-
             foreach (var kvp in dict)
             {
                 var kvpValue = kvp.Value;
