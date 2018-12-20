@@ -4,14 +4,14 @@ using System.ComponentModel;
 namespace XSystem.Dynamic
 {
     /// <summary>
-    /// This class defines a type description provider for DynamicTypedObject.
+    ///     This class defines a type description provider for DynamicTypedObject.
     /// </summary>
     public class DynamicTypedObjectDescriptionProvider : TypeDescriptionProvider
     {
         #region Fields
 
         /// <summary>
-        /// This field stores the default provider.
+        ///     This field stores the default provider.
         /// </summary>
         private static readonly TypeDescriptionProvider msDefaultProvider = TypeDescriptor.GetProvider(typeof(DynamicTypedObject));
 
@@ -20,10 +20,9 @@ namespace XSystem.Dynamic
         #region Constructors
 
         /// <summary>
-        /// Default constructor.
+        ///     Default constructor.
         /// </summary>
-        public DynamicTypedObjectDescriptionProvider()
-            : base(msDefaultProvider)
+        public DynamicTypedObjectDescriptionProvider() : base(msDefaultProvider)
         {
         }
 
@@ -32,7 +31,7 @@ namespace XSystem.Dynamic
         #region Methods
 
         /// <summary>
-        /// Gets the type descriptor.
+        ///     Gets the type descriptor.
         /// </summary>
         /// <param name="pObjectType">Type of the object.</param>
         /// <param name="pInstance">The instance.</param>

@@ -1,59 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.ComponentModel;
+using System.Dynamic;
 
 namespace XSystem.Dynamic
 {
     /// <summary>
-    /// This class is used to define an object properties at runtime.
+    ///     This class is used to define an object properties at runtime.
     /// </summary>
     public class DynamicTypedObject : DynamicObject, INotifyPropertyChanged
     {
         #region Fields
 
         /// <summary>
-        /// This field stores the members of the object.
+        ///     This field stores the members of the object.
         /// </summary>
         protected readonly Dictionary<string, object> mMembers = new Dictionary<string, object>();
 
         #endregion // Fields.
 
+        #region Events
+
+        /// <summary>
+        ///     This event is raised a property is modified.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion // Events.
+
         #region Properties
 
         /// <summary>
-        /// The property descriptors associated with this object.
+        ///     The property descriptors associated with this object.
         /// </summary>
         public PropertyDescriptorCollection PropertyDescriptors
         {
             get;
-            private set;
         }
 
         /// <summary>
-        /// Gets the dynamic type.
+        ///     Gets the dynamic type.
         /// </summary>
         public string DynamicType
         {
             get;
-            private set;
         }
 
         #endregion // Properties.
 
-        #region Events
-
-        /// <summary>
-        /// This event is raised a property is modified.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged = null;
-
-        #endregion // Events.
-
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DynamicTypedObject"/> class.
+        ///     Initializes a new instance of the <see cref="DynamicTypedObject" /> class.
         /// </summary>
         protected DynamicTypedObject()
         {
@@ -61,43 +59,40 @@ namespace XSystem.Dynamic
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DynamicTypedObject"/> class.
+        ///     Initializes a new instance of the <see cref="DynamicTypedObject" /> class.
         /// </summary>
         /// <param name="pPropertyType">Type of the property.</param>
         /// <param name="pDynamicType">The dynamic type.</param>
-        public DynamicTypedObject(Type pPropertyType, string pDynamicType)
-            : this()
+        public DynamicTypedObject(Type pPropertyType, string pDynamicType) : this()
         {
             this.DynamicType = pDynamicType;
             this.PropertyDescriptors = new PropertyDescriptorCollection(null);
             this.PropertyDescriptors.Add(new DynamicTypedObjectPropertyDescriptor("PropertyValue", pPropertyType));
             this.mMembers["PropertyValue"] = pPropertyType.Default();
         }
-        
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="DynamicTypedObject"/> class.
+        ///     Initializes a new instance of the <see cref="DynamicTypedObject" /> class.
         /// </summary>
         /// <param name="pPropertyValue">The property value.</param>
         /// <param name="pDynamicType">The dynamic type.</param>
-        public DynamicTypedObject(object pPropertyValue, string pDynamicType)
-            : this(pPropertyValue.GetType(), pDynamicType)
+        public DynamicTypedObject(object pPropertyValue, string pDynamicType) : this(pPropertyValue.GetType(), pDynamicType)
         {
             this.mMembers["PropertyValue"] = pPropertyValue;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DynamicTypedObject"/> class.
+        ///     Initializes a new instance of the <see cref="DynamicTypedObject" /> class.
         /// </summary>
         /// <param name="pPropertyDescriptors">The property descriptors.</param>
         /// <param name="pDynamicType">The dynamic type.</param>
-        public DynamicTypedObject(PropertyDescriptorCollection pPropertyDescriptors, string pDynamicType)
-            : this()
+        public DynamicTypedObject(PropertyDescriptorCollection pPropertyDescriptors, string pDynamicType) : this()
         {
             this.DynamicType = pDynamicType;
             this.PropertyDescriptors = new PropertyDescriptorCollection(null);
             foreach (PropertyDescriptor lInitialDescriptor in pPropertyDescriptors)
             {
-                DynamicTypedObjectPropertyDescriptor lDynamicDescriptor = new DynamicTypedObjectPropertyDescriptor(lInitialDescriptor);
+                var lDynamicDescriptor = new DynamicTypedObjectPropertyDescriptor(lInitialDescriptor);
                 this.PropertyDescriptors.Add(lDynamicDescriptor);
             }
 
@@ -109,14 +104,13 @@ namespace XSystem.Dynamic
                 }
             }
         }
-        
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="DynamicTypedObject"/> class.
+        ///     Initializes a new instance of the <see cref="DynamicTypedObject" /> class.
         /// </summary>
         /// <param name="pPropertyDescriptors">The property descriptors.</param>
         /// <param name="pComponent">The component.</param>
-        public DynamicTypedObject(PropertyDescriptorCollection pPropertyDescriptors, object pComponent)
-            : this(pPropertyDescriptors, pComponent.GetType().FullName)
+        public DynamicTypedObject(PropertyDescriptorCollection pPropertyDescriptors, object pComponent) : this(pPropertyDescriptors, pComponent.GetType().FullName)
         {
             foreach (PropertyDescriptor lProperty in pPropertyDescriptors)
             {
@@ -129,7 +123,7 @@ namespace XSystem.Dynamic
         #region Methods
 
         /// <summary>
-        /// This method is used to retrieve a member value.
+        ///     This method is used to retrieve a member value.
         /// </summary>
         /// <param name="pBinder">The member binder.</param>
         /// <param name="pResult">The member result.</param>
@@ -140,7 +134,7 @@ namespace XSystem.Dynamic
         }
 
         /// <summary>
-        /// This method is used to retrieve a member value.
+        ///     This method is used to retrieve a member value.
         /// </summary>
         /// <param name="pMemberName">The member binder.</param>
         /// <param name="pResult">The member result.</param>
@@ -151,7 +145,7 @@ namespace XSystem.Dynamic
         }
 
         /// <summary>
-        /// This method is used to modify a member value.
+        ///     This method is used to modify a member value.
         /// </summary>
         /// <param name="pBinder">The member binder.</param>
         /// <param name="pValue">The value to set.</param>
@@ -162,7 +156,7 @@ namespace XSystem.Dynamic
         }
 
         /// <summary>
-        /// This method is used to modify a member value.
+        ///     This method is used to modify a member value.
         /// </summary>
         /// <param name="pMemberName">The member name.</param>
         /// <param name="pValue">The value to set.</param>
@@ -174,8 +168,9 @@ namespace XSystem.Dynamic
                 if (this.mMembers[pMemberName] != pValue)
                 {
                     this.mMembers[pMemberName] = pValue;
-                    this.NotifyPropertyChanged(pMemberName); 
+                    this.NotifyPropertyChanged(pMemberName);
                 }
+
                 return true;
             }
 
@@ -183,16 +178,16 @@ namespace XSystem.Dynamic
         }
 
         /// <summary>
-        /// Retrieves the definded member names.
+        ///     Retrieves the definded member names.
         /// </summary>
         /// <returns>An enumeration of all members</returns>
         public override IEnumerable<string> GetDynamicMemberNames()
         {
-            return mMembers.Keys;
+            return this.mMembers.Keys;
         }
 
         /// <summary>
-        /// This method notifies a property modification.
+        ///     This method notifies a property modification.
         /// </summary>
         /// <param name="pPropertyName">The property name.</param>
         protected void NotifyPropertyChanged(string pPropertyName)
@@ -206,4 +201,3 @@ namespace XSystem.Dynamic
         #endregion // Methods.
     }
 }
-

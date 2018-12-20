@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+using XSystem.Expando.Utilities;
 
 namespace XSystem.Expando
 {
     /// <summary>
-    /// Creates an XML serializable string/object dictionary.
-    /// Encodes keys as element names and values as simple values with a type
-    /// attribute that contains an XML type name. Complex names encode the type 
-    /// name with type='___namespace.classname' format followed by a standard xml
-    /// serialized format. The latter serialization can be slow so it's not recommended
-    /// to pass complex types if performance is critical.    
-    /// 
-    /// Source: https://weblog.west-wind.com/posts/2012/feb/08/creating-a-dynamic-extensible-c-expando-object
+    ///     Creates an XML serializable string/object dictionary.
+    ///     Encodes keys as element names and values as simple values with a type
+    ///     attribute that contains an XML type name. Complex names encode the type
+    ///     name with type='___namespace.classname' format followed by a standard xml
+    ///     serialized format. The latter serialization can be slow so it's not recommended
+    ///     to pass complex types if performance is critical.
+    ///     Source: https://weblog.west-wind.com/posts/2012/feb/08/creating-a-dynamic-extensible-c-expando-object
     /// </summary>
     [XmlRoot("properties")]
-
     public class PropertyBag : PropertyBag<object>
     {
         /// <summary>
-        /// Creates an instance of a propertybag from an Xml string
+        ///     Creates an instance of a propertybag from an Xml string
         /// </summary>
         /// <param name="xml">Serialize</param>
         /// <returns></returns>
@@ -33,59 +33,59 @@ namespace XSystem.Expando
     }
 
     /// <summary>
-    /// Creates a serializable string for generic types that is XML serializable.
-    /// 
-    /// Encodes keys as element names and values as simple values with a type
-    /// attribute that contains an XML type name. Complex names encode the type 
-    /// name with type='___namespace.classname' format followed by a standard xml
-    /// serialized format. The latter serialization can be slow so it's not recommended
-    /// to pass complex types if performance is critical.
-    /// 
-    /// Source: https://weblog.west-wind.com/posts/2012/feb/08/creating-a-dynamic-extensible-c-expando-object
+    ///     Creates a serializable string for generic types that is XML serializable.
+    ///     Encodes keys as element names and values as simple values with a type
+    ///     attribute that contains an XML type name. Complex names encode the type
+    ///     name with type='___namespace.classname' format followed by a standard xml
+    ///     serialized format. The latter serialization can be slow so it's not recommended
+    ///     to pass complex types if performance is critical.
+    ///     Source: https://weblog.west-wind.com/posts/2012/feb/08/creating-a-dynamic-extensible-c-expando-object
     /// </summary>
     /// <typeparam name="TValue">Must be a reference type. For value types use type object</typeparam>
     [XmlRoot("properties")]
     public class PropertyBag<TValue> : Dictionary<string, TValue>, IXmlSerializable
     {
         /// <summary>
-        /// Not implemented - this means no schema information is passed
-        /// so this won't work with ASMX/WCF services.
+        ///     Not implemented - this means no schema information is passed
+        ///     so this won't work with ASMX/WCF services.
         /// </summary>
-        /// <returns></returns>       
-        public System.Xml.Schema.XmlSchema GetSchema()
+        /// <returns></returns>
+        public XmlSchema GetSchema()
         {
             return null;
         }
 
 
         /// <summary>
-        /// Serializes the dictionary to XML. Keys are 
-        /// serialized to element names and values as 
-        /// element values. An xml type attribute is embedded
-        /// for each serialized element - a .NET type
-        /// element is embedded for each complex type and
-        /// prefixed with three underscores.
+        ///     Serializes the dictionary to XML. Keys are
+        ///     serialized to element names and values as
+        ///     element values. An xml type attribute is embedded
+        ///     for each serialized element - a .NET type
+        ///     element is embedded for each complex type and
+        ///     prefixed with three underscores.
         /// </summary>
         /// <param name="writer"></param>
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public void WriteXml(XmlWriter writer)
         {
-            foreach (string key in this.Keys)
+            foreach (var key in this.Keys)
             {
-                TValue value = this[key];
+                var value = this[key];
 
                 Type type = null;
                 if (value != null)
+                {
                     type = value.GetType();
+                }
 
                 writer.WriteStartElement("item");
 
                 writer.WriteStartElement("key");
-                writer.WriteString(key as string);
+                writer.WriteString(key);
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("value");
-                string xmlType = XSystem.Expando.Utilities.Utilities.MapTypeToXmlType(type);
-                bool isCustom = false;
+                var xmlType = Utilities.Utilities.MapTypeToXmlType(type);
+                var isCustom = false;
 
                 // Type information attribute if not string
                 if (value == null)
@@ -114,16 +114,18 @@ namespace XSystem.Expando
                 // Serialize simple types with WriteValue
                 if (!isCustom)
                 {
-
                     if (value != null)
+                    {
                         writer.WriteValue(value);
+                    }
                 }
                 else
                 {
                     // Complex types require custom XmlSerializer
-                    XmlSerializer ser = new XmlSerializer(value.GetType());
+                    var ser = new XmlSerializer(value.GetType());
                     ser.Serialize(writer, value);
                 }
+
                 writer.WriteEndElement(); // value
 
                 writer.WriteEndElement(); // item
@@ -132,10 +134,10 @@ namespace XSystem.Expando
 
 
         /// <summary>
-        /// Reads the custom serialized format
+        ///     Reads the custom serialized format
         /// </summary>
         /// <param name="reader"></param>
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XmlReader reader)
         {
             this.Clear();
             while (reader.Read())
@@ -143,22 +145,29 @@ namespace XSystem.Expando
                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "key")
                 {
                     string xmlType = null;
-                    string name = reader.ReadElementContentAsString();
+                    var name = reader.ReadElementContentAsString();
 
                     // item element
                     reader.ReadToNextSibling("value");
 
                     if (reader.MoveToNextAttribute())
+                    {
                         xmlType = reader.Value;
+                    }
+
                     if (string.IsNullOrEmpty(xmlType))
+                    {
                         xmlType = "string";
+                    }
 
                     reader.MoveToContent();
 
                     TValue value;
-                    string strval = String.Empty;
+                    var strval = string.Empty;
                     if (xmlType == "nil")
-                        value = default(TValue);   // null
+                    {
+                        value = default(TValue); // null
+                    }
 
                     // .NET types that don't map to XML we have to manually
                     // deserialize
@@ -166,14 +175,17 @@ namespace XSystem.Expando
                     {
                         // skip ahead to serialized value element                                                
                         while (reader.Read() && reader.NodeType != XmlNodeType.Element)
-                        { }
+                        {
+                        }
 
-                        Type type = XSystem.Expando.Utilities.Utilities.GetTypeFromName(xmlType.Substring(3));
-                        XmlSerializer ser = new XmlSerializer(type);
-                        value = (TValue)ser.Deserialize(reader);
+                        var type = Utilities.Utilities.GetTypeFromName(xmlType.Substring(3));
+                        var ser = new XmlSerializer(type);
+                        value = (TValue) ser.Deserialize(reader);
                     }
                     else
-                        value = (TValue)reader.ReadElementContentAs(XSystem.Expando.Utilities.Utilities.MapXmlTypeToType(xmlType), null);
+                    {
+                        value = (TValue) reader.ReadElementContentAs(Utilities.Utilities.MapXmlTypeToType(xmlType), null);
+                    }
 
                     this.Add(name, value);
                 }
@@ -182,18 +194,18 @@ namespace XSystem.Expando
 
 
         /// <summary>
-        /// Serializes this dictionary to an XML string
+        ///     Serializes this dictionary to an XML string
         /// </summary>
         /// <returns>XML String or Null if it fails</returns>
         public string ToXml()
         {
             string xml = null;
-            XSystem.Expando.Utilities.SerializationUtils.SerializeObject(this, out xml);
+            SerializationUtils.SerializeObject(this, out xml);
             return xml;
         }
 
         /// <summary>
-        /// Deserializes from an XML string
+        ///     Deserializes from an XML string
         /// </summary>
         /// <param name="xml"></param>
         /// <returns>true or false</returns>
@@ -203,10 +215,11 @@ namespace XSystem.Expando
 
             // if xml string is empty we return an empty dictionary                        
             if (string.IsNullOrEmpty(xml))
+            {
                 return true;
+            }
 
-            var result = XSystem.Expando.Utilities.SerializationUtils.DeSerializeObject(xml,
-                                                 this.GetType()) as PropertyBag<TValue>;
+            var result = SerializationUtils.DeSerializeObject(xml, this.GetType()) as PropertyBag<TValue>;
             if (result != null)
             {
                 foreach (var item in result)
@@ -216,14 +229,16 @@ namespace XSystem.Expando
             }
             else
                 // null is a failure
+            {
                 return false;
+            }
 
             return true;
         }
 
 
         /// <summary>
-        /// Creates an instance of a propertybag from an Xml string
+        ///     Creates an instance of a propertybag from an Xml string
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>

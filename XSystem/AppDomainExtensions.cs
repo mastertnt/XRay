@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using XSystem.Collections;
 
 namespace XSystem
 {
     /// <summary>
-    /// This class stores extension methods on AppDomain.
+    ///     This class stores extension methods on AppDomain.
     /// </summary>
     public static class AppDomainExtensions
     {
         #region Fields
+
         /// <summary>
-        /// Stores the map referencing the types by their full names.
+        ///     Stores the map referencing the types by their full names.
         /// </summary>
         internal static readonly Dictionary<string, Type> msTypeByFullName = new Dictionary<string, Type>();
 
         /// <summary>
-        /// Stores the map referencing the types by their full names.
+        ///     Stores the map referencing the types by their full names.
         /// </summary>
         internal static readonly Dictionary<string, string> msUnkwownTypes = new Dictionary<string, string>();
 
@@ -26,12 +25,12 @@ namespace XSystem
         #region Methods
 
         /// <summary>
-        /// This method finds the first type with is fully qualified name matching pTypeFullName.
+        ///     This method finds the first type with is fully qualified name matching pTypeFullName.
         /// </summary>
         /// <param name="pThis">The application domain.</param>
         /// <param name="pTypeAssemblyQualifiedName">The type name with the assembly.</param>
         /// <returns>
-        /// The found type or null if none was found
+        ///     The found type or null if none was found
         /// </returns>
         public static Type GetTypeByAssemblyQualifiedName(this AppDomain pThis, string pTypeAssemblyQualifiedName)
         {
@@ -46,7 +45,7 @@ namespace XSystem
                 return msTypeByFullName[pTypeAssemblyQualifiedName];
             }
 
-            Type lFoundType = Type.GetType(pTypeAssemblyQualifiedName);
+            var lFoundType = Type.GetType(pTypeAssemblyQualifiedName);
             if (lFoundType != null)
             {
                 msTypeByFullName[pTypeAssemblyQualifiedName] = lFoundType;
@@ -60,14 +59,14 @@ namespace XSystem
         }
 
         /// <summary>
-        /// This method finds the first type with is fully qualified name matching pTypeFullName.
+        ///     This method finds the first type with is fully qualified name matching pTypeFullName.
         /// </summary>
         /// <param name="pThis">The application domain.</param>
         /// <param name="pTypeFullName">The type name.</param>
         /// <returns>The found type or null if none was found</returns>
         public static Type GetTypeByFullName(this AppDomain pThis, string pTypeFullName)
         {
-            string lTypeName = pTypeFullName + " @@ " + "UND_ASS";
+            var lTypeName = pTypeFullName + " @@ " + "UND_ASS";
             if (msUnkwownTypes.ContainsKey(lTypeName))
             {
                 return null;
@@ -78,11 +77,10 @@ namespace XSystem
                 return msTypeByFullName[lTypeName];
             }
 
-            Assembly[] lAssembliesLoaded = pThis.GetAssemblies();
-            foreach
-                (Assembly lLoadedAssembly in lAssembliesLoaded)
+            var lAssembliesLoaded = pThis.GetAssemblies();
+            foreach (var lLoadedAssembly in lAssembliesLoaded)
             {
-                Type lFoundType = lLoadedAssembly.GetType(pTypeFullName);
+                var lFoundType = lLoadedAssembly.GetType(pTypeFullName);
                 if (lFoundType != null)
                 {
                     msTypeByFullName[lTypeName] = lFoundType;
