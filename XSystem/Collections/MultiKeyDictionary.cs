@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace XApp.Core.Collections.Dictionaries
+namespace XSystem.Collections
 {
     /// <summary>
     ///     This class implement a Dictionary that can reference several value for a unique key.

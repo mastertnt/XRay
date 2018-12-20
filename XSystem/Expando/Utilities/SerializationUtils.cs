@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml;
@@ -9,16 +8,14 @@ using System.Xml.Serialization;
 
 namespace XSystem.Expando.Utilities
 {
-
     /// <summary>
-    /// Definition of some serialization utils
-    /// 
-    /// Source: https://weblog.west-wind.com/posts/2012/feb/08/creating-a-dynamic-extensible-c-expando-object
+    ///     Definition of some serialization utils
+    ///     Source: https://weblog.west-wind.com/posts/2012/feb/08/creating-a-dynamic-extensible-c-expando-object
     /// </summary>
     internal static class SerializationUtils
     {
         /// <summary>
-        /// Serializes an object instance to a file.
+        ///     Serializes an object instance to a file.
         /// </summary>
         /// <param name="instance">the object instance to serialize</param>
         /// <param name="fileName"></param>
@@ -26,15 +23,14 @@ namespace XSystem.Expando.Utilities
         /// <returns></returns>
         public static bool SerializeObject(object instance, string fileName, bool binarySerialization)
         {
-            bool retVal = true;
+            var retVal = true;
 
             if (!binarySerialization)
             {
                 XmlTextWriter writer = null;
                 try
                 {
-                    XmlSerializer serializer =
-                        new XmlSerializer(instance.GetType());
+                    var serializer = new XmlSerializer(instance.GetType());
 
                     // Create an XmlTextWriter using a FileStream.
                     Stream fs = new FileStream(fileName, FileMode.Create);
@@ -54,7 +50,9 @@ namespace XSystem.Expando.Utilities
                 finally
                 {
                     if (writer != null)
+                    {
                         writer.Close();
+                    }
                 }
             }
             else
@@ -62,7 +60,7 @@ namespace XSystem.Expando.Utilities
                 Stream fs = null;
                 try
                 {
-                    BinaryFormatter serializer = new BinaryFormatter();
+                    var serializer = new BinaryFormatter();
                     fs = new FileStream(fileName, FileMode.Create);
                     serializer.Serialize(fs, instance);
                 }
@@ -73,7 +71,9 @@ namespace XSystem.Expando.Utilities
                 finally
                 {
                     if (fs != null)
+                    {
                         fs.Close();
+                    }
                 }
             }
 
@@ -81,24 +81,23 @@ namespace XSystem.Expando.Utilities
         }
 
         /// <summary>
-        /// Overload that supports passing in an XML TextWriter. 
+        ///     Overload that supports passing in an XML TextWriter.
         /// </summary>
         /// <remarks>
-        /// Note the Writer is not closed when serialization is complete 
-        /// so the caller needs to handle closing.
+        ///     Note the Writer is not closed when serialization is complete
+        ///     so the caller needs to handle closing.
         /// </remarks>
         /// <param name="instance">object to serialize</param>
-        /// <param name="writer">XmlTextWriter instance to write output to</param>       
+        /// <param name="writer">XmlTextWriter instance to write output to</param>
         /// <param name="throwExceptions">Determines whether false is returned on failure or an exception is thrown</param>
         /// <returns></returns>
         public static bool SerializeObject(object instance, XmlTextWriter writer, bool throwExceptions)
         {
-            bool retVal = true;
+            var retVal = true;
 
             try
             {
-                XmlSerializer serializer =
-                    new XmlSerializer(instance.GetType());
+                var serializer = new XmlSerializer(instance.GetType());
 
                 // Create an XmlTextWriter using a FileStream.
                 writer.Formatting = Formatting.Indented;
@@ -113,7 +112,9 @@ namespace XSystem.Expando.Utilities
                 Debug.Write("SerializeObject failed with : " + ex.GetBaseException().Message + "\r\n" + (ex.InnerException != null ? ex.InnerException.Message : ""), "West Wind");
 
                 if (throwExceptions)
+                {
                     throw;
+                }
 
                 retVal = false;
             }
@@ -123,7 +124,7 @@ namespace XSystem.Expando.Utilities
 
 
         /// <summary>
-        /// Serializes an object into an XML string variable for easy 'manual' serialization
+        ///     Serializes an object into an XML string variable for easy 'manual' serialization
         /// </summary>
         /// <param name="instance">object to serialize</param>
         /// <param name="xmlResultString">resulting XML string passed as an out parameter</param>
@@ -134,7 +135,7 @@ namespace XSystem.Expando.Utilities
         }
 
         /// <summary>
-        /// Serializes an object into a string variable for easy 'manual' serialization
+        ///     Serializes an object into a string variable for easy 'manual' serialization
         /// </summary>
         /// <param name="instance"></param>
         /// <param name="xmlResultString">Out parm that holds resulting XML string</param>
@@ -143,9 +144,9 @@ namespace XSystem.Expando.Utilities
         public static bool SerializeObject(object instance, out string xmlResultString, bool throwExceptions)
         {
             xmlResultString = string.Empty;
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
 
-            XmlTextWriter writer = new XmlTextWriter(ms, new UTF8Encoding());
+            var writer = new XmlTextWriter(ms, new UTF8Encoding());
 
             if (!SerializeObject(instance, writer, throwExceptions))
             {
@@ -153,7 +154,7 @@ namespace XSystem.Expando.Utilities
                 return false;
             }
 
-            xmlResultString = Encoding.UTF8.GetString(ms.ToArray(), 0, (int)ms.Length);
+            xmlResultString = Encoding.UTF8.GetString(ms.ToArray(), 0, (int) ms.Length);
 
             ms.Close();
             writer.Close();
@@ -163,7 +164,7 @@ namespace XSystem.Expando.Utilities
 
 
         /// <summary>
-        /// Serializes an object instance to a file.
+        ///     Serializes an object instance to a file.
         /// </summary>
         /// <param name="instance">the object instance to serialize</param>
         /// <param name="resultBuffer"></param>
@@ -171,12 +172,12 @@ namespace XSystem.Expando.Utilities
         /// <returns></returns>
         public static bool SerializeObject(object instance, out byte[] resultBuffer, bool throwExceptions = false)
         {
-            bool retVal = true;
+            var retVal = true;
 
             MemoryStream ms = null;
             try
             {
-                BinaryFormatter serializer = new BinaryFormatter();
+                var serializer = new BinaryFormatter();
                 ms = new MemoryStream();
                 serializer.Serialize(ms, instance);
             }
@@ -186,12 +187,16 @@ namespace XSystem.Expando.Utilities
                 retVal = false;
 
                 if (throwExceptions)
+                {
                     throw;
+                }
             }
             finally
             {
                 if (ms != null)
+                {
                     ms.Close();
+                }
             }
 
             resultBuffer = ms.ToArray();
@@ -200,24 +205,26 @@ namespace XSystem.Expando.Utilities
         }
 
         /// <summary>
-        /// Serializes an object to an XML string. Unlike the other SerializeObject overloads
-        /// this methods *returns a string* rather than a bool result!
+        ///     Serializes an object to an XML string. Unlike the other SerializeObject overloads
+        ///     this methods *returns a string* rather than a bool result!
         /// </summary>
         /// <param name="instance"></param>
         /// <param name="throwExceptions">Determines if a failure throws or returns null</param>
         /// <returns>
-        /// null on error otherwise the Xml String.         
+        ///     null on error otherwise the Xml String.
         /// </returns>
         /// <remarks>
-        /// If null is passed in null is also returned so you might want
-        /// to check for null before calling this method.
+        ///     If null is passed in null is also returned so you might want
+        ///     to check for null before calling this method.
         /// </remarks>
         public static string SerializeObjectToString(object instance, bool throwExceptions = false)
         {
-            string xmlResultString = string.Empty;
+            var xmlResultString = string.Empty;
 
             if (!SerializeObject(instance, out xmlResultString, throwExceptions))
+            {
                 return null;
+            }
 
             return xmlResultString;
         }
@@ -227,15 +234,16 @@ namespace XSystem.Expando.Utilities
             byte[] byteResult = null;
 
             if (!SerializeObject(instance, out byteResult))
+            {
                 return null;
+            }
 
             return byteResult;
         }
 
 
-
         /// <summary>
-        /// Deserializes an object from file and returns a reference.
+        ///     Deserializes an object from file and returns a reference.
         /// </summary>
         /// <param name="fileName">name of the file to serialize to</param>
         /// <param name="objectType">The Type of the object. Use typeof(yourobject class)</param>
@@ -247,7 +255,7 @@ namespace XSystem.Expando.Utilities
         }
 
         /// <summary>
-        /// Deserializes an object from file and returns a reference.
+        ///     Deserializes an object from file and returns a reference.
         /// </summary>
         /// <param name="fileName">name of the file to serialize to</param>
         /// <param name="objectType">The Type of the object. Use typeof(yourobject class)</param>
@@ -260,7 +268,6 @@ namespace XSystem.Expando.Utilities
 
             if (!binarySerialization)
             {
-
                 XmlReader reader = null;
                 XmlSerializer serializer = null;
                 FileStream fs = null;
@@ -278,23 +285,28 @@ namespace XSystem.Expando.Utilities
                 catch (Exception ex)
                 {
                     if (throwExceptions)
+                    {
                         throw;
+                    }
 
-                    string message = ex.Message;
+                    var message = ex.Message;
                     return null;
                 }
                 finally
                 {
                     if (fs != null)
+                    {
                         fs.Close();
+                    }
 
                     if (reader != null)
+                    {
                         reader.Close();
+                    }
                 }
             }
             else
             {
-
                 BinaryFormatter serializer = null;
                 FileStream fs = null;
 
@@ -303,7 +315,6 @@ namespace XSystem.Expando.Utilities
                     serializer = new BinaryFormatter();
                     fs = new FileStream(fileName, FileMode.Open);
                     instance = serializer.Deserialize(fs);
-
                 }
                 catch
                 {
@@ -312,7 +323,9 @@ namespace XSystem.Expando.Utilities
                 finally
                 {
                     if (fs != null)
+                    {
                         fs.Close();
+                    }
                 }
             }
 
@@ -320,15 +333,15 @@ namespace XSystem.Expando.Utilities
         }
 
         /// <summary>
-        /// Deserialize an object from an XmlReader object.
+        ///     Deserialize an object from an XmlReader object.
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="objectType"></param>
         /// <returns></returns>
         public static object DeSerializeObject(XmlReader reader, Type objectType)
         {
-            XmlSerializer serializer = new XmlSerializer(objectType);
-            object Instance = serializer.Deserialize(reader);
+            var serializer = new XmlSerializer(objectType);
+            var Instance = serializer.Deserialize(reader);
             reader.Close();
 
             return Instance;
@@ -336,12 +349,12 @@ namespace XSystem.Expando.Utilities
 
         public static object DeSerializeObject(string xml, Type objectType)
         {
-            XmlTextReader reader = new XmlTextReader(xml, XmlNodeType.Document, null);
+            var reader = new XmlTextReader(xml, XmlNodeType.Document, null);
             return DeSerializeObject(reader, objectType);
         }
 
         /// <summary>
-        /// Deseializes a binary serialized object from  a byte array
+        ///     Deseializes a binary serialized object from  a byte array
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="objectType"></param>
@@ -358,19 +371,22 @@ namespace XSystem.Expando.Utilities
                 serializer = new BinaryFormatter();
                 ms = new MemoryStream(buffer);
                 Instance = serializer.Deserialize(ms);
-
             }
             catch
             {
                 if (throwExceptions)
+                {
                     throw;
+                }
 
                 return null;
             }
             finally
             {
                 if (ms != null)
+                {
                     ms.Close();
+                }
             }
 
             return Instance;
@@ -378,8 +394,8 @@ namespace XSystem.Expando.Utilities
 
 
         /// <summary>
-        /// Returns a string of all the field value pairs of a given object.
-        /// Works only on non-statics.
+        ///     Returns a string of all the field value pairs of a given object.
+        ///     Works only on non-statics.
         /// </summary>
         /// <param name="instanc"></param>
         /// <param name="separator"></param>
@@ -387,17 +403,17 @@ namespace XSystem.Expando.Utilities
         /// <returns></returns>
         public static string ObjectToString(object instanc, string separator, ObjectToStringTypes type)
         {
-            FieldInfo[] fi = instanc.GetType().GetFields();
+            var fi = instanc.GetType().GetFields();
 
-            string output = string.Empty;
+            var output = string.Empty;
 
             if (type == ObjectToStringTypes.Properties || type == ObjectToStringTypes.PropertiesAndFields)
             {
-                foreach (PropertyInfo property in instanc.GetType().GetProperties())
+                foreach (var property in instanc.GetType().GetProperties())
                 {
                     try
                     {
-                        output += property.Name + ":" + property.GetValue(instanc, null).ToString() + separator;
+                        output += property.Name + ":" + property.GetValue(instanc, null) + separator;
                     }
                     catch
                     {
@@ -408,11 +424,11 @@ namespace XSystem.Expando.Utilities
 
             if (type == ObjectToStringTypes.Fields || type == ObjectToStringTypes.PropertiesAndFields)
             {
-                foreach (FieldInfo field in fi)
+                foreach (var field in fi)
                 {
                     try
                     {
-                        output = output + field.Name + ": " + field.GetValue(instanc).ToString() + separator;
+                        output = output + field.Name + ": " + field.GetValue(instanc) + separator;
                     }
                     catch
                     {
@@ -420,34 +436,29 @@ namespace XSystem.Expando.Utilities
                     }
                 }
             }
+
             return output;
         }
-
     }
 
     /// <summary>
-    /// Definition of the <see cref="ObjectToStringTypes"/> enumeration.
+    ///     Definition of the <see cref="ObjectToStringTypes" /> enumeration.
     /// </summary>
     public enum ObjectToStringTypes
     {
         /// <summary>
-        /// Properties
+        ///     Properties
         /// </summary>
         Properties,
 
         /// <summary>
-        /// Properties and fields
+        ///     Properties and fields
         /// </summary>
         PropertiesAndFields,
 
         /// <summary>
-        /// Fields
+        ///     Fields
         /// </summary>
         Fields
     }
 }
-
-
-
-
-
