@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
-
-namespace XTreeListView.ViewModel
+﻿namespace XTreeListView.ViewModel
 {
     /// <summary>
     /// This interface is the root node of a hierarchical view model.
