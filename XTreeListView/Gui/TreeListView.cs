@@ -333,7 +333,7 @@ namespace XTreeListView.Gui
                 return TreeListView.GetColumns(this);
             }
 
-            private set
+            set
             {
                 this.SetValue(ColumnsPropertyKey, value);
             }
