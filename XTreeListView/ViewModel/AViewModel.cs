@@ -171,7 +171,7 @@ namespace XTreeListView.ViewModel
         /// <summary>
         /// Gets or sets the flag indicating the visibility of the view model.
         /// </summary>
-        public bool IsVisible
+        public virtual bool IsVisible
         {
             get
             {
